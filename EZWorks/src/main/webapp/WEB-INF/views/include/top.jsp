@@ -163,31 +163,3 @@
 		</div>
 		
 <!--    sidebar 부분 끝    -->
-
-<!--    main 시작    -->
-		<div id="main">
-			<header class="mb-3">
-				<a href="#" class="burger-btn d-block d-xl-none"> <i
-					class="bi bi-justify fs-3"></i>
-				</a>
-				<div>
-					<section style="float:right;">
-						<div class="검색검색">
-							<select>
-								<option>option1</option>
-								<option>option2</option>
-							</select>
-							<input type="text" placeholder="검색하기">
-						</div>
-					</section>
-				</div>
-			</header>
-		
-		
-			<div class="page-heading">
-				<h3>메뉴에 따른 이름 설정해주기</h3>
-			</div>
-			
-			
-			<div class="page-content">
-				<section class="row">
