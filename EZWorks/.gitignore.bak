@@ -6,12 +6,13 @@ target/
 
 ### STS ###
 .apt_generated
-.classpath
+#.classpath
 .factorypath
-.project
+#.project
 .settings
 .springBeans
 .sts4-cache
+**/application.properties
 
 ### IntelliJ IDEA ###
 .idea
@@ -33,4 +34,4 @@ build/
 .vscode/
 
 ###application.properties
-.properties
+**/*.properties
