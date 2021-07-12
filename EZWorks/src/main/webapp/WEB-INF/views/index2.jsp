@@ -23,6 +23,8 @@
 
 <body>
     <div id="app">
+    
+    
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
@@ -683,7 +685,9 @@
                 </div>
             </footer>
         </div>
-    </div>
+        
+        
+    </div> <!-- div id="app" -->
     <script src="<c:url value='resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
     <script src="<c:url value='resources/js/bootstrap.bundle.min.js'/>"></script>
 
