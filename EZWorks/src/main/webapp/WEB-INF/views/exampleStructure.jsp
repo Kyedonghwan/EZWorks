@@ -257,7 +257,9 @@
 							</ul>
 						</div>
 					</div>
+
 				</nav>
+
 			</header>
 			<!-- 헤더 끝 -->
 			<div class="page-content">
@@ -266,5 +268,74 @@
 						<div style="width: 249px; height: 100%; border: 1px solid black; float: left;">
 							<div>
 								<div class="card">
-
 								
+								
+								
+								
+								
+									<div class="card-header">
+										<h4>메뉴 이름</h4>
+											<span style="font-size:0.8em;">대충 이렇게 줘보면...</span>
+									</div>
+									<div class="card-body" style="height:600px;">
+										<div id="area">
+											<span style="font-size:0.8em;">여기가 몸통이 들어가는건가...</span>
+										</div>
+									</div>
+									
+									
+									
+									
+									
+									
+								</div>
+							</div>
+						</div>
+						
+						<!-- 화면(메뉴별 메뉴 섹션/컨텐츠 섹션) 분할구간 
+							 여기서 각 div 당 주어진 height:600px 는 임의로 준 값-->
+						
+						<div style="width: auto%; height: 100%; border: 1px solid black; margin-left: 250px;">
+							<div class="row">
+								<div>
+									<div class="card">
+									
+									
+									
+									
+									
+										<div class="card-header">
+											<h4>부메뉴 이름</h4>
+											<span style="font-size:0.8em;">제목 들어가는 곳이구만..?</span>
+										</div>
+										<div class="card-body"  style="height:600px;">
+											<div id="radialGradient">
+												<span style="font-size:0.8em;">얘는 또 무엇인가...</span>
+											</div>
+										</div>
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	<script
+		src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
+
+	<script
+		src="<c:url value='/resources/vendors/apexcharts/apexcharts.js'/>"></script>
+	<script src="<c:url value='/resources/js/pages/dashboard.js'/>"></script>
+
+	<script src="<c:url value='/resources/js/main.js'/>"></script>
+</body>
+
+</html>
