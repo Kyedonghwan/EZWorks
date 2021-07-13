@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@ include file="../include/top.jsp"%>
-	<div class="card-header" style="padding-bottom:10px">
-	   <div class="buttons" style="text-align: center">
-          <a href="#" class="btn btn-outline-primary" style="width:200px">커뮤니티 만들기</a>
-       </div>
+	<div class="card-header">
+	   <h5 class="card-title">커뮤니티</h5> 
 	</div>
 	<div class="card-body" style="height:1195px">
+	   <div class="buttons" style="text-align: center;padding-bottom:11px">
+          <a href="#" class="btn btn-outline-primary" style="width:200px">커뮤니티 만들기</a>
+       </div>
 		<div class="accordion" id="cardAccordion">
 		  <div class="card-header" id="headingOne" data-bs-toggle="collapse"
 	          data-bs-target="#collapseOne" aria-expanded="false"
