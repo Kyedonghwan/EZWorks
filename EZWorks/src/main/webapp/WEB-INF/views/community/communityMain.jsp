@@ -2,28 +2,33 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@ include file="../include/top.jsp"%>
-	<div class="card-header">
+	<div class="card-header" style="padding-bottom:10px">
 	   <div class="buttons" style="text-align: center">
           <a href="#" class="btn btn-outline-primary" style="width:200px">커뮤니티 만들기</a>
        </div>
 	</div>
 	<div class="card-body" style="height:1195px">
-        <div class="accordion" id="cardAccordion">
-            <div class="card">
-                <div class="card-header" id="headingOne" data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne" aria-expanded="false"
-                    aria-controls="collapseOne" role="button">
-                    <span class="collapsed collapse-title">가입 커뮤니티</span>
-                </div>
-                <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
-                    data-parent="#cardAccordion">
-                    <div class="card-body">
-          				YOLO EZ
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>						
+		<div class="accordion" id="cardAccordion">
+		  <div class="card-header" id="headingOne" data-bs-toggle="collapse"
+	          data-bs-target="#collapseOne" aria-expanded="false"
+	          aria-controls="collapseOne" role="button" style="padding:0">
+	          <i class="bi bi-pen-fill"></i>
+	          <span class="collapsed collapse-title">가입 커뮤니티</span>
+	      </div>
+	       <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
+	         data-parent="#cardAccordion">
+	         <div class="card-body" style="padding-top:0">
+	              <a href="">YOLO EZ</a><br>
+	              <a href="">BLIND</a><br>
+	              <a href="">아이디어 공유</a><br>
+	              <a href="">독서합시다</a><br>
+	              <a href="">A-팀 프로젝트</a><br>
+	              <a href="">운동합시다</a><br>
+	              <a href="">암벽클라이밍 동호회</a>
+	         </div>
+	       </div>
+	    </div>             
+	</div>						
 <%@ include file="../include/middle.jsp" %>
 									
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
