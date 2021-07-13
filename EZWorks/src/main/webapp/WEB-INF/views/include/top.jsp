@@ -233,7 +233,7 @@
 									</div>
 									<div class="user-img d-flex align-items-center">
 										<div class="avatar avatar-md">
-											<img src="<c:url value='resources/images/faces/1.jpg'/>">
+											<img src="<c:url value='/resources/images/faces/1.jpg'/>">
 										</div>
 									</div>
 								</div>
@@ -262,8 +262,8 @@
 			<!-- 헤더 끝 -->
 			<div class="page-content">
 				<section>
-					<div style="width: 100%; height: 100%; border: 1px solid black;">
-						<div style="width: 249px; height: 100%; border: 1px solid black; float: left;">
+					<div style="width: 100%; height: 100%;">
+						<div style="width: 249px; height: 100%; float: left;">
 							<div>
 								<div class="card">
 
