@@ -17,4 +17,18 @@ public class CommunityController {
 		logger.info("커뮤니티 메인 페이지");
 	}
 	
+	@GetMapping("/communityOne")
+	public void selectCommunity() {
+		logger.info("커뮤니티 개별 페이지");
+	}
+	
+	@RequestMapping("/communityWrite")
+	public String writeCommunity() {
+		logger.info("커뮤니티 글쓰기 페이지");
+		
+		return "community/communityWrite";
+		
+	}
+	
+	
 }
