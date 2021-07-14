@@ -17,4 +17,6 @@ public class ArchiveFolderServiceImpl implements ArchiveFolderService{
 		return dao.selectByEmpNo(empno);
 	}
 
+	
+	
 }

@@ -9,9 +9,10 @@ import lombok.Setter;
 @ToString
 public class ArchiveFolderVO {
 	private int no;
-	private int childNo;
+	private int parentNo;
 	private String name;
 	private int empNo;
 	private int step;
+	private String hasChild;
 	
 }

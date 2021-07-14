@@ -6,6 +6,8 @@
 	<select id="selectByEmpNo" parameterType="int" resultType="archiveFolderVo">
 		select * from archivefolder where empno=#{empno}
 	</select>
+	
+	
 </mapper>
 
 

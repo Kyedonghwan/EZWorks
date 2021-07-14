@@ -7,7 +7,27 @@
 		color:black;
 		font-size:0.85em;
 	 }	
+	ul.submenu.active {
+    	padding-left: 20px;
+	}
+	.sideMenu-ul{
+		padding-left:1rem;
+	}
 </style>
+<script>
+	$(function(){
+		$('.chevron-right').click(function(){
+			if($(this).children('img').attr("class")=="fold"){
+				$(this).children('img').attr("src","<c:url value='/resources/images/accordion/chevron-down.svg'/>");
+				$(this).children('img').attr("class","unfold");
+			}else{
+				$(this).children('img').attr("src","<c:url value='/resources/images/accordion/chevron-right.svg'/>");
+				$(this).children('img').attr("class","fold");
+			}
+		});
+		
+	})
+</script>
 <section style="height:64px;padding:24px 24px 16px;">
 	<h5>
 		<a>자료실</a>
@@ -22,41 +42,74 @@
 </section>
 <section>
 	<div>
-		<ul style="list-style:none">
+		<ul style="list-style:none" class="sideMenu-ul">
 			<li class="sidebar-item active has-sub">
+				<a href="#" class="sidebar-link chevron-right">
+               		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
+               	</a>
                 <a href="#" class='sidebar-link'>
                     <!-- <i class="bi bi-stack"></i> -->
                     <span style="font-weight:bold">전사자료실</span>
                 </a>
-                <ul class="submenu active" style="list-style:none">
-                    <li class="submenu-item ">
-                        <a href="component-alert.html">전사 공지</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-badge.html">주간식단표</a>
-                    </li>
-                    
-                    <li class="submenu-item ">
-                        <a href="component-breadcrumb.html" style="color:grey" disable="disabled">사내 소식</a>
-                    </li>
-                    <li class="submenu-item active">
-                        <a href="component-button.html">이주의 IT뉴스</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-card.html">다우오피스 소식</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-carousel.html">다우오피스 활용Tip!</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-dropdown.html">사내이벤트</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-list-group.html">사진공모전</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-modal.html">다우오피스 세미나&회의</a>
-                    </li>
+                <ul class="submenu active" style="list-style:none;">
+                	<c:if test="${!empty archiveFolderList }">
+	                	<c:forEach var="vo" items="${archiveFolderList }"> 
+	                		<c:if test="${vo.step==1}">
+			                    <li class="sidebar-item active has-sub">
+			                    	<c:if test="${vo.hasChild=='Y'}">
+				                    	<a href="#" class="sidebar-link chevron-right">
+				                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
+				                    	</a>
+			                    	</c:if>
+			                        <a href="#">${vo.name}</a>
+			                        <c:if test="${vo.hasChild=='Y'}">
+				                        <ul class="submenu active" style="list-style:none">
+				                    		<!-- forEach -->
+				                    		<c:forEach var="vo2" items="${archiveFolderList }"> 
+				                    			<c:if test="${vo2.step==2 && vo2.parentNo==vo.no}">
+				                    				 <li class="sidebar-item active has-sub">
+				                    				 	<c:if test="${vo2.hasChild=='Y'}">
+									                    	<a href="#" class="sidebar-link chevron-right">
+									                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
+									                    	</a>
+								                    	</c:if>
+								                    	<a href="#">${vo2.name}</a>
+						                    			<c:if test="${vo2.hasChild=='Y'}">
+						                    				<ul class="submenu active" style="list-style:none">
+									                    		<c:forEach var="vo3" items="${archiveFolderList }">
+									                    			<c:if test="${vo3.step==3 && vo3.parentNo==vo2.no}">
+									                    				 <li class="sidebar-item active has-sub">
+									                    				 	<c:if test="${vo3.hasChild=='Y'}">
+														                    	<a href="#" class="sidebar-link chevron-right">
+														                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
+														                    	</a>
+													                    	</c:if>
+													                    	<a href="#">${vo3.name}</a>
+											                    			<c:if test="${vo3.hasChild=='Y'}">
+											                    				<ul class="submenu active" style="list-style:none">
+														                    		<c:forEach var="vo4" items="${archiveFolderList }">
+														                    			<c:if test="${vo4.step==4 && vo4.parentNo==vo3.no}">
+														                    				<li class="submenu-item">
+																                    			<a href="#">${vo4.name}</a>
+																                    		</li>
+														                    			</c:if>
+														                    		</c:forEach>
+														                    	</ul>
+											                    			</c:if>
+									                    				 </li>
+									                    			</c:if>
+									                    		</c:forEach>
+									                    	</ul>
+						                    			</c:if>
+				                    				 </li>
+				                    			</c:if>
+	                    					</c:forEach>	
+				                    	</ul>
+				                    </c:if>
+			                    </li>
+		                    </c:if>
+		                  </c:forEach>
+	                 </c:if>
                 </ul>
              </li>
              <br>
