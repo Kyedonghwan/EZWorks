@@ -11,8 +11,8 @@
 	<script src="<c:url value='/resources/vendors/fontawesome/all.min.js'/>"></script>
 	<script src="<c:url value='/resources/vendors/apexcharts/apexcharts.js'/>"></script>
 	<script src="<c:url value='/resources/js/pages/dashboard.js'/>"></script>
-
 	<script src="<c:url value='/resources/js/main.js'/>"></script>
+	
 </body>
 
 </html>
