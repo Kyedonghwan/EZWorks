@@ -55,7 +55,7 @@
 		</form>
 
 	<footer id="main_footer">
-		<address>Copyright &copy; <a href="#"></a> (주)EZ Works All Rights Reserved.</address>
+		<address>Copyright &copy; <a href="#"></a> (주)EZ Works All Rights Reserved.</address><br>
 		<address>블로그 : <a href="#" >https://blog.naver.com/ha98222</a></address>
 		<address>깃허브 : <a href="#" >https://github.com/eykgond/EZWorks</a></address>
     </footer>

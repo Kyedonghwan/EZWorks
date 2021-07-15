@@ -42,7 +42,7 @@
   </form>
 </div>
 
- <c:import url="/WEB-INF/views/includes/message_form.jsp"/>
+ <c:import url="/WEB-INF/views/include/message_form.jsp"/>
 	<footer id="main_footer">
 		<address>Copyright &copy; <a href="#"></a> (주)EZ Works All Rights Reserved.</address>
 		<address>블로그 : <a href="#" >https://blog.naver.com/ha98222</a></address>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MessageController {
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
-	@RequestMapping("/index")
+	@RequestMapping("/view")
 	public void showboard() {
 		
 	}
