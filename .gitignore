@@ -23,7 +23,6 @@
 hs_err_pid*
 /.metadata/
 
-.gitignore
 EZWorks/.project
 
 HELP.md
@@ -60,6 +59,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-###application.properties
-**/application.properties
