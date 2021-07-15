@@ -116,6 +116,8 @@ body {
 ul, li{
 	list-style-type:none;
 }
+  .fc-day-number.fc-sat.fc-past { color:#0000FF; }     /* 토요일 */
+  .fc-day-number.fc-sun.fc-past { color:#FF0000; }
 
 </style>
 </head>
