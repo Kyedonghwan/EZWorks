@@ -18,13 +18,7 @@
 
 </head>
 <body>
-	<nav id="top_gnb">
-	    <a href="${pageContext.servletContext.contextPath }/board" class="menu item_1 "></a>
-	    <a href="${pageContext.servletContext.contextPath }/calendar" class="menu item_2"></a>
-	    <a href="${pageContext.servletContext.contextPath }/searchemployee" class="menu item_3"></a>
-	    <a href="${pageContext.servletContext.contextPath }/message" class="menu item_4"></a>
-	    <a href="${pageContext.servletContext.contextPath }/mypage" class="menu item_5"></a>
- 	 </nav>
+	
 		<form name="boardWriteForm" method="post" action="${pageContext.servletContext.contextPath }/write">
 			<table class="board_view">
 				<colgroup>
@@ -53,7 +47,6 @@
 				<span>
 				</span>
 		</form>
-
 	<footer id="main_footer">
 		<address>Copyright &copy; <a href="#"></a> (주)EZ Works All Rights Reserved.</address><br>
 		<address>블로그 : <a href="#" >https://blog.naver.com/ha98222</a></address>
