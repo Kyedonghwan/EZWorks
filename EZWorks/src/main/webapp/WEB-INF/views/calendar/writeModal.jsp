@@ -3,92 +3,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="ko">
   <meta charset="utf-8">
-   <script src="../resources/js/jquery-3.6.0.min.js"></script> <!-- 값 제어를 위해 jquery -->
-    <link href="../resources/datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
-    <!-- Air datepicker css -->
-    <script src="../resources/datepicker/js/datepicker.js"></script> <!-- Air datepicker js -->
-    <script src="../resources/datepicker/js/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
-  <script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+ <script type="text/javascript">
+    $(document).ready(function () {
+            $.datepicker.setDefaults($.datepicker.regional['ko']); 
+            $( "#startDate" ).datepicker({
+                 changeMonth: true, 
+                 changeYear: true,
+                 nextText: '다음 달',
+                 prevText: '이전 달', 
+                 dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+                 dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                 dateFormat: "yy-mm-dd",
+                 //maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+                 onClose: function( selectedDate ) {    
+                      //시작일(startDate) datepicker가 닫힐때
+                      //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+                     $("#endDate").datepicker( "option", "minDate", selectedDate );
+                 }    
  
-  datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
-
-  /*
-      * 달력 생성기
-      * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
-      * @example   datePickerSet($("#datepicker"));
-      * 
-      * 
-      * @param sDate, 
-      * @param eDate 2개 넣으면 연결달력 생성되어 서로의 날짜를 넘어가지 않음
-      * @example   datePickerSet($("#datepicker1"), $("#datepicker2"));
-      */
-  function datePickerSet(sDate, eDate, flag) {
-
-      //시작 ~ 종료 2개 짜리 달력 datepicker	
-      if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
-          var sDay = sDate.val();
-          var eDay = eDate.val();
-
-          if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
-              var sdp = sDate.datepicker().data("datepicker");
-              sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
-
-              var edp = eDate.datepicker().data("datepicker");
-              edp.selectDate(new Date(eDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
-          }
-
-          //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-          if (!isValidStr(eDay)) {
-              sDate.datepicker({
-                  maxDate: new Date(eDay.replace(/-/g, "/"))
-              });
-          }
-          sDate.datepicker({
-              language: 'ko',
-              autoClose: true,
-              onSelect: function () {
-                  datePickerSet(sDate, eDate);
-              }
-          });
-
-          //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-          if (!isValidStr(sDay)) {
-              eDate.datepicker({
-                  minDate: new Date(sDay.replace(/-/g, "/"))
-              });
-          }
-          eDate.datepicker({
-              language: 'ko',
-              autoClose: true,
-              onSelect: function () {
-                  datePickerSet(sDate, eDate);
-              }
-          });
-
-          //한개짜리 달력 datepicker
-      } else if (!isValidStr(sDate)) {
-          var sDay = sDate.val();
-          if (flag && !isValidStr(sDay)) { //처음 입력 날짜 설정, update...			
-              var sdp = sDate.datepicker().data("datepicker");
-              sdp.selectDate(new Date(sDay.replace(/-/g, "/"))); //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
-          }
-
-          sDate.datepicker({
-              language: 'ko',
-              autoClose: true
-          });
-      }
-
-
-      function isValidStr(str) {
-          if (str == null || str == undefined || str == "")
-              return true;
-          else
-              return false;
-      }
-  }
-  </script>
-
+            });
+            $( "#endDate" ).datepicker({
+                 changeMonth: true, 
+                 changeYear: true,
+                 nextText: '다음 달',
+                 prevText: '이전 달', 
+                 dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+                 dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                 dateFormat: "yy-mm-dd",
+                 //maxDate: 0,                       // 선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+                 onClose: function( selectedDate ) {    
+                     // 종료일(endDate) datepicker가 닫힐때
+                     // 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
+                     $("#startDate").datepicker( "option", "maxDate", selectedDate );
+                 }    
+ 
+            });    
+    });
+</script>
 <style>
 .writeLabel{
 	width: 20%;
@@ -155,9 +113,9 @@
 							</div>
 							<div>
 								<label class="writeLabel">일시</label>
-								<input type="text" id="datepicker1" name="from" class="datepick">
+								<input type="text" id="startDate">
 								<label for="to">~</label>
-								<input type="text" id="datepicker2" name="to" class="datepick">
+								<input type="text" id="endDate">
 								<input type="checkbox" value="종일" class="chkbox">종일
 							</div>
 							<div>
