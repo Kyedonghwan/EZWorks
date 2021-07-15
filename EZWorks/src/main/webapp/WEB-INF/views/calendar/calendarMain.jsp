@@ -31,7 +31,7 @@
 			selectable : true,//날짜셀 클릭여부
 			dayMaxEvents : false, // 일정이 많을 경우 'more'표시
 			select : function(arg) { // 날짜셀 클릭시(아래는 일정 추가) 
-				var title = prompt("일정등록");
+				/* var title = prompt("일정등록");
 				if (title) {
 					calendar.addEvent({
 						title : title,
@@ -40,12 +40,12 @@
 						allDay : arg.allDay
 					})
 				}
-				calendar.unselect();
+				calendar.unselect(); */
+				$('#writeModal').modal('show');
+				
 			},
 			eventClick : function(arg) { //일정 클릭시
-				if (confirm('일정을 삭제할까요?')) {
-					arg.event.remove()
-				}
+					$('#writeModal').modal('show');
 			},
 			unselect : function(arg) {
 			},
@@ -197,6 +197,7 @@ ul, li{
 			<div id='calendar'></div>
 		</div>
 	</div>
+	<%@ include file="writeModal.jsp" %>
 	<%@ include file="../include/bottom.jsp"%>
 	<script type="text/javascript">
 		$(function(){
