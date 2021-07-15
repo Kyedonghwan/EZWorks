@@ -116,16 +116,20 @@ body {
 ul, li{
 	list-style-type:none;
 }
+
 </style>
 </head>
 <body>
 	<%@ include file="../include/top.jsp"%>
 	<div class="card-header">
 		<h4>캘린더</h4>
-		<input type="button" value="일정등록">
 	</div>
 	<div class="card-body" style="height: 600px;">
 		<div id="area">
+				<input type="button" class="btn btn-outline-secondary" 
+				style="width:200px; height: 50px"
+				value="일정등록">
+				<br><br>
 				<span class="more"><img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>"></span>
 				<span class="accordion">
 					내 캘린더
@@ -200,7 +204,6 @@ ul, li{
 	<%@ include file="../include/bottom.jsp"%>
 	<script type="text/javascript">
 		$(function(){
-			
 			var bool=true;
 			$('.accordion').click(function(){
 				$('.panel').slideToggle('slow');

@@ -19,7 +19,7 @@
                  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  dateFormat: "yy-mm-dd",
-                 //maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+                 minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
                  onClose: function( selectedDate ) {    
                       //시작일(startDate) datepicker가 닫힐때
                       //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
@@ -113,9 +113,9 @@
 							</div>
 							<div>
 								<label class="writeLabel">일시</label>
-								<input type="text" id="startDate">
+								<input type="text" id="startDate" class="datepick">
 								<label for="to">~</label>
-								<input type="text" id="endDate">
+								<input type="text" id="endDate" class="datepick">&nbsp;&nbsp;
 								<input type="checkbox" value="종일" class="chkbox">종일
 							</div>
 							<div>
