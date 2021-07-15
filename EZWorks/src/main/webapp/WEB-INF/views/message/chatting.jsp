@@ -11,6 +11,7 @@
 			</div>
 			<div class="card-body">
 				<div id="area"></div>
+				<h1>수정</h1>
 			</div>
 		</div>
 	</div>
