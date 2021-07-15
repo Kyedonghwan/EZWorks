@@ -35,7 +35,7 @@ public class MessageDAO {
 				mto.setOther_nick(mto.getRecv_nick());
 			} else {
 				mto.setOther_nick(mto.getSend_nick());
-			}
+			} 
 		}
 
 		return list;

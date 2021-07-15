@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>예시 홈 화면입니다</title>
+
 <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -274,12 +275,12 @@
 							</ul>
 						</div>
 					</div>
-
 				</nav>
-
 			</header>
 			<!-- 헤더 끝 -->
+
 			<div class="page-content" style="bottom:0;align-content:stretch;min-height:auto;background:white;border-top:1px solid #dfe3e7;border-collapse: collapse;">
 				<section style="bottom:0;padding:0px;margin:0px;min-height:auto;">
 					<div style="bottom:0;width: 100%; min-height: auto;">
 						<div style="width: 249px; min-height: auto; float: left;bottom:0;">
+
