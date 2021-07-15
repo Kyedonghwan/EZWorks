@@ -45,7 +45,7 @@
 				
 			},
 			eventClick : function(arg) { //일정 클릭시
-					$('#writeModal').modal('show');
+				$('#writeModal').modal('show');
 			},
 			unselect : function(arg) {
 			},
@@ -190,7 +190,6 @@ ul, li{
 	<%@ include file="../include/middle.jsp"%>
 	<div class="card-header">
 		<h4>일정목록</h4>
-		<!-- <span style="font-size: 0.8em;">제목 들어가는 곳이구만..?</span> -->
 	</div>
 	<div class="card-body" style="height: 100%;">
 		<div id="radialGradient">
