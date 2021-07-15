@@ -11,17 +11,23 @@
 		font-size:0.75em;
 	}
 	.tab-pane li {
-    border: 1px solid #dfe3e7;
+    border-top: 1px solid #dfe3e7;
+    border-collapse:collapse;
     border-bottom: none;
 	}
 	
 	.tab-pane li:last-child {
 	    border-bottom: 1px solid #dfe3e7;
 	}
+	
+	#contents{
+		border-left: 1px solid #dfe3e7;
+		border-right: 1px solid #dfe3e7;
+	}
 </style>
 </head>
 <body>
-	<section style="padding:0px;border:1px solid black">
+	<section style="padding:0px;">
 		<ul class="nav nav-tabs" role="tablist">
 				<li class="nav-item" role="presentation" style="background-color:white">
 					<a class="nav-link" id="favorites-tab" data-bs-toggle="tab" href="#favorites" role="tab" 
@@ -38,9 +44,9 @@
 			</ul>
 	</section>
 	<div style="margin:0px;padding:0px">
-	<section style="margin-right:250px;padding:0px;border:1px solid black">
+	<section id="contents" style="margin-right:250px;padding:0px;">
 		<div style="margin:0px;padding:0px">
-			<div class="tab-content" id="myTabContent" style="border-top:1px solid #dfe3e7">
+			<div class="tab-content" id="myTabContent" style="border-top:1px solid #dfe3e7;border-collapse:collapse">
 				<div class="tab-pane fade" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
 					<p>favorites</p>
 							<ul style="list-style:none;padding:0px">

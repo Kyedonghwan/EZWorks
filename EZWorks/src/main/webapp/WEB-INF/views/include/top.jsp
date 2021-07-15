@@ -35,10 +35,10 @@
 </head>
 
 <body style="min-width:1260px;background-color:white">
-	<div id="app" style="height:100vh">
+	<div id="app" style="height:100vh;bottom=0;">
 	
 		<div id="sidebar" class="active" style="background-color:white">
-			<div class="sidebar-wrapper active" style="border-right:1px dotted black;background-color:#dce7f1;">
+			<div class="sidebar-wrapper active" style="background-color:#dce7f1;">
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
@@ -181,8 +181,8 @@
 		<!--    sidebar 부분 끝    -->
 
 		<!--    main 시작    -->
-		<div id="main" class="layout-navbar" style="height:100vh">
-			<header>
+		<div id="main" class="layout-navbar" style="height:100vh;bottom=0;">
+			<header style="display:flex;flex-direction:column;">
 				<nav class="navbar navbar-expand navbar-light " style="background-color:white;">
 					<div class="container-fluid">
 						<div>
@@ -278,7 +278,7 @@
 
 			</header>
 			<!-- 헤더 끝 -->
-			<div class="page-content" style="align-content:stretch;min-height:auto;background:white;border-top:1px solid #dfe3e7;border-collapse: collapse;">
-				<section style="padding:0px;margin:0px;height:100%">
-					<div style="width: 100%; height: 100%;border: 1px solid black;">
-						<div style="width: 249px; height: auto; border-right: 1px solid #dfe3e7; float: left;">
+			<div class="page-content" style="bottom:0;align-content:stretch;min-height:auto;background:white;border-top:1px solid #dfe3e7;border-collapse: collapse;">
+				<section style="bottom:0;padding:0px;margin:0px;min-height:auto;">
+					<div style="bottom:0;width: 100%; min-height: auto;">
+						<div style="width: 249px; min-height: auto; float: left;bottom:0;">
