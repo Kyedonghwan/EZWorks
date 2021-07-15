@@ -31,14 +31,37 @@
 	}
 	#sp2{
 		padding-top:7px;
-	}
-</style>
-<script src="<c:url value='/resources/vendors/summernote/summernote-lite.js'/>"></script>
-<script src="<c:url value='/resources/vendors/lang/summernote/summernote-ko-KR.js'/>"></script>
-<link rel="stylesheet" href="<c:url value='/resources/vendors/summernote/summernote-lite.css'/>">
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
-<script type="text/javascript">
+	} 
 
+</style>
+<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#summernote').summernote({
+		placeholder: '자유롭게 글을 작성할 수 있습니다. 명예훼손이나 상대방을 비방, 불쾌감을 주는 글, 욕설, 남을 모욕하는 글은 임의로 제제가 있을 수 있습니다.',
+	    tabsize: 2,
+	    minHeight : null,
+		maxHeight : null,
+		lang: 'ko-KR',
+		height: 500,
+		toolbar: [
+		    // [groupName, [list of button]]
+		    ['fontname', ['fontname']],
+		    ['fontsize', ['fontsize']],
+		    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+		    ['color', ['forecolor','color']],
+		    ['table', ['table']],
+		    ['para', ['ul', 'ol', 'paragraph']],
+		    ['height', ['height']],
+		    ['insert',['picture','link','video']],
+		    ['view', ['fullscreen', 'help']]
+		  ],
+		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+	});
+});
 </script>
 	<div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -52,7 +75,7 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span class="sr-only">YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
                   <span><a class="dropdown-item" href="#">
@@ -110,26 +133,8 @@
 		</div>
 		<div class="card-body">
 			<form method="post">
-				<textarea id="summernote" name="editordata"></textarea>
+			  <textarea id="summernote" name="editordata"></textarea>
 			</form>
-			<script>
-			$(function(){
-				  $('#summernote').summernote({
-					placeholder: 'Hello',
-			        tabsize: 2,
-			        height: 120,
-			        toolbar: [
-			          ['style', ['style']],
-			          ['font', ['bold', 'underline', 'clear']],
-			          ['color', ['color']],
-			          ['para', ['ul', 'ol', 'paragraph']],
-			          ['table', ['table']],
-			          ['insert', ['link', 'picture', 'video']],
-			          ['view', ['fullscreen', 'codeview', 'help']]
-			        ]
-				  });
-			});
-			</script>
 		</div>
 	</div>
 </section>
