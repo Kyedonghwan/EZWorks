@@ -13,9 +13,6 @@
 	#headingOne{
 		padding:0;
 	}
-	#label{
-		padding-top:7px;
-	}
 	.notice{
 		font-size: 0.8em;
 		margin:0;
@@ -25,6 +22,9 @@
 	}
 	.radioWrapper{
 		display: inline-flex;
+	}
+	#label{
+		padding-top:3px;
 	}
 	
 </style>
@@ -112,12 +112,12 @@
                                	<div class="radioWrapper">
                                	  <div class="form-check">
                                         <input class="form-check-input" type="radio" name="publicSetting"
-                                            id="publicSet1" checked>
+                                            id="publicSet1" value="Y" checked>
                                         <label class="form-check-label" for="publicSet1">공개</label>&nbsp&nbsp&nbsp
                                   </div>
                                   <div class="form-check">
                                   		<input class="form-check-input" type="radio" name="publicSetting"
-                                            id="publicSet2">
+                                            id="publicSet2" value="N">
                                         <label class="form-check-label" for="publicSet2">비공개</label>
                                     </div>
                                	</div>
