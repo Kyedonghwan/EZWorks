@@ -51,7 +51,8 @@
 	</div>
 	<div class="card-body" style="height:760px">
 	   <div class="buttons" id="btnWrite">
-          <a href="#" class="btn btn-outline-primary" style="width:200px">커뮤니티 만들기</a>
+          <a href="<c:url value='/community/communityNew'/>" 
+          	class="btn btn-outline-primary" style="width:200px">커뮤니티 만들기</a>
        </div>
        <div class="accordion" id="cardAccordion">
         <div class="card">
