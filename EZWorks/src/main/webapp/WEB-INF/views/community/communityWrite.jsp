@@ -37,6 +37,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -44,6 +45,7 @@
 $(document).ready(function() {
 	  $('#summernote').summernote();
 	});
+
 </script>
 	<div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -57,7 +59,7 @@ $(document).ready(function() {
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span class="sr-only">YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
                   <span><a class="dropdown-item" href="#">
@@ -117,8 +119,8 @@ $(document).ready(function() {
 			<form method="post">
 			  <textarea id="summernote" name="editordata"></textarea>
 			</form>
-			<script>
 			
+
 		</div>
 	</div>
 </section>

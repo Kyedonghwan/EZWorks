@@ -52,7 +52,7 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span class="sr-only">YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
                   <span><a class="dropdown-item" href="#">
