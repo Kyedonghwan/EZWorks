@@ -17,7 +17,7 @@
 		        <div class="card-header">
 		            <h5 class="card-title">대상 폴더 선택</h5>
 		        	<select class="form-select" aria-label="Default select example" name="folderNo">
-					  <option selected>전사자료실</option>
+		        	  <option value="1">전사자료실</option>
 					  <c:forEach var="vo" items="${archiveFolderList}">
 					  	<c:if test="${vo.step==1}">
 					  		<option value="${vo.no}">-${vo.name}</option>

@@ -3,6 +3,7 @@ package com.it.ez.archivefolder.model;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,19 @@ public class ArchiveFolderServiceImpl implements ArchiveFolderService{
 		return dao.selectByEmpNo(empno);
 	}
 
-	
+	@Override
+	public List<ArchiveFolderVO> selectChildren(int no) {
+		return dao.selectChildren(no);
+	}
+
+	@Override
+	@Transactional
+	public int insertArchiveFolder(ArchiveFolderVO vo) {
+		int cnt=dao.insertArchiveFolder(vo);
+		cnt=dao.updateParent(vo.getParentNo());
+		return cnt;
+	}
+
+
 	
 }

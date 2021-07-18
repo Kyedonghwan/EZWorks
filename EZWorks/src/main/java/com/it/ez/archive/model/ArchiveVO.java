@@ -18,4 +18,5 @@ public class ArchiveVO {
 	private Timestamp regdate;
 	private String originalFileName;
 	private String ext;
+	private String writer;
 }
