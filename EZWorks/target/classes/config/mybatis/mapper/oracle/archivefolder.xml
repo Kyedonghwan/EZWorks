@@ -23,6 +23,10 @@
 	<update id="updateParent" parameterType="int">
 		update archiveFolder set hasChild='Y' where no=#{no}
 	</update>
+	
+	<select id="showParent" parameterType="int" resultType="archiveFolderVo">
+		select no,name from archivefolder where no=(select parentno from archivefolder where no=#{no})
+	</select>
 </mapper>
 
 

@@ -40,4 +40,13 @@ public class ArchiveFolderController {
 		
 		return vo.getNo();
 	}
+	
+	@ResponseBody
+	@GetMapping("/showParentFolder")
+	public ArchiveFolderVO showParentFolder(@RequestParam int no) {
+		ArchiveFolderVO vo = archiveFolderService.showParent(no);
+		return vo;
+	}
+
+
 }

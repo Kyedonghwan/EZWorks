@@ -44,44 +44,45 @@ public class ArchiveController {
 		return "archive/list";
 	}
 	
+	@ResponseBody
 	@RequestMapping("/upload")
-	public String upload(HttpServletRequest request,@ModelAttribute ArchiveVO vo, Model model) {
+	public List<ArchiveVO> upload(HttpServletRequest request,@RequestParam int folderNo, Model model) {
+
+		
 		String fileName="";
 		long fileSize=0;
 		String originalFileName="";
 		String ext="";
 		
-		
+		List<ArchiveVO> archiveList = new ArrayList<ArchiveVO>();
 		try {
 			List<Map<String,Object>> list = fileUploadUtil.fileUpload(request);
+			
 			for(Map<String,Object>map:list) {
+				
 				fileName=(String)map.get("fileName");
 				fileSize=(long)map.get("fileSize");
 				originalFileName=(String)map.get("originalFileName");
 				ext=(String)map.get("ext");
+				ArchiveVO vo = new ArchiveVO();
+				vo.setFolderNo(folderNo);
+				vo.setWriter("김길동");
+				vo.setFileName(fileName);
+				vo.setOriginalFileName(originalFileName);
+				vo.setFileSize(fileSize);
+				vo.setExt(ext);
+				System.out.println(vo);
+				archiveList.add(vo);
 			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		vo.setFileName(fileName);
-		vo.setOriginalFileName(originalFileName);
-		vo.setFileSize(fileSize);
-		vo.setExt(ext);
-		System.out.println(vo);
-		int cnt = archiveService.fileUpload(vo);
-		String msg="",url="/archive/list";;
-		if(cnt>0) {
-			msg="파일 업로드 되었습니다.";
-			
-		}else {
-			msg="파일업로드 실패.";
-		}
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
 		
-		return "common/message";
+		int cnt = archiveService.fileUpload(archiveList);
+		
+		return archiveList;
 	}
 	
 	@ResponseBody

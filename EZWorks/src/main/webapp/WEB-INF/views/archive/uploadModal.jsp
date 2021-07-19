@@ -2,10 +2,53 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<script>
+
+	$(function(){
+		
+		var pond = FilePond.create( document.querySelector('.multiple-files-filepond'), { 
+	        allowImagePreview: true,
+	        allowMultiple: true,
+	        allowFileEncode: false,
+	        required: false
+	    });
+		
+		$('#uploadOk').click(function(){
+			var formData=new FormData();
+			formData.append('folderNo',$('#selectModal option:selected').val());
+			pondFiles = pond.getFiles();
+			for(var i=0;i<pondFiles.length;i++){
+				   formData.append("file" + i, pondFiles[i].file);}
+			
+
+			$.ajax({
+				type:"POST",
+				enctype:'multipart/form-data',
+				url:'<c:url value="/archive/upload"/>',
+				data: formData,
+				dataType:"json",
+				processData:false,
+				contentType: false,
+				cache: false,
+				success: function (res) {
+					$('#uploadModal').modal('hide');
+					alert('자료 등록 성공');
+					console.log(res);
+					$.showFolderList();
+				}, 
+				error: function (e) {
+					alert('파일 생성중 오류발생');
+				}
+
+			});
+		})
+	})
+	
+</script>
 <!-- 업로드 모달 -->
     <div class="modal" tabindex="-1" id="uploadModal">
     	<form name="uploadFrm" method="post" 
-			action="<c:url value='/archive/upload'/>" enctype="multipart/form-data" >
+			 enctype="multipart/form-data" >
 	  <div class="modal-dialog">
 	    <div class="modal-content" style="width:800px;height:550px">
 	      <div class="modal-header">
@@ -16,7 +59,7 @@
 	        <div class="card">
 		        <div class="card-header">
 		            <h5 class="card-title">대상 폴더 선택</h5>
-		        	<select class="form-select" aria-label="Default select example" name="folderNo">
+		        	<select id="selectModal" class="form-select" aria-label="Default select example" name="folderNo">
 		        	  <option value="1">전사자료실</option>
 					  <c:forEach var="vo" items="${archiveFolderList}">
 					  	<c:if test="${vo.step==1}">
@@ -47,13 +90,13 @@
 		                    <code>allowMultiple</code> or <code>multiple</code> attribute too to implement multiple upload.
 		                </p>
 		                <!-- File uploader with multiple files upload -->
-		                <input type="file" class="multiple-files-filepond" >
+		                <input type="file" class="multiple-files-filepond" name="file" multiple="true">
 		            </div>
 		        </div>
     		</div>
 	      </div>
 	      <div class="modal-footer">
-	        <input type="submit" class="btn btn-primary" value='업로드'>
+	        <button type="button" class="btn btn-primary" id="uploadOk">업로드</button>
 	        <button type="button" class="btn btn-secondary uploadModal-close" data-bs-dismiss="modal">취소</button>
 	      </div>
 	    </div>

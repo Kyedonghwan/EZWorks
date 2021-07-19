@@ -149,17 +149,10 @@
 <!-- filepond validation -->
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <!-- filepond -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script>
-    
-    // Filepond: Multiple Files
-    FilePond.create( document.querySelector('.multiple-files-filepond'), { 
-        allowImagePreview: false,
-        allowMultiple: true,
-        allowFileEncode: false,
-        required: false
-    });
-</script>
+
 					
 <%@ include file="../include/bottom.jsp" %>

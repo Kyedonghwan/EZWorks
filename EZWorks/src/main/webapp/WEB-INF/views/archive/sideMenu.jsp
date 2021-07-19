@@ -16,6 +16,30 @@
 	}
 </style>
 <script>
+
+	$.byte=function(fileSize, fixed) {
+	    var str
+	
+	    //MB 단위 이상일때 MB 단위로 환산
+	    if (fileSize >= 1024 * 1024) {
+	        fileSize = fileSize / (1024 * 1024);
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' MB';
+	    }
+	    //KB 단위 이상일때 KB 단위로 환산
+	    else if (fileSize >= 1024) {
+	        fileSize = fileSize / 1024;
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' KB';
+	    }
+	    //KB 단위보다 작을때 byte 단위로 환산
+	    else {
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' Byte';
+	    }
+	    return str;
+	}
+	
 	$(function(){
 		$(document).on("click",'.chevron-right',function(){
 			if($(this).children('img').attr("class")=="fold"){
@@ -34,6 +58,24 @@
 			$.showFolderList();
 		});
 		
+		$(document).on("click",'.showArchiveList2',function(){
+			$.ajax({
+				url:'<c:url value="/archiveFolder/showParentFolder"/>',
+				type:"get",
+				data:"no="+$('#currentFolderNo').val(),
+				dataType:"json",
+				success:function(res){
+					$('#currentFolderNo').val(res.no);
+					$('#currentFolderName').contents()[0].textContent =res.name;
+					$.showFolderList();
+				},
+				error:function(e){
+					alert("/archiveFolder/showParentFolder 에러");
+				}
+			})
+			
+		});
+		
 		/*$('.showArchiveList').click(function(){
 			$('#currentFolderName').contents()[0].textContent =$(this).text();
 			var folderNo = $(this).children('input[name="folderNo"]').val();
@@ -43,8 +85,12 @@
 		
 		$.showFolderList=function(){
 			
-			var temp="<tr><td colspan='7'>해당 데이터가 존재하지않습니다.</td></tr>";
+			
 			var folderNo=$('#currentFolderNo').val();
+			var temp="<tr><td></td><td colspan='6'><a style='text-decoration:underline' href='#' class='showArchiveList2'>..(상위폴더로)</a></td></tr>";
+			if(folderNo==1 || folderNo==2){
+				temp="";
+			}
 			$.ajax({
 				url:'<c:url value="/archiveFolder/detailList"/>',
 				type:"get",
@@ -52,11 +98,9 @@
 				dataType:"json",
 				success:function(res){
 					$.each(res,function(idx,item){
-						if(idx==0)
-							temp="";
 						temp+="<tr>";
 						temp+="<td><input class='form-check-input' type='checkbox' value=''></td>";
-						temp+="<td colspan='6'><img src='https://img.icons8.com/material-two-tone/24/000000/folder-invoices.png'/>"+item.name+"</td>";
+						temp+="<td colspan='6'><img src='https://img.icons8.com/material-two-tone/24/000000/folder-invoices.png'/><a class='showArchiveList' href='#'>"+item.name+"<input type='hidden' name='folderNo' value='"+item.no+"'</a></td>";
 						temp+="</tr>";
 					})
 					
@@ -75,7 +119,7 @@
 								temp+="<tr>";
 								temp+="<td><input class='form-check-input' type='checkbox' value=''></td>";
 								temp+="<td style='width:45%'>"+item.fileName+"</td>";
-								temp+="<td>"+item.fileSize+"</td>";
+								temp+="<td>"+$.byte(item.fileSize, 1)+"</td>";
 								temp+="<td>"+item.ext+"</td>";
 								temp+="<td>"+item.writer+"</td>";
 								temp+="<td>"+formattedDate+"</td>";
@@ -198,7 +242,7 @@
                         <a href="#" class='sidebar-link'>영업팀<!-- require parameter --></a>
                     	<ul class="submenu active" style="list-style:none">
                     		<!-- forEach -->
-                    		<li class="submenu-item">
+                    		<li class="submenu-item" >
                     			<a href="#">영업실적보고</a>
                     		</li>
                     		<li class="submenu-item">
