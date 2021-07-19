@@ -51,7 +51,7 @@ $(document).ready(function() {
 			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite'/>">
 			   <div class="col-md-10 form-group">
 	              	<select class="form-select" id="communityBoard" name="communityBoard">
-	                    <optgroup label="글 작성할 게시판을 선택하세요">
+	                    <optgroup label="작성할 게시판을 선택하세요">
                    			<option>Wish list 적고 가세요!</option>
                    			<option>암벽클라이밍 동호회</option>
 	                   	</optgroup>

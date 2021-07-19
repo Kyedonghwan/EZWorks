@@ -4,22 +4,7 @@
 
 <%@ include file="../include/top.jsp"%>
 <style type="text/css">
-	#btnMenu{
-		width:160px;
-	}
-	.sp1{
-		font-size:0.8em;
-		padding:0;
-		width:200px;
-		text-align: left;
-	}
 	.col-12 col-lg-12{
-		padding:0;
-	}
-	#btnWrite{
-		text-align: center;
-	}
-	#headingOne{
 		padding:0;
 	}
 	.notice{
@@ -45,67 +30,8 @@
 		
 	});
 </script>
-	<div class="card-header">
-	   <h5 class="card-title">커뮤니티</h5> 
-	</div>
-	<div class="card-body" style="height:725px">
-		 <div class="btn-group dropdown me-1 mb-1">
-            <button type="button" class="btn btn-light">
-            	<i class="bi bi-chevron-left"></i>
-            </button>
-            <button type="button"
-                class="btn btn-light dropdown-toggle dropdown-toggle-split"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                data-reference="parent" id="btnMenu">
-                <span>YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
-            </button>
-            <div class="dropdown-menu">
-                  <span><a class="dropdown-item" href="#">
-                  	YOLO EZ<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	BLIND<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> 아이디어 공유</a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	독서합시다<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> A-팀 프로젝트</a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> 운동합시다</a></span>
-             	<div class="dropdown-divider"></div>
-            </div>
-        </div><br><br>
-	   <div class="buttons" id="btnWrite">
-          <a href="<c:url value='/community/communityWrite'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
-       </div>
-       <div class="board">
-       	  <span class="sp1"><a class="dropdown-item" href="#">Wish list 적고 가세요
-         	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
-          <span class="sp1"><a class="dropdown-item" href="#">암벽클라이밍 동호회
-         	<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
-          <span class="sp1"><a class="dropdown-item" href="#">+ 게시판 추가</a></span>
-       </div><br>  
-        <div class="member">
-          <p style="font-size:0.9em">가입 멤버 5</p>
-         	 <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/1.jpg'/>"> 홍길동 과장</a></span></div>
-	          <div class="avatar avatar-md">
-	          <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/2.jpg'/>"> 김길동 부장</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/3.jpg'/>"> 박길동 상무</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/4.jpg'/>"> 최길동 대리</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/5.jpg'/>"> 이길동 대표</a></span></div>		
-          <span class="sp1"><a class="dropdown-item" href="#">+ 초대하기</a></span>
-       </div>           
-	</div>	
 
+<%@ include file="sidebar2.jsp" %>
 <%@ include file="../include/middle.jsp" %>
 
 <!-- 소메뉴별 컨텐츠 구성 영역 -->		
@@ -163,56 +89,24 @@
 		                               </div>
 		                               <div class="col-md-10 form-group">		    
 			                               <div class="me-1 mb-1 d-inline-block">
-	                                         <!-- Button trigger for small size modal modal -->
-	                                         <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
-	                                             data-bs-target="#primary">추가</button>
-
-	                                         <!--small size modal -->
-	                                         <div class="modal fade text-left" id="small" tabindex="-1" role="dialog"
-	                                             aria-labelledby="myModalLabel19" aria-hidden="true">
-	                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm"
-	                                                 role="document">
-	                                                 <div class="modal-content">
-	                                                     <div class="modal-header bg-primary">
-	                                                         <h4 class="modal-title white" id="myModalLabel19">Small Modal</h4>
-	                                                         <button type="button" class="close" data-bs-dismiss="modal"
-	                                                             aria-label="Close">
-	                                                             <i data-feather="x"></i>
-	                                                         </button>
-	                                                     </div>
-	                                                     <div class="modal-body">
-	                                                         Biscuit chocolate cake gummies. Lollipop I love macaroon
-	                                                         bear claw
-	                                                         caramels. I love
-	                                                         marshmallow tiramisu I love fruitcake I love gummi bears.
-	                                                         Carrot cake topping liquorice. Pudding caramels liquorice
-	                                                         sweet I love.
-	                                                         Donut powder cupcake
-	                                                         ice cream tootsie roll jelly.
-	                                                     </div>
-	                                                     <div class="modal-footer">
-	                                                         <button type="button" class="btn btn-light-secondary btn-sm"
-	                                                             data-bs-dismiss="modal">
-	                                                             <i class="bx bx-x d-block d-sm-none"></i>
-	                                                             <span class="d-sm-block d-none">Close</span>
-	                                                         </button>
-	                                                         <button type="button" class="btn btn-primary ml-1 btn-sm"
-	                                                             data-bs-dismiss="modal">
-	                                                             <i class="bx bx-check d-block d-sm-none"></i>
-	                                                             <span class="d-sm-block d-none">Accept</span>
-	                                                         </button>
-	                                                     </div>
-	                                                 </div>
-	                                             </div>
-	                                         </div>
-	                                     </div>
+	                                         <button type="button" class="btn btn-outline-primary block"
+	                                             data-bs-toggle="modal" data-bs-backdrop="false" 
+	                                             data-bs-target="#backdrop" width:"50px">추가
+	                                         </button>
+	                                       </div>
+	                                       <%@ include file="modal.jsp" %>
 		                               </div>
 		                               <div class="col-md-2" id="label">
 		                                   <label>부마스터</label>
 		                               </div>
-		                               <div class="col-md-10 form-group">
-		                                   <input type="text" id="communityName" class="form-control"
-		                                       name="communityName" placeholder="커뮤니티 명을 적어주세요">
+		                               <div class="col-md-10 form-group">		    
+			                               <div class="me-1 mb-1 d-inline-block">
+	                                         <button type="button" class="btn btn-outline-primary block"
+	                                             data-bs-toggle="modal" data-bs-backdrop="false" 
+	                                             data-bs-target="#backdrop" width:"50px">추가
+	                                         </button>
+	                                       </div>
+	                                       <%@ include file="modal.jsp" %>
 		                               </div>
 		                               <div class="col-md-2" id="label">
 		                                   <label>공개여부</label>
