@@ -1,4 +1,5 @@
 package com.it.ez.community.controller;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
 import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/community")
@@ -75,4 +77,3 @@ public class CommunityController {
 	
 	
 }
- 268  EZWorks/src/main/webapp/WEB-INF/views/c
