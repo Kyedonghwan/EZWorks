@@ -1,5 +1,4 @@
 package com.it.ez.community.controller;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
-
 import lombok.RequiredArgsConstructor;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/community")
@@ -58,16 +55,16 @@ public class CommunityController {
 	public void selectCommunity() {
 		logger.info("커뮤니티 개별 페이지");
 	}
-	
+
 	@GetMapping("/communityDetail")
 	public String detailCommunity(@RequestParam(defaultValue = "0") int no) {
 		logger.info("커뮤니티 정보 보기");
-		
-		
+
+
 		return "/community/communityDetail";
 	}
-	
-	
+
+
 	@RequestMapping("/communityWrite")
 	public String writeCommunity() {
 		logger.info("커뮤니티 글쓰기 페이지");
@@ -78,3 +75,4 @@ public class CommunityController {
 	
 	
 }
+ 268  EZWorks/src/main/webapp/WEB-INF/views/c

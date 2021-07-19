@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
+
 <%@ include file="../include/top.jsp"%>
 <style type="text/css">
 	#btnMenu{
@@ -44,7 +44,6 @@
 	$(function(){
 		
 	});
-
 </script>
 	<div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -108,7 +107,7 @@
 	</div>	
 
 <%@ include file="../include/middle.jsp" %>
-									
+
 <!-- 소메뉴별 컨텐츠 구성 영역 -->		
 <section class="row">
       <div class="col-12 col-lg-12">
@@ -167,7 +166,7 @@
 	                                         <!-- Button trigger for small size modal modal -->
 	                                         <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
 	                                             data-bs-target="#primary">추가</button>
-	
+
 	                                         <!--small size modal -->
 	                                         <div class="modal fade text-left" id="small" tabindex="-1" role="dialog"
 	                                             aria-labelledby="myModalLabel19" aria-hidden="true">
@@ -248,16 +247,16 @@
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
-                            
+
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
-                            
+
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel"
                             aria-labelledby="contact-tab">
                             <p class="mt-2">
-                            
+
                             </p>
                         </div>
                     </div>
@@ -265,4 +264,4 @@
             </div>
          </div> 
      </section> 
- <%@ include file="../include/bottom.jsp" %>
+ <%@ include file="../include/bottom.jsp" %> 

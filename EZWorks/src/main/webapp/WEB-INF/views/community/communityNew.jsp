@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
+
 <%@ include file="../include/top.jsp"%>
 <style type="text/css">
 	.btn btn-light{
@@ -13,6 +13,9 @@
 	#headingOne{
 		padding:0;
 	}
+	#label{
+		padding-top:3px;
+	}
 	.notice{
 		font-size: 0.8em;
 		margin:0;
@@ -23,9 +26,6 @@
 	.radioWrapper{
 		display: inline-flex;
 	}
-	#label{
-		padding-top:3px;
-	}
 	
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
@@ -33,7 +33,6 @@
 	$(function(){
 		
 	});
-
 </script>
 	<div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -75,7 +74,7 @@
 	   </div>
      </div>						
 <%@ include file="../include/middle.jsp" %>
-									
+
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
 	<section class="row">
       <div class="col-12 col-lg-12">
@@ -112,7 +111,7 @@
                                	<div class="radioWrapper">
                                	  <div class="form-check">
                                         <input class="form-check-input" type="radio" name="publicSetting"
-                                            id="publicSet1" value="Y" checked>
+                                             id="publicSet1" value="Y" checked>>
                                         <label class="form-check-label" for="publicSet1">공개</label>&nbsp&nbsp&nbsp
                                   </div>
                                   <div class="form-check">
@@ -137,4 +136,4 @@
             </div>
          </div> 
 	</section>											
-<%@ include file="../include/bottom.jsp" %>
+<%@ include file="../include/bottom.jsp" %> 
