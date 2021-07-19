@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
-	@RequestMapping("/index")
-	public void main() {
-		
+	@RequestMapping("/index2")
+	public String main() {
+		return "index2";
 	}
 }
