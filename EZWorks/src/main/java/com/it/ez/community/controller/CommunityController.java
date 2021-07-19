@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.it.ez.community.model.CommunityBoardVO;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
 import lombok.RequiredArgsConstructor;
@@ -67,12 +68,18 @@ public class CommunityController {
 	}
 
 
-	@RequestMapping("/communityWrite")
-	public String writeCommunity() {
+	@GetMapping("/communityWrite")
+	public void writeCommunity() {
 		logger.info("커뮤니티 글쓰기 페이지");
 		
-		return "community/communityWrite";
+	}
+	
+	@PostMapping("communityWrite")
+	public String writeCommunity_post(@ModelAttribute CommunityBoardVO vo) {
+		logger.info("커뮤니티 글쓰기 처리, 파라미터 vo={}", vo);
 		
+		
+		return "redirect:/community/communityOne";
 	}
 	
 	
