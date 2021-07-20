@@ -1,5 +1,7 @@
 package com.it.ez.community.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.it.ez.community.model.CommunityBoardVO;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
+import com.it.ez.communityBoard.model.C_boardContentVO;
+import com.it.ez.communityBoard.model.C_boardVO;
+
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,8 +34,19 @@ public class CommunityController {
 	}
 	
 	@GetMapping("/communityNew")
-	public void newCommunity() {
+	public String newCommunity(Model model) {
 		logger.info("커뮤니티 개설 페이지");
+		
+		List<CommunityVO> list=communityService.selectCommunity();
+		List<C_boardVO> boardList= communityService.selectC_board();
+		logger.info("커뮤니티 개설 처리결과, list.size={}, boardList.size={}", 
+			list.size(), boardList.size());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("boardList", boardList);
+		
+		return "community/communityNew";
+		
 	}
 	
 	@PostMapping("/communityNew")
@@ -53,34 +68,73 @@ public class CommunityController {
 		return "common/message";
 		
 	}
-	
-	@GetMapping("/communityOne")
-	public void selectCommunity() {
-		logger.info("커뮤니티 개별 페이지");
-	}
 
 	@GetMapping("/communityDetail")
-	public String detailCommunity(@RequestParam(defaultValue = "0") int no) {
+	public String detailCommunity(@RequestParam(defaultValue = "0") int no, 
+			Model model) {
 		logger.info("커뮤니티 정보 보기");
+		
+		List<CommunityVO> list = communityService.selectCommunity();
+		List<C_boardVO> boardList= communityService.selectC_board();
+		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
+				list.size(), boardList.size());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("BoardList", boardList);
 
-
-		return "/community/communityDetail";
+		return "community/communityDetail";
 	}
-
-
-	@GetMapping("/communityWrite")
-	public void writeCommunity() {
-		logger.info("커뮤니티 글쓰기 페이지");
+	
+	
+	@GetMapping("/communityOne")
+	public String oneCommunity(@RequestParam(defaultValue = "0")int no, Model model) {
+		logger.info("개별 커뮤니티 페이지, 파라미터 no={}", no);
+		
+		CommunityVO vo= communityService.selectCommunityByNo(no);
+		List<C_boardVO> boardList= communityService.selectC_board();
+		List<C_boardContentVO> contentList= communityService.selectC_boardContent();
+		logger.info("개별 커뮤니티 처리결과, vo={}, boardList={}, contentList={}", 
+				vo, boardList, contentList);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("contentList", contentList);
+		
+		return "community/communityOne";
 		
 	}
 	
-	@PostMapping("communityWrite")
-	public String writeCommunity_post(@ModelAttribute CommunityBoardVO vo) {
-		logger.info("커뮤니티 글쓰기 처리, 파라미터 vo={}", vo);
+	@GetMapping("/board/communityWrite")
+	public String writeCommunity(Model model) {
+		logger.info("커뮤니티 게시판 글쓰기 페이지");
 		
+		List<CommunityVO> list = communityService.selectCommunity();
+		List<C_boardVO> boardList= communityService.selectC_board();
+		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
+				list.size(), boardList.size());
 		
-		return "redirect:/community/communityOne";
+		model.addAttribute("list", list);
+		model.addAttribute("boardList", boardList);
+		
+		return "community/board/communityWrite";
 	}
 	
+	@PostMapping("/board/communityWrite")
+	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
+			Model model) {
+		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 vo={}", contentVo);
+		int cnt = communityService.insertBoardContent(contentVo);
+		
+		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/communityWrite";
+		if(cnt>0) {
+			msg="커뮤니티 게시판 글쓰기 성공";
+			url="/community/communityOne";
+		}
+		
+		model.addAttribute("msg",msg);
+		model.addAttribute("url",url);
+		
+		return "common/message";
+	}
 	
 }

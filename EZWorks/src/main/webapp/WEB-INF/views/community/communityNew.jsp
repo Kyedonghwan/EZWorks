@@ -24,8 +24,9 @@
 	$(function(){
 		
 	});
-</script>				
-<%@ include file="sidebar1.jsp" %>
+</script>
+
+<%@ include file="../community/sidebar/sidebar1.jsp" %>	
 <%@ include file="../include/middle.jsp" %>
 
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
@@ -44,8 +45,8 @@
                                    <label>커뮤니티 명</label>
                                </div>
                                <div class="col-md-10 form-group">
-                                   <input type="text" id="communityName" class="form-control"
-                                       name="communityName" placeholder="커뮤니티 명을 적어주세요">
+                                   <input type="text" id="community_Name" class="form-control"
+                                       name="community_Name" placeholder="커뮤니티 명을 적어주세요">
                                </div>
                                <div class="col-md-2" id="label">
                                    <label>소개</label>
@@ -63,12 +64,12 @@
                                <div class="col-md-10 form-group">
                                	<div class="radioWrapper">
                                	  <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="publicSetting"
-                                             id="publicSet1" value="Y" checked>>
+                                        <input class="form-check-input" type="radio" name="publicSet"
+                                             id="publicSet1" value="Y" checked>
                                         <label class="form-check-label" for="publicSet1">공개</label>&nbsp&nbsp&nbsp
                                   </div>
                                   <div class="form-check">
-                                  		<input class="form-check-input" type="radio" name="publicSetting"
+                                  		<input class="form-check-input" type="radio" name="publicSet"
                                             id="publicSet2" value="N">
                                         <label class="form-check-label" for="publicSet2">비공개</label>
                                     </div>

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
-<%@ include file="../include/top.jsp"%>
+<%@ include file="../../include/top.jsp"%>
 <style type="text/css">
 	.col-12 col-lg-12{
 		padding:0;
@@ -22,7 +21,6 @@ $(document).ready(function() {
 		lang: 'ko-KR',
 		height: 350,
 		toolbar: [
-		    // [groupName, [list of button]]
 		    ['fontname', ['fontname']],
 		    ['fontsize', ['fontsize']],
 		    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
@@ -38,8 +36,9 @@ $(document).ready(function() {
 	});
 });
 </script>
-<%@ include file="sidebar2.jsp" %>					
-<%@ include file="../include/middle.jsp" %>
+
+<%@ include file="../../community/sidebar/sidebar1.jsp" %>	
+<%@ include file="../../include/middle.jsp" %>
 
 <!-- 소메뉴별 컨텐츠 구성 영역 -->
 <section class="row">
@@ -49,11 +48,13 @@ $(document).ready(function() {
 		</div>
 		<div class="card-body">
 			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite'/>">
+			<input type="hidden" name="board_No" value="">
 			   <div class="col-md-10 form-group">
 	              	<select class="form-select" id="communityBoard" name="communityBoard">
 	                    <optgroup label="작성할 게시판을 선택하세요">
-                   			<option>Wish list 적고 가세요!</option>
-                   			<option>암벽클라이밍 동호회</option>
+	                    	<c:forEach var="vo" items="${Boardlist}">
+	                   			<option>${vo.board_Name}</option>	                    	
+	                    	</c:forEach>
 	                   	</optgroup>
 	               	</select>
                </div>
@@ -69,4 +70,4 @@ $(document).ready(function() {
 		</div>
 	</div>
 </section>
-<%@ include file="../include/bottom.jsp" %>
+<%@ include file="../../include/bottom.jsp" %>

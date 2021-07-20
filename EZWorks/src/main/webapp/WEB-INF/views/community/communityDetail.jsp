@@ -31,7 +31,7 @@
 	});
 </script>
 
-<%@ include file="sidebar2.jsp" %>
+<%@ include file="../community/sidebar/sidebar2.jsp" %>	
 <%@ include file="../include/middle.jsp" %>
 
 <!-- 소메뉴별 컨텐츠 구성 영역 -->		

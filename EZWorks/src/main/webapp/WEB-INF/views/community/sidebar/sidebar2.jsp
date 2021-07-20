@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <style type="text/css">
 	#btnLight{
 		margin-left:8px;
@@ -34,32 +35,24 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span>YOLO EZ <img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>${communityName}<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
-                  <span><a class="dropdown-item" href="#">
-                  	YOLO EZ<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	BLIND<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> 아이디어 공유</a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	독서합시다<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> A-팀 프로젝트</a></span>
-	              <span><a class="dropdown-item" href="#">
-	              	<img src="<c:url value='/resources/images/accordion/hold2.png'/>"> 운동합시다</a></span>
-             	<div class="dropdown-divider"></div>
+				<c:forEach var="vo" items="${list}">
+                  <span><a class="dropdown-item" 
+                  	href="<c:url value='/community/communityOne?community_No=${vo.communityNo}'/>">${vo.communityName}
+                  	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
+				</c:forEach>
             </div>
         </div><br>
 	   <div class="buttons" id="btnWrite">
-          <a href="<c:url value='/community/communityWrite'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
+          <a href="<c:url value='/community/board/communityWrite'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
        </div>
        <div class="board">
-       	  <span class="sp1"><a class="dropdown-item" href="#">Wish list 적고 가세요
+       <c:forEach var="vo2" items="${BoardList}">
+       	  <span class="sp1"><a class="dropdown-item" href="#">${vo2.boardName}
          	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
-          <span class="sp1"><a class="dropdown-item" href="#">암벽클라이밍 동호회
-         	<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right"></a></span>
+       </c:forEach>
           <span class="sp1"><a class="dropdown-item" href="#">+ 게시판 추가</a></span>
        </div><br>  
         <div class="member">

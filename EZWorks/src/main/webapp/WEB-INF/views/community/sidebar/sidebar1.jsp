@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <style type="text/css">
 	.btn btn-light{
 		padding:0;
@@ -38,22 +39,16 @@
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
                 data-parent="#cardAccordion">
 	        <div class="listContent">
-             <span><a href="<c:url value='/community/communityOne'/>">YOLO EZ</a>
-             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right">
-             </span><br>
-             <span><a href="">BLIND</a>
-             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right">
-             </span><br>
-             <span><img src="<c:url value='/resources/images/accordion/hold2.png'/>">
-             	<a href="">아이디어 공유</a></span><br>
-             <span><a href="">독서합시다</a>
-             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>"style="float:right">
-             </span><br>
-             <span><img src="<c:url value='/resources/images/accordion/hold2.png'/>">
-             	<a href="">A-팀 프로젝트</a></span><br>
-             <span><img src="<c:url value='/resources/images/accordion/hold2.png'/>">
-             	<a href="">운동합시다</a></span><br>
-	         </div>
+		        <c:if test="${!empty list}">
+			        <c:forEach var="vo" items="${list}">
+			             <span><a href="<c:url value='/community/communityOne?community_No=${vo.communityNo}'/>">
+			             	${vo.communityName}</a>
+			             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" 
+			             	float="right" align="absmiddle">
+			             </span><br>
+			        </c:forEach>
+		        </c:if>
+		     </div>
 	       </div>
 	     </div>             
 	   </div>

@@ -27,8 +27,8 @@
 		
 	});
 </script>
-					
-<%@ include file="sidebar1.jsp" %>
+
+<%@ include file="../community/sidebar/sidebar1.jsp" %>
 <%@ include file="../include/middle.jsp" %>
 									
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
