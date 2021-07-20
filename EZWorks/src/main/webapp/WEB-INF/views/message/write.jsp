@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>이지웍스</title>
+<title>쪽지작성</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 <link href="${pageContext.servletContext.contextPath}/resources/css/message/write.css" rel="stylesheet" type="text/css">

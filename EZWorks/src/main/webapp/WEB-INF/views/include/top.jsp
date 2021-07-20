@@ -136,6 +136,11 @@
 						<li class="sidebar-item  "><a href="table.html"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>자료실</span>
 						</a></li>
+						
+						<li class="sidebar-item  "><a href="<c:url value='/message/messageList'/>"
+							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>쪽지</span>
+						</a></li>
+						
 						<li class="sidebar-item">
 							<div class="btn-group dropup mb-1" aria-orirentation="vertical">
 								<button type="button" class="btn btn-primary dropdown-toggle"
