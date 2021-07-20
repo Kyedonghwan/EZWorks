@@ -24,6 +24,11 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
+	public CommunityVO selectCommunityByNo(int communityNo) {
+		return communityDao.selectCommunityByNo(communityNo);
+	}
+
+	@Override
 	public int insertC_board(C_boardVO boardVo) {
 		return communityDao.insertC_board(boardVo);
 	}
@@ -34,8 +39,8 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public List<C_boardVO> selectC_board() {
-		return communityDao.selectC_board();
+	public List<C_boardVO> selectC_board(int communityNo) {
+		return communityDao.selectC_board(communityNo);
 	}
 
 	@Override
@@ -43,9 +48,5 @@ public class CommunityServiceImpl implements CommunityService{
 		return communityDao.selectC_boardContent();
 	}
 
-	@Override
-	public CommunityVO selectCommunityByNo(int community_No) {
-		return communityDao.selectCommunityByNo(community_No);
-	}
 
 }

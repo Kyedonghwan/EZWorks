@@ -46,7 +46,7 @@
 		                        	<c:forEach var="vo2" items="${contentList}">
 		                               <tr>
 		                                   <td class="col-auto">
-		                                       <p class=" mb-0">${community_Name} > ${vo.board_Name}</p>
+		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
 		                                       <p class=" mb-0" id="mainTitle">${vo2.title}</p>	                                      
 		                                       <p class=" mb-0">${vo2.content}</p>
 		                                       <div class="avatar avatar-md">

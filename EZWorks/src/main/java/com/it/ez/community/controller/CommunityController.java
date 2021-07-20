@@ -38,12 +38,9 @@ public class CommunityController {
 		logger.info("커뮤니티 개설 페이지");
 		
 		List<CommunityVO> list=communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board();
-		logger.info("커뮤니티 개설 처리결과, list.size={}, boardList.size={}", 
-			list.size(), boardList.size());
+		logger.info("커뮤니티 개설 처리결과, list.size={}", list.size());
 		
 		model.addAttribute("list", list);
-		model.addAttribute("boardList", boardList);
 		
 		return "community/communityNew";
 		
@@ -75,7 +72,7 @@ public class CommunityController {
 		logger.info("커뮤니티 정보 보기");
 		
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board();
+		List<C_boardVO> boardList= communityService.selectC_board(no);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
@@ -91,12 +88,14 @@ public class CommunityController {
 		logger.info("개별 커뮤니티 페이지, 파라미터 no={}", no);
 		
 		CommunityVO vo= communityService.selectCommunityByNo(no);
-		List<C_boardVO> boardList= communityService.selectC_board();
+		List<CommunityVO> list = communityService.selectCommunity();
+		List<C_boardVO> boardList= communityService.selectC_board(no);
 		List<C_boardContentVO> contentList= communityService.selectC_boardContent();
 		logger.info("개별 커뮤니티 처리결과, vo={}, boardList={}, contentList={}", 
 				vo, boardList, contentList);
 		
 		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("contentList", contentList);
 		
@@ -105,11 +104,11 @@ public class CommunityController {
 	}
 	
 	@GetMapping("/board/communityWrite")
-	public String writeCommunity(Model model) {
+	public String writeCommunity(@RequestParam(defaultValue = "0") int no, Model model) {
 		logger.info("커뮤니티 게시판 글쓰기 페이지");
 		
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board();
+		List<C_boardVO> boardList= communityService.selectC_board(no);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.it.ez.community.model.CommunityDAO">
 	<insert id="insertCommunity" parameterType="CommunityVO">
-		<selectKey keyProperty="community_No" resultType="int" order="BEFORE">
+		<selectKey keyProperty="communityNo" resultType="int" order="BEFORE">
 			select community_seq.nextval from dual
 		</selectKey>
 		insert into community(community_No, community_Name, intro, publicSet)
@@ -22,7 +22,7 @@
 	</select>
 	
 	<insert id="insertC_board" parameterType="C_boardVO">
-		<selectKey keyProperty="board_No" resultType="int" order="BEFORE">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select c_board_seq.nextval from dual
 		</selectKey>
 		insert into c_board(board_No, board_Name, board_Master, intro, publicSet)
@@ -30,15 +30,15 @@
 	</insert>
 	
 	<insert id="insertBoardContent" parameterType="C_boardContentVO">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select c_boardContent_seq.nextval from dual
-		</selectKey>
-		insert into c_boardContent(no, writer, title, content, img, fileName, fileSize, originalFileName, groupNo)
-		values(#{no}, #{writer}, #{title}, #{content}, #{img}, #{fileName}, #{fileSize}, #{originalFileName}, #{no})
+		insert into c_boardContent(no, writer, title, content, 
+			  img, fileName, fileSize, originalFileName, groupNo)
+		values(c_boardContent_seq.nextval, #{writer}, #{title}, 
+			  #{content}, #{img}, #{fileName}, #{fileSize}, #{originalFileName}, #{no})
 	</insert>
 	
-	<select id="selectC_board" resultType="C_boardVO">
+	<select id="selectC_board" parameterType="communityNo" resultType="C_boardVO">
 		select * from c_board
+		where community_No=#{communityNo}
 		order by board_No
 	</select>
 	

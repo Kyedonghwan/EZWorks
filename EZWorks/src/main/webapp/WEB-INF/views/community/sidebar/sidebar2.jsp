@@ -35,7 +35,7 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span>${communityName}<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>가입 커뮤니티<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
 				<c:forEach var="vo" items="${list}">
@@ -49,7 +49,7 @@
           <a href="<c:url value='/community/board/communityWrite'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
        </div>
        <div class="board">
-       <c:forEach var="vo2" items="${BoardList}">
+       <c:forEach var="vo2" items="${boardList}">
        	  <span class="sp1"><a class="dropdown-item" href="#">${vo2.boardName}
          	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
        </c:forEach>
