@@ -12,35 +12,56 @@
 <title>쪽지작성</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  
-<link href="${pageContext.servletContext.contextPath}/resources/css/message/message.css" rel="stylesheet" type="text/css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="${pageContext.servletContext.contextPath }/resources/js/message/common.js" type="text/javascript"></script>
-<script src="${pageContext.servletContext.contextPath }/resources/js/message/message.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" 
+	href="<c:url value='/resources/css/message/mainstyle.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/mystyle.css'/>" /> 
+
+<script type="text/javascript" 
+	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.btList').click(function(){
+			location.href="<c:url value='/message/messagelist'/>";
+		});
+		
+		$('form[name=frmWrite]').submit(function(){
+			$('.infobox').each(function(idx, item){
+				if($(this).val().length<1){
+					alert($(this).prev().text()+"을(를) 입력하세요");
+					$(item).focus();
+					event.preventDefault();
+					return false;
+				}
+			});
+		});
+	});
+</script>
 </head>
 <body>
 
-<c:import url="/WEB-INF/views/message/include/header.jsp"/>
-<c:import url="/WEB-INF/views/message/include/top_gnb.jsp"/>
-
-
-
-
-<div id="sendForm" title="메세지 전송">
-  <form>
-    <fieldset>
-      <label for="name">전송할 내용을 입력하세요</label>
-      <input type="hidden" name="selectedEmail" id="selectedEmail">
- 	  <textarea id = "messageArea" rows="15" cols="48" name="contents"></textarea>
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+<div class="divForm">
+<form name="frmWrite" method="post" 
+	action="<c:url value='/message/write'/>" >
+ <fieldset>
+	<legend style="text-align: center">쪽지작성</legend>
+        <div>
+            <label for="name">작성자</label>
+            <input type="text" id="name" name="name" class="infobox" />
+        </div>
+        <div>  
+        	<label for="content">내용</label>        
+ 			<textarea id="content" name="content" rows="12" cols="40"></textarea>
+        </div>
+        <div class="center">
+            <input type = "submit" value="쪽지등록"/>
+            <input type = "Button" value="쪽지목록" class="btList"/>         
+        </div>
     </fieldset>
-  </form>
-</div>
+</form>
+</div>   
 
-<c:import url="/WEB-INF/views/message/include/message_form.jsp"/>
-<c:import url="/WEB-INF/views/message/include/footer.jsp"/>
 
 </body>
 </html>

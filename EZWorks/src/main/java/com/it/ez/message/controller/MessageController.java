@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.it.ez.message.model.MessageService;
 import com.it.ez.message.model.MessageVO;
-import com.it.herb.guestbook.model.GuestbookVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,28 +24,28 @@ public class MessageController {
 	
 	private final MessageService messageService;
 	
-	@GetMapping("/write")
+	@GetMapping("/messageWrite")
 	public String write() {
 		//1
 		logger.info("write 화면 보여주기");
 
 		//2
 		//3
-		return "guestbook/write";
+		return "message/messageWrite";
 	}
 	
-	@PostMapping("/messagewrite")
+	@PostMapping("/messageWrite")
 	public String write_post(@ModelAttribute MessageVO vo, Model model) {
 		//1
 		logger.info("쪽지 등록 처리, 파라미터 vo={}",vo);
 		
 		//2
-		String msg="쪽지 등록 실패",url="/guestbook/write";
+		String msg="쪽지 등록 실패",url="/message/messageWrite";
 		int cnt = messageService.insertMessage(vo);
 		logger.info("write 등록 결과, cnt={}",cnt);
 		if(cnt>0) {
 			msg="글이 등록되었습니다.";
-			url="/guestbook/list";
+			url="/message/messagelist";
 		}
 		
 		//3
@@ -68,7 +67,7 @@ public class MessageController {
 		//3
 		model.addAttribute("list", list);
 		
-		return "guestbook/list";
+		return "message/messagelist";
 	}
 
 }
