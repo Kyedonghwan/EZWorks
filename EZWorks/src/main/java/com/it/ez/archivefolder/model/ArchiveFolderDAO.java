@@ -13,4 +13,8 @@ public interface ArchiveFolderDAO {
 	public int insertArchiveFolder(ArchiveFolderVO vo);
 	int updateParent(int no);
 	ArchiveFolderVO showParent(int no);
+	int deleteArchiveFolder(int no);
+	int editArchiveFolder(ArchiveFolderVO vo);
+	int selectChildrenCount(int no);
+	int updateParent2(int no);
 }

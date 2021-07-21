@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ArchiveDAO {
 	int fileUpload(ArchiveVO vo);
 	List<ArchiveVO> detailList(int folderNo);
+	int deleteArchive(int no);
+	int updateDownCount(int no);
 }

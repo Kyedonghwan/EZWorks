@@ -6,6 +6,43 @@
 
 	$(function(){
 		
+		$('#fileUpload').click(function(){
+			$.ajax({
+				url:"<c:url value='/archiveFolder/list'/>",
+				dataType:"json",
+				type:"get",
+				success:function(res){
+					var temp="";
+					temp+='<option value="1">전사자료실</option>';
+					$.each(res,function(idx,item){
+						if(item.step==1){
+							temp+='<option value='+item.no+'>-'+item.name+'</option>';
+								$.each(res,function(idx2,item2){
+									if(item2.step==2 && item2.parentNo==item.no){
+										temp+='<option value='+item2.no+'>--'+item2.name+'</option>';
+											$.each(res,function(idx3,item3){
+												if(item3.step==3 && item3.parentNo==item2.no){
+													temp+='<option value='+item3.no+'>---'+item3.name+'</option>';
+														$.each(res,function(idx4,item4){
+															if(item4.step==4 && item4.parentNo==item3.no){
+																temp+='<option value='+item4.no+'>----'+item4.name+'</option>';
+															}	
+														})
+												}	
+											})
+									}	
+								})
+						}
+					})
+					$('#selectModal').html(temp);
+					$('#uploadModal').modal('show');
+				},
+				error:function(e){
+					alert("uploadModal - 에러");
+				}
+			})
+		})
+		
 		var pond = FilePond.create( document.querySelector('.multiple-files-filepond'), { 
 	        allowImagePreview: true,
 	        allowMultiple: true,
@@ -33,7 +70,6 @@
 				success: function (res) {
 					$('#uploadModal').modal('hide');
 					alert('자료 등록 성공');
-					console.log(res);
 					$.showFolderList();
 				}, 
 				error: function (e) {
@@ -60,27 +96,7 @@
 		        <div class="card-header">
 		            <h5 class="card-title">대상 폴더 선택</h5>
 		        	<select id="selectModal" class="form-select" aria-label="Default select example" name="folderNo">
-		        	  <option value="1">전사자료실</option>
-					  <c:forEach var="vo" items="${archiveFolderList}">
-					  	<c:if test="${vo.step==1}">
-					  		<option value="${vo.no}">-${vo.name}</option>
-					  		<c:forEach var="vo2" items="${archiveFolderList}">
-					  			<c:if test="${vo2.step==2 && vo.no==vo2.parentNo}">
-					  				<option value="${vo2.no}">--${vo2.name}</option>
-					  				<c:forEach var="vo3" items="${archiveFolderList}">
-					  					<c:if test="${vo3.step==3 && vo2.no==vo3.parentNo}">
-					  						<option value="${vo3.no}">---${vo3.name}</option>
-					  						<c:forEach var="vo4" items="${archiveFolderList}">
-					  							<c:if test="${vo4.step==4 && vo3.no==vo4.parentNo}">
-					  								<option value="${vo4.no}">----${vo4.name}</option>
-					  							</c:if>
-					  						</c:forEach>
-					  					</c:if>
-					  				</c:forEach>
-					  			</c:if>
-					  		</c:forEach>
-					  	</c:if>
-					  </c:forEach>
+		        	 
 					</select>
 		        </div>
 		        <div class="card-content">

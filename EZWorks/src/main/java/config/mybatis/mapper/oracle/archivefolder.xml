@@ -11,6 +11,10 @@
 		select * from archivefolder where parentNo=#{no}
 	</select>
 	
+	<select id="selectChildrenCount" parameterType="int" resultType="int">
+		select count(*) from archivefolder where parentNo=#{no}
+	</select>
+	
 	<insert id="insertArchiveFolder" parameterType="archiveFolderVo">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			select ARCHIVEFOLDER_SEQ.nextval from dual
@@ -24,9 +28,21 @@
 		update archiveFolder set hasChild='Y' where no=#{no}
 	</update>
 	
+	<update id="updateParent2" parameterType="int">
+		update archiveFolder set hasChild='N' where no=#{no}
+	</update>
+	
 	<select id="showParent" parameterType="int" resultType="archiveFolderVo">
 		select no,name from archivefolder where no=(select parentno from archivefolder where no=#{no})
 	</select>
+	
+	<delete id="deleteArchiveFolder" parameterType="int">
+		delete from archiveFolder where no=${no}
+	</delete>
+	
+	<update id="editArchiveFolder" parameterType="archiveFolderVo">
+		update archiveFolder set name=#{name} where no=#{no}
+	</update>
 </mapper>
 
 

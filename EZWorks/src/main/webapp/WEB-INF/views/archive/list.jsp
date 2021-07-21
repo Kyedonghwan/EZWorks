@@ -9,24 +9,119 @@
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
-<script>
-	$(function(){
-		var makeFolderCheck=true;
-		$('#fileUpload').click(function(){
-			$('#uploadModal').modal('show');
+<script>	
+	var editCheck=false;
+	$(document).on('click','#editFolder',function(){
+		var folderName=$(this).prev().text();
+		$(this).parent().html("<td colspan='6'><input type='hidden' name='folderNo' value='"+$(this).prev().children('input').val()+"'><img src='https://img.icons8.com/material-two-tone/24/000000/folder-invoices.png'/><input type='text' class='form-control' id='editFolderName' value='"+folderName+"' style='width:200px;height:25px;display:inline'>&nbsp;<button type='button' id='editFolderOK' class='btn btn-primary btn-sm'>확인</button>&nbsp;<button type='button' id='editFolderCancel' class='btn btn-primary btn-sm'>취소</button></td>");
+		$('#editFolderName').focus();
+	});
+	
+	$(document).on('click','#editFolderOK',function(){
+		var folderNo=$(this).prev().prev().prev().val();
+		var folderName=$(this).prev().val();
+		var obj={"no":folderNo,"name":folderName}
+		$.ajax({
+			url:"<c:url value='/archiveFolder/edit'/>",
+			type:"get",
+			dataType:"json",
+			data:obj,
+			success:function(){
+				$.showFolderList();
+				$.showSideBar();
+			},
+			error:function(e){
+				alert("edit-ajax에러");
+			}
 		})
+	});
+	
+	$(document).on("click","#editFolderCancel",function(){
+		$.showFolderList();
+	});
+	
+	$(function(){
+		$('#flexCheckDefault').click(function(){
+			$('table .form-check-input').prop('checked',this.checked);
+	});
+		
+		
+		$('#deleteFolder').click(function(){
+			if($('table .form-check-input:checked').length<1){
+				alert("삭제할 항목이 없습니다.");
+				return false;
+			}
+			var delArray=[];
+			var checkArray=[];
+			
+			$('table .form-check-input:checked').each(function(){
+				
+				if($(this).hasClass("archiveCheckbox")){
+					checkArray.push('archive');
+					delArray.push($(this).val());
+				}else if($(this).hasClass("archiveFolderCheckbox")){
+					checkArray.push('archiveFolder');
+					delArray.push($(this).val());
+				}
+				
+				
+			});
+			
+			var objParams = {
+					"checkArray":checkArray,
+					"delArray":delArray,
+					"parentNo":$('#currentFolderNo').val()
+			};
+			
+			
+			$.ajax({
+				url:"<c:url value='/archiveFolder/delete'/>",
+				dataType:"json",
+				type:"post",
+				data:objParams,
+				success:function(res){
+					$.showFolderList();
+					$.showSideBar();
+					$('thead .form-check-input:checked').prop('checked',false);
+				},
+				error:function(e){
+					alert('delete-ajax 에러');
+				}
+			})
+		})
+		
+		var makeFolderCheck=true;
+		
 		$('#makeFolder').click(function(){
 			if(makeFolderCheck){
 				makeFolderCheck=false;
 				var str="<div style='width:430px;padding:10px;font-weight:bold;border:1px dotted #e4dfdf;border-radius:5px'>";
 	    		str+="새 폴더명: <input type='text' class='form-control' id='newFolderName' placeholder='폴더 이름을 추가하세요' style='width: 200px;height:25px;display:inline'>";
-	    		str+="<button type='button' class='btn btn-primary btn-sm' id='okMakeFolder'>확인</button>";
-	    		str+="<button type='button' class='btn btn-primary btn-sm' id='cancelMakeFolder'>취소</button></div>";
+	    		str+="&nbsp;<button type='button' class='btn btn-primary btn-sm' id='okMakeFolder'>확인</button>";
+	    		str+="&nbsp;<button type='button' class='btn btn-primary btn-sm' id='cancelMakeFolder'>취소</button></div>";
 				$(this).siblings().eq(3).after(str);
 				$('#okMakeFolder').prev().focus();	
 			}
 		})
 		
+		
+		$(document).on("click","#downloadArchive",function(){
+			var obj={"no":$(this).parent().prev().children('input').val(),
+					"originalFileName":$(this).text(),
+					"fileName":$(this).next().val()
+					};
+			$.ajax({
+				url:'<c:url value="/archive/download"/>',
+				data:obj,
+				type:"post",
+				success:function(res){
+					$.showFolderList();
+				},
+				error:function(e){
+					alert("download 1 - ajax 에러");
+				}
+			})
+		})
 		
 		
 		
@@ -45,6 +140,7 @@
 				data:{parentNo:folderNo,name:newName},
 				dataType:"json",
 				success:function(res){
+					<!--
 					var temp=$('input[name="folderNo"][value='+folderNo+']');
 					if(temp.parent().next().length>0){
 						var str="<li class='submenu-item'>";
@@ -67,8 +163,9 @@
 						console.log(temp.parent().parent().attr('class'));
 						temp.parent().parent().html(str);
 					} 
-						
+					-->
 					$.showFolderList();
+					$.showSideBar();
 				},
 				error:function(xhr,status,error){
 					alert("error!!"+error);
@@ -102,7 +199,7 @@
   
                     	<button type="button" class="btn btn-primary btn-sm" id="makeFolder">새폴더</button>
 						<button type="button" class="btn btn-primary btn-sm">다운로드</button>
-						<button type="button" class="btn btn-primary btn-sm">삭제</button>
+						<button type="button" class="btn btn-primary btn-sm" id="deleteFolder">삭제</button>
 						<button type="button" class="btn btn-primary btn-sm">복사</button>
 						<button type="button" class="btn btn-primary btn-sm">이동</button>
                         <table class="table project-table table-centered table-nowrap">
@@ -153,6 +250,22 @@
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <!-- filepond -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+							</div>
 
-					
-<%@ include file="../include/bottom.jsp" %>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	<script src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
+	<script src="<c:url value='/resources/vendors/fontawesome/all.min.js'/>"></script>
+	<script src="<c:url value='/resources/vendors/apexcharts/apexcharts.js'/>"></script>
+	<script src="<c:url value='/resources/js/pages/dashboard.js'/>"></script>
+	<script src="<c:url value='/resources/js/archiveSidebar.js'/>"></script>
+	
+</body>
+
+</html>					
+
