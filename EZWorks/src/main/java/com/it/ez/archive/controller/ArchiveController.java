@@ -1,4 +1,4 @@
-package com.it.ez.archive.controller;
+ package com.it.ez.archive.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.archive.common.FileUploadUtil;
 import com.it.ez.archive.model.ArchiveService;
@@ -83,5 +84,11 @@ public class ArchiveController {
 		return "common/message";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/detailList")
+	public List<ArchiveVO> detailList(@RequestParam int folderNo){
+		
+		List<ArchiveVO> list = archiveService.detailList(folderNo);
+		return list;
+	}
 }

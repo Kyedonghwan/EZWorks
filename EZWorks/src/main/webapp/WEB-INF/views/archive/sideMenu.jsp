@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <style type="text/css">
 	a{
@@ -16,7 +17,7 @@
 </style>
 <script>
 	$(function(){
-		$('.chevron-right').click(function(){
+		$(document).on("click",'.chevron-right',function(){
 			if($(this).children('img').attr("class")=="fold"){
 				$(this).children('img').attr("src","<c:url value='/resources/images/accordion/chevron-down.svg'/>");
 				$(this).children('img').attr("class","unfold");
@@ -26,6 +27,76 @@
 			}
 		});
 		
+		$(document).on("click",'.showArchiveList',function(){
+			$('#currentFolderName').contents()[0].textContent =$(this).text();
+			var folderNo = $(this).children('input[name="folderNo"]').val();
+			$('#currentFolderNo').val(folderNo);
+			$.showFolderList();
+		});
+		
+		/*$('.showArchiveList').click(function(){
+			$('#currentFolderName').contents()[0].textContent =$(this).text();
+			var folderNo = $(this).children('input[name="folderNo"]').val();
+			$('#currentFolderNo').val(folderNo);
+			$.showFolderList();
+		});*/
+		
+		$.showFolderList=function(){
+			
+			var temp="<tr><td colspan='7'>해당 데이터가 존재하지않습니다.</td></tr>";
+			var folderNo=$('#currentFolderNo').val();
+			$.ajax({
+				url:'<c:url value="/archiveFolder/detailList"/>',
+				type:"get",
+				data:"no="+folderNo,
+				dataType:"json",
+				success:function(res){
+					$.each(res,function(idx,item){
+						if(idx==0)
+							temp="";
+						temp+="<tr>";
+						temp+="<td><input class='form-check-input' type='checkbox' value=''></td>";
+						temp+="<td colspan='6'><img src='https://img.icons8.com/material-two-tone/24/000000/folder-invoices.png'/>"+item.name+"</td>";
+						temp+="</tr>";
+					})
+					
+					$('#tbody').html(temp);
+					temp="";
+					$.ajax({
+						url:'<c:url value="/archive/detailList"/>',
+						type:"get",
+						data:"folderNo="+folderNo,
+						dataType:"json",
+						success:function(res){
+							$.each(res,function(idx,item){
+								
+								var d = new Date(item.regdate);
+								var formattedDate = d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate();
+								temp+="<tr>";
+								temp+="<td><input class='form-check-input' type='checkbox' value=''></td>";
+								temp+="<td style='width:45%'>"+item.fileName+"</td>";
+								temp+="<td>"+item.fileSize+"</td>";
+								temp+="<td>"+item.ext+"</td>";
+								temp+="<td>"+item.writer+"</td>";
+								temp+="<td>"+formattedDate+"</td>";
+								temp+="<td style='width:11%'>"+item.downCount+"</td>";
+								temp+="</tr>";
+								
+							});
+							$('#tbody').append(temp);
+						},
+						error:function(xhr,status,error){
+							alert("error발생!"+error);
+						}
+					})
+					
+					
+				},
+				error:function(xhr,status,error){
+					alert("error발생!"+error);
+				}
+			})
+		}
 	})
 </script>
 <section style="height:64px;padding:24px 24px 16px;">
@@ -47,72 +118,76 @@
 				<a href="#" class="sidebar-link chevron-right">
                		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
                	</a>
-                <a href="#" class='sidebar-link'>
-                    <!-- <i class="bi bi-stack"></i> -->
-                    <span style="font-weight:bold">전사자료실</span>
-                </a>
+				<a href="#" style="font-weight:bold" class="showArchiveList">전사자료실<input type="hidden" value='1' name='folderNo'></a>
+                
                 <ul class="submenu active" style="list-style:none;">
-                	<c:if test="${!empty archiveFolderList }">
-	                	<c:forEach var="vo" items="${archiveFolderList }"> 
+	                <c:forEach var="vo" items="${archiveFolderList}">
 	                		<c:if test="${vo.step==1}">
-			                    <li class="sidebar-item active has-sub">
-			                    	<c:if test="${vo.hasChild=='Y'}">
-				                    	<a href="#" class="sidebar-link chevron-right">
-				                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
-				                    	</a>
-			                    	</c:if>
-			                        <a href="#">${vo.name}</a>
-			                        <c:if test="${vo.hasChild=='Y'}">
+	                			<c:if test="${vo.hasChild=='Y'}">
+			                    	<li class="sidebar-item active has-sub">
+			              			<a href="#" class="sidebar-link chevron-right">
+			                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
+			                    	</a>
+				                    <a href="#" class="showArchiveList">${vo.name}<input type="hidden" value='${vo.no}' name='folderNo'></a>
 				                        <ul class="submenu active" style="list-style:none">
-				                    		<!-- forEach -->
-				                    		<c:forEach var="vo2" items="${archiveFolderList }"> 
-				                    			<c:if test="${vo2.step==2 && vo2.parentNo==vo.no}">
-				                    				 <li class="sidebar-item active has-sub">
-				                    				 	<c:if test="${vo2.hasChild=='Y'}">
-									                    	<a href="#" class="sidebar-link chevron-right">
+							                <c:forEach var="vo2" items="${archiveFolderList}">
+							                		<c:if test="${vo2.step==2 && vo.no==vo2.parentNo}">
+							                			<c:if test="${vo2.hasChild=='Y'}">
+									                    	<li class="sidebar-item active has-sub">
+									              			<a href="#" class="sidebar-link chevron-right">
 									                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
 									                    	</a>
-								                    	</c:if>
-								                    	<a href="#">${vo2.name}</a>
-						                    			<c:if test="${vo2.hasChild=='Y'}">
-						                    				<ul class="submenu active" style="list-style:none">
-									                    		<c:forEach var="vo3" items="${archiveFolderList }">
-									                    			<c:if test="${vo3.step==3 && vo3.parentNo==vo2.no}">
-									                    				 <li class="sidebar-item active has-sub">
-									                    				 	<c:if test="${vo3.hasChild=='Y'}">
-														                    	<a href="#" class="sidebar-link chevron-right">
+										                    <a href="#" class="showArchiveList">${vo2.name}<input type="hidden" value='${vo2.no}' name='folderNo'></a>
+										                        <ul class="submenu active" style="list-style:none">
+															        <c:forEach var="vo3" items="${archiveFolderList}">
+												                		<c:if test="${vo3.step==3 && vo2.no==vo3.parentNo}">
+												                			<c:if test="${vo3.hasChild=='Y'}">
+														                    	<li class="sidebar-item active has-sub">
+														              			<a href="#" class="sidebar-link chevron-right">
 														                    		<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">
 														                    	</a>
-													                    	</c:if>
-													                    	<a href="#">${vo3.name}</a>
-											                    			<c:if test="${vo3.hasChild=='Y'}">
-											                    				<ul class="submenu active" style="list-style:none">
-														                    		<c:forEach var="vo4" items="${archiveFolderList }">
-														                    			<c:if test="${vo4.step==4 && vo4.parentNo==vo3.no}">
-														                    				<li class="submenu-item">
-																                    			<a href="#">${vo4.name}</a>
-																                    		</li>
-														                    			</c:if>
-														                    		</c:forEach>
-														                    	</ul>
+															                    <a href="#" class="showArchiveList">${vo3.name}<input type="hidden" value='${vo3.no}' name='folderNo'></a>
+															                        <ul class="submenu active" style="list-style:none">
+															                        	<c:forEach var="vo4" items="${archiveFolderList}">
+																	                		<c:if test="${vo4.step==4 && vo3.no==vo4.parentNo}">
+																	                			<li class="submenu-item">
+																									<a href="#"  class="showArchiveList">${vo4.name}<input type="hidden" value='${vo4.no}' name='folderNo'></a>
+																								</li>
+																				             </c:if>
+																	                  </c:forEach>
+															                    	</ul>
+															                    </li>
+															                </c:if>
+											                    			<c:if test="${vo3.hasChild=='N'}">
+											                    				<li class="submenu-item">
+																					<a href="#"  class="showArchiveList">${vo3.name}<input type="hidden" value='${vo3.no}' name='folderNo'></a>
+																				</li>
 											                    			</c:if>
-									                    				 </li>
-									                    			</c:if>
-									                    		</c:forEach>
-									                    	</ul>
+															             </c:if>
+												                  </c:forEach>
+										                    	</ul>
+										                    </li>
+										                </c:if>
+						                    			<c:if test="${vo2.hasChild=='N'}">
+						                    				<li class="submenu-item">
+																<a href="#"  class="showArchiveList">${vo2.name}<input type="hidden" value='${vo2.no}' name='folderNo'></a>
+															</li>
 						                    			</c:if>
-				                    				 </li>
-				                    			</c:if>
-	                    					</c:forEach>	
+										             </c:if>
+							                  </c:forEach>
 				                    	</ul>
-				                    </c:if>
-			                    </li>
-		                    </c:if>
-		                  </c:forEach>
-	                 </c:if>
-                </ul>
-             </li>
-             <br>
+				                    </li>
+				                </c:if>
+                    			<c:if test="${vo.hasChild=='N'}">
+                    				<li class="submenu-item">
+										<a href="#"  class="showArchiveList">${vo.name}<input type="hidden" value='${vo.no}' name='folderNo'></a>
+									</li>
+                    			</c:if>
+				             </c:if>
+	                   </c:forEach>
+				  </ul>
+				  </li>
+             	<br>
              <li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
                     <!-- <i class="bi bi-stack"></i> -->
@@ -142,7 +217,6 @@
              		+ 자료실 추가
              	</a>
              </li>
-             
          </ul>
 	</div>
 </section>

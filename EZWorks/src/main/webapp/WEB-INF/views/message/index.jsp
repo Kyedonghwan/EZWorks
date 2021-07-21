@@ -10,11 +10,11 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   
-<link href="${pageContext.servletContext.contextPath}/assets/css/message.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.servletContext.contextPath}/resources/css/message/message.css" rel="stylesheet" type="text/css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="${pageContext.servletContext.contextPath }/assets/js/common.js" type="text/javascript"></script>
-<script src="${pageContext.servletContext.contextPath }/assets/js/message.js" type="text/javascript"></script>
+  <script src="${pageContext.servletContext.contextPath }/resources/js/message/common.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath }/resources/js/message/message.js" type="text/javascript"></script>
 </head>
 <body>
 

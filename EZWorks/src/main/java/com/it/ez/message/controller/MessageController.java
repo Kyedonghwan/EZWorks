@@ -1,6 +1,8 @@
 package com.it.ez.message.controller;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +25,11 @@ import com.it.ez.message.model.UserVo;
 @Controller
 @RequestMapping( "/message" )
 public class MessageController {
+	private static final Logger logger
+	=LoggerFactory.getLogger(MessageController.class);
+	
 	@Autowired
 	private MessageService messageService;
-
-	@RequestMapping("/messageList")
-	public void showboard() {
-		
-	}
 	
 	@RequestMapping("")
 	public String message(@AuthUser UserVo authUser, Model model) {
@@ -41,10 +41,10 @@ public class MessageController {
 		model.addAttribute( "list", list );
 		
 		
-		return "message/index";
+		return "message/messageList";
 	}
 	
-	@GetMapping("/view")
+	@GetMapping("/write")
 	public String view(@RequestParam(value = "messageId", required = true) String messageId,
 			Model model) {
 		
@@ -56,14 +56,14 @@ public class MessageController {
 		
 		model.addAttribute("sender", resVo.getSender());
 		model.addAttribute("message", resVo.getMessage());
-		return "message/view";
+		return "message/write";
 	}
 	
 	
 	@RequestMapping( value="/deleteMessage", method=RequestMethod.POST)
 	public String deleteMessage(@ModelAttribute MessageVo messageVo) {
 		int count = messageService.deleteMessage(messageVo);
-		return "message/index";
+		return "message/messageList";
 	}
 	
 	

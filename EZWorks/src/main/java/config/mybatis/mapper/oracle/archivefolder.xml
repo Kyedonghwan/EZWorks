@@ -7,7 +7,22 @@
 		select * from archivefolder where empno=#{empno}
 	</select>
 	
+	<select id="selectChildren" parameterType="int" resultType="archiveFolderVo">
+		select * from archivefolder where parentNo=#{no}
+	</select>
 	
+	<insert id="insertArchiveFolder" parameterType="archiveFolderVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select ARCHIVEFOLDER_SEQ.nextval from dual
+		</selectKey>
+		insert into archiveFolder
+		select #{no},#{parentNo},#{name},#{empNo},step+1,'N'
+		from archiveFolder where no=#{parentNo}
+	</insert>
+	
+	<update id="updateParent" parameterType="int">
+		update archiveFolder set hasChild='Y' where no=#{no}
+	</update>
 </mapper>
 
 

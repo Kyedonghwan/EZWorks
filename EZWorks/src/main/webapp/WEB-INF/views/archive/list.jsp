@@ -11,10 +11,72 @@
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <script>
 	$(function(){
+		var makeFolderCheck=true;
 		$('#fileUpload').click(function(){
 			$('#uploadModal').modal('show');
 		})
+		$('#makeFolder').click(function(){
+			if(makeFolderCheck){
+				makeFolderCheck=false;
+				var str="<div style='width:430px;padding:10px;font-weight:bold;border:1px dotted #e4dfdf;border-radius:5px'>";
+	    		str+="새 폴더명: <input type='text' class='form-control' id='newFolderName' placeholder='폴더 이름을 추가하세요' style='width: 200px;height:25px;display:inline'>";
+	    		str+="<button type='button' class='btn btn-primary btn-sm' id='okMakeFolder'>확인</button>";
+	    		str+="<button type='button' class='btn btn-primary btn-sm' id='cancelMakeFolder'>취소</button></div>";
+				$(this).siblings().eq(3).after(str);
+				$('#okMakeFolder').prev().focus();	
+			}
+		})
 		
+		
+		
+		
+		$(document).on("click",'#cancelMakeFolder',function(){
+			makeFolderCheck=true;
+			$('#makeFolder').siblings().eq(4).remove();
+		});
+		
+		$(document).on("click",'#okMakeFolder',function(){
+			var folderNo=$('#currentFolderNo').val();
+			var currentFolderName=$('#currentFolderName').text();
+			var newName=$('#newFolderName').val();
+			$.ajax({
+				url:"<c:url value='/archiveFolder/insert'/>",
+				type:"post",
+				data:{parentNo:folderNo,name:newName},
+				dataType:"json",
+				success:function(res){
+					var temp=$('input[name="folderNo"][value='+folderNo+']');
+					if(temp.parent().next().length>0){
+						var str="<li class='submenu-item'>";
+						str+="<a href='#' class='showArchiveList'>"+newName+"<input type='hidden' value='"+res+"' name='folderNo'></a>";
+						
+						str+="</li>";
+						temp.parent().next().prepend(str);
+					}else{
+						console.log(temp.parent().parent().attr('class'));
+						temp.parent().parent().empty;
+						var str="<li class='sidebar-item active has-sub'>";
+              			str+="<a href='#' class='sidebar-link chevron-right'>";
+                		str+="<img src='<c:url value='/resources/images/accordion/chevron-down.svg'/>' class='unfold'></a>";
+                    	str+="<a href='#' class='showArchiveList'>"+currentFolderName+"<input type='hidden' value='"+folderNo+"' name='folderNo'></a>";
+						str+="<ul class='submenu active' style='list-style:none'>";
+						str+="<li class='submenu-item'>";
+						str+="<a href='#'  class='showArchiveList'>"+newName+"<input type='hidden' value='"+res+"' name='folderNo'></a>";
+						str+="</li>";
+						str+="</ul></li>";
+						console.log(temp.parent().parent().attr('class'));
+						temp.parent().parent().html(str);
+					} 
+						
+					$.showFolderList();
+				},
+				error:function(xhr,status,error){
+					alert("error!!"+error);
+				}
+			})
+			makeFolderCheck=true;
+			$('#makeFolder').siblings().eq(4).remove();
+		});
 	})
 </script>
 <style>
@@ -25,13 +87,20 @@
 <div class="container">
    
     <!-- end row -->
-	
+	<section style="height:64px;padding:24px 24px 16px">
+		<h5>
+			<a id="currentFolderName">전사자료실
+				<input type="hidden" id="currentFolderNo" value="1">
+			</a>			
+		</h5>
+	</section>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive project-list">
-                    	<button type="button" class="btn btn-primary btn-sm">새폴더</button>
+  
+                    	<button type="button" class="btn btn-primary btn-sm" id="makeFolder">새폴더</button>
 						<button type="button" class="btn btn-primary btn-sm">다운로드</button>
 						<button type="button" class="btn btn-primary btn-sm">삭제</button>
 						<button type="button" class="btn btn-primary btn-sm">복사</button>
@@ -48,18 +117,7 @@
                                     <th scope="col" style="width:11%">다운받은 수</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" value=""></td>
-                                    <td style="width:45%">New admin Design</td>
-                                    <td>
-                                        28.6M
-                                    </td>
-                                    <td>pdf</td>
-                                    <td>신라면</td>
-                                    <td>02/5/2019</td>
-                                    <td style="width:11%">13</td>
-                                </tr>
+                            <tbody id="tbody">
                             </tbody>
                         </table>
                     </div>
