@@ -10,20 +10,20 @@ import lombok.ToString;
 @Setter
 @ToString
 public class C_boardContentVO {
-	private int no;
-    private String writer;
+	private int contentNo;
+    private String name;
     private String title;
-    private String content;
+    private String text;
     private Timestamp regdate;
-    private int readCount;
+    private int readCounts;
     
     // 파일 업로드 추가
     private int groupNo;
-    private int step;
+    private int steps;
     private int sortNo;
-    private String img;
+    private String images;
     private String fileName;
     private int fileSize;
     private String originalFileName;
-    private int downCount;
+    private int downCounts;
 }

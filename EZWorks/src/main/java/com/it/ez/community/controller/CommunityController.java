@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
 import com.it.ez.communityBoard.model.C_boardContentVO;
+import com.it.ez.communityBoard.model.C_boardService;
 import com.it.ez.communityBoard.model.C_boardVO;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class CommunityController {
 		= LoggerFactory.getLogger(CommunityController.class);
 	
 	private final CommunityService communityService;
+	private final C_boardService c_boardSerivce;
 	
 	@GetMapping("/communityMain")
 	public void community() {
@@ -72,7 +74,7 @@ public class CommunityController {
 		logger.info("커뮤니티 정보 보기");
 		
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board(no);
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
@@ -89,8 +91,8 @@ public class CommunityController {
 		
 		CommunityVO vo= communityService.selectCommunityByNo(no);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board(no);
-		List<C_boardContentVO> contentList= communityService.selectC_boardContent();
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
+		List<C_boardContentVO> contentList= c_boardSerivce.selectC_boardContent();
 		logger.info("개별 커뮤니티 처리결과, vo={}, boardList={}, contentList={}", 
 				vo, boardList, contentList);
 		
@@ -108,7 +110,7 @@ public class CommunityController {
 		logger.info("커뮤니티 게시판 글쓰기 페이지");
 		
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= communityService.selectC_board(no);
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
@@ -122,7 +124,7 @@ public class CommunityController {
 	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
 			Model model) {
 		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 vo={}", contentVo);
-		int cnt = communityService.insertBoardContent(contentVo);
+		int cnt = c_boardSerivce.insertBoardContent(contentVo);
 		
 		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/communityWrite";
 		if(cnt>0) {

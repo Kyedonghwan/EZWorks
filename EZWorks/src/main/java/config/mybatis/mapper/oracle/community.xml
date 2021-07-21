@@ -7,46 +7,19 @@
 		<selectKey keyProperty="communityNo" resultType="int" order="BEFORE">
 			select community_seq.nextval from dual
 		</selectKey>
-		insert into community(community_No, community_Name, intro, publicSet)
+		insert into community(communityNo, communityName, intro, publicSet)
 		values(#{communityNo}, #{communityName}, #{intro}, #{publicSet})
 	</insert>
 	
 	<select id="selectCommunity" resultType="CommunityVO">
 		select * from community
-		order by community_No desc
+		order by communityNo desc
 	</select>
 	
 	<select id="selectCommunityByNo" parameterType="int" resultType="CommunityVO">
 		select * from community
-		where community_No=#{communityNo}
-	</select>
-	
-	<insert id="insertC_board" parameterType="C_boardVO">
-		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
-			select c_board_seq.nextval from dual
-		</selectKey>
-		insert into c_board(board_No, board_Name, board_Master, intro, publicSet)
-		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
-	</insert>
-	
-	<insert id="insertBoardContent" parameterType="C_boardContentVO">
-		insert into c_boardContent(no, writer, title, content, 
-			  img, fileName, fileSize, originalFileName, groupNo)
-		values(c_boardContent_seq.nextval, #{writer}, #{title}, 
-			  #{content}, #{img}, #{fileName}, #{fileSize}, #{originalFileName}, #{no})
-	</insert>
-	
-	<select id="selectC_board" parameterType="communityNo" resultType="C_boardVO">
-		select * from c_board
-		where community_No=#{communityNo}
-		order by board_No
-	</select>
-	
-	<select id="selectC_boardContent" resultType="C_boardContentVO">
-		select * from c_boardContent
-		order by no desc
-	</select>
-	
+		where communityNo=#{communityNo}
+	</select>	
 </mapper>
 
 

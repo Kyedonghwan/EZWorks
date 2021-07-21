@@ -28,25 +28,4 @@ public class CommunityServiceImpl implements CommunityService{
 		return communityDao.selectCommunityByNo(communityNo);
 	}
 
-	@Override
-	public int insertC_board(C_boardVO boardVo) {
-		return communityDao.insertC_board(boardVo);
-	}
-
-	@Override
-	public int insertBoardContent(C_boardContentVO contentVo) {
-		return communityDao.insertBoardContent(contentVo);
-	}
-
-	@Override
-	public List<C_boardVO> selectC_board(int communityNo) {
-		return communityDao.selectC_board(communityNo);
-	}
-
-	@Override
-	public List<C_boardContentVO> selectC_boardContent() {
-		return communityDao.selectC_boardContent();
-	}
-
-
 }
