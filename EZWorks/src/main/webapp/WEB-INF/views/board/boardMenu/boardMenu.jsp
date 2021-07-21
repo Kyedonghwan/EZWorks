@@ -15,7 +15,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="#" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
 				글쓰기
 			</a>
 	</div>
@@ -59,35 +59,7 @@
                 </ul>
              </li>
              <br>
-             <li class="sidebar-item active has-sub">
-                <a href="#" class='sidebar-link'>
-                    <!-- <i class="bi bi-stack"></i> -->
-                    <span style="font-weight:bold">부서게시판</span>
-                </a>
-                <ul class="submenu active" style="list-style:none">
-                    <li class="sidebar-item active has-sub">
-                        <a href="#" class='sidebar-link'>영업팀<!-- require parameter --></a>
-                    	<ul class="submenu active" style="list-style:none">
-                    		<!-- forEach -->
-                    		<li class="submenu-item">
-                    			<a href="#">영업실적보고</a>
-                    		</li>
-                    		<li class="submenu-item">
-                    			<a href="#">익명게시판</a>
-                    		</li>
-                    		<li class="submenu-item">
-                    			<a href="#">영업실적보고</a>
-                    		</li>
-                    	</ul>
-                    
-                    </li>
-                </ul>
-             </li>
-             <li>
-             	<a href="#" style="font-weight:bold;color:#999">
-             		+ 게시판 추가
-             	</a>
-             </li>
+             
              
          </ul>
 	</div>

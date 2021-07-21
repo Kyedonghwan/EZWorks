@@ -20,5 +20,25 @@ public class MessageServiceImpl implements MessageService{
 	public List<MessageVO> selectAll() {
 		return messageDao.selectAll();
 	}
+
+	@Override
+	public MessageVO selectByNo(int no) {
+		return messageDao.selectByNo(no);
+	}
+
+	@Override
+	public int deleteMessage(int no) {
+		return messageDao.deleteMessage(no);
+	}
+
+	@Override
+	public boolean checkPwd(int no, String pwd) {
+		String dbPwd = messageDao.selectPwd(no);
+		boolean result = false;
+		if(pwd.equals(dbPwd)) {
+			result = true;
+		}
+		return result;
+	}
 	
 }

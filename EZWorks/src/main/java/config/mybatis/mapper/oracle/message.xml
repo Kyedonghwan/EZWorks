@@ -11,6 +11,19 @@
 	<select id="selectAll" resultType="messageVo">
 		select * from message order by no
 	</select>
+	
+	<select id="selectByNo" parameterType="int" resultType="messageVo">
+		select * from message where no=#{no}
+	</select>
+	
+	<select id="selectPwd" parameterType="int" resultType="String">
+		select pwd from message where no=#{no}
+	</select>
+	
+	<delete id="deleteMessage" parameterType="int">
+		delete message
+		where no=#{no}
+	</delete>
 </mapper>
 
 

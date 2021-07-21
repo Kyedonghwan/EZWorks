@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.it.ez.message.model.MessageService;
 import com.it.ez.message.model.MessageVO;
@@ -44,8 +45,8 @@ public class MessageController {
 		int cnt = messageService.insertMessage(vo);
 		logger.info("write 등록 결과, cnt={}",cnt);
 		if(cnt>0) {
-			msg="글이 등록되었습니다.";
-			url="/message/messagelist";
+			msg="쪽지 등록 완료";
+			url="/message/messageList";
 		}
 		
 		//3
@@ -55,7 +56,7 @@ public class MessageController {
 		return "common/message";
 	}
 	
-	@GetMapping("/messagelist")
+	@GetMapping("/messageList")
 	public String list(Model model) {
 		//1
 		logger.info("list 화면 보여주기");
@@ -67,7 +68,70 @@ public class MessageController {
 		//3
 		model.addAttribute("list", list);
 		
-		return "message/messagelist";
+		return "message/messageList";
+	}
+	
+	@GetMapping("/messagedetail")
+	public String detail(@RequestParam(defaultValue = "0") int no, Model model) {
+		//1
+		logger.info("상세 화면 보여주기, 파라미터 no={}",no);
+		if(no==0) {
+			model.addAttribute("msg", "잘못된 url입니다.");
+			model.addAttribute("url", "message/messageList");
+			
+			return "common/message";
+		}
+		
+		//2
+		MessageVO vo = messageService.selectByNo(no);
+		logger.info("detail 화면 결과, vo={}",vo);
+		
+		//3
+		model.addAttribute("vo", vo);
+		
+		return "message/messagedetail";
+	}
+	
+	@GetMapping("/messagedelete")
+	public String delete(@RequestParam int no, Model model) {
+		//1
+		logger.info("삭제 화면 보여주기, 파라미터 no={}",no);
+		if(no==0) {
+			model.addAttribute("msg", "잘못된 url입니다.");
+			model.addAttribute("url", "message/messageList");
+			
+			return "common/message";
+		}
+		
+		//2
+		//3
+		model.addAttribute("no", no);
+		
+		return "message/messagedelete";
+	}
+	
+	@PostMapping("/messagedelete")
+	public String delete_post(@ModelAttribute MessageVO vo, Model model) {
+		//1
+		logger.info("삭제 처리, 파라미터 no={}, pwd={}", vo.getNo(), vo.getPwd());
+		
+		//2
+		String msg="쪽지 삭제 실패", url="/guestbook/delete?no="+vo.getNo();
+		if(messageService.checkPwd(vo.getNo(), vo.getPwd())) {
+			int cnt=messageService.deleteMessage(vo.getNo());
+			if(cnt>0) {
+				msg="쪽지 삭제 완료";
+				url="/message/messageList";
+			}
+		}else {
+			msg="비밀번호가 일치하지 않습니다.";
+		}
+		
+		//3
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
 	}
 
 }
