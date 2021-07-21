@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.it.ez.message.common.ConstUtil;
+import com.it.ez.message.common.PaginationInfo;
+import com.it.ez.message.common.SearchVO;
 import com.it.ez.message.model.MessageService;
 import com.it.ez.message.model.MessageVO;
 
@@ -56,17 +59,34 @@ public class MessageController {
 		return "common/message";
 	}
 	
-	@GetMapping("/messageList")
-	public String list(Model model) {
+	@RequestMapping("/messageList")
+	public String list(@ModelAttribute SearchVO searchVo, Model model) {
 		//1
-		logger.info("list 화면 보여주기");
+		logger.info("쪽지 목록 페이지, 파라미터 searchVo={}", searchVo);
+		
+		//페이징 처리
+		//[1] PaginationInfo 객체 생성
+		PaginationInfo pagingInfo = new PaginationInfo();
+		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		
+		//[2] SearchVo에 paging관련 변수값 셋팅
+		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		logger.info("페이지번호 관련 셋팅 후 searchVo={}", searchVo);
 		
 		//2
-		List<MessageVO> list = messageService.selectAll();
-		logger.info("list 화면 결과, list.size={}",list.size());
+		List<MessageVO> list=messageService.selectAll(searchVo);
+		logger.info("쪽지 전체 조회 결과, list.size={}", list.size());
+		
+		int totalRecord=messageService.selectTotalRecord(searchVo);
+		logger.info("totalRecord="+totalRecord);
+		pagingInfo.setTotalRecord(totalRecord);
 		
 		//3
 		model.addAttribute("list", list);
+		model.addAttribute("pagingInfo", pagingInfo);
 		
 		return "message/messageList";
 	}

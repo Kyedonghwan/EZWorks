@@ -7,10 +7,15 @@
 		color:black;
 		font-size:0.85em;
 	 }	
+	h5{
+		 text-align: center;
+	} 
 </style>
+<br><br>
 <section style="height:64px;padding:24px 24px 16px;">
+	
 	<h5>
-		<a>쪽지</a>
+		<a style="font-size: 120%">쪽지</a>
 	</h5>
 </section>
 <section style="height:64px;padding:0px 24px 16px;">

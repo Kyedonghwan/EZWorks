@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.it.ez.message.common.SearchVO;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,10 +18,6 @@ public class MessageServiceImpl implements MessageService{
 		return messageDao.insertMessage(vo);
 	}
 
-	@Override
-	public List<MessageVO> selectAll() {
-		return messageDao.selectAll();
-	}
 
 	@Override
 	public MessageVO selectByNo(int no) {
@@ -39,6 +37,18 @@ public class MessageServiceImpl implements MessageService{
 			result = true;
 		}
 		return result;
+	}
+
+
+	@Override
+	public List<MessageVO> selectAll(SearchVO searchVo) {
+		return messageDao.selectAll(searchVo);
+	}
+
+
+	@Override
+	public int selectTotalRecord(SearchVO searchVo) {
+		return messageDao.selectTotalRecord(searchVo);
 	}
 	
 }

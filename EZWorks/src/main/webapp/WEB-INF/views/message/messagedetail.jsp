@@ -44,9 +44,9 @@
 			</p>
 		</div>
 		<div class="center">
-        	<a href='<c:url value='/guestbook/delete?no=${param.no}'/>'>
+        	<a href='<c:url value='/message/messagedelete?no=${param.no}'/>'>
         		쪽지삭제</a> |
-        	<a href='<c:url value='/guestbook/list'/>'>쪽지목록</a>			
+        	<a href='<c:url value='/message/messageList'/>'>쪽지목록</a>			
 		</div>
 	</div>
 

@@ -3,14 +3,41 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.it.ez.message.model.MessageDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
+		</if>
+	</sql>
+
 	<insert id="insertMessage" parameterType="messageVo">
 		insert into message
 		values(message_seq.nextval,#{name},#{pwd},#{content},sysdate)
 	</insert>
 	
-	<select id="selectAll" resultType="messageVo">
-		select * from message order by no
+	<select id="selectAll" parameterType="searchVo" resultType="messageVo">
+		select *
+		from
+		(
+		    select rownum as RNUM,A.*
+		    from
+		    (
+		        select * from message 
+		        <include refid="searchWhere"></include>
+		        order by no desc
+		    )A
+		)
+		<![CDATA[
+		where RNUM > #{firstRecordIndex} 
+		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
+		]]>
 	</select>
+	
+	<select id="selectTotalRecord" parameterType="SearchVo"
+		resultType="int">
+		select count(*) from message 
+        <include refid="searchWhere"></include>
+	</select>
+	
 	
 	<select id="selectByNo" parameterType="int" resultType="messageVo">
 		select * from message where no=#{no}
@@ -24,6 +51,21 @@
 		delete message
 		where no=#{no}
 	</delete>
+	
+	<select id="getMessageList" resultType="com.it.ez.message.model.MessageDAO">
+
+		SELECT
+
+			message_seq.nextval,#{name},#{pwd},#{content},sysdate
+
+		FROM
+
+			message
+
+		LIMIT #{startList}, #{listSize}
+
+	</select>
+
 </mapper>
 
 

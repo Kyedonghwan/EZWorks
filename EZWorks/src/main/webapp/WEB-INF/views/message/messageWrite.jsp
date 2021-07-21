@@ -15,6 +15,16 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/mystyle.css'/>" /> 
+<style type="text/css">
+	a{
+		color:black;
+		font-size:0.85em;
+	 }	
+	h2{
+		text-align: center;
+	} 
+
+</style>
 
 <script type="text/javascript">
 	$(function(){
@@ -50,7 +60,7 @@
             <input type="password" id="pwd" name="pwd" class="infobox" />
         </div>
         <div>  
-        	<label for="content">내용</label>        
+        	<label for="content">내용</label> 
  			<textarea id="content" name="content" rows="12" cols="30"></textarea>
         </div>
         <div class="center">
