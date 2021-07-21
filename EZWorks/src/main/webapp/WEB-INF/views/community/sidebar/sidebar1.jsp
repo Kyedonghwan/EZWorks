@@ -19,7 +19,10 @@
 		width: 195px;
 		padding-left: 15px;
 	}
-</style>    
+</style>
+<script type="text/javascript">
+	
+</script>    
 <div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
 	</div>
@@ -34,17 +37,17 @@
                 data-bs-target="#collapseOne" aria-expanded="false"
                 aria-controls="collapseOne" role="button">
              <span><img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>"></span>
-	         <span class="collapsed collapse-title">가입 커뮤니티</span>
+	         <span class="collapsed collapse-title">${vo.communityName}</span>
             </div>
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
                 data-parent="#cardAccordion">
 	        <div class="listContent">
 		        <c:if test="${!empty list}">
 			        <c:forEach var="vo" items="${list}">
-			             <span><a href="<c:url value='/community/communityOne?community_No=${vo.communityNo}'/>">
-			             	${vo.communityName}</a>
-			             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" 
-			             	float="right" align="absmiddle">
+			             <span>
+			             	<a href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
+			             	<a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
+			             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" float="right" align="absmiddle"></a>
 			             </span><br>
 			        </c:forEach>
 		        </c:if>

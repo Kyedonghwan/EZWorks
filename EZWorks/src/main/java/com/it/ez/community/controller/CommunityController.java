@@ -31,8 +31,18 @@ public class CommunityController {
 	private final C_boardService c_boardSerivce;
 	
 	@GetMapping("/communityMain")
-	public void community() {
+	public String community(Model model) {
 		logger.info("커뮤니티 메인 페이지");
+		
+		List<CommunityVO> list=communityService.selectCommunity();
+		List<C_boardContentVO> contentList= c_boardSerivce.selectC_boardContent();
+		logger.info("커뮤니티 개설 처리결과, list.size={}, contentList.size={}", 
+				list.size(), contentList.size());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("contentList", contentList);
+		
+		return "community/communityMain";
 	}
 	
 	@GetMapping("/communityNew")
@@ -69,32 +79,34 @@ public class CommunityController {
 	}
 
 	@GetMapping("/communityDetail")
-	public String detailCommunity(@RequestParam(defaultValue = "0") int no, 
+	public String detailCommunity(@RequestParam(defaultValue = "0") int communityNo, 
 			Model model) {
-		logger.info("커뮤니티 정보 보기");
+		logger.info("커뮤니티 정보 보기, 파라미터 communityNo={}", communityNo);
 		
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
+		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
+		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
-		model.addAttribute("BoardList", boardList);
+		model.addAttribute("boardList", boardList);
 
 		return "community/communityDetail";
 	}
 	
 	
 	@GetMapping("/communityOne")
-	public String oneCommunity(@RequestParam(defaultValue = "0")int no, Model model) {
-		logger.info("개별 커뮤니티 페이지, 파라미터 no={}", no);
+	public String oneCommunity(@RequestParam(defaultValue = "0")int communityNo, Model model) {
+		logger.info("개별 커뮤니티 페이지, 파라미터 communityNo={}", communityNo);
 		
-		CommunityVO vo= communityService.selectCommunityByNo(no);
+		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
 		List<C_boardContentVO> contentList= c_boardSerivce.selectC_boardContent();
-		logger.info("개별 커뮤니티 처리결과, vo={}, boardList={}, contentList={}", 
-				vo, boardList, contentList);
+		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}, contentList.size={}", 
+				vo, list.size(), boardList.size(), contentList.size());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);

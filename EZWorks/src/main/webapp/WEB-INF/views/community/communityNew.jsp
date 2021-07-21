@@ -66,12 +66,12 @@
                                	  <div class="form-check">
                                         <input class="form-check-input" type="radio" name="publicSet"
                                              id="publicSet1" value="Y" checked>
-                                        <label class="form-check-label" for="publicSet1">공개</label>&nbsp&nbsp&nbsp
+                                        <label class="form-check-label" for="publicSet">공개</label>&nbsp&nbsp&nbsp
                                   </div>
                                   <div class="form-check">
                                   		<input class="form-check-input" type="radio" name="publicSet"
                                             id="publicSet2" value="N">
-                                        <label class="form-check-label" for="publicSet2">비공개</label>
+                                        <label class="form-check-label" for="publicSet">비공개</label>
                                     </div>
                                	</div>
                                    <p class="notice">※ 공개로 설정 할 경우, 멤버가 아니어도 게시물을 열람할 수 있습니다.</p>

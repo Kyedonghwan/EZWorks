@@ -35,12 +35,12 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span>가입 커뮤니티<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>${vo.communityName}<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
             </button>
             <div class="dropdown-menu">
 				<c:forEach var="vo" items="${list}">
                   <span><a class="dropdown-item" 
-                  	href="<c:url value='/community/communityOne?community_No=${vo.communityNo}'/>">${vo.communityName}
+                  	href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}
                   	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
 				</c:forEach>
             </div>

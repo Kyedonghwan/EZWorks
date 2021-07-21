@@ -12,4 +12,6 @@ public class CommunityVO {
     private String communityName;
     private String intro;
     private String publicSet;
+    private String communityMaster;
+    private String communitySub;
 }

@@ -18,7 +18,7 @@
 			  #{text}, #{images}, #{fileName}, #{fileSize}, #{originalFileName}, #{no})
 	</insert>
 	
-	<select id="selectC_board" parameterType="communityNo" resultType="C_boardVO">
+	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
 		select * from c_board
 		where communityNo=#{communityNo}
 		order by boardNo
@@ -26,7 +26,7 @@
 	
 	<select id="selectC_boardContent" resultType="C_boardContentVO">
 		select * from c_boardContent
-		order by no desc
+		order by contentNo desc
 	</select>
 	
 </mapper>
