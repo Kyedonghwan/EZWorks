@@ -15,7 +15,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="<c:url value='/message/write'/>" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+			<a href="${pageContext.servletContext.contextPath }/messageWrite" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
 				쪽지쓰기
 			</a>
 	</div>

@@ -1,22 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="../include/top.jsp" %>
-<%@ include file="messageMenu/MessageMenu.jsp"%>
-<%@ include file="../include/middle.jsp"%>
-<nav id="top_gnb">
-<a href="${pageContext.servletContext.contextPath }/searchemployee" class="menu item_1"></a>
-<a href="${pageContext.servletContext.contextPath }/message" class="menu item_2"></a>
-</nav>
-<br>
-<br>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+
+
 
 <h2>쪽지 리스트</h2>
-<br>
-<br>
-<br>
+
 <table class="board_list">
 	<colgroup>
 		<col width="10%" />
@@ -24,7 +16,6 @@
 		<col width="15%" />
 		<col width="20%" />
 	</colgroup>
-
 	<thead>
 		<tr>
 			<th scope="col">발신자</th>
@@ -73,6 +64,3 @@
 	</tbody>
 </table>
 <br />
-
-
-<%@ include file="../include/bottom.jsp" %>
