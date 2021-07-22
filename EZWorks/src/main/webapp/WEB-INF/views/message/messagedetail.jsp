@@ -17,6 +17,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/formLayout.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mystyle.css'/>" />
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 <script type="text/javascript" 
 	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <style type="text/css">
@@ -27,29 +29,35 @@
 	.divForm {
 		width: 500px;
 		}
+	.write-form {
+	  width: 70%;
+	  margin: 0 auto;
+	}
 </style>  
 </head>
+<nav>
+<br>
+</nav>
 <body>
+<form class="write-form">
 	<h2>쪽지 상세보기</h2>
-	<div class="divForm">
-		<div class="firstDiv">
-			<span class="sp1">작성자</span> <span>${vo.name}</span>
-		</div>
-		<div>
-			<span class="sp1">등록일</span> <span>${vo.regdate}</span>
-		</div>
-		<div class="lastDiv">
-			<% pageContext.setAttribute("newLine", "\r\n"); %>
-			<p class="content">${fn:replace(vo.content, newLine, "<br>") }
-			</p>
-		</div>
-		<div class="center">
-        	<a href='<c:url value='/message/messagedelete?no=${param.no}'/>'>
-        		쪽지삭제</a> |
-        	<a href='<c:url value='/message/messageList'/>'>쪽지목록</a>			
-		</div>
-	</div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">작성자</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo.name}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">등록일</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo.regdate}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">쪽지내용</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">${fn:replace(vo.content, newLine, "<br>") }</textarea>
+  </div>
+</form>
+	<div style="text-align: center">
+		<button type="button" class="btn btn-outline-primary" onclick="location.href='<c:url value='/message/messagedelete?no=${param.no}'/>'">쪽지삭제</button>
+		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/messageList'/>'">쪽지목록</button>		
+</div>
 
-	
 </body>
 </html>

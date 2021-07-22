@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/mystyle.css'/>" /> 
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/bootstrap.js"></script>
 <style type="text/css">
 	a{
 		color:black;
@@ -23,7 +25,10 @@
 	h2{
 		text-align: center;
 	} 
-
+	.write-form {
+	  width: 70%;
+	  margin: 0 auto;
+	}
 </style>
 
 <script type="text/javascript">
@@ -46,35 +51,35 @@
 </script>
 </head>
 <body>
-<div class="divForm">
-<form name="frmWrite" method="post" 
+<div>
+<form class="write-form" name="frmWrite" method="post" 
 	action="<c:url value='/message/messageWrite'/>" >
  <fieldset>
-	<legend style="text-align: center">쪽지작성</legend>
-        <div>
+ 	<br>
+	<legend>쪽지 작성</legend>
+        <div class="form-group">
             <label for="name">작성자</label>
-            <input type="text" id="name" name="name" class="infobox" />
+            <br><br>
+            <input type="text" class="form-control" id="name" name="name" class="infobox" />
+        </div >
+        <div class="form-group">
+            <label for="pwd">비밀번호</label>
+            <br><br>
+            <input type="password" class="form-control" id="pwd" name="pwd" class="infobox" />
         </div>
-        <div>
-            <label for="pwd">패스워드</label>
-            <input type="password" id="pwd" name="pwd" class="infobox" />
+        <div class="form-group">  
+        	<label for="content">내용</label>      
+        	<br><br>
+ 			<textarea id="content"  class="form-control" name="content" rows="12" cols="40"></textarea>
         </div>
-        <div>  
-        	<label for="content">내용</label> 
- 			<textarea id="content" name="content" rows="12" cols="30"></textarea>
+        <div style="text-align: center">
+            <input type = "submit" class="btn btn-primary" value="등록"/>
+            <input type = "Button" class="btn btn-primary" value="쪽지목록" class="btList"/>         
         </div>
-        <div class="center">
-            <input type = "submit" value="쪽지등록"/>
-            <input type = "Button" value="쪽지목록" class="btList"/>         
-        </div>
-	<footer id="main_footer" style="text-align: center">
-		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
-		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
-		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
-    </footer>
     </fieldset>
 </form>
 </div>   
+ 
 </body>
 </html>
 

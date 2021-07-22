@@ -20,7 +20,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
 	</div>
