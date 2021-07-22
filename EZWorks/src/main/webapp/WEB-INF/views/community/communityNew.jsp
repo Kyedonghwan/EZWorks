@@ -45,8 +45,8 @@
                                    <label>커뮤니티 명</label>
                                </div>
                                <div class="col-md-10 form-group">
-                                   <input type="text" id="community_Name" class="form-control"
-                                       name="community_Name" placeholder="커뮤니티 명을 적어주세요">
+                                   <input type="text" id="communityName" class="form-control"
+                                       name="communityName" placeholder="커뮤니티 명을 적어주세요">
                                </div>
                                <div class="col-md-2" id="label">
                                    <label>소개</label>

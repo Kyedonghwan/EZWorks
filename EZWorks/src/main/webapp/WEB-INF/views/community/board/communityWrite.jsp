@@ -35,6 +35,10 @@ $(document).ready(function() {
 		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 	});
 });
+
+$(function(){
+	$('')
+});
 </script>
 
 <%@ include file="../../community/sidebar/sidebar1.jsp" %>	
@@ -48,17 +52,16 @@ $(document).ready(function() {
 		</div>
 		<div class="card-body">
 			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite'/>">
-			<input type="hidden" name="board_No" value="">
 			   <div class="col-md-10 form-group">
 	              	<select class="form-select" id="communityBoard" name="communityBoard">
 	                    <optgroup label="작성할 게시판을 선택하세요">
 	                    	<c:forEach var="vo" items="${Boardlist}">
-	                   			<option>${vo.board_Name}</option>	                    	
+	                   			<option value="${vo.boardNo }">${vo.boardName}</option>	                    	
 	                    	</c:forEach>
 	                   	</optgroup>
 	               	</select>
                </div>
-			   <textarea id="summernote" name="editordata"></textarea><br>
+			   <textarea id="summernote" name="text"></textarea><br>
 			  
 			   <div class="col-sm-12 d-flex justify-content-end">
                   <button type="submit" id="btnSubmit" 
