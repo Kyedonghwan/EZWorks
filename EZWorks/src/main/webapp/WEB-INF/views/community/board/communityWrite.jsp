@@ -38,6 +38,8 @@ $(document).ready(function() {
 
 $(function(){
 	$('#btnSubmit').click(function(){
+		$('input[name=boardNo]').val($('#selectBoard option:selected').val());
+		
 		if($('#selectBoard option:selected')){
 			$('.frmWrite').submit();
 		}else{
@@ -59,6 +61,8 @@ $(function(){
 			<h5 class="card-title">글쓰기</h5>
 		</div>
 		<div class="card-body">
+			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?communityNo=${vo.communityNo}'/>">
+			   <input type="hidden" name="boardNo">
 			   <div class="form-group row align-items-center">
 			   		<div class="col-1">
                         <label class="col-form-label" for="communityBoard">TO.</label>
@@ -73,7 +77,6 @@ $(function(){
 		               	</select>
 	            	</div>
                </div>
-			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?boardNo=${vo2.boardNo}'/>">
                <div class="row">
 	               <div class="col-6">
 		               <div class="form-group row align-items-center">

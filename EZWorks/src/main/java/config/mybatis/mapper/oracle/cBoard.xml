@@ -18,7 +18,7 @@
 		insert into c_boardContent(contentNo, boardNo, name, title, text, 
 			groupNo, images, fileName, fileSize, originalFileName)
 		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, 
-			#{contentNo}, #{images}, #{fileName}, #{fileSize}, #{originalFileName})
+			#{contentNo}, #{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, #{originalFileName, jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="selectC_board" parameterType="int" resultType="C_boardVO">

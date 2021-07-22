@@ -28,14 +28,14 @@ public class CommunityController {
 		= LoggerFactory.getLogger(CommunityController.class);
 	
 	private final CommunityService communityService;
-	private final C_boardService c_boardSerivce;
+	private final C_boardService c_boardService;
 	
 	@GetMapping("/communityMain")
-	public String community(Model model) {
+	public String communityMain(Model model) {
 		logger.info("커뮤니티 메인 페이지");
 		
 		List<CommunityVO> list=communityService.selectCommunity();
-		List<C_boardContentVO> contentList= c_boardSerivce.selectC_boardContent();
+		List<C_boardContentVO> contentList= c_boardService.selectC_boardContent();
 		logger.info("커뮤니티 개설 처리결과, list.size={}, contentList.size={}", 
 				list.size(), contentList.size());
 		
@@ -85,7 +85,7 @@ public class CommunityController {
 		
 		List<CommunityVO> list = communityService.selectCommunity();
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
+		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
 		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
@@ -103,8 +103,8 @@ public class CommunityController {
 		
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
-		List<C_boardContentVO> contentList= c_boardSerivce.selectC_boardContent();
+		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
+		List<C_boardContentVO> contentList= c_boardService.selectC_boardContent();
 		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}, contentList.size={}", 
 				vo, list.size(), boardList.size(), contentList.size());
 		
@@ -123,7 +123,7 @@ public class CommunityController {
 		
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
+		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
 		logger.info("커뮤니티 게시판 목록 결과, vo={}, list.size={}, boardList.size={}", 
 				vo, list.size(), boardList.size());
 		
@@ -140,7 +140,7 @@ public class CommunityController {
 		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={} boardNo={}", contentVo, boardNo);
 		
 		contentVo.setBoardNo(boardNo);
-		int cnt = c_boardSerivce.insertBoardContent(contentVo);
+		int cnt = c_boardService.insertBoardContent(contentVo);
 		
 		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/communityWrite";
 		if(cnt>0) {
