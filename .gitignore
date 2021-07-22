@@ -59,3 +59,11 @@ build/
 
 ### VS Code ###
 .vscode/
+/EZWorks/
+EZWorks/src/main/resources/application.properties
+*.properties
+EZWorks/src/main/resources/application.properties
+EZWorks/src/main/resources/application.properties
+EZWorks/src/main/resources/application.properties
+EZWorks/src/main/resources/application.properties
+EZWorks/src/main/resources/application.properties
