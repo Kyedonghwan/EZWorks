@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="include/top.jsp" %>
+								
+<!-- 소메뉴 구성 영역 -->								
+								
+								
+								
+									<div class="card-header">
+										<h4>메뉴 이름</h4>
+											<span style="font-size:0.8em;">대충 이렇게 줘보면...</span>
+									</div>
+									<div class="card-body" style="height:600px;">
+										<div id="area">
+											<span style="font-size:0.8em;">여기가 몸통이 들어가는건가...</span>
+										</div>
+									</div>
+									
+									
+									
+									
+									
+									
+<%@ include file="include/middle.jsp" %>
+									
+<!-- 소메뉴별 컨텐츠 구성 영역 -->									
+									
+									
+									
+										<div class="card-header">
+											<h4>부메뉴 이름</h4>
+											<span style="font-size:0.8em;">제목 들어가는 곳이구만..?</span>
+										</div>
+										<div class="card-body"  style="height:600px;">
+											<div id="radialGradient">
+												<span style="font-size:0.8em;">얘는 또 무엇인가...</span>
+											</div>
+										</div>
+										
+										
+										
+										
+										
+<%@ include file="include/bottom.jsp" %>
