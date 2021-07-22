@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ez.archive.common.ConstUtil;
 import com.it.ez.archive.common.FileUploadUtil;
+import com.it.ez.archive.model.ArchiveListVO;
 import com.it.ez.archive.model.ArchiveService;
 import com.it.ez.archive.model.ArchiveVO;
 import com.it.ez.archivefolder.model.ArchiveFolderService;
@@ -49,13 +50,11 @@ public class ArchiveController {
 	@ResponseBody
 	@RequestMapping("/upload")
 	public List<ArchiveVO> upload(HttpServletRequest request,@RequestParam int folderNo, Model model) {
-
 		
 		String fileName="";
 		long fileSize=0;
 		String originalFileName="";
 		String ext="";
-		
 		List<ArchiveVO> archiveList = new ArrayList<ArchiveVO>();
 		try {
 			List<Map<String,Object>> list = fileUploadUtil.fileUpload(request);
@@ -114,15 +113,18 @@ public class ArchiveController {
 	}
 	
 	@RequestMapping("/downloadZip")
-	public void CompressZIP(@RequestParam List<ArchiveVO> archiveVoList, HttpServletRequest request, HttpServletResponse response, Object handler) {
+	public void CompressZIP(@ModelAttribute ArchiveListVO alvo, HttpServletRequest request, HttpServletResponse response, Object handler) {
 		List<String> fileNames= new ArrayList<String>();
 		List<String> originalFileNames= new ArrayList<String>();
 		
-		for(ArchiveVO vo:archiveVoList) {
+		for(ArchiveVO vo:alvo.getMultipleFileList()) {
 			fileNames.add(vo.getFileName());
 			originalFileNames.add(vo.getOriginalFileName());
 		}
 		
+		for(String s:fileNames) {
+			System.out.println(s);
+		}
 		Date d= new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddssSSS");
 
@@ -136,27 +138,27 @@ public class ArchiveController {
 		try {
 			zout = new ZipOutputStream(response.getOutputStream());
 		
-		zout.setLevel(8);
-		
-		
-		String tempPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH);
-		
-		byte[] buffer = new byte[1024];
-
-		FileInputStream in =null;
-		
-		for(int i=0;i<fileNames.size();i++) {
-			in = new FileInputStream(new File(tempPath,fileNames.get(i))); //압축 대상 파일
-			zout.putNextEntry(new ZipEntry(originalFileNames.get(i))); //압축파일에 저장될 파일명
+			zout.setLevel(8);
 			
-			int len;
-			while((len = in.read(buffer)) > 0)
-			{ zout.write(buffer, 0, len); }//읽은 파일을 ZipOutputStream에 Write 
-
-			zout.closeEntry();
-			in.close();
-		}
-		zout.close();
+			
+			String tempPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH);
+			
+			byte[] buffer = new byte[1024];
+	
+			FileInputStream in =null;
+			
+			for(int i=0;i<fileNames.size();i++) {
+				in = new FileInputStream(new File(tempPath,fileNames.get(i))); //압축 대상 파일
+				zout.putNextEntry(new ZipEntry(originalFileNames.get(i))); //압축파일에 저장될 파일명
+				
+				int len;
+				while((len = in.read(buffer)) > 0)
+				{ zout.write(buffer, 0, len); }//읽은 파일을 ZipOutputStream에 Write 
+				
+				zout.closeEntry();
+				in.close();
+			}
+			zout.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

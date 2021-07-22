@@ -114,7 +114,7 @@
 						dataType:"json",
 						success:function(res){
 							$.each(res,function(idx,item){
-								
+								console.log(item.writer);
 								var d = new Date(item.regdate);
 								var formattedDate = d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate();
 								temp+="<tr>";

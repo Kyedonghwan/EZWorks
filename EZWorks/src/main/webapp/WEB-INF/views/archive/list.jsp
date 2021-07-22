@@ -106,24 +106,44 @@
 		
 		
 		$(document).on("click","#downloadArchive",function(){
-			var obj={"no":$(this).parent().prev().children('input').val(),
-					"originalFileName":$(this).text(),
-					"fileName":$(this).next().val()
-					};
-			$.ajax({
-				url:'<c:url value="/archive/download"/>',
-				data:obj,
-				type:"post",
-				success:function(res){
-					$.showFolderList();
-				},
-				error:function(e){
-					alert("download 1 - ajax 에러");
-				}
-			})
+			var no =$(this).parent().prev().children('input').val();
+			var originalFileName=$(this).text();
+			var fileName=$(this).next().val();
+			
+			$('form[name="downloadFrm2"]').attr('action','<c:url value="/archive/download"/>');
+			$('form[name="downloadFrm2"]>input[name="no"]').val(no);
+			$('form[name="downloadFrm2"]>input[name="fileName"]').val(fileName);
+			$('form[name="downloadFrm2"]>input[name="originalFileName"]').val(originalFileName);
+			$('form[name="downloadFrm2"]').submit();
+			
 		})
 		
-		
+		$('#downloadMultipleArchive').click(function(){
+			$('form[name="downloadFrm"]').empty();
+			if($('table .form-check-input:checked').length<1){
+				alert("다운로드할 항목이 없습니다.");
+				return false;
+			}
+			
+			$('form[name="downloadFrm"]').attr('action','<c:url value="/archive/downloadZip"/>');
+			var idx=0;
+			$('table .form-check-input:checked').each(function(){
+				
+				if($(this).hasClass("archiveCheckbox")){
+					var temp="";
+					var no =$(this).val();
+					var originalFileName=$(this).parent().next().children('a').text();
+					var fileName=$(this).parent().next().children('input').val();
+					temp+='<input type="text" name="multipleFileList['+idx+'].no" value='+no+'>';
+					temp+='<input type="text" name="multipleFileList['+idx+'].fileName" value='+fileName+'>';
+					temp+='<input type="text" name="multipleFileList['+idx+'].originalFileName" value='+originalFileName+'>';
+					
+					$('form[name="downloadFrm"]').append(temp);
+					idx++;
+				}
+			});
+			$('form[name="downloadFrm"]').submit();
+		})
 		
 		$(document).on("click",'#cancelMakeFolder',function(){
 			makeFolderCheck=true;
@@ -190,6 +210,13 @@
 				<input type="hidden" id="currentFolderNo" value="1">
 			</a>			
 		</h5>
+		<form action="post" name="downloadFrm">
+		</form>
+		<form action="post" name="downloadFrm2">
+			<input name="no" type="hidden">
+			<input name="fileName" type="hidden">
+			<input name="originalFileName" type="hidden">
+		</form>
 	</section>
     <div class="row">
         <div class="col-lg-12">
@@ -198,7 +225,7 @@
                     <div class="table-responsive project-list">
   
                     	<button type="button" class="btn btn-primary btn-sm" id="makeFolder">새폴더</button>
-						<button type="button" class="btn btn-primary btn-sm">다운로드</button>
+						<button type="button" class="btn btn-primary btn-sm" id="downloadMultipleArchive">다운로드</button>
 						<button type="button" class="btn btn-primary btn-sm" id="deleteFolder">삭제</button>
 						<button type="button" class="btn btn-primary btn-sm">복사</button>
 						<button type="button" class="btn btn-primary btn-sm">이동</button>
