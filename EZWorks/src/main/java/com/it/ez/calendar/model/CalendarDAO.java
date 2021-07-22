@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CalendarDAO {
 	public List<CalendarVO> selectAll();
+	int insertSch(CalendarVO vo);
 }

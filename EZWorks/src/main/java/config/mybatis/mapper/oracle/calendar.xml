@@ -6,4 +6,13 @@
 	<select id="selectAll" resultType="calendarVo">
 		select * from schedule
 	</select>
+	
+	
+	<insert id="insertSch" parameterType="calendarVo">
+		insert into schedule(SCH_TITLE, SCH_START, SCH_END, SCH_ALL,
+			 SCH_ATTEND, SCH_EXTATTEND, SCH_PLACE,  SCH_CONTENT, SCH_MYCAL, SCH_RESERV)
+		values(#{schTitle}, #{schStart}, #{schEnd}, #{schAll , jdbcType=VARCHAR},
+			 #{schAttend , jdbcType=VARCHAR}, #{schExtAttend}, #{schPlace},  #{schContent},
+			 #{schMyCal , jdbcType=VARCHAR}, #{schReserv , jdbcType=VARCHAR})
+	</insert>
 </mapper>

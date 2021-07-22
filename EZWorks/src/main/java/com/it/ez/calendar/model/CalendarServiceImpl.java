@@ -16,4 +16,11 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarDao.selectAll();
 	}
 
+	@Override
+	public int insertSch(CalendarVO vo) {
+		return calendarDao.insertSch(vo);
+	}
+
+	
+
 }

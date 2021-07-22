@@ -8,12 +8,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CalendarVO {
-	private int schNo;
 	private String schTitle;
 	private String schStart;
 	private String schEnd;
+	private Character schAll;
+	private String schAttend;
+	private String schExtAttend;
+	private String schPlace;
 	private String schContent;
-	private String schCateg;
-	private String schEventplace;
-	private int EMP_NO;
+	private String schMyCal;
+	private String schReserv;
 }
