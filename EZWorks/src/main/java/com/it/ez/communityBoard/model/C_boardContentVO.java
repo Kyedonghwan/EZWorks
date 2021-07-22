@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class C_boardContentVO {
 	private int contentNo;
+	private int boardNo;
     private String name;
     private String title;
     private String text;

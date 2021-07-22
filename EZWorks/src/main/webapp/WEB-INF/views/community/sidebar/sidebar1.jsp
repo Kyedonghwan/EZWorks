@@ -19,6 +19,10 @@
 		width: 195px;
 		padding-left: 15px;
 	}
+	#gear{
+		float:right;
+		margin-top:2.5px;
+	}
 </style>
 <script type="text/javascript">
 	
@@ -36,7 +40,7 @@
             <div class="card-header" id="headingOne" data-bs-toggle="collapse"
                 data-bs-target="#collapseOne" aria-expanded="false"
                 aria-controls="collapseOne" role="button">
-             <span><img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>"></span>
+             <span><img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" align="absmiddle"></span>
 	         <span class="collapsed collapse-title">${vo.communityName}</span>
             </div>
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
@@ -47,7 +51,7 @@
 			             <span>
 			             	<a href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
 			             	<a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
-			             	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" float="right" align="absmiddle"></a>
+			             	<img  id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a>
 			             </span><br>
 			        </c:forEach>
 		        </c:if>

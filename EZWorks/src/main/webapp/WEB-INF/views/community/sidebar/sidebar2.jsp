@@ -22,6 +22,19 @@
 		width:200px;
 		text-align: left;
 	}
+	.sp2{
+		display: inline-flex;
+		align-items: center;
+		flex-wrap: nowrap;
+	}
+	img#gear{
+		float:right;
+		margin-top:2.5px;
+	}
+	.dropdown-menu.show {
+	    /* width: min-content; */
+	    min-width: auto;
+	}
 </style>	    
 	<div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -35,23 +48,25 @@
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span>${vo.communityName}<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></span>
+                <span>${vo.communityName}
+                <img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></span>
             </button>
             <div class="dropdown-menu">
 				<c:forEach var="vo" items="${list}">
-                  <span><a class="dropdown-item" 
-                  	href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}
-                  	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
+                  <span class="sp2"><a class="dropdown-item" 
+                  	href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
+	               <a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
+				   <img  id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
 				</c:forEach>
             </div>
         </div><br>
 	   <div class="buttons" id="btnWrite">
-          <a href="<c:url value='/community/board/communityWrite'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
+          <a href="<c:url value='/community/communityWrite?communityNo=${vo.communityNo}'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
        </div>
        <div class="board">
        <c:forEach var="vo2" items="${boardList}">
        	  <span class="sp1"><a class="dropdown-item" href="#">${vo2.boardName}
-         	<img src="<c:url value='/resources/images/accordion/gear.svg'/>" style="float:right"></a></span>
+         	<img  id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
        </c:forEach>
           <span class="sp1"><a class="dropdown-item" href="#">+ 게시판 추가</a></span>
        </div><br>  

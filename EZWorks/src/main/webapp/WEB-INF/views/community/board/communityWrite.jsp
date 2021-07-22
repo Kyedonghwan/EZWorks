@@ -14,7 +14,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#summernote').summernote({
-		placeholder: '자유롭게 글을 작성할 수 있습니다. 명예훼손이나 상대방을 비방, 불쾌감을 주는 글, 욕설, 남을 모욕하는 글은 임의로 제제가 있을 수 있습니다.',
+		placeholder: '자유롭게 글을 작성할 수 있습니다. <br>명예훼손이나 상대방을 비방, 불쾌감을 주는 글, 욕설, 남을 모욕하는 글은 임의로 제제가 있을 수 있습니다.',
 	    tabsize: 2,
 	    minHeight : null,
 		maxHeight : null,
@@ -37,11 +37,19 @@ $(document).ready(function() {
 });
 
 $(function(){
-	$('')
+	$('#btnSubmit').click(function(){
+		if($('#selectBoard option:selected')){
+			$('.frmWrite').submit();
+		}else{
+			alert("글을 작성할 게시판을 먼저 선택해주세요");
+			$('select[name=communityBoard]').focus();
+			return false;
+		}
+	});
 });
 </script>
 
-<%@ include file="../../community/sidebar/sidebar1.jsp" %>	
+<%@ include file="../../community/sidebar/sidebar2.jsp" %>	
 <%@ include file="../../include/middle.jsp" %>
 
 <!-- 소메뉴별 컨텐츠 구성 영역 -->
@@ -51,24 +59,52 @@ $(function(){
 			<h5 class="card-title">글쓰기</h5>
 		</div>
 		<div class="card-body">
-			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite'/>">
-			   <div class="col-md-10 form-group">
-	              	<select class="form-select" id="communityBoard" name="communityBoard">
-	                    <optgroup label="작성할 게시판을 선택하세요">
-	                    	<c:forEach var="vo" items="${Boardlist}">
-	                   			<option value="${vo.boardNo }">${vo.boardName}</option>	                    	
-	                    	</c:forEach>
-	                   	</optgroup>
-	               	</select>
+			   <div class="form-group row align-items-center">
+			   		<div class="col-1">
+                        <label class="col-form-label" for="communityBoard">TO.</label>
+                    </div>
+                    <div class="col-11">
+		              	<select class="form-select" id="selectBoard" name="selectBoard">
+		                    <optgroup label="작성할 게시판을 선택하세요">                   	
+		                    	<c:forEach var="vo2" items="${boardList}">
+		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>	                    	
+		                    	</c:forEach>
+		                   	</optgroup>
+		               	</select>
+	            	</div>
                </div>
-			   <textarea id="summernote" name="text"></textarea><br>
-			  
+			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?boardNo=${vo2.boardNo}'/>">
+               <div class="row">
+	               <div class="col-6">
+		               <div class="form-group row align-items-center">
+		               		<div class="col-2">
+		                        <label class="col-form-label" for="title">제목</label>
+		                    </div>
+		                    <div class="col-10">
+		                        <input type="text" id="title" class="form-control" name="title">
+		                    </div>
+		          	   </div>
+	          	   </div>
+	          	   <div class="col-6">
+		          	    <div class="form-group row align-items-center">
+		               		<div class="col-2">
+		                        <label class="col-form-label" for="name">작성자</label>
+		                    </div>
+		                    <div class="col-10">
+		                        <input type="text" id="name" class="form-control" name="name">
+		                    </div>
+		          	   </div>
+	          	   </div>
+          	   </div>
+               <div class="summernote">
+				   <textarea id="summernote" name="text"></textarea><br>
+               </div>
 			   <div class="col-sm-12 d-flex justify-content-end">
-                  <button type="submit" id="btnSubmit" 
-                  		class="btn btn-primary me-1 mb-1">등록</button>
-                  <button type="reset" 
-                  		class="btn btn-light-secondary me-1 mb-1">취소</button>
-               </div>
+	               <button type="submit" id="btnSubmit" 
+	               		class="btn btn-primary me-1 mb-1">등록</button>
+	               <button type="reset" 
+	               		class="btn btn-light-secondary me-1 mb-1">취소</button>
+	            </div>
 			</form>
 		</div>
 	</div>

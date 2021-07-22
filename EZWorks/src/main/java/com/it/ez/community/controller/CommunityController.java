@@ -117,25 +117,29 @@ public class CommunityController {
 		
 	}
 	
-	@GetMapping("/board/communityWrite")
-	public String writeCommunity(@RequestParam(defaultValue = "0") int no, Model model) {
-		logger.info("커뮤니티 게시판 글쓰기 페이지");
+	@GetMapping("/communityWrite")
+	public String writeCommunity(@RequestParam(defaultValue = "0") int communityNo, Model model) {
+		logger.info("커뮤니티 게시판 글쓰기 페이지, 파라미터 communityNo={}", communityNo);
 		
+		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardSerivce.selectC_board(no);
-		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
-				list.size(), boardList.size());
+		List<C_boardVO> boardList= c_boardSerivce.selectC_board(communityNo);
+		logger.info("커뮤니티 게시판 목록 결과, vo={}, list.size={}, boardList.size={}", 
+				vo, list.size(), boardList.size());
 		
+		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
 		model.addAttribute("boardList", boardList);
 		
 		return "community/board/communityWrite";
 	}
 	
-	@PostMapping("/board/communityWrite")
+	@PostMapping("/communityWrite")
 	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
-			Model model) {
-		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 vo={}", contentVo);
+			@RequestParam int boardNo, Model model) {
+		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={} boardNo={}", contentVo, boardNo);
+		
+		contentVo.setBoardNo(boardNo);
 		int cnt = c_boardSerivce.insertBoardContent(contentVo);
 		
 		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/communityWrite";
