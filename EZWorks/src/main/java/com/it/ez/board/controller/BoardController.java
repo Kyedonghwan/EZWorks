@@ -120,7 +120,7 @@ public class BoardController {
 		return "board/writePosting";
 	}
 	
-	@PostMapping("/writePosting")
+	/*@PostMapping("/writePosting")
 	public String writePosting_post(@ModelAttribute PostingVO postVo, HttpServletRequest request, Model model) {
 		//post로 넘어온 postingvo 변수들 처리
 		logger.info("파라미터 postVo={}",postVo);
@@ -151,5 +151,5 @@ public class BoardController {
 		PostingFilesVO pfVo = new PostingFilesVO();
 		pfVo.set
 		//목록으로 반환
-	}
+	}*/
 }
