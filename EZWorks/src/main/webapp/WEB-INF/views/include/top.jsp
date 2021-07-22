@@ -93,7 +93,7 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>근태관리</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
+						<li class="sidebar-item  "><a href="<c:url value='/calendar/calendarMain'/>"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>캘린더</span>
 						</a></li>
 

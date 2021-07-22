@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html lang="ko">
-  <meta charset="utf-8">
+
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -19,7 +18,7 @@
                  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  dateFormat: "yy-mm-dd",
-                 //maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+                 //minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
                  onClose: function( selectedDate ) {    
                       //시작일(startDate) datepicker가 닫힐때
                       //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
@@ -45,6 +44,7 @@
                  }    
  
             });    
+            
     });
 </script>
 <style>
@@ -54,6 +54,13 @@
 	text-align: left;
 	padding: 5px 10px 20px 10px;
 	clear: left;		
+}
+.writeLabel1{
+	width: 10%;
+	float: left;
+	text-align: left;
+	padding: 5px 0 20px 10px;
+	clear: left;
 }
 @media screen { 
         .modal:before {
@@ -106,16 +113,17 @@
 						</div>
 						<div class="modal-body">
 							<div>
-								<label class="writeLabel">
+								<label class="writeLabel1">
 									일정명
 								</label>
-								<input type="text" value="" class="input">
+								<span style="color:red; padding-right: 55px; width: 40%">*</span>
+								<input type="text" name="schTitle" id="schTitle" value="${schTitle}" class="input">
 							</div>
 							<div>
 								<label class="writeLabel">일시</label>
-								<input type="text" id="startDate">
+								<input type="text" id="startDate" name="schStart" value="${schStart}" class="datepick">
 								<label for="to">~</label>
-								<input type="text" id="endDate">
+								<input type="text" id="endDate" name="schEnd" value="${schEnd}" class="datepick">&nbsp;&nbsp;
 								<input type="checkbox" value="종일" class="chkbox">종일
 							</div>
 							<div>
@@ -132,7 +140,7 @@
 							</div>
 							<div>
 								<label class="writeLabel">장소</label>
-								<input type="text" class="input">
+								<input type="text" name="schPlace" value="${schPlace}" class="input">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -141,7 +149,7 @@
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">일정상세입력</span>
 							</button>
-							<button type="button" class="btn btn-primary ml-1"
+							<button type="button" id="sch_btn"class="btn btn-primary ml-1"
 								data-bs-dismiss="modal">
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">확인</span>
@@ -151,7 +159,11 @@
 								<i class="bx bx-x d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">닫기</span>
 							</button>
-							
+							<c:forEach var="vo" items="${list}">
+								<input type="text" id="title" value="${vo.schTitle}">
+								<input type="Text" id="start" value="${vo.schStart}">
+								<input type="text" id="end" value="${vo.schEnd}">
+							</c:forEach>
 						</div>
 					</div>
 				</div>
