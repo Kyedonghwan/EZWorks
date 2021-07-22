@@ -136,7 +136,7 @@ public class MessageController {
 		logger.info("삭제 처리, 파라미터 no={}, pwd={}", vo.getNo(), vo.getPwd());
 		
 		//2
-		String msg="쪽지 삭제 실패", url="/guestbook/delete?no="+vo.getNo();
+		String msg="쪽지 삭제 실패", url="/message/messagedelete?no="+vo.getNo();
 		if(messageService.checkPwd(vo.getNo(), vo.getPwd())) {
 			int cnt=messageService.deleteMessage(vo.getNo());
 			if(cnt>0) {

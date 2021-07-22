@@ -27,7 +27,7 @@
 	}
 	
 </script>
-<!-- Channel Plugin Scripts -->
+
 <script>
   (function() {
     var w = window;
@@ -68,7 +68,7 @@
     "pluginKey": "2d01734a-cbdf-4f33-b485-746dd3e743e8"
   });
 </script>
-<!-- End Channel Plugin -->
+
 <style type="text/css">
 	body{
 		padding:5px;
@@ -84,8 +84,13 @@
 <c:if test="${!empty param.searchKeyword }">
 	<p>검색어 : ${param.	searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
 </c:if>
-
-
+<!-- 페이징 처리를 위한 form -->
+<form action="<c:url value='/message/messageList'/>" 
+	name="frmPage" method="post">
+	<input type="hidden" name="currentPage"><br>
+	<input type="hidden" name="searchCondition" value="${param.searchCondition}"><br>
+	<input type="hidden" name="searchKeyword" value="${param.searchKeyword }"><br>	
+</form>
 
 <table class="table table-striped">
 	<colgroup>
@@ -131,18 +136,34 @@
 </table>
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전페이지</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">다음페이지</a>
-    </li>
+		<c:if test="${pagingInfo.firstPage>1 }">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})"
+				tabindex="-1" aria-disabled="true">이전페이지</a>
+		</li>
+		</c:if>
+	<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
+		<c:if test="${i==pagingInfo.currentPage }">
+			<span class="page-link" style="color:blue;font-weight: bold">${i}</span>
+		</c:if>
+		<c:if test="${i!=pagingInfo.currentPage }">
+			<a class="page-link" href="#" onclick="pageProc(${i})">${i}</a>
+		</c:if>
+	</c:forEach>
+	<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
+		 <li class="page-item">
+		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.lastPage+1})">다음페이지</a>
+		</li>
+	</c:if>
   </ul>
 </nav>
-
+ <br><br>
+ <hr>
+  <footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
 </body>
 </html>
 
