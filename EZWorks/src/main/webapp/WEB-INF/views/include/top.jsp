@@ -9,7 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>예시 홈 화면입니다</title>
 
-
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.css'/>">
@@ -20,6 +19,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/vendors/fontawesome/all.min.css'/>">
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+
 <!-- <script>
         $(document).ready(function(){
             var target = $("#sidebar");
@@ -105,8 +105,9 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>게시판</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>커뮤니티</span>
+						<li class="sidebar-item  ">
+							<a href="<c:url value='/community/communityMain'/>" class='sidebar-link'> 
+							<i class="bi bi-grid-1x2-fill"></i> <span>커뮤니티</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="table.html"
@@ -282,4 +283,3 @@
 				<section style="bottom:0;padding:0px;margin:0px;min-height:auto;">
 					<div style="bottom:0;width: 100%; min-height: auto;">
 						<div style="width: 249px; min-height: auto; float: left;bottom:0;">
-
