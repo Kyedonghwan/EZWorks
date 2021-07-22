@@ -187,7 +187,7 @@
 			$("input[name=todo_no]").val( todo_no );
 			
 			$.ajax({
-				url:"<%= request.getContextPath() %>/readOneTodo.os",
+				url:"<%= request.getContextPath() %>/readOneTodo",
 				data:{"todo_no":todo_no},
 				type:"GET",
 				dataType:"JSON",
@@ -211,7 +211,7 @@
 	function bookmark(todo_no) {
 		
 		$.ajax({
-			url:"<%= request.getContextPath() %>/switchBookmark.os",
+			url:"<%= request.getContextPath() %>/switchBookmark",
 			data:{"todo_no":todo_no},
 			type:"POST",
 			dataType:"JSON",
@@ -234,7 +234,7 @@
 	function readBookmark() {
 		
 		$.ajax({
-			url:"<%= request.getContextPath() %>/readBookmark.os",
+			url:"<%= request.getContextPath() %>/readBookmark",
 			type:"GET",
 			dataType:"JSON",
 			success:function(json){
@@ -285,7 +285,7 @@
 		
 		var form_data = $("form[name=addTodoFrm]").serialize();
 		$.ajax({
-			url:"<%= request.getContextPath() %>/addEndTodo.os",
+			url:"<%= request.getContextPath() %>/addEndTodo",
 			data:form_data,
 			type:"POST",
 			dataType:"JSON",
@@ -327,7 +327,7 @@
 	function editTodoEndBtn() {
 		var form_data = $("form[name=editTodoFrm]").serialize();
 		$.ajax({
-			url:"<%= request.getContextPath() %>/editTodo.os",
+			url:"<%= request.getContextPath() %>/editTodo",
 			data:form_data,
 			type:"POST",
 			dataType:"JSON",
@@ -351,7 +351,7 @@
 		
 		var form_data = $("form[name=editTodoFrm]").serialize();
 		$.ajax({
-			url:"<%= request.getContextPath() %>/deleteTodo.os",
+			url:"<%= request.getContextPath() %>/deleteTodo",
 			data:form_data,
 			type:"POST",
 			dataType:"JSON",
@@ -508,7 +508,6 @@
 	
 </body>
 
-    <!-- todo 위젯 -->
 									
 <!-- 소메뉴별 컨텐츠 구성 영역 -->	
 				
