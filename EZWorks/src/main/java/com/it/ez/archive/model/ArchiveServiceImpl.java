@@ -1,6 +1,7 @@
 package com.it.ez.archive.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,18 @@ public class ArchiveServiceImpl implements ArchiveService{
 	@Override
 	public int updateDownCount(int no) {
 		return dao.updateDownCount(no);
+	}
+
+
+	@Override
+	public ArchiveVO selectArchive(int no) {
+		return dao.selectArchive(no);
+	}
+
+
+	@Override
+	public int moveArchive(Map<String, Object> map) {
+		return dao.moveArchive(map);
 	}
 	
 	

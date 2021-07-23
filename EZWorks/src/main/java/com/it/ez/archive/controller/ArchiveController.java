@@ -1,8 +1,11 @@
- package com.it.ez.archive.controller;
+package com.it.ez.archive.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -116,11 +120,12 @@ public class ArchiveController {
 	public void CompressZIP(@ModelAttribute ArchiveListVO alvo, HttpServletRequest request, HttpServletResponse response, Object handler) {
 		List<String> fileNames= new ArrayList<String>();
 		List<String> originalFileNames= new ArrayList<String>();
-		
+		int cnt;
 		for(ArchiveVO vo:alvo.getMultipleFileList()) {
 			fileNames.add(vo.getFileName());
 			originalFileNames.add(vo.getOriginalFileName());
-		}
+			cnt = archiveService.updateDownCount(vo.getNo());
+		}  
 		
 		for(String s:fileNames) {
 			System.out.println(s);
@@ -128,10 +133,10 @@ public class ArchiveController {
 		Date d= new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddssSSS");
 
-		String zipName=sdf.format(d);
+		String zipName=sdf.format(d)+".zip";
 		
 		response.setContentType("application/zip");
-		response.addHeader("Content-Disposition", "attachment;filename=" + zipName);
+		response.addHeader("Content-Disposition", "attachment;filename=" + zipName); 
 		
 		
 		ZipOutputStream zout;
@@ -163,5 +168,53 @@ public class ArchiveController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	@ResponseBody
+	@RequestMapping("/clone")
+	public int cloneArchives(@RequestParam(value="cloneArchivesList[]") List<Integer> cloneArchivesList,@RequestParam int folderNo) {
+		List<ArchiveVO> list= new ArrayList<ArchiveVO>();
+		
+		
+		
+		for(int i=0;i<cloneArchivesList.size();i++) {
+			int no = cloneArchivesList.get(i);
+			ArchiveVO vo = archiveService.selectArchive(no);
+			File in = new File(ConstUtil.FILE_UPLOAD_PATH_TEST,vo.getFileName());
+			Date d = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddssSSS");
+			String newFileName = sdf.format(d)+"."+vo.getExt();
+			File out = new File(ConstUtil.FILE_UPLOAD_PATH_TEST,newFileName);
+			
+			ArchiveVO newVo = new ArchiveVO();
+			newVo.setExt(vo.getExt());
+			newVo.setFileName(newFileName);
+			newVo.setFileSize(vo.getFileSize());
+			newVo.setFolderNo(folderNo);
+			newVo.setOriginalFileName(vo.getOriginalFileName());
+			newVo.setWriter("홍길동");
+			list.add(newVo);
+			try {
+				FileCopyUtils.copy(in, out);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		int cnt=archiveService.fileUpload(list);
+		return cnt;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/move")
+	public int moveArchives(@RequestParam(value="moveArchivesList[]") List<Integer> moveArchivesList,@RequestParam int folderNo) {
+		int cnt=0;
+		System.out.println("@");
+		for(int no:moveArchivesList) {
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("folderNo",folderNo);
+			map.put("no",no);
+			cnt = archiveService.moveArchive(map);
+		}
+		return cnt;
+	}
 }

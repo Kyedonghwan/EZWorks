@@ -9,6 +9,8 @@
 <!-- 소메뉴별 컨텐츠 구성 영역 -->									
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 <script>	
 	var editCheck=false;
 	$(document).on('click','#editFolder',function(){
@@ -20,6 +22,30 @@
 	$(document).on('click','#editFolderOK',function(){
 		var folderNo=$(this).prev().prev().prev().val();
 		var folderName=$(this).prev().val();
+		if(folderName.length<1){
+			Toastify({
+				text:"값을 입력하세요.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			$('#currentFolderName').focus();
+			return false;
+		}
+		else if(folderName.length>12){
+			Toastify({
+				text:"12글자 이하로 입력하세요.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			$('#currentFolderName').focus();
+			return false;
+		}
 		var obj={"no":folderNo,"name":folderName}
 		$.ajax({
 			url:"<c:url value='/archiveFolder/edit'/>",
@@ -29,6 +55,15 @@
 			success:function(){
 				$.showFolderList();
 				$.showSideBar();
+				Toastify({
+					text:"수정하였습니다.",
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
+				$('#currentFolderName').focus();
 			},
 			error:function(e){
 				alert("edit-ajax에러");
@@ -41,6 +76,7 @@
 	});
 	
 	$(function(){
+		
 		$('#flexCheckDefault').click(function(){
 			$('table .form-check-input').prop('checked',this.checked);
 	});
@@ -48,7 +84,14 @@
 		
 		$('#deleteFolder').click(function(){
 			if($('table .form-check-input:checked').length<1){
-				alert("삭제할 항목이 없습니다.");
+				Toastify({
+					text:"선택된 항목이 없습니다.",
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
 				return false;
 			}
 			var delArray=[];
@@ -83,6 +126,15 @@
 					$.showFolderList();
 					$.showSideBar();
 					$('thead .form-check-input:checked').prop('checked',false);
+					Toastify({
+						text:"삭제되었습니다.",
+						duration: 2000,
+						close:false,
+						gravity:"top",
+						position:"center",
+						backgroundColor:"black",
+					}).showToast();
+					return false;
 				},
 				error:function(e){
 					alert('delete-ajax 에러');
@@ -115,13 +167,27 @@
 			$('form[name="downloadFrm2"]>input[name="fileName"]').val(fileName);
 			$('form[name="downloadFrm2"]>input[name="originalFileName"]').val(originalFileName);
 			$('form[name="downloadFrm2"]').submit();
-			
+			Toastify({
+				text:"파일 다운로드를 시작합니다.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
 		})
 		
 		$('#downloadMultipleArchive').click(function(){
 			$('form[name="downloadFrm"]').empty();
 			if($('table .form-check-input:checked').length<1){
-				alert("다운로드할 항목이 없습니다.");
+				Toastify({
+					text:"선택된 항목이 없습니다.",
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
 				return false;
 			}
 			
@@ -134,15 +200,26 @@
 					var no =$(this).val();
 					var originalFileName=$(this).parent().next().children('a').text();
 					var fileName=$(this).parent().next().children('input').val();
-					temp+='<input type="text" name="multipleFileList['+idx+'].no" value='+no+'>';
-					temp+='<input type="text" name="multipleFileList['+idx+'].fileName" value='+fileName+'>';
-					temp+='<input type="text" name="multipleFileList['+idx+'].originalFileName" value='+originalFileName+'>';
+					temp+='<input type="hidden" name="multipleFileList['+idx+'].no" value='+no+'>';
+					temp+='<input type="hidden" name="multipleFileList['+idx+'].fileName" value='+fileName+'>';
+					temp+='<input type="hidden" name="multipleFileList['+idx+'].originalFileName" value='+originalFileName+'>';
 					
 					$('form[name="downloadFrm"]').append(temp);
 					idx++;
 				}
 			});
 			$('form[name="downloadFrm"]').submit();
+			Toastify({
+				text:"파일 다운로드를 시작합니다.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			$('.form-check-input:checked').each(function(){
+				$(this).prop('checked',false);
+			})
 		})
 		
 		$(document).on("click",'#cancelMakeFolder',function(){
@@ -152,7 +229,32 @@
 		
 		$(document).on("click",'#okMakeFolder',function(){
 			var folderNo=$('#currentFolderNo').val();
+			
 			var currentFolderName=$('#currentFolderName').text();
+			if(currentFolderName.length<1){
+				Toastify({
+					text:"값을 입력하세요.",
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
+				$('#currentFolderName').focus();
+				return false;
+			}
+			else if(currentFolderName.length>12){
+				Toastify({
+					text:"12글자 이하로 입력하세요.",
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
+				$('#currentFolderName').focus();
+				return false;
+			}
 			var newName=$('#newFolderName').val();
 			$.ajax({
 				url:"<c:url value='/archiveFolder/insert'/>",
@@ -160,32 +262,16 @@
 				data:{parentNo:folderNo,name:newName},
 				dataType:"json",
 				success:function(res){
-					<!--
-					var temp=$('input[name="folderNo"][value='+folderNo+']');
-					if(temp.parent().next().length>0){
-						var str="<li class='submenu-item'>";
-						str+="<a href='#' class='showArchiveList'>"+newName+"<input type='hidden' value='"+res+"' name='folderNo'></a>";
-						
-						str+="</li>";
-						temp.parent().next().prepend(str);
-					}else{
-						console.log(temp.parent().parent().attr('class'));
-						temp.parent().parent().empty;
-						var str="<li class='sidebar-item active has-sub'>";
-              			str+="<a href='#' class='sidebar-link chevron-right'>";
-                		str+="<img src='<c:url value='/resources/images/accordion/chevron-down.svg'/>' class='unfold'></a>";
-                    	str+="<a href='#' class='showArchiveList'>"+currentFolderName+"<input type='hidden' value='"+folderNo+"' name='folderNo'></a>";
-						str+="<ul class='submenu active' style='list-style:none'>";
-						str+="<li class='submenu-item'>";
-						str+="<a href='#'  class='showArchiveList'>"+newName+"<input type='hidden' value='"+res+"' name='folderNo'></a>";
-						str+="</li>";
-						str+="</ul></li>";
-						console.log(temp.parent().parent().attr('class'));
-						temp.parent().parent().html(str);
-					} 
-					-->
 					$.showFolderList();
 					$.showSideBar();
+					Toastify({
+						text:"추가하였습니다.",
+						duration: 2000,
+						close:false,
+						gravity:"top",
+						position:"center",
+						backgroundColor:"black",
+					}).showToast();
 				},
 				error:function(xhr,status,error){
 					alert("error!!"+error);
@@ -227,8 +313,8 @@
                     	<button type="button" class="btn btn-primary btn-sm" id="makeFolder">새폴더</button>
 						<button type="button" class="btn btn-primary btn-sm" id="downloadMultipleArchive">다운로드</button>
 						<button type="button" class="btn btn-primary btn-sm" id="deleteFolder">삭제</button>
-						<button type="button" class="btn btn-primary btn-sm">복사</button>
-						<button type="button" class="btn btn-primary btn-sm">이동</button>
+						<button type="button" class="btn btn-primary btn-sm" id="cloneFile">복사</button>
+						<button type="button" class="btn btn-primary btn-sm" id="moveFile">이동</button>
                         <table class="table project-table table-centered table-nowrap">
                             <thead>
                                 <tr>
@@ -264,7 +350,9 @@
             </div>
         </div>
     </div>
+    <%@ include file="cloneModal.jsp" %>
     <%@ include file="uploadModal.jsp" %>
+    <%@ include file="moveModal.jsp" %>
     <!-- end row -->
     
 </div>

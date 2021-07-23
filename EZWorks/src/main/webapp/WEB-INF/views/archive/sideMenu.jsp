@@ -53,13 +53,27 @@
 		});
 		
 		$(document).on("click",'.showArchiveList',function(){
+			$('.showArchiveList').each(function(){
+				if($(this).children('input').val()>2){
+					$(this).css({'color':'black','font-weight':''});	
+				}else{
+					$(this).css({'color':'black','font-weight':'bold'});
+				}
+				
+			})
+			$(this).css({'color':'rgb(67 94 190)','font-weight':'bold'});
+			
+			
+			
 			$('#currentFolderName').contents()[0].textContent =$(this).text();
 			var folderNo = $(this).children('input[name="folderNo"]').val();
 			$('#currentFolderNo').val(folderNo);
 			$.showFolderList();
+			
 		});
 		
 		$(document).on("click",'.showArchiveList2',function(){
+			
 			$.ajax({
 				url:'<c:url value="/archiveFolder/showParentFolder"/>',
 				type:"get",
@@ -69,6 +83,18 @@
 					$('#currentFolderNo').val(res.no);
 					$('#currentFolderName').contents()[0].textContent =res.name;
 					$.showFolderList();
+					
+					$('.showArchiveList').each(function(){
+						if($(this).children('input').val()>2){
+							$(this).css({'color':'black','font-weight':''});	
+						}else{
+							$(this).css({'color':'black','font-weight':'bold'});
+						}
+						
+						if($(this).children('input').val()==res.no){
+							$(this).css({'color':'rgb(67 94 190)','font-weight':'bold'});
+						}
+					})
 				},
 				error:function(e){
 					alert("/archiveFolder/showParentFolder 에러");
@@ -114,7 +140,6 @@
 						dataType:"json",
 						success:function(res){
 							$.each(res,function(idx,item){
-								console.log(item.writer);
 								var d = new Date(item.regdate);
 								var formattedDate = d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate();
 								temp+="<tr>";
@@ -160,6 +185,78 @@
 					temp+='';
 					$.each(res,function(idx,item){
 						if(item.step==1){
+							if(item.hasChild=='Y' && item.parentNo==1){
+								temp+='<li class="sidebar-item active has-sub">';
+								temp+='<a href="#" class="sidebar-link chevron-right">';
+								temp+='<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">';
+								temp+='</a>';
+								temp+='<a href="#" class="showArchiveList">'+item.name+'<input type="hidden" value='+item.no+' name="folderNo"></a>';
+								temp+='<ul class="submenu active" style="list-style:none">';
+								$.each(res,function(idx2,item2){
+									if(item2.step==2 && item2.parentNo==item.no){
+										if(item2.hasChild=='Y'){
+											temp+='<li class="sidebar-item active has-sub">';
+											temp+='<a href="#" class="sidebar-link chevron-right">';
+											temp+='<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">';
+											temp+='</a>';
+											temp+='<a href="#" class="showArchiveList">'+item2.name+'<input type="hidden" value='+item2.no+' name="folderNo"></a>';
+											temp+='<ul class="submenu active" style="list-style:none">';
+											$.each(res,function(idx3,item3){
+												if(item3.step==3 && item3.parentNo==item2.no){
+													if(item3.hasChild=='Y'){
+														temp+='<li class="sidebar-item active has-sub">';
+														temp+='<a href="#" class="sidebar-link chevron-right">';
+														temp+='<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">';
+														temp+='</a>';
+														temp+='<a href="#" class="showArchiveList">'+item3.name+'<input type="hidden" value='+item3.no+' name="folderNo"></a>';
+														temp+='<ul class="submenu active" style="list-style:none">';
+														$.each(res,function(idx4,item4){
+															if(item4.step==4 && item4.parentNo==item3.no){
+																	temp+='<li class="submenu-item">';
+																	temp+='<a href="#"  class="showArchiveList">'+item4.name+'<input type="hidden" value='+item4.no+' name="folderNo"></a>';
+																	temp+='</li>';
+															}
+														})
+														temp+='</ul>';
+														temp+='</li>';
+													}else{
+														temp+='<li class="submenu-item">';
+														temp+='<a href="#"  class="showArchiveList">'+item3.name+'<input type="hidden" value='+item3.no+' name="folderNo"></a>';
+														temp+='</li>';
+													}
+												}
+											})
+											temp+='</ul>';
+											temp+='</li>';
+										}else{
+											temp+='<li class="submenu-item">';
+											temp+='<a href="#"  class="showArchiveList">'+item2.name+'<input type="hidden" value='+item2.no+' name="folderNo"></a>';
+											temp+='</li>';
+										}
+									}
+								})
+								temp+='</ul>';
+								temp+='</li>';
+							}else if(item.hasChild=='N'&& item.parentNo==1){
+								temp+='<li class="submenu-item">';
+								temp+='<a href="#"  class="showArchiveList">'+item.name+'<input type="hidden" value='+item.no+' name="folderNo"></a>';
+								temp+='</li>';
+							}
+						}
+					})
+					temp+='</ul>';
+					temp+='</li>';
+					temp+='</ul>';
+					temp+='<br>';
+					temp+='<ul style="list-style:none" class="sideMenu-ul">';
+					temp+='<li class="sidebar-item active has-sub">';
+					temp+='<a href="#" class="sidebar-link chevron-right">';
+					temp+='<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold">';
+					temp+='</a>';
+					temp+='<a href="#" style="font-weight:bold" class="showArchiveList">개인자료실<input type="hidden" value="2" name="folderNo"></a>';
+					temp+='<ul class="submenu active" style="list-style:none;">';
+					$.each(res,function(idx,item){
+						if(item.step==1 && item.parentNo==2){
 							if(item.hasChild=='Y'){
 								temp+='<li class="sidebar-item active has-sub">';
 								temp+='<a href="#" class="sidebar-link chevron-right">';
@@ -186,7 +283,7 @@
 														temp+='<a href="#" class="showArchiveList">'+item3.name+'<input type="hidden" value='+item3.no+' name="folderNo"></a>';
 														temp+='<ul class="submenu active" style="list-style:none">';
 														$.each(res,function(idx4,item4){
-															if(item4.step==3 && item4.parentNo==item3.no){
+															if(item4.step==4 && item4.parentNo==item3.no){
 																	temp+='<li class="submenu-item">';
 																	temp+='<a href="#"  class="showArchiveList">'+item4.name+'<input type="hidden" value='+item4.no+' name="folderNo"></a>';
 																	temp+='</li>';
@@ -212,7 +309,7 @@
 								})
 								temp+='</ul>';
 								temp+='</li>';
-							}else{
+							}else if(item.hasChild=='N'&& item.parentNo==2){
 								temp+='<li class="submenu-item">';
 								temp+='<a href="#"  class="showArchiveList">'+item.name+'<input type="hidden" value='+item.no+' name="folderNo"></a>';
 								temp+='</li>';
@@ -229,8 +326,11 @@
 				}
 			})	
 		}
-
+		
+		//처음시작할때
 		$.showSideBar();
+		$('#currentFolderNo').val(1);
+		$.showFolderList();
 	})
 </script>
 <section style="height:64px;padding:24px 24px 16px;">
@@ -247,39 +347,6 @@
 </section>
 <section >
 	<div id="main-sidebar">
-	<!--  
-		<ul style="list-style:none" class="sideMenu-ul">
-			
-             	<br>
-             <li class="sidebar-item active has-sub">
-                <a href="#" class='sidebar-link'>
-                    <span style="font-weight:bold">개인자료실</span>
-                </a>
-                <ul class="submenu active" style="list-style:none">
-                    <li class="sidebar-item active has-sub">
-                        <a href="#" class='sidebar-link'>영업팀</a>
-                    	<ul class="submenu active" style="list-style:none">
-                    		
-                    		<li class="submenu-item" >
-                    			<a href="#">영업실적보고</a>
-                    		</li>
-                    		<li class="submenu-item">
-                    			<a href="#">익명게시판</a>
-                    		</li>
-                    		<li class="submenu-item">
-                    			<a href="#">영업실적보고</a>
-                    		</li>
-                    	</ul>
-                    
-                    </li>
-                </ul>
-             </li>
-             <li>
-             	<a href="#" style="font-weight:bold;color:#999">
-             		+ 자료실 추가
-             	</a>
-             </li>
-         </ul>
-         -->
+	
 	</div>
 </section>

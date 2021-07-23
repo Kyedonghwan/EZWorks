@@ -69,7 +69,14 @@
 				cache: false,
 				success: function (res) {
 					$('#uploadModal').modal('hide');
-					alert('자료 등록 성공');
+					Toastify({
+						text:"추가하였습니다.",
+						duration: 2000,
+						close:false,
+						gravity:"top",
+						position:"center",
+						backgroundColor:"black",
+					}).showToast();
 					$.showFolderList();
 				}, 
 				error: function (e) {
