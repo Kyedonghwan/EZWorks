@@ -68,7 +68,7 @@
        	  <span class="sp1"><a class="dropdown-item" href="#">${vo2.boardName}
          	<img  id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
        </c:forEach>
-          <span class="sp1"><a class="dropdown-item" href="#">+ 게시판 추가</a></span>
+          <span class="sp1"><a class="dropdown-item" href="<c:url value='/community/c_boardNew?communityNo=${vo.communityNo }'/>">+ 게시판 추가</a></span>
        </div><br>  
         <div class="member">
           <p style="font-size:0.9em">가입 멤버 5</p>

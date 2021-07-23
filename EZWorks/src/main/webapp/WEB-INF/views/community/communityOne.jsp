@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
 <%@ include file="../include/top.jsp"%>
 <style type="text/css">
 	.col-12 col-lg-12{
@@ -42,21 +42,20 @@
                             <div class="table-responsive">
 		                       <table class="table table-hover table-lg">
 		                        <tbody>
-		                        <c:forEach var="vo" items="${boardList}">
-		                        	<c:forEach var="vo2" items="${contentList}">
+		                        <c:forEach var="map" items="${viewList}">
 		                               <tr>
 		                                   <td class="col-auto">
-		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
-		                                       <p class=" mb-0" id="mainTitle">${vo2.title}</p>	                                      
-		                                       <p class=" mb-0">${vo2.content}</p>
+		                                       <p class=" mb-0">${map['COMMUNITYNAME']} > ${map['BOARDNAME']}</p>
+		                                       <p class=" mb-0" id="mainTitle">${map['TITLE']}</p>	                                      
+		                                       <p class=" mb-0">${map['TEXT']}</p>
 		                                       <div class="avatar avatar-md">
-													<img src="<c:url value='/resources/images/faces/1.jpg'/>">
-													<span class="mb-0" id="sp2">홍길동 과장 ${vo2.regdate}</span>
+													<img src="<c:url value='/resources/images/faces/1.jpg'/>">&nbsp
+													<span class="mb-0" id="sp2">${map['NAME']}  
+													<fmt:formatDate value="${map['REGDATE']}" pattern="yyyy-MM-dd"/> </span>
 											   </div>
 		                                   </td>
 		                               </tr>
 		                        	</c:forEach>
-	                               </c:forEach>
 		                        </tbody>
 		                       </table>
 		                   </div>
