@@ -7,18 +7,18 @@
 		<selectKey keyProperty="communityNo" resultType="int" order="BEFORE">
 			select community_seq.nextval from dual
 		</selectKey>
-		insert into community(communityNo, communityName, intro, publicSet)
+		insert into community(community_No, community_Name, intro, publicSet)
 		values(#{communityNo}, #{communityName}, #{intro}, #{publicSet})
 	</insert>
 	
 	<select id="selectCommunity" resultType="CommunityVO">
 		select * from community
-		order by communityNo desc
+		order by community_No desc
 	</select>
 	
 	<select id="selectCommunityByNo" parameterType="int" resultType="CommunityVO">
 		select * from community
-		where communityNo=#{communityNo}
+		where community_No=#{communityNo}
 	</select>	
 </mapper>
 

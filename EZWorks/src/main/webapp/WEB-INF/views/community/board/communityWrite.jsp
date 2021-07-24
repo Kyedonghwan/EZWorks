@@ -28,24 +28,67 @@ $(document).ready(function() {
 		    ['table', ['table']],
 		    ['para', ['ul', 'ol', 'paragraph']],
 		    ['height', ['height']],
-		    ['insert',['picture','link','video']],
+		    ['insert',['picture','link']],
 		    ['view', ['fullscreen', 'help']]
 		  ],
 		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+		callbacks:{ //이미지 첨부하는 부분
+			onImageUpload :function(files){
+				uploadSummernoteImageFile(files[0], this);
+			},
+			
+		}
+		
 	});
+	
+	$("div.note-editable").on('drop',function(e){
+        for(i=0; i< e.originalEvent.dataTransfer.files.length; i++){
+        	uploadSummernoteImageFile(e.originalEvent.dataTransfer.files[i],$("#summernote")[0]);
+        }
+       e.preventDefault();
+  	})
+  	
+	
 });
-
+	/**
+	* 이미지 파일 업로드
+	*/
+	function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "/uploadSummernoteImageFile",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+            	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', data.url);
+			}
+		});
+	}
+	
+	
 $(function(){
 	$('#btnSubmit').click(function(){
 		$('input[name=boardNo]').val($('#selectBoard option:selected').val());
 		
-		if($('#selectBoard option:selected')){
-			$('.frmWrite').submit();
-		}else{
-			alert("글을 작성할 게시판을 먼저 선택해주세요");
+		var selectVal= $('#selectBoard option:selected').val();
+		if(selectVal==null || selectVal.isEmpty()){
+			Toastify({
+                text: "게시판을 선택하세요",
+                duration: 2000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#4fbe87",
+            }).showToast();
 			$('select[name=communityBoard]').focus();
 			return false;
+		}else{
+			$('.frmWrite').submit();
 		}
 	});
 });
@@ -61,7 +104,7 @@ $(function(){
 			<h5 class="card-title">글쓰기</h5>
 		</div>
 		<div class="card-body">
-			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?communityNo=${vo.communityNo}'/>">
+			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?communityNo=${param.communityNo}'/>">
 			   <input type="hidden" name="boardNo">
 			   <div class="form-group row align-items-center">
 			   		<div class="col-1">
@@ -69,7 +112,7 @@ $(function(){
                     </div>
                     <div class="col-11">
 		              	<select class="form-select" id="selectBoard" name="selectBoard">
-		                    <optgroup label="작성할 게시판을 선택하세요">                   	
+		                    <optgroup label="작성할 게시판을 선택하세요">                 	
 		                    	<c:forEach var="vo2" items="${boardList}">
 		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>	                    	
 		                    	</c:forEach>
@@ -98,16 +141,20 @@ $(function(){
 		                    </div>
 		          	   </div>
 	          	   </div>
-          	   </div>
+          	   </div>  
                <div class="summernote">
 				   <textarea id="summernote" name="text"></textarea><br>
                </div>
+		       <div>
+                 <!-- Basic file uploader -->
+                 <input type="file" class="basic-filepond">		               
+		       </div>
 			   <div class="col-sm-12 d-flex justify-content-end">
 	               <button type="submit" id="btnSubmit" 
 	               		class="btn btn-primary me-1 mb-1">등록</button>
 	               <button type="reset" 
 	               		class="btn btn-light-secondary me-1 mb-1">취소</button>
-	            </div>
+	          </div>
 			</form>
 		</div>
 	</div>

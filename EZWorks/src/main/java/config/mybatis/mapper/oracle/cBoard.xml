@@ -7,7 +7,7 @@
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select c_board_seq.nextval from dual
 		</selectKey>
-		insert into c_board(boardNo, boardName, boardMaster, intro, publicSet)
+		insert into c_board(board_No, board_Name, board_Master, intro, publicSet)
 		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
 	</insert>
 	
@@ -15,26 +15,27 @@
 		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
 			select c_boardContent_seq.nextval from dual
 		</selectKey>
-		insert into c_boardContent(contentNo, boardNo, name, title, text, 
+		insert into c_boardContent(content_No, board_No, name, title, text, 
 			groupNo, images, fileName, fileSize, originalFileName)
-		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, 
-			#{contentNo}, #{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, #{originalFileName, jdbcType=VARCHAR})
+		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, #{contentNo}, 
+		#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, 
+		#{originalFileName})
 	</insert>
 	
 	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
 		select * from c_board
-		where communityNo=#{communityNo}
-		order by boardNo
+		where community_No=#{communityNo}
+		order by board_No
 	</select>
 	
 	<select id="selectC_boardContent" resultType="C_boardContentVO">
 		select * from c_boardContent
-		order by contentNo desc
+		order by content_No desc
 	</select>
 	
 	<select id="selectC_boardView" parameterType="int" resultType="map">
 		select * from c_boardView
-		where communityNo=#{communityNo}
+		where community_No=#{communityNo}
 		order by regdate desc
 	</select>
 	

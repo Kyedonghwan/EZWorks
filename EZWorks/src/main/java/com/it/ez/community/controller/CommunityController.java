@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.it.ez.community.model.CommunityService;
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/community")
 public class CommunityController {
 	private static final Logger logger 
 		= LoggerFactory.getLogger(CommunityController.class);
@@ -31,7 +29,7 @@ public class CommunityController {
 	private final CommunityService communityService;
 	private final C_boardService c_boardService;
 	
-	@GetMapping("/communityMain")
+	@GetMapping("/community/communityMain")
 	public String communityMain(Model model) {
 		logger.info("커뮤니티 메인 페이지");
 		
@@ -46,7 +44,7 @@ public class CommunityController {
 		return "community/communityMain";
 	}
 	
-	@GetMapping("/communityNew")
+	@GetMapping("/community/communityNew")
 	public String newCommunity(Model model) {
 		logger.info("커뮤니티 개설 페이지");
 		
@@ -59,7 +57,7 @@ public class CommunityController {
 		
 	}
 	
-	@PostMapping("/communityNew")
+	@PostMapping("/community/communityNew")
 	public String newCommunity_post(@ModelAttribute CommunityVO vo, Model model) {
 		logger.info("커뮤니티 개설 처리, 파라미터 communityVo={}", vo);
 		
@@ -79,7 +77,7 @@ public class CommunityController {
 		
 	}
 
-	@GetMapping("/communityDetail")
+	@GetMapping("/community/communityDetail")
 	public String detailCommunity(@RequestParam(defaultValue = "0") int communityNo, 
 			Model model) {
 		logger.info("커뮤니티 정보 보기, 파라미터 communityNo={}", communityNo);
@@ -98,7 +96,7 @@ public class CommunityController {
 	}
 	
 	
-	@GetMapping("/communityOne")
+	@GetMapping("/community/communityOne")
 	public String oneCommunity(@RequestParam(defaultValue = "0")int communityNo, 
 			@RequestParam(defaultValue = "0") int boardNo, Model model) {
 		logger.info("개별 커뮤니티 페이지, 파라미터 communityNo={}, boardNo={}", communityNo, boardNo);
@@ -119,7 +117,7 @@ public class CommunityController {
 		
 	}
 	
-	@GetMapping("/communityWrite")
+	@GetMapping("/community/communityWrite")
 	public String writeCommunity(@RequestParam(defaultValue = "0") int communityNo, Model model) {
 		logger.info("커뮤니티 게시판 글쓰기 페이지, 파라미터 communityNo={}", communityNo);
 		
@@ -136,10 +134,10 @@ public class CommunityController {
 		return "community/board/communityWrite";
 	}
 	
-	@PostMapping("/communityWrite")
+	@PostMapping("/community/communityWrite")
 	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
 			@RequestParam int boardNo,  @RequestParam(defaultValue = "0") int communityNo, Model model) {
-		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={}, boardNo={}, communityNo"
+		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={}, boardNo={}, communityNo={}"
 				, contentVo, boardNo, communityNo);
 		
 		contentVo.setBoardNo(boardNo);
@@ -157,7 +155,7 @@ public class CommunityController {
 		return "common/message";
 	}
 	
-	@GetMapping("/c_boardNew")
+	@GetMapping("/community/c_boardNew")
 	public String newBoard(@RequestParam(defaultValue = "0") int communityNo, Model model) {
 		logger.info("커뮤니티 게시판 개설 페이지 보기");
 		
@@ -175,7 +173,7 @@ public class CommunityController {
 		
 	}
 	
-	@PostMapping("/c_boardNew")
+	@PostMapping("/community/c_boardNew")
 	public String newBoard_post(@ModelAttribute C_boardVO vo, 
 			@RequestParam(defaultValue = "0") int communityNo, Model model) {
 		logger.info("커뮤니티 게시판 개설 처리, 파라미터 c_boardVo={}, communityNo={}", vo, communityNo);
