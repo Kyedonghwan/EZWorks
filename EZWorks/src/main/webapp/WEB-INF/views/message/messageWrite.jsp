@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../include/top.jsp" %>
 <%@ include file="messageMenu/messageMenu.jsp"%>
 <%@ include file="../include/middle.jsp"%>
+<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/mystyle.css'/>" /> 
+<script type="text/javascript" 
+	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <link rel="stylesheet" href="css/bootstrap.css">
 <script src="js/bootstrap.js"></script>
 
@@ -31,11 +33,12 @@
 	  width: 70%;
 	  margin: 0 auto;
 	}
+
 </style>
 
 <script type="text/javascript">
 	$(function(){
-		$('.btList').click(function(){
+		$('.btn-success').click(function(){
 			location.href="<c:url value='/message/messageList'/>";
 		});
 		
@@ -53,6 +56,8 @@
 </script>
 </head>
 <body>
+
+
 <div>
 <form class="write-form" name="frmWrite" method="post" 
 	action="<c:url value='/message/messageWrite'/>" >
@@ -76,7 +81,7 @@
         </div>
         <div style="text-align: center">
             <input type = "submit" class="btn btn-primary" value="등록"/>
-            <input type = "Button" class="btn btn-primary" value="쪽지목록" class="btList"/>         
+            <input type = "Button" class="btn btn-success" value="쪽지목록"/>         
         </div>
     </fieldset>
 </form>

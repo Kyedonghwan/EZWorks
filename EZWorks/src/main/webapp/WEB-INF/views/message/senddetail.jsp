@@ -43,21 +43,15 @@
 	<h2>쪽지 상세보기</h2>
   <div class="form-group">
     <label for="exampleFormControlInput1">작성자</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo.name}">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">등록일</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo.regdate}">
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo2.name}">
   </div>
   <div class="form-group">
     <label for="exampleFormControlTextarea1">쪽지내용</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">${fn:replace(vo.content, newLine, "<br>") }</textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">${fn:replace(vo2.content, newLine, "<br>") }</textarea>
   </div>
 </form>
 	<div style="text-align: center">
-		<button type="button" class="btn btn-outline-primary" onclick="location.href='<c:url value='/message/messagedelete?no=${param.no}'/>'">답변</button>
-		<button type="button" class="btn btn-outline-primary" onclick="location.href='<c:url value='/message/messagedelete?no=${param.no}'/>'">쪽지삭제</button>
-		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/messageList'/>'">쪽지목록</button>		
+	<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendList'/>'">쪽지목록</button>		
 </div>
 
 </body>

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../include/top.jsp" %>
 <%@ include file="messageMenu/messageMenu.jsp"%>
 <%@ include file="../include/middle.jsp"%>
+<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,8 +34,8 @@
 
 <script type="text/javascript">
 	$(function(){
-		$('.btList').click(function(){
-			location.href="<c:url value='/message/messageList'/>";
+		$('.btn-success').click(function(){
+			location.href="<c:url value='/message/sendList'/>";
 		});
 		
 		$('form[name=frmWrite]').submit(function(){
@@ -55,28 +54,23 @@
 <body>
 <div>
 <form class="write-form" name="frmWrite" method="post" 
-	action="<c:url value='/message/messageWrite'/>" >
+	action="<c:url value='/message/sendWrite'/>" >
  <fieldset>
  	<br>
-	<h2>쪽지 작성</h2>
+	<h2>답변 작성</h2>
         <div class="form-group">
             <label for="name">작성자</label>
             <br><br>
             <input type="text" class="form-control" id="name" name="name" class="infobox" />
         </div >
-        <div class="form-group">
-            <label for="pwd">비밀번호</label>
-            <br><br>
-            <input type="password" class="form-control" id="pwd" name="pwd" class="infobox" />
-        </div>
         <div class="form-group">  
         	<label for="content">내용</label>      
         	<br><br>
- 			<textarea id="content"  class="form-control" name="content" rows="12" cols="40"></textarea>
+ 			<textarea id="content"  class="form-control" name="content" rows="10" cols="40"></textarea>
         </div>
         <div style="text-align: center">
-            <input type = "submit" class="btn btn-primary" value="등록"/>
-            <input type = "Button" class="btn btn-primary" value="쪽지목록" class="btList"/>         
+            <input type = "submit" class="btn btn-primary" value="쪽지등록"/>
+            <input type = "Button" class="btn btn-success" value="쪽지목록"/>         
         </div>
     </fieldset>
 </form>

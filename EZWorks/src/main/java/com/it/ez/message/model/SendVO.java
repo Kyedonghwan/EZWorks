@@ -2,11 +2,9 @@ package com.it.ez.message.model;
 
 import java.sql.Timestamp;
 
-import lombok.ToString;
-
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -14,6 +12,7 @@ import lombok.Getter;
 public class SendVO {
 	private int no;
 	private String name;
+	private String pwd;
 	private String content;
 	private Timestamp regdate;
 }

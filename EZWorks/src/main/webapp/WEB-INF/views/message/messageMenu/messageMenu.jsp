@@ -30,7 +30,6 @@
 		<ul style="list-style:none">
 			<li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
-                    <!-- <i class="bi bi-stack"></i> -->
                     <span style="font-weight:bold">쪽지게시판</span>
                 </a>
                 <ul class="submenu active" style="list-style:none">
