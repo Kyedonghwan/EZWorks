@@ -22,7 +22,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="${pageContext.request.contextPath}/message/MessageWrite" 
+			<a href="${pageContext.request.contextPath}/message/messageWrite" 
 				class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
@@ -38,12 +38,12 @@
                 </a>
                 <ul class="submenu active" style="list-style:none">
                     <li class="submenu-item ">
-                        <a href="${pageContext.request.contextPath}/message/MessageInbox">받은쪽지함
+                        <a href="${pageContext.request.contextPath}/message/messageInbox">받은쪽지함
                         <span class="badge badge-primary badge-warning">${receiveCount }</span>
                         </a>      
                     </li>
                     <li class="submenu-item ">
-                        <a href="${pageContext.request.contextPath}/message/MessageSent">보낸쪽지함
+                        <a href="${pageContext.request.contextPath}/message/messageSent">보낸쪽지함
                         <span class="badge badge-primary badge-warning">${sentCount }</span>
                         </a>
                     </li>
@@ -58,7 +58,7 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="<c:url value='/message/ReceiveInbox'/>">쪽지관리</a>
+                                    <a href="<c:url value='/message/receiveInbox'/>">쪽지관리</a>
                                 </li>
                             </ul>
                         </li>

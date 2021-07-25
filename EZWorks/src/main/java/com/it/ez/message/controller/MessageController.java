@@ -34,56 +34,58 @@ public class MessageController {
 	private final MessageService messageService;
 	
 	
-	@GetMapping("/MessageWrite")
+	@GetMapping("/messageWrite")
 	public void write() {
 		logger.info("쪽지 보내기");
 	}
 	
-	@PostMapping("/MessageWrite")
+	@PostMapping("/messageWrite")
 	public String write_post(@ModelAttribute MessageSendVO vo,HttpSession session, Model model) {
 		int userNo=(int) session.getAttribute("userNo");
+		
 		vo.setUserNo(userNo);
 		logger.info("쪽지 보내기, 파라미터 vo={}",vo);
 		
 		int cnt=messageService.insertMessage(vo);
 		logger.info("쪽지 보내기 결과 cnt={}",cnt);
 		
-		String msg="쪽지 보내기 실패!", url="/message/MessageWrite";
+		String msg="쪽지 보내기 실패!", url="/message/messageWrite";
 		if(cnt>0) {
 			model.addAttribute("msg", "쪽지 보내기 성공");
-			model.addAttribute("url", "/message/MessageSent");
+			model.addAttribute("url", "/message/messageSent");
 		}
 		return "common/message";
 		
 	}
 	
-	@PostMapping("/ReceiveWrite")
-	public String receiveWrite(@ModelAttribute MessageReceiveVO vo, int messageNo, 
-			Model model) {
+	@PostMapping("/adminWrite")
+	public String adminWrite(@ModelAttribute MessageReceiveVO vo,int messageNo, Model model) {
 		vo.setMessageNo(messageNo);
 		logger.info("답변하기 vo={}",vo);
 		
 		int cnt=messageService.insertReceiveMessage(vo);
 		
-		String msg="답변 등록 실패!", url="/message/ReceiveWrite";
-		
+		String msg="답변 등록 실패!", url="/message/adminWrite";
 		if(cnt>0) {
 			model.addAttribute("msg", "답변 등록 성공");
-			model.addAttribute("url", "/message/ReceiveDetail?messageNo="+vo.getMessageNo());
+			model.addAttribute("url", "/message/adminDetail?messageNo="+vo.getMessageNo());
 		}
 		return "common/message";
 	}
 	
-	@RequestMapping("/MessageSent")
-	public String sentAll(HttpSession session,@ModelAttribute SearchVo searchVo,Model model) {
+	@RequestMapping("/messageSent")
+	public String sentAll(HttpSession session,@ModelAttribute SearchVo searchVo, Model model) {
 		int userNo=(int) session.getAttribute("userNo");
 		logger.info("보낸 쪽지함, userNo={}, searchVo={}",userNo, searchVo);
 		
+		//페이징 처리 관련
+		//[1] PaginationInfo
 		PaginationInfo pagingInfo = new PaginationInfo();
 		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
 		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
 		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-
+		
+		//[2]
 		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
 		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
 		searchVo.setUserNo(userNo);
@@ -98,21 +100,22 @@ public class MessageController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
-		return "message/MessageSent";
+		return "message/messageSent";
 	}
 	
-	@RequestMapping("/MessageInbox")
-	public String receiveAll(HttpSession session, @ModelAttribute SearchVo searchVo, Model model) {
-		
+	@RequestMapping("/messageInbox")
+	public String receiveAll(HttpSession session,@ModelAttribute SearchVo searchVo,Model model) {
 		int userNo=(int) session.getAttribute("userNo");
-		
 		logger.info("받은 쪽지함, userNo={}, searchVo={}",userNo, searchVo);
 		
+		//페이징 처리 관련
+		//[1] PaginationInfo
 		PaginationInfo pagingInfo = new PaginationInfo();
 		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
 		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
 		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-
+		
+		//[2]
 		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
 		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
 		searchVo.setUserNo(userNo);
@@ -128,21 +131,20 @@ public class MessageController {
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
 		
-		return "message/MessageInbox";
+		return "message/messageInbox";
 	}
 	
 	@RequestMapping("/deleteMessage")
-	public String deleteMessage(int messageNo, Model model) {
-		
+	public String deleteChat(int messageNo,Model model) {
 		logger.info("파라미터 messageNo={}",messageNo);
 		
 		int cnt=messageService.deleteReceiveMessage(messageNo);
 		cnt=messageService.deleteMessage(messageNo);
 		logger.info("쪽지 삭제 결과 cnt={}",cnt);
 		
-		String url="/message/MessageSent";
+		String url="/message/messageSent";
 		if(cnt>0) {
-			return "redirect:/message/MessageSent";
+			return "redirect:/message/messageSent";
 		}else {
 			model.addAttribute("msg", "쪽지 삭제 실패!");
 			return "common/message";
@@ -150,34 +152,32 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/deleteReceive")
-	public String deleteReceive(int messageNo, Model model) {
-		
+	public String deleteReceive(int messageNo,Model model) {
 		logger.info("파라미터 messageNo={}",messageNo);
 		
 		int cnt=messageService.deleteReceiveMessage(messageNo);
 		logger.info("답변 삭제 결과 cnt={}",cnt);
 		
-		String url="/message/ReceiveDetail?messageNo="+messageNo;
+		String url="/message/adminDetail?messageNo="+messageNo;
 		if(cnt>0) {
-			return "redirect:/message/ReceiveDetail?messageNo="+messageNo;
+			return "redirect:/message/adminDetail?messageNo="+messageNo;
 		}else {
 			model.addAttribute("msg", "답변 삭제 실패!");
 			return "common/message";
 		}
 	}
 	
-	@RequestMapping("/receiveDelete")
-	public String receiveDelete(int messageNo, Model model) {
-		
+	@RequestMapping("/adminDelete")
+	public String adminDelete(int messageNo,Model model) {
 		logger.info("파라미터 messageNo={}",messageNo);
 		
 		int cnt=messageService.deleteReceiveMessage(messageNo);
 		cnt=messageService.deleteMessage(messageNo);
 		logger.info("삭제 결과 cnt={}",cnt);
 		
-		String url="/message/MessageEdit";
+		String url="/message/adminEdit";
 		if(cnt>0) {
-			return "redirect:/message/ReceiveInbox";
+			return "redirect:/message/adminInbox";
 		}else {
 			model.addAttribute("msg", "쪽지 삭제 실패!");
 			return "common/message";
@@ -185,9 +185,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/deleteMulti")
-	public String deleteMulti(@ModelAttribute MessageSendListVO sListVo,
-			Model model) {
-		
+	public String deleteMulti(@ModelAttribute MessageSendListVO sListVo,Model model) {
 		logger.info("선택한 쪽지 삭제, 파라미터 mrListVo={}",sListVo);
 		
 		List<MessageSendVO> list=sListVo.getSMessage();
@@ -198,7 +196,7 @@ public class MessageController {
 			logger.info("i={}, messageNo={}", i, messageNo);
 		}
 		
-		String msg="선택한 쪽지 삭제 중 에러 발생!", url="/message/ReceiveInbox";
+		String msg="선택한 쪽지 삭제 중 에러 발생!", url="/message/adminInbox";
 		int cnt=messageService.deleteMessageMulti(list);
 		if(cnt>0) {
 			msg="선택한 쪽지 삭제 완료";
@@ -225,10 +223,10 @@ public class MessageController {
 		model.addAttribute("sentCount", sentCount);
 		model.addAttribute("receiveCount", receiveCount);
 		
-		return "../messageMenu/messageMenu";
+		return "message/messageMenu/messageMenu";
 	}
 	
-	@RequestMapping("/MessageDetail")
+	@RequestMapping("/messageDetail")
 	public String sentDetail(int messageNo,Model model) {
 		logger.info("쪽지 상세보기 messageNo={}",messageNo);
 		
@@ -240,12 +238,12 @@ public class MessageController {
 		
 		model.addAttribute("sendVo", sendVo);
 		model.addAttribute("receiveVo", receiveVo);
-		return "message/MessageDetail";
+		return "message/messageDetail";
 	}
 	
-	@RequestMapping("/ReceiveDetail")
-	public String receiveDetail(int messageNo,Model model) {
-		logger.info("받은 쪽지 상세보기 messageNo={}",messageNo);
+	@RequestMapping("/adminDetail")
+	public String adminDetail(int messageNo,Model model) {
+		logger.info("관리자 쪽지 상세보기 messageNo={}",messageNo);
 		
 		MessageSendVO sendVo=messageService.sentByMessageNo(messageNo);
 		logger.info("sendVo={}",sendVo);
@@ -255,10 +253,10 @@ public class MessageController {
 		
 		model.addAttribute("sendVo", sendVo);
 		model.addAttribute("receiveVo", receiveVo);
-		return "message/ReceiveDetail";
+		return "message/adminDetail";
 	}
 	
-	@GetMapping("/MessagEdit")
+	@GetMapping("/messageEdit")
 	public String sentEdit(int messageNo,Model model) {
 		logger.info("보낸 쪽지 수정 messageNo={}",messageNo);
 		
@@ -266,11 +264,11 @@ public class MessageController {
 		logger.info("sendVo={}",sendVo);
 		
 		model.addAttribute("sendVo", sendVo);
-		return "message/MessageEdit";
+		return "message/messageEdit";
 	}
 	
-	@GetMapping("/ReceiveEdit")
-	public String receiveEdit(int messageNo,Model model) {
+	@GetMapping("/adminEdit")
+	public String adminEdit(int messageNo,Model model) {
 		logger.info("답변 수정 messageNo={}",messageNo);
 		
 		MessageReceiveVO receiveVo=messageService.receiveByMessageNo(messageNo);
@@ -281,43 +279,44 @@ public class MessageController {
 		
 		model.addAttribute("sendVo", sendVo);
 		model.addAttribute("receiveVo", receiveVo);
-		return "message/ReceiveEdit";
+		return "message/adminEdit";
 	}
 	
-	@PostMapping("/MessageEdit")
+	@PostMapping("/messageEdit")
 	public String sentEdit_post(@ModelAttribute MessageSendVO vo,Model model) {
 		logger.info("쪽지 수정, vo={}",vo);
 		
 		int cnt=messageService.editMessage(vo);
 		logger.info("쪽지 수정 결과 cnt={}",cnt);
 		
-		String msg="쪽지 수정 실패!", url="/message/MessageEdit";
+		String msg="쪽지 수정 실패!", url="/message/messageEdit";
 		if(cnt>0) {
 			model.addAttribute("msg", "쪽지 수정 성공");
-			model.addAttribute("url", "/message/MessageDetail?messageNo="+vo.getMessageNo());
+			model.addAttribute("url", "/message/messageDetail?messageNo="+vo.getMessageNo());
 		}
 		return "common/message";
 	}
 	
-	@PostMapping("/ReceiveEdit")
-	public String receiveEdit_post(@ModelAttribute MessageReceiveVO vo,Model model) {
+	@PostMapping("/adminEdit")
+	public String adminEdit_post(@ModelAttribute MessageReceiveVO vo,Model model) {
 		logger.info("답변 수정, vo={}",vo);
 		
 		int cnt=messageService.editReceiveMessage(vo);
 		logger.info("답변 수정 결과 cnt={}",cnt);
 		
-		String msg="답변 수정 실패!", url="/message/ReceiveEdit";
+		String msg="답변 수정 실패!", url="/message/adminEdit";
 		if(cnt>0) {
 			model.addAttribute("msg", "답변 수정 성공");
-			model.addAttribute("url", "/chat/ReceiveDetail?messageNo="+vo.getMessageNo());
+			model.addAttribute("url", "/message/adminDetail?messageNo="+vo.getMessageNo());
 		}
 		return "common/message";
 	}
 	
-	@RequestMapping("/ReceiveInbox")
-	public String receiveInbox(@ModelAttribute SearchVo searchVo,Model model) {
-		logger.info("받은쪽지함, searchVo={}",searchVo);
-
+	@RequestMapping("/adminInbox")
+	public String adminInbox(@ModelAttribute SearchVo searchVo,Model model) {
+		logger.info("관리자 쪽지함, searchVo={}",searchVo);
+		
+		//날짜
 		String startDay=searchVo.getStartDay();
 		if(startDay==null || startDay.isEmpty()) {
 			Date today=new Date();
@@ -326,12 +325,15 @@ public class MessageController {
 			searchVo.setEndDay(str);
 			searchVo.setStartDay(str);
 		}
-
+		
+		//페이징 처리 관련
+		//[1] PaginationInfo
 		PaginationInfo pagingInfo = new PaginationInfo();
 		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
 		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
 		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-
+		
+		//[2]
 		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
 		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
 		logger.info("셋팅 후 searchVo={}", searchVo);
@@ -340,11 +342,11 @@ public class MessageController {
 		logger.info("list.size={}",list.size());
 		
 		int totalRecord=messageService.totalReceive(searchVo);
-		logger.info("받은 쪽지함, totalRecord={}",totalRecord);
+		logger.info("관리자 쪽지함, totalRecord={}",totalRecord);
 		pagingInfo.setTotalRecord(totalRecord);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
-		return "/message/ReceiveInbox";
+		return "/message/adminInbox";
 	}
 }
