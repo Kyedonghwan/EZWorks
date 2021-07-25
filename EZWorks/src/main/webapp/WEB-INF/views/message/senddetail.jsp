@@ -41,13 +41,26 @@
 <body>
 <form class="write-form">
 	<h2>쪽지 상세보기</h2>
-  <div class="form-group">
+	<div class="form-group">
     <label for="exampleFormControlInput1">작성자</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="${vo2.name}">
+    <input type="email" class="form-control" readonly="readonly" id="exampleFormControlInput1" placeholder="${vo.name}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">등록일</label>
+    <input type="email" class="form-control" readonly="readonly" id="exampleFormControlInput1" placeholder="${vo.regdate}">
   </div>
   <div class="form-group">
     <label for="exampleFormControlTextarea1">쪽지내용</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">${fn:replace(vo2.content, newLine, "<br>") }</textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" readonly="readonly" rows="3">${fn:replace(vo.content, newLine, "<br>") }</textarea>
+  </div>	
+	
+  <div class="form-group">
+    <label for="exampleFormControlInput1">작성자</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" readonly="readonly" placeholder="${vo2.name}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">쪽지내용</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" readonly="readonly" rows="3">${fn:replace(vo2.content, newLine, "<br>") }</textarea>
   </div>
 </form>
 	<div style="text-align: center">

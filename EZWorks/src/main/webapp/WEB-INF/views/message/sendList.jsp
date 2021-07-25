@@ -73,14 +73,21 @@
 	body{
 		padding:5px;
 		margin:5px;
+	 }
+	 h2{
+	 	font-size: 40px;
+	 	text-align: center;
 	 }	
+	
+	 
+	 
 </style>	
 </head>	
 <body>
 <nav>
 <br>
 </nav>
-<h2 style="text-align: center">보낸 편지함</h2>
+<h2>보낸 쪽지함</h2>
 <c:if test="${!empty param.searchKeyword }">
 	<p>검색어 : ${param.searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
 </c:if>
@@ -92,12 +99,6 @@
 </form>
 
 <table class="table table-striped">
-	<colgroup>
-		<col style="width:10%;" />
-		<col style="width:50%;" />
-		<col style="width:20%;" />
-		<col style="width:20%;" />	
-	</colgroup>
 	<thead class="thead-dark">
 	  <tr style="text-align: center">
 	    <th scope="col">번호</th>

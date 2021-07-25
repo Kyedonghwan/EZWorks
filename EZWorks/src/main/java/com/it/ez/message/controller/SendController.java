@@ -29,6 +29,7 @@ public class SendController {
 	private static final Logger logger = LoggerFactory.getLogger(SendController.class);
 	
 	private final SendService sendService;
+	private final MessageService messageService;
 	
 	@GetMapping("/sendWrite")
 	public String write() {
@@ -108,10 +109,13 @@ public class SendController {
 		}
 		
 		//2
+		MessageVO vo = messageService.selectByNo(no);
+		logger.info("detail 화면 결과, vo={}",vo);
 		SendVO vo2 = sendService.selectByNo(no);
 		logger.info("detail 화면 결과, vo2={}",vo2);
 		
 		//3
+		model.addAttribute("vo", vo);
 		model.addAttribute("vo2", vo2);
 		
 		return "message/senddetail";

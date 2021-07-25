@@ -19,7 +19,6 @@ select * from message;
 CREATE TABLE send ( 
 no		    number		primary key,   
 name		varchar2(20)    not null, 
-pwd			varchar2(20)    not null, 
 content		varchar2(4000)	null, 		
 regdate		date		default  sysdate 
 );
@@ -30,4 +29,6 @@ start with 1
 nocache;
 
 select * from send;
+
+commit;
 

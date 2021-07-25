@@ -11,7 +11,7 @@
 
 	<insert id="insertMessage" parameterType="sendVo">
 		insert into send
-		values(send_seq.nextval,#{name},#{pwd},#{content},sysdate)
+		values(send_seq.nextval,#{name},#{content},sysdate)
 	</insert>
 	
 	<select id="selectAll" parameterType="searchVo" resultType="sendVo">
@@ -38,24 +38,9 @@
         <include refid="searchWhere"></include>
 	</select>
 	
-	<update id="updateMessage" parameterType="sendVo">
-	 	update send 
-	 	set name=#{name}, title=#{title}, email=#{email}, content=#{content}
-		where no=#{no}
-	 </update>
-	
 	<select id="selectByNo" parameterType="int" resultType="sendVo">
 		select * from send where no=#{no}
 	</select>
-	
-	<select id="selectPwd" parameterType="int" resultType="String">
-		select pwd from send where no=#{no}
-	</select>
-	
-	<delete id="deleteMessage" parameterType="int">
-		delete send
-		where no=#{no}
-	</delete>
 	
 	<select id="getMessageList" resultType="com.it.ez.message.model.SendDAO">
 

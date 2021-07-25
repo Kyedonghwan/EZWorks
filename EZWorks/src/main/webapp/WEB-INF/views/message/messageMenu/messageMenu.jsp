@@ -37,7 +37,7 @@
                         <a href="<c:url value='/message/messageList'/>">받은 쪽지</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="<c:url value='/message/messageSendList'/>l">보낸 쪽지</a>
+                        <a href="<c:url value='/message/sendList'/>">보낸 쪽지</a>
                     </li>
                     
                 </ul>
