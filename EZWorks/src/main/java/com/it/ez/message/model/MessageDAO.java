@@ -4,22 +4,22 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.it.ez.message.common.SearchVOMessage;
+import com.it.ez.message.common.SearchVo;
 
 @Mapper
 public interface MessageDAO {
 	int insertMessage(MessageSendVO vo);
 	int insertReceiveMessage(MessageReceiveVO vo);
-	List<MessageSendVO> sentAll(SearchVOMessage searchVo);
-	List<MessageReceiveVO> receiveAll(SearchVOMessage searchVo);
+	List<MessageSendVO> sentAll(SearchVo searchVo);
+	List<MessageReceiveVO> receiveAll(SearchVo searchVo);
 	int deleteMessage(int messageNo);
 	int deleteReceiveMessage(int messageNo);
-	int sentCount(SearchVOMessage searchVo);
-	int receiveCount(SearchVOMessage searchVo);
+	int sentCount(SearchVo searchVo);
+	int receiveCount(SearchVo searchVo);
 	MessageSendVO sentByMessageNo(int messageNo);
 	int editMessage(MessageSendVO vo);
 	int editReceiveMessage(MessageReceiveVO vo);
-	List<MessageSendVO> receiveMessage(SearchVOMessage searchVo);
+	List<MessageSendVO> receiveMessage(SearchVo searchVo);
 	MessageReceiveVO receiveByMessageNo(int messageNo);
-	int totalReceive(SearchVOMessage searchVo);
+	int totalReceive(SearchVo searchVo);
 }
