@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.it.ez.message.common.ConstUtil;
 import com.it.ez.message.common.PaginationInfo;
-import com.it.ez.message.common.SearchVO;
+import com.it.ez.message.common.SearchVOMessage;
 import com.it.ez.message.model.MessageReceiveVO;
 import com.it.ez.message.model.MessageSendListVO;
 import com.it.ez.message.model.MessageSendVO;
@@ -75,7 +75,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/MessageSent")
-	public String sentAll(HttpSession session,@ModelAttribute SearchVO searchVo,Model model) {
+	public String sentAll(HttpSession session,@ModelAttribute SearchVOMessage searchVo,Model model) {
 		int userNo=(int) session.getAttribute("userNo");
 		logger.info("보낸 쪽지함, userNo={}, searchVo={}",userNo, searchVo);
 		
@@ -102,10 +102,10 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/MessageInbox")
-	public String receiveAll(HttpSession session,@ModelAttribute SearchVO searchVo,
-			Model model) {
+	public String receiveAll(HttpSession session, @ModelAttribute SearchVOMessage searchVo, Model model) {
 		
 		int userNo=(int) session.getAttribute("userNo");
+		
 		logger.info("받은 쪽지함, userNo={}, searchVo={}",userNo, searchVo);
 		
 		PaginationInfo pagingInfo = new PaginationInfo();
@@ -211,7 +211,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/messageMenu")
-	public String countMessage(HttpSession session,@ModelAttribute SearchVO searchVo,Model model) {
+	public String countMessage(HttpSession session,@ModelAttribute SearchVOMessage searchVo,Model model) {
 		int userNo=(int) session.getAttribute("userNo");
 		logger.info("보낸 쪽지, 받은 쪽지 수, userNo={}, searchVo={}",userNo,searchVo);
 		searchVo.setUserNo(userNo);
@@ -315,7 +315,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/ReceiveInbox")
-	public String receiveInbox(@ModelAttribute SearchVO searchVo,Model model) {
+	public String receiveInbox(@ModelAttribute SearchVOMessage searchVo,Model model) {
 		logger.info("받은쪽지함, searchVo={}",searchVo);
 
 		String startDay=searchVo.getStartDay();

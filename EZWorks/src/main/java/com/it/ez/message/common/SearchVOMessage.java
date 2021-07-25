@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SearchVO {
+public class SearchVOMessage {
 	/** 검색조건 */
 	private String searchCondition = "";
 	
@@ -41,7 +41,7 @@ public class SearchVO {
       검색 조건을  설정한다.
       @param bean 검색조건
      */
-    public void setSearchVO(SearchVO bean){
+    public void setSearchVO(SearchVOMessage bean){
     	this.currentPage = bean.currentPage;
     	this.searchCondition = bean.getSearchCondition();
     	this.searchKeyword = bean.getSearchKeyword();

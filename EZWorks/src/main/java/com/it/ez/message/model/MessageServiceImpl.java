@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.it.ez.message.common.SearchVO;
+import com.it.ez.message.common.SearchVOMessage;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public List<MessageSendVO> sentAll(SearchVO searchVo) {
+	public List<MessageSendVO> sentAll(SearchVOMessage searchVo) {
 		return messageDao.sentAll(searchVo);
 	}
 
@@ -38,12 +38,12 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public int sentCount(SearchVO searchVo) {
+	public int sentCount(SearchVOMessage searchVo) {
 		return messageDao.sentCount(searchVo);
 	}
 
 	@Override
-	public int receiveCount(SearchVO searchVo) {
+	public int receiveCount(SearchVOMessage searchVo) {
 		return messageDao.receiveCount(searchVo);
 	}
 
@@ -98,7 +98,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public List<MessageReceiveVO> receiveAll(SearchVO searchVo) {
+	public List<MessageReceiveVO> receiveAll(SearchVOMessage searchVo) {
 		return messageDao.receiveAll(searchVo);
 	}
 
@@ -108,12 +108,12 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public List<MessageSendVO> receiveMessage(SearchVO searchVo) {
+	public List<MessageSendVO> receiveMessage(SearchVOMessage searchVo) {
 		return messageDao.receiveMessage(searchVo);
 	}
 
 	@Override
-	public int totalReceive(SearchVO searchVo) {
+	public int totalReceive(SearchVOMessage searchVo) {
 		return messageDao.totalReceive(searchVo);
 	}
 
