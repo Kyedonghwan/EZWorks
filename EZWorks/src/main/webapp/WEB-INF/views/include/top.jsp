@@ -137,7 +137,7 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>자료실</span>
 						</a></li>
 						
-						<li class="sidebar-item  "><a href="<c:url value='/message/messageList'/>"
+						<li class="sidebar-item  "><a href="<c:url value='/message/MessageInbox'/>"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>쪽지</span>
 						</a></li>
 						

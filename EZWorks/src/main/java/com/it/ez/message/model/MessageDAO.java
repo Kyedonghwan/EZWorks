@@ -8,11 +8,18 @@ import com.it.ez.message.common.SearchVO;
 
 @Mapper
 public interface MessageDAO {
-	int insertMessage(MessageVO vo);
-	public List<MessageVO> selectAll(SearchVO searchVo);
-	int selectTotalRecord(SearchVO searchVo);
-	MessageVO selectByNo(int no);
-	boolean checkPwd(int no, String pwd);
-	String selectPwd(int no);
-	int deleteMessage(int no);	
+	int insertMessage(MessageSendVO vo);
+	int insertReceiveMessage(MessageReceiveVO vo);
+	List<MessageSendVO> sentAll(SearchVO searchVo);
+	List<MessageReceiveVO> receiveAll(SearchVO searchVo);
+	int deleteMessage(int messageNo);
+	int deleteReceiveMessage(int messageNo);
+	int sentCount(SearchVO searchVo);
+	int receiveCount(SearchVO searchVo);
+	MessageSendVO sentByMessageNo(int messageNo);
+	int editMessage(MessageSendVO vo);
+	int editReceiveMessage(MessageReceiveVO vo);
+	List<MessageSendVO> receiveMessage(SearchVO searchVo);
+	MessageReceiveVO receiveByMessageNo(int messageNo);
+	int totalReceive(SearchVO searchVo);
 }
