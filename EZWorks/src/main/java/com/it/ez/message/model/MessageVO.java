@@ -9,9 +9,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MessageReceiveVO {
-	private int messageNo; 
-	private String messageTitle; 
-	private String messageContent; 
-	private Timestamp messageRegdate; 
+public class MessageVO {
+	private int no;
+	private String name;
+	private String pwd;
+	private String content;
+	private Timestamp regdate;
 }

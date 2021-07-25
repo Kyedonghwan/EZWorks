@@ -5,52 +5,25 @@
 <mapper namespace="com.it.ez.message.model.MessageDAO">
 	<sql id="searchWhere">
 		<if test="searchKeyword!=null and searchKeyword!=''">
-			and ${searchCondition}  like '%' || #{searchKeyword} || '%'
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
 		</if>
 	</sql>
-	<insert id="insertMessage" parameterType="messageSendVo" >
-		<selectKey keyProperty="messageNo" resultType="int" order="BEFORE">
-			select MESSAGENO_SEQ.nextval from dual
-		</selectKey>
-		insert into MESSAGE_SEND(MESSAGE_NO,MESSAGE_TITLE,MESSAGE_CONTENT,USER_NO)
-		values(#{messageNo},#{messageTitle},#{messageContent},#{userNo})
-	</insert>
-	
-	<insert id="insertReceiveMessage" parameterType="messageReceiveVo">
-		insert into MESSAGE_RECEIVE(MESSAGE_NO,MESSAGE_TITLE,MESSAGE_CONTENT)
-		values(#{messageNo},#{messageTitle},#{messageContent})
-	</insert>
-	
-	<select id="sentAll" parameterType="searchVo" resultType="messageSendVo">
-		select *
-		from
-		(
-		    select rownum as RNUM,A.*
-		    from
-		    (
-		        select * from MESSAGE_SEND 
-		        where USER_NO=#{userNo}
-		        <include refid="searchWhere"></include>
-		        order by MESSAGE_REGDATE desc
-		    )A
-		)
-		<![CDATA[
-		where RNUM > #{firstRecordIndex} 
-		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
-		]]>
-	</select>
 
-	<select id="receiveAll" parameterType="searchVo" resultType="messageReceiveVo">
+	<insert id="insertMessage" parameterType="messageVo">
+		insert into message
+		values(message_seq.nextval,#{name},#{pwd},#{content},sysdate)
+	</insert>
+	
+	<select id="selectAll" parameterType="searchVo" resultType="messageVo">
 		select *
 		from
 		(
 		    select rownum as RNUM,A.*
 		    from
 		    (
-		        select * from messageView 
-		        where USER_NO=#{userNo}
+		        select * from message 
 		        <include refid="searchWhere"></include>
-		        order by MESSAGE_REGDATE desc
+		        order by no desc
 		    )A
 		)
 		<![CDATA[
@@ -59,80 +32,47 @@
 		]]>
 	</select>
 	
-	<select id="sentCount" parameterType="SearchVo" resultType="int">
-		select count(*) from MESSAGE_SEND
-		where USER_NO=#{userNo}
-		<include refid="searchWhere"></include>
+	<select id="selectTotalRecord" parameterType="SearchVo"
+		resultType="int">
+		select count(*) from message 
+        <include refid="searchWhere"></include>
 	</select>
 	
-	<select id="receiveCount" parameterType="SearchVo" resultType="int">
-		select count(*) from messageView
-		where USER_NO=#{userNo}
-		<include refid="searchWhere"></include>
+	<update id="updateMessage" parameterType="messageVo">
+	 	update message 
+	 	set name=#{name}, title=#{title}, email=#{email}, content=#{content}
+		where no=#{no}
+	 </update>
+	
+	<select id="selectByNo" parameterType="int" resultType="messageVo">
+		select * from message where no=#{no}
+	</select>
+	
+	<select id="selectPwd" parameterType="int" resultType="String">
+		select pwd from message where no=#{no}
 	</select>
 	
 	<delete id="deleteMessage" parameterType="int">
-		delete from MESSAGE_SEND where MESSAGE_NO=#{messageNo}
+		delete message
+		where no=#{no}
 	</delete>
 	
-	<delete id="deleteReceiveMessage" parameterType="int">
-		delete from MESSAGE_RECEIVE where MESSAGE_NO=#{messageNo}
-	</delete>
-	
-	<select id="sentByMessageNo" parameterType="int" resultType="messageSendVo">
-		select * from MESSAGE_SEND
-		where MESSAGE_NO=#{messageNo}
+	<select id="getMessageList" resultType="com.it.ez.message.model.MessageDAO">
+
+		SELECT
+
+			message_seq.nextval,#{name},#{pwd},#{content},sysdate
+
+		FROM
+
+			message
+
+		LIMIT #{startList}, #{listSize}
+
 	</select>
-	
-	<update id="editMessage" parameterType="messageSendVo">
-		update MESSAGE_SEND
-		set MESSAGE_TITLE=#{messageTitle}, MESSAGE_CONTENT=#{messageContent}
-		where MESSAGE_NO=#{messageNo}
-	</update>
-	
-	<update id="editReceiveMessage" parameterType="messageReceiveVo">
-		update MESSAGE_RECEIVE
-		set MESSAGE_TITLE=#{messageTitle}, MESSAGE_CONTENT=#{messageContent}
-		where MESSAGE_NO=#{messageNo}
-	</update>
-	
-	<select id="receiveMessage" parameterType="searchVo" resultType="messageSendVo">
-		select *
-		from
-		(
-		    select rownum as RNUM,A.*
-		    from
-		    (
-		        select * from MESSAGE_SEND 
-		        where MESSAGE_REGDATE>=#{startDay}
-				<![CDATA[
-				and MESSAGE_REGDATE < TO_DATE(#{endDay}) + 1
-				]]>
-				<include refid="searchWhere"></include>
-		        order by MESSAGE_REGDATE desc
-		    )A
-		)
-		<![CDATA[
-		where RNUM > #{firstRecordIndex} 
-		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
-		]]>
-	</select>
-	
-	<select id="totalReceive" parameterType="SearchVo"
-		resultType="int">
-		select count(*) from MESSAGE_SEND 
-        where MESSAGE_REGDATE>=#{startDay}
-		<![CDATA[
-		and MESSAGE_REGDATE < TO_DATE(#{endDay}) + 1
-		]]>
-		<include refid="searchWhere"></include>
-	</select>
-	
-	<select id="receiveByMessageNo" parameterType="int" resultType="messageReceiveVo">
-		select * from MESSAGE_RECEIVE
-		where MESSAGE_NO=#{messageNo}
-	</select>
+
 </mapper>
+
 
 
 

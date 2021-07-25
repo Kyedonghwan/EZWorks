@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <style type="text/css">
 	a{
 		color:black;
@@ -17,13 +15,12 @@
 <section style="height:64px;padding:24px 24px 16px;">
 	
 	<h5>
-		<a style="font-size: 120%">쪽지</a>
+		<a style="font-size: 150%">쪽지</a>
 	</h5>
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="${pageContext.request.contextPath}/message/messageWrite" 
-				class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
 	</div>
@@ -34,36 +31,21 @@
 			<li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
                     <!-- <i class="bi bi-stack"></i> -->
-                    <span style="font-weight:bold">쪽지함</span>
+                    <span style="font-weight:bold">쪽지게시판</span>
                 </a>
                 <ul class="submenu active" style="list-style:none">
                     <li class="submenu-item ">
-                        <a href="${pageContext.request.contextPath}/message/messageInbox">받은쪽지함
-                        <span class="badge badge-primary badge-warning">${receiveCount }</span>
-                        </a>      
+                        <a href="<c:url value='/message/messageList'/>">받은 쪽지</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="${pageContext.request.contextPath}/message/messageSent">보낸쪽지함
-                        <span class="badge badge-primary badge-warning">${sentCount }</span>
-                        </a>
+                        <a href="<c:url value='/message/messageSendList'/>l">보낸 쪽지</a>
                     </li>
                     
                 </ul>
              </li>
-             
-             <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>관리자전용</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="<c:url value='/message/receiveInbox'/>">쪽지관리</a>
-                                </li>
-                            </ul>
-                        </li>
              <br>
-           
+             
+             
          </ul>
 	</div>
 </section>
