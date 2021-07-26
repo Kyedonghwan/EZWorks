@@ -32,6 +32,12 @@
 		order by contentNo desc
 	</select>
 	
+	<select id="selectC_boardView" parameterType="int" resultType="map">
+		select * from c_boardView
+		where communityNo=#{communityNo}
+		order by regdate desc
+	</select>
+	
 </mapper>
 
 

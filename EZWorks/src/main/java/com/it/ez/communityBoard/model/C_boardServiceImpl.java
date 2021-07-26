@@ -1,6 +1,7 @@
 package com.it.ez.communityBoard.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,11 @@ public class C_boardServiceImpl implements C_boardService{
 	@Override
 	public List<C_boardContentVO> selectC_boardContent() {
 		return c_boardDao.selectC_boardContent();
+	}
+
+	@Override
+	public List<Map<String, Object>> selectC_boardView(int communityNo) {
+		return c_boardDao.selectC_boardView(communityNo);
 	}
 	
 }
