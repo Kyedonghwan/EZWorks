@@ -268,6 +268,7 @@ public class BoardController {
 		model.addAttribute("vo", vo);
 		logger.info("current={}",vo.getCurrentStatusVal());
 		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
+		model.addAttribute("boardVo", boardVo);
 		String boardShowType = boardVo.getBoardShowType();
 		String url = "";
 		if(boardShowType.equals(BoardService.BOARD_CLASSIC)) {

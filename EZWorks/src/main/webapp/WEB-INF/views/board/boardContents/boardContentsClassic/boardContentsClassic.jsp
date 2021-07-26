@@ -16,7 +16,7 @@
 	}
 	
 	#contents{
-		border-left: 1px solid #dfe3e7;/
+		border-left: 1px solid #dfe3e7;
 		border-right: 1px solid #dfe3e7;
 	}
 	span.recent-header{
