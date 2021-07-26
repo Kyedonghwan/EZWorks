@@ -40,7 +40,21 @@ public class BoardServiceImpl implements BoardService{
 			String name = vo.getEmpName();
 			namelist.add(name);
 		}
-		String var = "씨발";
 		return namelist;
+	}
+
+	@Override
+	public int insertFavBoards(int boardNo, int empNo) {
+		return boardDao.insertFavBoards(boardNo, empNo);
+	}
+
+	@Override
+	public List<BoardVO> selectFavBoards(int empNo) {
+		return boardDao.selectFavBoards(empNo);
+	}
+
+	@Override
+	public int deleteFavBoards(int boardNo, int empNo) {
+		return boardDao.deleteFavBoards(boardNo, empNo);
 	}
 }

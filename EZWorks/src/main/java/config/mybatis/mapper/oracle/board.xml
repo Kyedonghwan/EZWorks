@@ -15,6 +15,16 @@
 	<select id="selectBoardAdmin" resultType="int">
 		select emp_no from board_admin_list where board_no=#{boardNo}
 	</select>
+	<insert id="insertFavBoards">
+		insert into user_sel_board(board_no, emp_no)
+		values(#{boardNo}, #{empNo})
+	</insert>
+	<select id="selectFavBoards" resultType="BoardVO">
+		select * from board where board_no in (select board_no from user_sel_board where emp_no = #{empNo})
+	</select>
+	<delete id="deleteFavBoards">
+		delete from user_sel_board where emp_no=#{empNo} and board_no=#{boardNo}
+	</delete>
 </mapper>
 
 

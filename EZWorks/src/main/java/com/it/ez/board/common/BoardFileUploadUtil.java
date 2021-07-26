@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+
 @Component
 public class BoardFileUploadUtil {
 	private static final Logger logger
@@ -31,28 +33,21 @@ public class BoardFileUploadUtil {
 		
 		//결과를 저장할 list
 		List<Map<String, Object>> list = new ArrayList<>();
-		
-		Map<String, MultipartFile> filesMap =multiRequest.getFileMap();
-		
-		Iterator<String> iter =filesMap.keySet().iterator();
-		while(iter.hasNext()) {
-			String key=iter.next();
-			MultipartFile tempFile=filesMap.get(key);
-			//=> 업로드된 파일을 임시파일 형태로 제공
-			
-			if(!tempFile.isEmpty()) {
-				long fileSize=tempFile.getSize();
-				String originFileName =tempFile.getOriginalFilename();
-				
+		List<MultipartFile> filepondList = multiRequest.getFiles("filepond");
+		System.out.println("filepondList.size"+filepondList.size());
+		if(filepondList!=null&&!filepondList.isEmpty()) {
+			for(MultipartFile mf : filepondList) {
+				String originFileName =mf.getOriginalFilename();
+				System.out.println("오리지날 파일 네임"+originFileName);
 				//변경된 파일 이름
 				String fileName=getUniqueFileName(originFileName);
-				
+				long fileSize=mf.getSize();
 				//업로드 경로
 				String uploadPath = getUploadPath(request, pathFlag);
 				
 				//업로드 처리하기 - 업로드 경로에 업로드 파일 저장
 				File file = new File(uploadPath, fileName);
-				tempFile.transferTo(file);
+				mf.transferTo(file);
 				
 				Map<String, Object> map = new HashMap<>();
 				map.put("fileName", fileName);
@@ -61,7 +56,7 @@ public class BoardFileUploadUtil {
 				
 				list.add(map);
 			}
-		}//while
+		}
 		
 		return list;
 	}
@@ -72,13 +67,13 @@ public class BoardFileUploadUtil {
 		
 		if(BoardConstUtil.FILE_UPLOAD_TYPE.equals("test")) {
 			if(pathFlag==BoardConstUtil.UPLOAD_FILE_FLAG) {
-				path=BoardConstUtil.FILE_UPLOAD_PATH_TEST;
+				path=BoardConstUtil.POSTING_FILE_UPLOAD_PATH_TEST;
 			}else if(pathFlag==BoardConstUtil.UPLOAD_IMAGE_FLAG) {
 				path=BoardConstUtil.IMAGE_FILE_UPLOAD_PATH_TEST;
 			}
 		}else {  //deploy
 			if(pathFlag==BoardConstUtil.UPLOAD_FILE_FLAG) {			
-				path=BoardConstUtil.FILE_UPLOAD_PATH;  //pds_upload
+				path=BoardConstUtil.POSTING_FILE_UPLOAD_PATH;  //pds_upload
 			}else if(pathFlag==BoardConstUtil.UPLOAD_IMAGE_FLAG) {
 				path=BoardConstUtil.IMAGE_FILE_UPLOAD_PATH;	
 			}

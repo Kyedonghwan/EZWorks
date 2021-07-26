@@ -13,6 +13,7 @@ public class BoardSearchVO {
 	/** 현재 페이지 */
 	private int currentPage = 1;
 	
+	private int boardNo = 0;	
     
     /**블럭당 보여질 페이지 수,  페이지 사이즈 */
     private int blockSize; // properties에서 설정
@@ -39,6 +40,7 @@ public class BoardSearchVO {
     	this.firstRecordIndex = bean.firstRecordIndex;
     	this.lastRecordIndex = bean.lastRecordIndex;
     	this.recordCountPerPage = bean.recordCountPerPage;
+    	this.boardNo = bean.boardNo;
     }
 
     public String getSearchCondition() {
@@ -104,6 +106,16 @@ public class BoardSearchVO {
 
 	public void setRecordCountPerPage(int recordCountPerPage) {
 		this.recordCountPerPage = recordCountPerPage;
+	}
+
+	
+	
+	public int getBoardNo() {
+		return boardNo;
+	}
+
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
 	}
 
 	@Override

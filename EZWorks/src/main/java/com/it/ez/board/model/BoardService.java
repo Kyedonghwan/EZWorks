@@ -42,4 +42,7 @@ public interface BoardService {
 	public BoardVO selectByBoardNo(int boardNo);
 	public List<BoardVO> selectByBoardType(String boardType);
 	public List<String> selectBoardAdmin(int boardNo);
+	public int insertFavBoards(int boardNo, int empNo);
+	public List<BoardVO> selectFavBoards(int empNo);
+	public int deleteFavBoards(int boardNo, int empNo);
 }

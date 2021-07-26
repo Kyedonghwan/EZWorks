@@ -10,4 +10,7 @@ public interface BoardDAO {
 	public BoardVO selectByBoardNo(int boardNo);
 	public List<BoardVO> selectByBoardType(String boardType);
 	public List<Integer> selectBoardAdmin(int boardNo);
+	public int insertFavBoards(int boardNo, int empNo);
+	public List<BoardVO> selectFavBoards(int empNo);
+	public int deleteFavBoards(int boardNo, int empNo);
 }

@@ -78,10 +78,11 @@
 		$('#submitBtn').click(function(){
 			$('input[name=postingIsTemp]').val(0);
 			$('input[name=boardNo]').val($('#boardTypeSelect2').val());
-			
-			alert('postingItTemp'+$('input[name=postingIsTemp]').val());
-			alert('boardNo'+$('input[name=boardNo]').val());
-			alert('check'+$('input[name=postingIsPublic]:checked').val());
+			if($('input[name=postingIsNotice]').is(':checked')){
+				$('input[name=postingIsNotice]').val(1);
+			}else{
+				$('input[name=postingIsNotice]').val(0);
+			}
 			
 			if($('#boardTypeSelect1').val()==''){
 				Toastify({
@@ -93,7 +94,6 @@
 			        backgroundColor: "black",
 			    }).showToast();
 				event.preventDefault();
-				return false;
 			}else if($('input[name=postingTitle]').val()==''){
 				Toastify({
 			        text: "제목을 입력하세요",
@@ -104,7 +104,6 @@
 			        backgroundColor: "black",
 			    }).showToast();
 				event.preventDefault();
-				return false;
 			}else if($('textarea[name=postingContent]').val()==''){
 				Toastify({
 			        text: "내용을 입력하세요",
@@ -115,20 +114,19 @@
 			        backgroundColor: "black",
 			    }).showToast();
 				event.preventDefault();
-				return false;
 			}else{
 				$('form[name=postingWriteForm]').submit();
 			}
 		});
 		
-		$('#tempSubmitBtn').click(function(){
+		/* $('#tempSubmitBtn').click(function(){
 			$.ajax({
 				
 			});
-		});
+		}); */
 	});
 </script>
-<form name="postingWriteForm" action="" style="padding:0px;margin:0px;" enctype="multipart/form-data">
+<form name="postingWriteForm" action="<c:url value='/board/writePosting'/>" method="post" enctype="multipart/form-data" style="padding:0px;margin:0px;" >
 <input type="hidden" name="boardNo">
 <input type="hidden" name="postingIsTemp">
 	<section style="padding:0px;">
@@ -171,7 +169,11 @@
 					<table class="form_article">
 						<tbody><tr>
 							<td style="padding-bottom:10px;">
-								<input class="form-control" type="text" id="subject" name="postingTitle" style="min-width:500px;clear:both;float:left">
+								<input class="form-control" type="text" id="subject" name="postingTitle" style="min-width:500px;clear:both;float:left"
+								<c:if test="${!empty postingVO }">
+									value="${postingVO.postingContent }"
+								</c:if>
+								>
 							</td>
 						</tr>
 					</tbody></table>
@@ -180,12 +182,13 @@
 			<tr id="attachPart">
 				<th>
 					<span class="title" style="font-size:0.85em">파일 첨부
-						<div style="display:inline;width:250;height:250" data-bs-toggle="tooltip" data-bs-placement="top" title="첨부파일 1개의 최대 용량은 100 MB 이며 최대 2 개 까지 등록 가능합니다">
-						<span class="fa-fw select-all fas"></span>
-				</div></span></th>
+				<div style="display:inline;width:250;height:250" data-bs-toggle="tooltip" data-bs-placement="top" title="첨부파일 1개의 최대 용량은 100 MB 이며 최대 2 개 까지 등록 가능합니다">
+						
+						<span class="fa-fw select-all fas"></span></div>
+				</span></th>
 				<td>
 					<!-- 첨부파일 default -->
-						<input type="file" class="multiple-files-filepond" multiple>
+						<input type="file" name="filepond" class="multiple-files-filepond" multiple>
 				</td>
 			</tr>		
 			</tbody>
@@ -249,56 +252,67 @@
 			</button>
 		</div>
 
+<!-- toastify -->
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
+
 
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-
 <!-- image editor -->
 <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-<!-- toastify -->
-<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
-
-<!-- filepond -->
+<!-- filepond validation -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-
-<script src="<c:url value='/resources/vendors/jquery/jquery.min.js'/>"></script>
-<script src="<c:url value='/resources/vendors/summernote/summernote-lite.min.js'/>"></script>
+<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+<!-- filepond -->
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 <script type="text/javascript">
-    // register desired plugins...
+	// register desired plugins...
 	FilePond.registerPlugin(
-        // validates the size of the file...
-        FilePondPluginFileValidateSize,
-        // validates the file type...
-        FilePondPluginFileValidateType,
+    // validates the size of the file...
+    FilePondPluginFileValidateSize,
+    // validates the file type...
+    FilePondPluginFileValidateType,
 
-        // calculates & dds cropping info based on the input image dimensions and the set crop ratio...
-        FilePondPluginImageCrop,
-        // preview the image file type...
-        FilePondPluginImagePreview,
-        // filter the image file
-        FilePondPluginImageFilter,
-        // corrects mobile image orientation...
-        FilePondPluginImageExifOrientation,
-        // calculates & adds resize information...
-        FilePondPluginImageResize,
+    // calculates & dds cropping info based on the input image dimensions and the set crop ratio...
+    FilePondPluginImageCrop,
+    // preview the image file type...
+    FilePondPluginImagePreview,
+    // filter the image file
+    FilePondPluginImageFilter,
+    // corrects mobile image orientation...
+    FilePondPluginImageExifOrientation,
+    // calculates & adds resize information...
+    FilePondPluginImageResize
     );
 
     // Filepond: Multiple Files
-    FilePond.create( document.querySelector('.multiple-files-filepond'), { 
+	FilePond.create( document.querySelector('.multiple-files-filepond'), { 
         allowImagePreview: false,
         allowMultiple: true,
         allowFileEncode: false,
         required: false,
         maxFiles: 2,
-        checkValidity: true,
-        maxFileSize: '100MB'
+        checkValidity: false,
+        maxFileSize: '100MB',
+        storeAsFile: true
     });
     
+    $('.multiple-files-filepond').on('FilePond:addfile', function(e){
+    	console.log('file added event', e);
+    });    
+    
+   	
+</script>
+
+<!-- summernote -->
+<script src="<c:url value='/resources/vendors/jquery/jquery.min.js'/>"></script>
+<script src="<c:url value='/resources/vendors/summernote/summernote-lite.min.js'/>"></script>
+<script type="text/javascript">
     $('#summernote').summernote({
         tabsize: 2,
         height: 360,
@@ -317,6 +331,10 @@
             }
         }
     });
+</script>
+<script src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
+<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
+<script type="text/javascript">
     function saveContent(){
     	var summernoteContent = $('#summernote').summernote('code');
     	console.log("summernoteContent : "+summernoteContent);
