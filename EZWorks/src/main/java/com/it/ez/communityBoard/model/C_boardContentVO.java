@@ -24,7 +24,7 @@ public class C_boardContentVO {
     private int sortNo;
     private String images;
     private String fileName;
-    private int fileSize;
+    private long fileSize;
     private String originalFileName;
     private int downCounts;
 }

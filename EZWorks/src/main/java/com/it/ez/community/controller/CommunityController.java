@@ -119,7 +119,7 @@ public class CommunityController {
 		
 	}
 	
-	@GetMapping("/communityWrite")
+	@GetMapping("/c_boardWrite")
 	public String writeCommunity(@RequestParam(defaultValue = "0") int communityNo, Model model) {
 		logger.info("커뮤니티 게시판 글쓰기 페이지, 파라미터 communityNo={}", communityNo);
 		
@@ -133,19 +133,19 @@ public class CommunityController {
 		model.addAttribute("list", list);
 		model.addAttribute("boardList", boardList);
 		
-		return "community/board/communityWrite";
+		return "community/board/c_boardWrite";
 	}
 	
-	@PostMapping("/communityWrite")
+	@PostMapping("/c_boardWrite")
 	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
 			@RequestParam int boardNo,  @RequestParam(defaultValue = "0") int communityNo, Model model) {
-		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={}, boardNo={}, communityNo"
+		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={}, boardNo={}, communityNo={}"
 				, contentVo, boardNo, communityNo);
 		
 		contentVo.setBoardNo(boardNo);
 		int cnt = c_boardService.insertBoardContent(contentVo);
 		
-		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/communityWrite";
+		String msg="커뮤니티 게시판 글쓰기 실패!", url="/community/board/c_boardWrite";
 		if(cnt>0) {
 			msg="커뮤니티 게시판 글쓰기 성공";
 			url="/community/communityOne?communityNo="+communityNo;

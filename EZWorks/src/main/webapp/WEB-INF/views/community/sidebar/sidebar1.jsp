@@ -40,7 +40,7 @@
             <div class="card-header" id="headingOne" data-bs-toggle="collapse"
                 data-bs-target="#collapseOne" aria-expanded="false"
                 aria-controls="collapseOne" role="button">
-             <span><img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" align="absmiddle"></span>
+             <span class="fa-fw select-all fas"></span> 가입한 커뮤니티
 	         <span class="collapsed collapse-title">${vo.communityName}</span>
             </div>
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
@@ -51,7 +51,7 @@
 			             <span>
 			             	<a href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
 			             	<a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
-			             	<img  id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a>
+			             	<img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a>
 			             </span><br>
 			        </c:forEach>
 		        </c:if>

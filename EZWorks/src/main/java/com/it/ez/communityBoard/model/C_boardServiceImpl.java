@@ -36,5 +36,20 @@ public class C_boardServiceImpl implements C_boardService{
 	public List<Map<String, Object>> selectC_boardView(int communityNo) {
 		return c_boardDao.selectC_boardView(communityNo);
 	}
+
+	@Override
+	public int updateC_board(C_boardVO boardVo) {
+		return c_boardDao.updateC_board(boardVo);
+	}
+
+	@Override
+	public int deleteC_board(int boardNo) {
+		return c_boardDao.deleteC_board(boardNo);
+	}
+
+	@Override
+	public int deleteC_boardContent(int contentNo) {
+		return c_boardDao.deleteC_boardContent(contentNo);
+	}
 	
 }
