@@ -1,5 +1,8 @@
 package com.it.ez.emp.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -18,4 +21,11 @@ public class EmpServiceImpl implements EmpService{
 	public EmpVO selectEmpByEmpNo(int empNo) {
 		return empDao.selectEmpByEmpNo(empNo);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectOrganization() {
+		
+		return empDao.selectOrganization();
+	}
+	
 }

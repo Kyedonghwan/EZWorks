@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
 public class DeptVO {
 	private int deptNo;
-	private int deptName;
+	private String deptName;
+	private int upperDeptNo;
 }
