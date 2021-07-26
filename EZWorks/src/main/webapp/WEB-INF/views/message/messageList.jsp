@@ -106,6 +106,7 @@
 	</colgroup>
 	<thead class="thead-dark">
 	  <tr style="text-align: center">
+		</label></th>
 	    <th scope="col">번호</th>
 	    <th scope="col">내용</th>
 	    <th scope="col">작성자</th>
@@ -118,9 +119,9 @@
 				<td colspan="5" class="align_center">null!!</td>
 			</tr>
 		</c:if>		
-		<c:if test="${!empty list }">			 
-		  	<!-- 반복문 시작  -->		
-		  	<c:forEach var="vo" items="${list }">			 
+		<c:if test="${!empty list }">			 	
+		  	<c:forEach var="vo" items="${list }">	
+	 
 				<tr class="align_center">
 					<td>${vo.no}</td>
 					<td>
@@ -135,7 +136,6 @@
 					</td>
 				</tr> 
 			</c:forEach>
-		  	<!--반복처리 끝  -->
 	  	</c:if>
 	 </tbody>
 </table>
