@@ -11,7 +11,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>guestbookDetail.jsp</title>
+<title>메시지 상세보기</title>
 <link rel="stylesheet" type="text/css" 
 	href="<c:url value='/resources/css/mainstyle.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/clear.css'/>" />
@@ -26,13 +26,17 @@
 		padding:5px;
 		margin:5px;
 	 }
-	.divForm {
-		width: 500px;
-		}
+
 	.write-form {
 	  width: 70%;
 	  margin: 0 auto;
 	}
+	
+	 h2{
+	 	font-size: 30px;
+	 	text-align: center;
+	 }	
+	 
 </style>  
 </head>
 <nav>
@@ -56,9 +60,18 @@
 </form>
 	<div style="text-align: center">
 		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendWrite'/>'">답변</button>		
+		<a href='<c:url value='/message/messageEdit?no=${param.no}'/>'>
+				<button type="button" class="btn btn-outline-warning">수정</button></a>			
 		<button type="button" class="btn btn-outline-primary" onclick="location.href='<c:url value='/message/messagedelete?no=${param.no}'/>'">쪽지삭제</button>
 		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/messageList'/>'">쪽지목록</button>		
 	</div>
+	<nav><br></nav>
+	<hr>
+	<footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
 
 </body>
 </html>

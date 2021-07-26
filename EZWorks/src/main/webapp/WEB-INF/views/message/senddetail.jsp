@@ -67,5 +67,13 @@
 	<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendList'/>'">쪽지목록</button>		
 </div>
 
+<nav><br></nav>
+	<hr>
+	<footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
+
 </body>
 </html>

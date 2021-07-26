@@ -40,7 +40,7 @@
 	
 	<update id="updateMessage" parameterType="messageVo">
 	 	update message 
-	 	set name=#{name}, title=#{title}, email=#{email}, content=#{content}
+	 	set name=#{name}, content=#{content}
 		where no=#{no}
 	 </update>
 	
@@ -56,6 +56,7 @@
 		delete message
 		where no=#{no}
 	</delete>
+	
 	
 	<select id="getMessageList" resultType="com.it.ez.message.model.MessageDAO">
 

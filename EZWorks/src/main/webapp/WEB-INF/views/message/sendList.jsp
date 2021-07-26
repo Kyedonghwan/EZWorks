@@ -78,6 +78,11 @@
 	 .divSearch{
 		margin: 0 auto;
 	}
+	
+	body{
+		padding:10px;
+		margin:10px;
+	 }	
  
 </style>	
 </head>	
@@ -132,30 +137,29 @@
 	  	</c:if>
 	 </tbody>
 </table>
-<ul class="pagination justify-content-center" >
-	<c:if test="${pagingInfo.firstPage>1 }">
-	<li class="page-item">
-		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">이전으로
-		</a>
-	</li>
-	</c:if>
-	<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
-	<li class="page-item">
-		<c:if test="${i==pagingInfo.currentPage }">
-			<span style="color:blue;font-weight: bold" class="page-link" >${i}</span>
-		</c:if>
-		<c:if test="${i!=pagingInfo.currentPage }">
-			<a class="page-link" href="#" onclick="pageProc(${i})">${i}
-			</a>
-		</c:if>
-	</li>
-	</c:forEach>
-	<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
-	<li class="page-item">
-		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.lastPage+1})">다음으로</a>
-	</li>	
-	</c:if>
-</ul>
+<div style="margin-top:40px">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination pagination-primary pagination-sm justify-content-center">
+				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>disabled</c:if>">
+				<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">Previous</a></li>
+				<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
+					<c:if test="${i==pagingInfo.currentPage }">
+						<li class="page-item active"><a class="page-link" href="#">${i }</a></li>
+					</c:if>
+					<c:if test="${i!=pagingInfo.currentPage }">
+						<li class="page-item"><a class="page-link" href="#" onclick="pageProc(${i})">${i }</a></li>
+					</c:if>
+				</c:forEach>
+				<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
+					<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> <img
+						src="<c:url value='/resources/images/message/last.JPG'/>" alt="다음 블럭으로">
+					</a>
+				</c:if>
+				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.lastPage }'>disabled</c:if>"><a class="page-link" href="#">Next</a></li>
+			</ul>
+		</nav>
+	</div>
+	<nav><br></nav>
 <nav><br></nav>
 
 <div class="divSearch" style="display:flex;
@@ -180,6 +184,13 @@
 		</div>
     </form>
 	</div>
+	<nav><br></nav>
+	<hr>
+	<footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
 </body>
 
 </body>

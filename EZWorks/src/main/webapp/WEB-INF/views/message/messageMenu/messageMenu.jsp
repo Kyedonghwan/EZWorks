@@ -12,6 +12,7 @@
 	} 
 	.dropdown{
 		font-size: 30px;
+		text-align:center;
 		margin: 0 auto;
 	}
 
@@ -25,30 +26,16 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-outline-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
+			<nav><br></nav>
+			<a href="<c:url value='/message/messageList'/>" class="btn btn-outline-success" style="width:100%;font-size:0.85em;">
+				받은 쪽지
+			</a>
+			<nav><br></nav>
+			<a href="<c:url value='/message/sendList'/>" class="btn btn-outline-warning" style="width:100%;font-size:0.85em;">
+				보낸 쪽지
+			</a>
 	</div>
-</section>
-<section>
-	<hr>
-	<div class="dropdown">
-		<ul style="list-style:none">
-			<li class="sidebar-item active has-sub">
-                <a href="#" class='sidebar-link'>
-                    <span style="font-weight:bold">기능</span>
-                </a>
-                <ul class="submenu active" style="list-style:none">
-                    <li class="submenu-item ">
-                        <a href="<c:url value='/message/messageList'/>">받은 쪽지</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="<c:url value='/message/sendList'/>">보낸 쪽지</a>
-                    </li>
-                    
-                </ul>
-             </li>
-         </ul>   
-	</div>
-
 </section>

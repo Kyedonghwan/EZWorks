@@ -15,5 +15,5 @@ public interface MessageDAO {
 	boolean checkPwd(int no, String pwd);
 	String selectPwd(int no);
 	int deleteMessage(int no);	
-
+	int updateMessage(MessageVO vo);
 }

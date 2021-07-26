@@ -32,6 +32,14 @@ increment by 1
 start with 1
 nocache;
 
+create sequence schedule_seq
+increment by 1
+start with 1
+nocache;
+
+insert into send(no, name, content, regdate)
+values(send_seq.nextval, '김길수' , '테스트용 답변입니다','sysdate');
+
 select * from send;
 
 commit;
