@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/vendors/bootstrap-icons/bootstrap-icons.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/css/app.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/fontawesome/all.min.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/tree.css'/>">
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <!-- <script>
@@ -141,30 +142,16 @@
 								<button type="button" class="btn btn-primary dropdown-toggle"
 									data-bs-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false">조직도</button>
-								<div class="dropdown-menu" style="margin: 0px;">
-									<form class="px-2 py-2">
-										<div class="form-group">
-											<label for="exampleDropdownFormEmail1">Email address</label>
-											<input type="email" class="form-control"
-												id="exampleDropdownFormEmail1" placeholder="email">
-										</div>
-										<div class="form-group">
-											<label for="exampleDropdownFormPassword1">Password</label> <input
-												type="password" class="form-control"
-												id="exampleDropdownFormPassword1" placeholder="Password">
-										</div>
-										<div class="form-group">
-											<div class="checkbox">
-												<input type="checkbox" class="checkbox-input"
-													id="dropdownCheck1"> <label for="dropdownCheck1">Remember
-													me</label>
-											</div>
-										</div>
-										<button type="submit" class="btn btn-primary">Sign in</button>
-									</form>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">include로 조직도 넣을 공간</a> <a
-										class="dropdown-item" href="#">Forgot password?</a>
+								<div class="dropdown-menu" id="organizationDropdown" style="margin: 0px; border-radius:10px">
+									<input type="email" class="form-control" style="width: 95%;margin-left: 5px;"
+												id="searchOrgan" placeholder="이름/아이디/부서/전화번호">
+									<div class="dropdown-divider" style="border-color: #abd8ff;"></div>
+									<!-- <a class="dropdown-item" href="#">include로 조직도 넣을 공간</a> <a
+										class="dropdown-item" href="#">Forgot password?</a>-->
+									<div>
+										<div id="tree" class="overflow-auto" style="height:330px;margin: 5px;border: 1px solid #eaf1f7;border-radius: 5px;">
+    									</div>
+									</div>
 								</div>
 							</div>
 						</li>
@@ -276,10 +263,11 @@
 					</div>
 				</nav>
 			</header>
+			<%@ include file="organization.jsp" %>
 			<!-- 헤더 끝 -->
-
 			<div class="page-content" style="bottom:0;align-content:stretch;min-height:auto;background:white;border-top:1px solid #dfe3e7;border-collapse: collapse;">
 				<section style="bottom:0;padding:0px;margin:0px;min-height:auto;">
 					<div style="bottom:0;width: 100%; min-height: auto;">
 						<div style="width: 249px; min-height: auto; float: left;bottom:0;">
+
 
