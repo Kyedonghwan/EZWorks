@@ -7,31 +7,52 @@
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select c_board_seq.nextval from dual
 		</selectKey>
-		insert into c_board(boardNo, boardName, boardMaster, intro, publicSet)
+		insert into c_board(board_No, board_Name, board_Master, intro, publicSet)
 		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
-	</insert>
-	
-	<insert id="insertBoardContent" parameterType="C_boardContentVO">
-		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
-			select c_boardContent_seq.nextval from dual
-		</selectKey>
-		insert into c_boardContent(contentNo, boardNo, name, title, text, 
-			groupNo, images, fileName, fileSize, originalFileName)
-		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, 
-			#{contentNo}, #{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, #{originalFileName, jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
 		select * from c_board
-		where communityNo=#{communityNo}
-		order by boardNo
+		where community_No=#{communityNo}
+		order by board_No
 	</select>
+	
+	<update id="updateC_board" parameterType="C_boardVO">
+		update c_board
+		set board_Name=#{boardName},board_master=#{boardMaster},
+		intro=#{intro}, publicSet=#{publicSet}
+		where board_No=#{boardNo}
+	</update>
+	
+	<delete id="deleteC_board" parameterType="int">
+		delete from C_board where board_No=#{boardNo}
+	</delete>
+
+	<insert id="insertBoardContent" parameterType="C_boardContentVO">
+		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
+			select c_boardContent_seq.nextval from dual
+		</selectKey>
+		insert into c_boardContent(content_No, board_No, name, title, text, 
+			groupNo, images, fileName, fileSize, originalFileName)
+		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, #{contentNo}, 
+		#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, 
+		#{originalFileName})
+	</insert>
 	
 	<select id="selectC_boardContent" resultType="C_boardContentVO">
 		select * from c_boardContent
-		order by contentNo desc
+		order by content_No desc
 	</select>
 	
+	<select id="selectC_boardView" parameterType="int" resultType="map">
+		select * from c_boardView
+		where community_No=#{communityNo}
+		order by regdate desc
+	</select>
+	
+	<delete id="deleteC_boardContent" parameterType="int">
+		delete from C_boardContent where content_No=#{contentNo}
+	</delete>
 </mapper>
 
 
