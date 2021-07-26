@@ -299,6 +299,10 @@ public class BoardController {
 		logger.info("vo.current={}", vo.getCurrentStatusVal());
 		model.addAttribute("vo", vo);
 		
+		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
+		model.addAttribute("boardVo", boardVo);
+		logger.info("boardVo={}",boardVo);
+		
 		int totalCount = postingService.selectTotalCount(boardNo);
 		model.addAttribute("totalCount", totalCount);
 		
@@ -320,6 +324,10 @@ public class BoardController {
 		BoardClassicPostingVO vo = postingService.selectClassicNext(postingNo, boardNo);
 		logger.info("vo.current={}", vo.getCurrentStatusVal());
 		model.addAttribute("vo", vo);
+		
+		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
+		model.addAttribute("boardVo", boardVo);
+		logger.info("boardVo={}",boardVo);
 		
 		int totalCount = postingService.selectTotalCount(boardNo);
 		model.addAttribute("totalCount", totalCount);
