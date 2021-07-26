@@ -3,7 +3,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-     
+       
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +22,6 @@ function pageProc(curPage){
 	$('input[name=currentPage]').val(curPage);
 	$('form[name=frmPage]').submit();	
 }
-
-
 
 </script>
 <style>
@@ -137,7 +135,7 @@ td{
 <body>
 
 				<div class="card-header">
-											<h4>개인 주소록</h4>
+											<h4>전사 주소록</h4>
 										</div>
 										<div class="card-body"  style="height:600px;">
 											<div id="radialGradient">
@@ -167,8 +165,9 @@ td{
 													<input id="quickPhone" type="text" placeholder="휴대폰" class="input w_small">
 													
 												
-                           <span class="fa-fw select-all fas" style="font-size:1.3em" ></span>
-                                      
+                                     <!--   <div class="the-icon"><span class="fa-fw select-all fas"></span>
+                                        <a class="mt-2 text-sm select-all word-wrap dtc v-top tl f2 icon-name">
+                                           </a></div>  --> 
 													
 													
 												
@@ -225,7 +224,7 @@ td{
 				</th></tr>
 			</thead>
 		<tbody role="alert" aria-live="polite" aria-relevant="all">
-		<c:if test="${empty list }">
+	<c:if test="${empty list }">
 			<tr>
 				<td colspan="5" class="align_center">데이터가 없습니다.</td>
 			</tr>
@@ -239,9 +238,8 @@ td{
 		<input name="id" type="checkbox" value="1061" data-row="0">
 		</td>
 		<td class="align_l name sorting_1">
-
 		<span class="photo small"><img src="<%=request.getContextPath()%>/resources/images/faces/1.jpg" title="test" alt="test"></span>
-		<a><span class="name contact_detail" data-id="1061">${vo.name}</span></a></td>
+		<a><span class="name contact_detail" data-id="1061">${vo.empName}</span></a></td>
 		<td class="align_l hp"><span class="hp">${vo.hp}</span></td>
 		<td class="align_l department">${vo.deptName}</td>
 		<td class="align_l company"><span class="company">(주)ez그룹</span></td><td class="align_l tel"></td><td class="align_l company_address"></td>
@@ -251,27 +249,19 @@ td{
 		</c:forEach>
 		  	<!--반복처리 끝  -->
 	  	</c:if>
-		</tbody>
-		</table>
+		</tbody></table>
 							</div>
 						<!-- 테이블끝 -->
 						</div>
 					</form>
 				</div>
-		
+				
 				<!-- 컨텐츠 끝 -->
 											</div>
 										</div>
-										
+						
 									<div class="divPage">
-	<!-- 페이지 번호 추가 -->	
-     <ul class="pagination pagination-primary">
-         <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-         <li class="page-item"><a class="page-link" href="#">1</a></li>
-         <li class="page-item active"><a class="page-link" href="#">2</a></li>
-         <li class="page-item"><a class="page-link" href="#">3</a></li>
-         <li class="page-item"><a class="page-link" href="#">Next</a></li>
-     </ul>	
+	<!-- 페이지 번호 추가 -->		
 	<!-- 이전 블럭으로 이동 -->
 	<c:if test="${pagingInfo.firstPage>1 }">
 		<a href="#" onclick="pageProc(${pagingInfo.firstPage-1})">
@@ -297,6 +287,5 @@ td{
 	</c:if>
 	<!--  페이지 번호 끝 -->
 </div>		
-
 </body>
 </html>

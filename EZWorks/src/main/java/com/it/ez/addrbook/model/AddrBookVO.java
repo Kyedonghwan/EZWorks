@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AddrBookVO {
+public class AddrBookVO extends AddrSearchVO{
 		
 		private int bookNo;  			// 주소록 번호
 		private int fk_emp_no;  		// 주소록을 소유한 사원번호

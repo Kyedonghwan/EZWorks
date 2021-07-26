@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.it.ez.addrbook.common.AddrConstUtil;
+import com.it.ez.addrbook.common.AddrPaginationInfo;
 import com.it.ez.addrbook.model.AddrBookService;
 import com.it.ez.addrbook.model.AddrBookVO;
+import com.it.ez.addrbook.model.CoAddrBookService;
 import com.it.ez.addrbook.model.EmployeeVO;
 
 import lombok.RequiredArgsConstructor;
@@ -29,11 +32,9 @@ public class AddrBookController {
 	=LoggerFactory.getLogger(AddrBookController.class);
 	
 	private final AddrBookService addrService;
+	private final CoAddrBookService coAddrService;
 	
-	@RequestMapping("/addrbook/addrbook")
-	public void showmain() {
-		
-	}
+
 	
 	@RequestMapping("/addrbook/testaddr")
 	public void showmainsample() {
@@ -52,9 +53,10 @@ public class AddrBookController {
 		int cnt=addrService.insertBook(vo);
 		logger.info("주소록 등록 cnt={}",cnt);
 		
-		String msg="주소록 등록 실패" , url="addrbook/addrWrite";
+		String msg="주소록 등록 실패" , url="/addrbook/addrWrite";
 		if(cnt>0) {
-			msg="주소록 등록 성공" ;
+			msg="주소록 등록 성공";
+			url="/addrbook/addrbook";
 		}
 		
 		model.addAttribute("msg", msg);
@@ -257,6 +259,68 @@ public class AddrBookController {
 	
 	@RequestMapping("/addrbook/addrDetail")
 	public void detail() {
+		
+	}
+	
+	@RequestMapping("/addrbook/addrbook")
+	public String addrList(@ModelAttribute AddrBookVO searchVo, Model model){
+		logger.info("list, 파라미터 searchVo={}", searchVo);
+	
+	    //페이징 처리 관련
+		//[1] PaginationInfo
+		AddrPaginationInfo pagingInfo = new AddrPaginationInfo();
+		pagingInfo.setBlockSize(AddrConstUtil.BLOCK_SIZE);
+		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+		pagingInfo.setRecordCountPerPage(AddrConstUtil.RECORD_COUNT);
+				
+		//[2] searchVo
+		searchVo.setRecordCountPerPage(AddrConstUtil.RECORD_COUNT);
+		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		logger.info("셋팅 후 searchVo={}", searchVo);
+		
+		List<AddrBookVO> list =addrService.selectAll(searchVo);
+		logger.info("list 조회 결과, list.size={}", list.size());
+		
+		int totalRecord=addrService.selectTotalRecord(searchVo);
+		logger.info("list, totalRecord={}", totalRecord);
+		
+		pagingInfo.setTotalRecord(totalRecord);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagingInfo", pagingInfo);
+		
+		return "addrbook/addrbook";
+		
+	}
+	
+	@RequestMapping("/addrbook/coAddrbook")
+	public String coAddrList(@ModelAttribute EmployeeVO searchVo, Model model){
+		logger.info("list, 파라미터 searchVo={}", searchVo);
+	
+	    //페이징 처리 관련
+		//[1] PaginationInfo
+		AddrPaginationInfo pagingInfo = new AddrPaginationInfo();
+		pagingInfo.setBlockSize(AddrConstUtil.BLOCK_SIZE);
+		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+		pagingInfo.setRecordCountPerPage(AddrConstUtil.RECORD_COUNT);
+				
+		//[2] searchVo
+		searchVo.setRecordCountPerPage(AddrConstUtil.RECORD_COUNT);
+		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		logger.info("셋팅 후 searchVo={}", searchVo);
+		
+		List<EmployeeVO> list =coAddrService.selectAll(searchVo);
+		logger.info("list 조회 결과, list.size={}", list.size());
+		
+		int totalRecord=coAddrService.selectTotalRecord(searchVo);
+		logger.info("list, totalRecord={}", totalRecord);
+		
+		pagingInfo.setTotalRecord(totalRecord);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagingInfo", pagingInfo);
+		
+		return "addrbook/coAddrbook";
 		
 	}
 	

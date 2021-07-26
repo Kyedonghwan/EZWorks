@@ -33,6 +33,10 @@ a#returnList {
 	margin: 0 4px;
 	padding: 0px 16px;
 }
+#submitBtn{
+	float:left;
+	margin: 0 150px;
+}
 </style>
 
 <script type="text/javascript">
@@ -69,7 +73,7 @@ a#returnList {
 							<span class="requirement">*</span>
 						</th>
 						<td>
-							<span>${empvo.empName}</span>
+							<span>백상현${empvo.empName}</span>
 						</td>
 					</tr>
 					<tr>
@@ -96,7 +100,7 @@ a#returnList {
 						<th>
 	                        <span>휴대폰</span>
 	                    </th>
-						<td><span>${empvo.hp}</span></td>
+						<td><span>01025322532${empvo.hp}</span></td>
 					</tr>
 					<tr>
 						<th>
@@ -115,10 +119,15 @@ a#returnList {
 					</tbody>
 				</table>
 			</fieldset>
+			<div id="submitBtn">
+			<input type="submit" id="editBtn" data-bypass="" class="btn btn-outline-secondary" data-role="button" value="수정" />
+			<input type="button" id="cancleBtn" data-bypass="" class="btn btn-outline-secondary" data-role="button" value="취소" />
+			
+			</div>
 		</form>
 		<div class="page_action_wrap">
 			<c:set var="goBackURL" value='${fn:replace(goBackURL, "   ", "&")}' />
-			<a href="javascript:location.href='<%= ctxPath%>/${goBackURL}'" id="returnList"><span>목록으로 이동</span></a>
+
 		</div>
 	</div>
 </div>
