@@ -1,6 +1,14 @@
 package com.it.ez.addrbook.model;
 
-public class EmployeeVO {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+
+public class EmployeeVO extends AddrSearchVO{
 	 private int empNo ;
 	 private String empName;
 	 private String empPwd ; 

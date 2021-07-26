@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +60,7 @@ body{
 <br>
 <br>	
 <div class="content_page">
-	<form id="contactCreateId" name="formContactCreate">
+	<form id="contactCreateId" name="formContactCreate" method="post" action="<c:url value='/addrbook/addrWrite'/>">
 		<fieldset>
 			<table class="form_type">
 				<colgroup>
@@ -67,7 +68,8 @@ body{
 					<col width="*">
 				</colgroup>
 				<tbody>
-				<tr>
+				<br>
+				<!--<tr>
 					<th><span class="title">사진</span></th>
 					<td>
 					<span class="img_profile" style="overflow:hidden">
@@ -77,7 +79,7 @@ body{
 					<span class="btn_fn7" id="del_photo" data-role="button">삭제</span>
                        <div class="wrap_desc"><span class="desc">※ 사진은 자동으로 150x150 사이즈로 적용 됩니다.</span></div>
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<th><span class="title">이름</span>
 						<ins class="asterisk">*</ins>
@@ -148,7 +150,7 @@ body{
 					<th><span class="title">메모</span></th>
 					<td>
 						<span class="textarea">
-							<textarea name="description" class="edit w_max"></textarea>									
+							<textarea name="memo" class="edit w_max"></textarea>									
 						</span>
 					</td>
 				</tr>
@@ -254,13 +256,13 @@ body{
 				</tbody>
 			</table>
 		</fieldset>
-	</form>
 	<div class="page_action_wrap">
 		<input type="submit" id="saveDone" data-bypass="" class="btn btn-outline-secondary" data-role="button" value="저장" />
 		<a id="saveContinueDone" data-bypass="" class="btn btn-outline-secondary" data-role="button"><span class="txt">계속등록</span></a>
 		<a id="returnList" data-bypass="" class="btn btn-outline-secondary" data-role="button"><span class="txt">목록으로 이동</span></a>
 		<a id="saveCancel" data-bypass="" class="btn btn-outline-secondary" data-role="button"><span class="txt">취소</span></a>				
 	</div>
+	</form>
 </div>
 <%@ include file="../include/bottom.jsp" %>
 </body>
