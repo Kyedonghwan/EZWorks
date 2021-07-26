@@ -4,4 +4,10 @@ import java.util.List;
 
 public interface CalendarService {
 	public List<CalendarVO> selectAll();
+	int insertSch(CalendarVO vo);
+	int insertModal(CalendarVO vo);
+	int insertColor();
+	int updateCal(CalendarVO vo);
+	CalendarVO selectBySchNo(int schNo);
+	int delCal(int schNo);
 }

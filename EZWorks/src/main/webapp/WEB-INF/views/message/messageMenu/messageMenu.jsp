@@ -11,8 +11,8 @@
 		 text-align: center;
 	} 
 	.dropdown{
-		text-align : center;
 		font-size: 30px;
+		margin: 0 auto;
 	}
 
 </style>

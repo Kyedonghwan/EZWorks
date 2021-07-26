@@ -10,6 +10,8 @@ import lombok.ToString;
 public class CommunityVO {
 	private int communityNo;
     private String communityName;
-    private String intro; 
-    private String publicSetting;
+    private String intro;
+    private String publicSet;
+    private String communityMaster;
+    private String communitySub;
 }

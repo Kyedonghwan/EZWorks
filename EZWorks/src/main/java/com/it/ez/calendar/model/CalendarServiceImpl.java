@@ -16,4 +16,33 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarDao.selectAll();
 	}
 
+	@Override
+	public int insertSch(CalendarVO vo) {
+		return calendarDao.insertSch(vo);
+	}
+
+	@Override
+	public int insertModal(CalendarVO vo) {
+		return calendarDao.insertModal(vo);
+	}
+
+	@Override
+	public int insertColor() {
+		return calendarDao.insertColor();
+	}
+
+	@Override
+	public int updateCal(CalendarVO vo) {
+		return calendarDao.updateCal(vo);
+	}
+
+	@Override
+	public CalendarVO selectBySchNo(int schNo) {
+		return calendarDao.selectBySchNo(schNo);
+	}
+
+	@Override
+	public int delCal(int schNo) {
+		return calendarDao.delCal(schNo);
+	}
 }

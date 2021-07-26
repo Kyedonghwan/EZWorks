@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @Getter
 public class ArchiveVO {
+	
 	private int no;
 	private String fileName;
 	private long fileSize;
@@ -19,4 +20,5 @@ public class ArchiveVO {
 	private String originalFileName;
 	private String ext;
 	private String writer;
+								
 }

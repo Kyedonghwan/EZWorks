@@ -1,0 +1,25 @@
+@charset "UTF-8";
+	.nav-link{
+		font-size:0.75em;
+	}
+	.tab-pane li {
+    border-bottom: 1px solid #dfe3e7;
+    border-collapse:collapse;
+	}
+	
+	.tab-pane li:last-child {
+	    border-bottom: 1px solid #dfe3e7;
+	}
+	
+	#contents{
+		border-left: 1px solid #dfe3e7;
+		border-right: 1px solid #dfe3e7;
+	}
+	span.recent-header{
+		font-size:0.9em;
+		font-weight:bold;
+	}
+	span.recent-menu{
+		font-size:0.8em;
+		font-weight:bold;
+	}
