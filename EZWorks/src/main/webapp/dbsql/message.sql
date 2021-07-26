@@ -26,6 +26,7 @@ regdate		date		default  sysdate
 drop table send;
 drop sequence send_seq;
 
+
 create sequence send_seq
 increment by 1
 start with 1
