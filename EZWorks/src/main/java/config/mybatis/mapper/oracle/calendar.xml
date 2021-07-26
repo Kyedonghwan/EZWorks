@@ -43,7 +43,7 @@
 	
 	<delete id="delCal" parameterType="int">
 		delete from schedule
-		where sch_no=#{schNo}
+		where SCH_NO=#{schNo}
 	</delete>
 
 	

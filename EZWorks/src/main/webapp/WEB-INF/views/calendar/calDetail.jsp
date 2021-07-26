@@ -31,7 +31,7 @@ $(document).ready(function () {
 	    		      $.ajax({
 	    				type:"get",
 	    				url:"<c:url value='/calendar/deleteCal'/>",
-	    		
+	    				data: "schNo="+$('#schNo').val(),
 	    				success:function(){
 	    					location.href="<c:url value='/calendar/calendarMain'/>";
 	    				}
