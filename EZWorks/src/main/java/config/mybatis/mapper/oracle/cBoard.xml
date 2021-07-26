@@ -11,6 +11,23 @@
 		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
 	</insert>
 	
+	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
+		select * from c_board
+		where community_No=#{communityNo}
+		order by board_No
+	</select>
+	
+	<update id="updateC_board" parameterType="C_boardVO">
+		update c_board
+		set board_Name=#{boardName},board_master=#{boardMaster},
+		intro=#{intro}, publicSet=#{publicSet}
+		where board_No=#{boardNo}
+	</update>
+	
+	<delete id="deleteC_board" parameterType="int">
+		delete from C_board where board_No=#{boardNo}
+	</delete>
+
 	<insert id="insertBoardContent" parameterType="C_boardContentVO">
 		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
 			select c_boardContent_seq.nextval from dual
@@ -21,12 +38,6 @@
 		#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, 
 		#{originalFileName})
 	</insert>
-	
-	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
-		select * from c_board
-		where community_No=#{communityNo}
-		order by board_No
-	</select>
 	
 	<select id="selectC_boardContent" resultType="C_boardContentVO">
 		select * from c_boardContent
@@ -39,6 +50,9 @@
 		order by regdate desc
 	</select>
 	
+	<delete id="deleteC_boardContent" parameterType="int">
+		delete from C_boardContent where content_No=#{contentNo}
+	</delete>
 </mapper>
 
 

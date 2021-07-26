@@ -145,10 +145,19 @@ $(function(){
                <div class="summernote">
 				   <textarea id="summernote" name="text"></textarea><br>
                </div>
-		       <div>
-                 <!-- Basic file uploader -->
-                 <input type="file" class="basic-filepond">		               
-		       </div>
+		       <div class="row">
+	               <div class="col-6">
+		               <div class="form-group row align-items-center">
+		               		<div class="col-3">
+		                        <label class="col-form-label" for="title">첨부파일</label>
+		                    </div>
+		                    <div class="col-9">
+		                        <!-- Basic file uploader -->
+                 				<input type="file" class="basic-filepond">	
+		                    </div>
+		          	   </div>
+	          	   </div>	               
+		       </div><hr>
 			   <div class="col-sm-12 d-flex justify-content-end">
 	               <button type="submit" id="btnSubmit" 
 	               		class="btn btn-primary me-1 mb-1">등록</button>
