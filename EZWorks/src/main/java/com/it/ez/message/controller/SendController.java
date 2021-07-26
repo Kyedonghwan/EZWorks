@@ -17,39 +17,42 @@ import com.it.ez.message.common.PaginationInfo;
 import com.it.ez.message.common.SearchVO;
 import com.it.ez.message.model.MessageService;
 import com.it.ez.message.model.MessageVO;
+import com.it.ez.message.model.SendService;
+import com.it.ez.message.model.SendVO;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/message")
-public class MessageController {
-	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
+public class SendController {
+	private static final Logger logger = LoggerFactory.getLogger(SendController.class);
 	
+	private final SendService sendService;
 	private final MessageService messageService;
 	
-	@GetMapping("/messageWrite")
+	@GetMapping("/sendWrite")
 	public String write() {
 		//1
 		logger.info("write 화면 보여주기");
 
 		//2
 		//3
-		return "message/messageWrite";
+		return "message/sendWrite";
 	}
 	
-	@PostMapping("/messageWrite")
-	public String write_post(@ModelAttribute MessageVO vo, Model model) {
+	@PostMapping("/sendWrite")
+	public String write_post(@ModelAttribute SendVO vo, Model model) {
 		//1
 		logger.info("쪽지 등록 처리, 파라미터 vo={}",vo);
 		
 		//2
-		String msg="쪽지 등록 실패",url="/message/messageWrite";
-		int cnt = messageService.insertMessage(vo);
+		String msg="쪽지 등록 실패",url="/message/sendWrite";
+		int cnt = sendService.insertMessage(vo);
 		logger.info("write 등록 결과, cnt={}",cnt);
 		if(cnt>0) {
 			msg="쪽지 등록 완료";
-			url="/message/messageList";
+			url="/message/sendList";
 		}
 		
 		//3
@@ -61,7 +64,7 @@ public class MessageController {
 	
 
 	
-	@RequestMapping("/messageList")
+	@RequestMapping("/sendList")
 	public String list(@ModelAttribute SearchVO searchVo, Model model) {
 		//1
 		logger.info("쪽지 목록 페이지, 파라미터 searchVo={}", searchVo);
@@ -79,10 +82,10 @@ public class MessageController {
 		logger.info("페이지번호 관련 셋팅 후 searchVo={}", searchVo);
 		
 		//2
-		List<MessageVO> list=messageService.selectAll(searchVo);
+		List<MessageVO> list=sendService.selectAll(searchVo);
 		logger.info("쪽지 전체 조회 결과, list.size={}", list.size());
 		
-		int totalRecord=messageService.selectTotalRecord(searchVo);
+		int totalRecord=sendService.selectTotalRecord(searchVo);
 		logger.info("totalRecord="+totalRecord);
 		pagingInfo.setTotalRecord(totalRecord);
 		
@@ -90,17 +93,17 @@ public class MessageController {
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
 		
-		return "message/messageList";
+		return "message/sendList";
 	}
 	
 	
-	@GetMapping("/messagedetail")
+	@GetMapping("/senddetail")
 	public String detail(@RequestParam(defaultValue = "0") int no, Model model) {
 		//1
 		logger.info("상세 화면 보여주기, 파라미터 no={}",no);
 		if(no==0) {
 			model.addAttribute("msg", "잘못된 url입니다.");
-			model.addAttribute("url", "message/messageList");
+			model.addAttribute("url", "message/sendList");
 			
 			return "common/message";
 		}
@@ -108,54 +111,14 @@ public class MessageController {
 		//2
 		MessageVO vo = messageService.selectByNo(no);
 		logger.info("detail 화면 결과, vo={}",vo);
+		SendVO vo2 = sendService.selectByNo(no);
+		logger.info("detail 화면 결과, vo2={}",vo2);
 		
 		//3
 		model.addAttribute("vo", vo);
+		model.addAttribute("vo2", vo2);
 		
-		return "message/messagedetail";
-	}
-
-	
-	@GetMapping("/messagedelete")
-	public String delete(@RequestParam int no, Model model) {
-		//1
-		logger.info("삭제 화면 보여주기, 파라미터 no={}",no);
-		if(no==0) {
-			model.addAttribute("msg", "잘못된 url입니다.");
-			model.addAttribute("url", "message/messageList");
-			
-			return "common/message";
-		}
-		
-		//2
-		//3
-		model.addAttribute("no", no);
-		
-		return "message/messagedelete";
+		return "message/senddetail";
 	}
 	
-	@PostMapping("/messagedelete")
-	public String delete_post(@ModelAttribute MessageVO vo, Model model) {
-		//1
-		logger.info("삭제 처리, 파라미터 no={}, pwd={}", vo.getNo(), vo.getPwd());
-		
-		//2
-		String msg="쪽지 삭제 실패", url="/guestbook/delete?no="+vo.getNo();
-		if(messageService.checkPwd(vo.getNo(), vo.getPwd())) {
-			int cnt=messageService.deleteMessage(vo.getNo());
-			if(cnt>0) {
-				msg="쪽지 삭제 완료";
-				url="/message/messageList";
-			}
-		}else {
-			msg="비밀번호가 일치하지 않습니다.";
-		}
-		
-		//3
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		
-		return "common/message";
-	}
-
 }

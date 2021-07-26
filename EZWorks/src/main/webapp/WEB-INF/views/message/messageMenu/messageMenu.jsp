@@ -15,7 +15,7 @@
 <section style="height:64px;padding:24px 24px 16px;">
 	
 	<h5>
-		<a style="font-size: 120%">쪽지</a>
+		<a style="font-size: 150%">쪽지</a>
 	</h5>
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
@@ -23,5 +23,28 @@
 			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-lg btn-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
+	</div>
+</section>
+<section>
+	<div>
+		<ul style="list-style:none">
+			<li class="sidebar-item active has-sub">
+                <a href="#" class='sidebar-link'>
+                    <span style="font-weight:bold">쪽지게시판</span>
+                </a>
+                <ul class="submenu active" style="list-style:none">
+                    <li class="submenu-item ">
+                        <a href="<c:url value='/message/messageList'/>">받은 쪽지</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="<c:url value='/message/sendList'/>">보낸 쪽지</a>
+                    </li>
+                    
+                </ul>
+             </li>
+             <br>
+             
+             
+         </ul>
 	</div>
 </section>

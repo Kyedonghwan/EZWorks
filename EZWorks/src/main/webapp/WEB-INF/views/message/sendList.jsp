@@ -10,7 +10,7 @@
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-<title>받은 편지함</title>
+<title>보낸 편지함</title>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" 
 	href="<c:url value='/resources/css/message/mainstyle.css'/>" />
@@ -73,32 +73,32 @@
 	body{
 		padding:5px;
 		margin:5px;
+	 }
+	 h2{
+	 	font-size: 40px;
+	 	text-align: center;
 	 }	
+	
+	 
+	 
 </style>	
 </head>	
 <body>
 <nav>
 <br>
 </nav>
-<h2 style="text-align: center">쪽지 리스트</h2>
+<h2>보낸 쪽지함</h2>
 <c:if test="${!empty param.searchKeyword }">
-	<p>검색어 : ${param.	searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
+	<p>검색어 : ${param.searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
 </c:if>
-<form action="<c:url value='/message/messageList'/>" 
+<form action="<c:url value='/message/sendList'/>" 
 	name="frmPage" method="post">
 	<input type="hidden" name="currentPage"><br>
 	<input type="hidden" name="searchCondition" value="${param.searchCondition}"><br>
 	<input type="hidden" name="searchKeyword" value="${param.searchKeyword }"><br>	
 </form>
 
-
 <table class="table table-striped">
-	<colgroup>
-		<col style="width:10%;" />
-		<col style="width:50%;" />
-		<col style="width:20%;" />
-		<col style="width:20%;" />	
-	</colgroup>
 	<thead class="thead-dark">
 	  <tr style="text-align: center">
 	    <th scope="col">번호</th>
@@ -115,18 +115,18 @@
 		</c:if>		
 		<c:if test="${!empty list }">			 
 		  	<!-- 반복문 시작  -->		
-		  	<c:forEach var="vo" items="${list }">			 
+		  	<c:forEach var="vo2" items="${list }">			 
 				<tr class="align_center">
-					<td>${vo.no}</td>
+					<td>${vo2.no}</td>
 					<td>
 						<a href
-						="<c:url value='/message/messagedetail?no=${vo.no }'/>">
-							${vo.content}
+						="<c:url value='/message/senddetail?no=${vo2.no }'/>">
+							${vo2.content}
 						</a>
 					</td>
-					<td>${vo.name}</td>
+					<td>${vo2.name}</td>
 					<td>
-						<fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd HH:mm:ss"/>	
+						<fmt:formatDate value="${vo2.regdate }" pattern="yyyy-MM-dd HH:mm:ss"/>	
 					</td>
 				</tr> 
 			</c:forEach>
@@ -160,7 +160,7 @@
 </ul>
 <div class="divSearch">
    	<form name="frmSearch" method="post" 
-   		action='<c:url value="/message/messageList"/>'>
+   		action='<c:url value="/message/sendList"/>'>
         <select name="searchCondition">
             <option value="no" 
             	<c:if test="${param.searchCondition == 'no' }">            	
@@ -172,11 +172,6 @@
             		selected="selected"
             	</c:if>
             >내용</option>
-            <option value="name" 
-            	<c:if test="${param.searchCondition == 'name' }">            	
-            		selected="selected"
-            	</c:if>
-            >작성자</option>
         </select>   
         <input type="text" name="searchKeyword" title="검색어 입력"
         	value="${param.searchKeyword }">   
