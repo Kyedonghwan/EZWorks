@@ -74,16 +74,21 @@
 		padding:5px;
 		margin:5px;
 	 }	
+	h2{
+		font-size: 30px;	
+	}
+	.divSearch{
+		margin: 0 auto;
+	}
+	
+
 </style>	
 </head>	
 <body>
 <nav>
 <br>
 </nav>
-<h2 style="text-align: center">쪽지 리스트</h2>
-<c:if test="${!empty param.searchKeyword }">
-	<p>검색어 : ${param.	searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
-</c:if>
+<h2 style="text-align: center">받은 쪽지함</h2>
 <form action="<c:url value='/message/messageList'/>" 
 	name="frmPage" method="post">
 	<input type="hidden" name="currentPage"><br>
@@ -92,7 +97,7 @@
 </form>
 
 
-<table class="table table-striped">
+<table class="table">
 	<colgroup>
 		<col style="width:10%;" />
 		<col style="width:50%;" />
@@ -134,10 +139,11 @@
 	  	</c:if>
 	 </tbody>
 </table>
+<nav aria-label="Page navigation example">
 <ul class="pagination justify-content-center" >
 	<c:if test="${pagingInfo.firstPage>1 }">
 	<li class="page-item">
-		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">이전으로
+		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">Previous
 		</a>
 	</li>
 	</c:if>
@@ -154,14 +160,18 @@
 	</c:forEach>
 	<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
 	<li class="page-item">
-		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.lastPage+1})">다음으로</a>
+		<a class="page-link" href="#" onclick="pageProc(${pagingInfo.lastPage+1})">Next</a>
 	</li>	
 	</c:if>
 </ul>
-<div class="divSearch">
-   	<form name="frmSearch" method="post" 
-   		action='<c:url value="/message/messageList"/>'>
-        <select name="searchCondition">
+<br>
+
+</nav>
+<div class="divSearch" style="display:flex;
+		justify-content: center!important;">
+   	<form name="frmSearch" method="post" action='<c:url value="/message/messageList"/>'>
+   		<div class="input-group input-group-sm mb-1">
+        <select name="searchCondition" class="form-select input-group-text" style="width:80px">
             <option value="no" 
             	<c:if test="${param.searchCondition == 'no' }">            	
             		selected="selected"
@@ -178,12 +188,12 @@
             	</c:if>
             >작성자</option>
         </select>   
-        <input type="text" name="searchKeyword" title="검색어 입력"
-        	value="${param.searchKeyword }">   
-		<input type="submit" value="검색">
+        <input type="text" name="searchKeyword" title="검색어 입력" class="form-control" value="${param.searchKeyword }" style="width:200px "> 
+        <input type="hidden" name="searchKeyword" value="${param.searchKeyword}">
+		<input type="submit" class= "btn btn-primary" value="검색">
+		</div>
     </form>
-</div>
-
+	</div>
 </body>
 </html>
 

@@ -10,6 +10,11 @@
 	h5{
 		 text-align: center;
 	} 
+	.dropdown{
+		text-align : center;
+		font-size: 30px;
+	}
+
 </style>
 <br><br>
 <section style="height:64px;padding:24px 24px 16px;">
@@ -26,11 +31,12 @@
 	</div>
 </section>
 <section>
-	<div>
+	<hr>
+	<div class="dropdown">
 		<ul style="list-style:none">
 			<li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
-                    <span style="font-weight:bold">쪽지게시판</span>
+                    <span style="font-weight:bold">기능</span>
                 </a>
                 <ul class="submenu active" style="list-style:none">
                     <li class="submenu-item ">
@@ -42,9 +48,7 @@
                     
                 </ul>
              </li>
-             <br>
-             
-             
-         </ul>
+         </ul>   
 	</div>
+
 </section>

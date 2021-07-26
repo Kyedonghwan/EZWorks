@@ -12,7 +12,7 @@
 <head>
 <title>보낸 편지함</title>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" 
+<link rel="stylesheet" typ	e="text/css" 
 	href="<c:url value='/resources/css/message/mainstyle.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
@@ -70,17 +70,15 @@
 </script>
 <!-- End Channel Plugin -->
 <style type="text/css">
-	body{
-		padding:5px;
-		margin:5px;
-	 }
 	 h2{
-	 	font-size: 40px;
+	 	font-size: 30px;
 	 	text-align: center;
 	 }	
-	
 	 
-	 
+	 .divSearch{
+		margin: 0 auto;
+	}
+ 
 </style>	
 </head>	
 <body>
@@ -158,26 +156,31 @@
 	</li>	
 	</c:if>
 </ul>
-<div class="divSearch">
-   	<form name="frmSearch" method="post" 
-   		action='<c:url value="/message/sendList"/>'>
-        <select name="searchCondition">
-            <option value="no" 
-            	<c:if test="${param.searchCondition == 'no' }">            	
-            		selected="selected"
-            	</c:if>
-            >번호</option>
+<nav><br></nav>
+
+<div class="divSearch" style="display:flex;
+		justify-content: center!important;">
+   	<form name="frmSearch" method="post" action='<c:url value="/message/sendList"/>'>
+   		<div class="input-group input-group-sm mb-1">
+        <select name="searchCondition" class="form-select input-group-text" style="width:80px">
             <option value="content"
             	<c:if test="${param.searchCondition == 'content' }">            	
             		selected="selected"
             	</c:if>
             >내용</option>
+            <option value="name" 
+            	<c:if test="${param.searchCondition == 'name' }">            	
+            		selected="selected"
+            	</c:if>
+            >작성자</option>
         </select>   
-        <input type="text" name="searchKeyword" title="검색어 입력"
-        	value="${param.searchKeyword }">   
-		<input type="submit" value="검색">
+        <input type="text" name="searchKeyword" title="검색어 입력" class="form-control" value="${param.searchKeyword }" style="width:200px "> 
+        <input type="hidden" name="searchKeyword" value="${param.searchKeyword}">
+		<input type="submit" class= "btn btn-primary" value="검색">
+		</div>
     </form>
-</div>
+	</div>
+</body>
 
 </body>
 </html>
