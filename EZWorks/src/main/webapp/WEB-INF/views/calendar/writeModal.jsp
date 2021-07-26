@@ -2,9 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
+	type="text/css" />
+
+<!-- timepicker -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+
  <script type="text/javascript">
     $(document).ready(function () {
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
@@ -45,7 +50,63 @@
  
             });    
             
+            $('#startTime').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 30,
+                minTime: '00:00',
+                maxTime: '23:30',
+                defaultTime: '00',
+                startTime: '00:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+            
+            $('#endTime').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 30,
+                minTime: '00:00',
+                maxTime: '23:30',
+                defaultTime: '00',
+                startTime: '00:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+            
+            var d= new Date();
+            document.getElementById('startDate').value = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(0,10);
+            document.getElementById('endDate').value = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(0,10);
+            
+            document.getElementById('startTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
+            document.getElementById('endTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
+            
+            $('#detailSch').click(function(){
+            	location.href="<c:url value='/calendar/calRegister'/>"
+            });
+           
+            $('#modal_ok').click(function(){
+            	$.ajax({
+            		url:"<c:url value='/calendar/writeSchModal'/>",
+            		type:"post",
+            		dataType:"json",
+            		data:{
+            			schTitle:$('#schTitle').val(),
+            			schStart:$('#startDate').val(),
+            			schStartTime:$('#startTime').val(),
+            			schEnd:$('#endDate').val(),
+            			schEndTime:$('#endTime').val(),
+            			schPlace:$('#schPlace').val()
+            		},
+            		success:function(){
+            		},error:function(){
+            			alert("error!");
+            		}
+            	});
+            });
     });
+    
+
 </script>
 <style>
 .writeLabel{
@@ -88,7 +149,7 @@
 		font-size: 0.9em;
 		margin : 5px 0 20px 0;
 }
-.chkbox, .selectSch{
+.chkbox{
 	margin : 10px 0 25px 0;
 }
 .datepick{
@@ -98,6 +159,18 @@
 		margin : 5px 0 20px 0;
 }
 
+#startDate, #endDate, #startTime, #endTime {
+	width: 12%;
+	height: 30px;
+	margin: 5px 0 10px 0;
+	display: inline-block;
+	border: 1px solid #CFCFCF;
+}
+#basicSelect {
+	width: 15%;
+	height: 30px;
+	font-size: 0.9em;
+}
 </style>
 <div class="modal" tabindex="-1" id="writeModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<form name="writeSch" method="post"
@@ -117,13 +190,18 @@
 									일정명
 								</label>
 								<span style="color:red; padding-right: 55px; width: 40%">*</span>
-								<input type="text" name="schTitle" id="schTitle" value="${schTitle}" class="input">
+								<input type="text" name="schTitle" id="schTitle" class="input">
 							</div>
 							<div>
 								<label class="writeLabel">일시</label>
-								<input type="text" id="startDate" name="schStart" value="${schStart}" class="datepick">
+								<input type="text" id="startDate" name="schStart" class="datepick">
+								<input type="text" id="startTime" name="schStartTime"
+									class="form-control round" value="">
 								<label for="to">~</label>
-								<input type="text" id="endDate" name="schEnd" value="${schEnd}" class="datepick">&nbsp;&nbsp;
+								<input type="text" id="endDate" name="schEnd" class="datepick">
+								<input type="text" id="endTime" name="schEndTime" 
+									class="form-control round">
+								&nbsp;&nbsp;
 								<input type="checkbox" value="종일" class="chkbox">종일
 							</div>
 							<div>
@@ -132,24 +210,25 @@
 							</div>
 							<div>
 								<label class="writeLabel">내 캘린더</label>
-								<select class="selectSch">
-									<option>(기본)내 일정</option>
-									<option>내 일정(중요)</option>
-									<option>연차</option>
+								<select class="form-select" name="schCate"
+										id="basicSelect">
+									<c:forEach var="vo" items="${list }">
+										<option value="${vo.schCateNo }">${vo.schCateName }</option>
+									</c:forEach>
 								</select>
 							</div>
 							<div>
 								<label class="writeLabel">장소</label>
-								<input type="text" name="schPlace" value="${schPlace}" class="input">
+								<input type="text" id="schPlace" name="schPlace" class="input">
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-primary ml-1"
 								data-bs-dismiss="modal">
 								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">일정상세입력</span>
+									class="d-none d-sm-block" id="detailSch">일정상세입력</span>
 							</button>
-							<button type="button" id="sch_btn"class="btn btn-primary ml-1"
+							<button type="button" id="modal_ok" class="btn btn-primary ml-1"
 								data-bs-dismiss="modal">
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">확인</span>
@@ -159,13 +238,14 @@
 								<i class="bx bx-x d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">닫기</span>
 							</button>
-							<c:forEach var="vo" items="${list}">
-								<input type="text" id="title" value="${vo.schTitle}">
-								<input type="Text" id="start" value="${vo.schStart}">
-								<input type="text" id="end" value="${vo.schEnd}">
-							</c:forEach>
 						</div>
 					</div>
 				</div>
 	</form>
 </div>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+<!-- timepicker -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
