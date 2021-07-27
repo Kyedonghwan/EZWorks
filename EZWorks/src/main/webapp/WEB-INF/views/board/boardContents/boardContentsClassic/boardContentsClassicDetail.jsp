@@ -17,6 +17,20 @@
 	#buttons button:hover{
 		background-color:#eeeeee;
 	}
+	#content {
+    all: initial;
+    * {
+        all: unset;
+    	}
+    }
+    #fileDownload{
+    	border-color:white;
+		font-size:0.8em;
+		color:#607080;
+    }
+    #fileDownload:hover{
+    	background-color:#eeeeee;
+    }
 </style>
 <body>
 
@@ -85,6 +99,42 @@
 	<section style="padding:0px;margin:10px 20px 10px 20px">
 		<div id="content">
 			${vo.postingContent }
+		</div>
+		<div id="filesList">
+			<c:if test="${!empty filesList }">
+				<c:forEach var="fileVo" items="${filesList }">
+					<form action="<c:url value='/board/download'/>">
+						<input type="hidden" value="${fileVo.pfFileName }" name="pfFileName">
+						<input type="hidden" value="${fileVo.pfOFileName }" name="pfOFileName">
+						<div>
+							<span class="fa-fw select-all fas" style="font-size:0.8em"></span><input type="submit" id="fileDownload" class="btn btn-outline-primary" value="${fileVo.pfOFileName } (${fileVo.pfFileSize })">
+						</div>
+					</form>
+				</c:forEach>
+			</c:if>
+		</div>
+	</section>
+	<section name="comments" style="padding:0px;margin:10px 20px 10px 20px">
+		<div name="comments" style="margin-bottom: 5px">
+			<div name="comments-icons">
+				<a><span class="fa-fw select-all fas"></span> 댓글 0 개</a>&nbsp&nbsp&nbsp&nbsp<a><span
+					class="fa-fw select-all fas"></span> 좋아요 누른 사람 0명</a>
+			</div>
+		</div>
+		<div name="commentsList">
+		</div>
+		<div style="padding: 20px 5px 20px 5px; border: 1px solid #dfe3e7; border-radius: 3px; display: block">
+			<span class="avatar avatar-md" style="display: inline; float: left">
+				<img alt="사원 사진"
+				src="<c:url value='/resources/empImages/${vo.empImg }'/>">
+			</span>
+
+			<div style="display: block; margin-left: 40px; margin-right: 80px;">
+				<input type="text" class="form-control form-control-sm">
+				<button class="btn btn-outline-primary btn-sm">댓글 작성</button>
+			</div>
+			<div>
+			</div>
 		</div>
 	</section>
 </body>

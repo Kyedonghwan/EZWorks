@@ -84,6 +84,9 @@
 	<select id="getCurrentStatusVal" resultType="int">
 		select currentstatusval from (select rownum as currentStatusVal, C.posting_no from (select * from posting_view_classic where board_no=#{boardNo} order by posting_no)C) where posting_no=#{postingNo}
 	</select>
+	<select id="selectFilesOfPosting" resultType="PostingFilesVO">
+		select * from posting_files where posting_no=#{posting_no}
+	</select>
 </mapper>
 
 

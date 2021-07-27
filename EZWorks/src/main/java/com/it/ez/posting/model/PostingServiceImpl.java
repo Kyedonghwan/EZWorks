@@ -82,4 +82,9 @@ public class PostingServiceImpl implements PostingService{
 	public List<BoardMainPostingVO> selectAllFavBoardPosting(int empNo) {
 		return postingDao.selectAllFavBoardPosting(empNo);
 	}
+
+	@Override
+	public List<PostingFilesVO> selectFilesOfPosting(int postingNo) {
+		return postingDao.selectFilesOfPosting(postingNo);
+	}
 }

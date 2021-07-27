@@ -1,7 +1,9 @@
 package com.it.ez.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -257,6 +259,11 @@ public class BoardController {
 		int empNo = empVo.getEmpNo();
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
+		//파일목록 추가
+		List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(postingNo);
+		logger.info("파일 목록, filesList.size={}", filesList.size());
+		model.addAttribute("filesList", filesList);
+		
 		
 		//PostingVO vo = postingService.selectByPostingNo(postingNo);
 		BoardClassicPostingVO vo = postingService.selectClassicByPostingNo(postingNo);
@@ -368,22 +375,32 @@ public class BoardController {
 		}
 	}
 	
+	
+	@RequestMapping("/download") 
+	public ModelAndView download(@ModelAttribute PostingFilesVO vo, HttpServletRequest request) { 
+		logger.info("다운로드 처리, 파라미터 vo={}", vo);
+
+		Map<String, Object> map = new HashMap<>();
+		
+		String uploadPath=boardFileUploadUtil.getUploadPath(request, BoardConstUtil.UPLOAD_FILE_FLAG); 
+		File file = new File(uploadPath, vo.getPfFileName()); 
+		map.put("file", file); 
+		map.put("originalFileName", vo.getPfOFileName());
+		
+		//ModelAndView(String viewName, Map<String, ?> model) 
+		ModelAndView mav = new ModelAndView("boardDownloadView", map); 
+		return mav; 
+	}
+	 
 	/*
-	 * @RequestMapping("/download") public ModelAndView download(@ModelAttribute
-	 * ReBoardVO vo, HttpServletRequest request) { //1
-	 * logger.info("다운로드 처리, 파라미터 vo={}", vo);
+	 * @RequestMapping("/uploadAndDisplayFeedPosting") public
+	 * uploadAndDisplayFeedPosting(HttpSession session, Model model) {
 	 * 
-	 * //2 int cnt=reBoardService.updateDownCount(vo.getNo());
-	 * logger.info("다운로드 수 증가, 결과 cnt={}", cnt);
+	 * }
 	 * 
-	 * //3 Map<String, Object> map = new HashMap<>();
+	 * @RequestMapping("/uploadAndDisplayComments") public
+	 * uploadAndDisplayComments() {
 	 * 
-	 * String uploadPath=fileUploadUtil.getUploadPath(request,
-	 * ConstUtil.UPLOAD_FILE_FLAG); File file = new File(uploadPath,
-	 * vo.getFileName()); map.put("file", file); map.put("originalFileName",
-	 * vo.getOriginalFileName());
-	 * 
-	 * //ModelAndView(String viewName, Map<String, ?> model) ModelAndView mav = new
-	 * ModelAndView("downloadView", map); return mav; }
+	 * }
 	 */
 }

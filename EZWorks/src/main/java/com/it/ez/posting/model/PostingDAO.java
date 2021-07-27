@@ -22,4 +22,5 @@ public interface PostingDAO {
 	public int selectTotalCount(int boardNo);
 	public int getCurrentStatusVal(int boardNo, int postingNo);
 	public List<BoardMainPostingVO> selectAllFavBoardPosting(int empNo);
+	public List<PostingFilesVO> selectFilesOfPosting(int postingNo);
 }
