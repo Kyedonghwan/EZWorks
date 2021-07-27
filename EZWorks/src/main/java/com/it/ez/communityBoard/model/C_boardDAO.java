@@ -12,7 +12,7 @@ public interface C_boardDAO {
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
 	int insertBoardContent(C_boardContentVO contentVo);
-	List<C_boardContentVO> selectC_boardContent();
-	List<Map<String, Object>> selectC_boardView(int communityNo);
+	List<C_boardContentVO> selectC_boardView(int communityNo);
+	List<C_boardContentVO> selectAllC_boardView();
 	int deleteC_boardContent(int contentNo);
 }

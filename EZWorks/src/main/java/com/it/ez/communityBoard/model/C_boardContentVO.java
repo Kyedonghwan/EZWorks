@@ -10,8 +10,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class C_boardContentVO {
-	private int contentNo;
+	private int communityNo;
+	private String communityName;
 	private int boardNo;
+	private String boardName;
+	private int contentNo;
     private String name;
     private String title;
     private String text;

@@ -19,7 +19,18 @@
 	<select id="selectCommunityByNo" parameterType="int" resultType="CommunityVO">
 		select * from community
 		where community_No=#{communityNo}
-	</select>	
+	</select>
+	
+	<select id="selectCommunityMember" parameterType="int" resultType="CommunityVO">
+		select * from communityMemberView
+		where community_No=#{communityNo}
+	</select>
+	
+	<update id="updateCommunityCount" parameterType="communityVO">
+		update community
+		set community_Count=#{communityCount}
+		where community_No=#{communityNo}		
+	</update>	
 </mapper>
 
 

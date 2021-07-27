@@ -21,14 +21,8 @@ public class EmpVO {
 	private String empAddr;
 	private String empAddr2;
 	private Timestamp empHiredate;
-	private String empHobby;
-	private String empSchool;
-	private String empMajor;
 	private Timestamp empOutdate;
 	private String empImg;
-	private String empLev;
-	private int empSal;
-	private String empBookmark;
 	private int deptNo;
 	private int posNo;
 }

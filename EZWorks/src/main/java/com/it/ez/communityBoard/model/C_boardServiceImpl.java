@@ -28,13 +28,13 @@ public class C_boardServiceImpl implements C_boardService{
 	}
 
 	@Override
-	public List<C_boardContentVO> selectC_boardContent() {
-		return c_boardDao.selectC_boardContent();
-	}
-
-	@Override
-	public List<Map<String, Object>> selectC_boardView(int communityNo) {
+	public List<C_boardContentVO> selectC_boardView(int communityNo) {
 		return c_boardDao.selectC_boardView(communityNo);
+	}
+	
+	@Override
+	public List<C_boardContentVO> selectAllC_boardView() {
+		return c_boardDao.selectAllC_boardView();
 	}
 
 	@Override
@@ -51,5 +51,6 @@ public class C_boardServiceImpl implements C_boardService{
 	public int deleteC_boardContent(int contentNo) {
 		return c_boardDao.deleteC_boardContent(contentNo);
 	}
+
 	
 }

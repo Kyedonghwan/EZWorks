@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.it.ez.communityBoard.model.C_boardDAO">	
+<mapper namespace="com.it.ez.communityBoard.model.C_boardDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
+		</if>
+	</sql>
+		
 	<insert id="insertC_board" parameterType="C_boardVO">
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select c_board_seq.nextval from dual
@@ -11,6 +17,7 @@
 		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
 	</insert>
 	
+	<!-- 커뮤니티별 게시판 목록 보기용 -->
 	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
 		select * from c_board
 		where community_No=#{communityNo}
@@ -39,16 +46,51 @@
 		#{originalFileName})
 	</insert>
 	
-	<select id="selectC_boardContent" resultType="C_boardContentVO">
-		select * from c_boardContent
-		order by content_No desc
-	</select>
-	
-	<select id="selectC_boardView" parameterType="int" resultType="map">
+	<!-- 개별 커뮤니티 글 전체 보기용 -->
+	<select id="selectC_boardView" parameterType="int" resultType="C_boardContentVO">
 		select * from c_boardView
 		where community_No=#{communityNo}
 		order by regdate desc
 	</select>
+
+	<!-- 커뮤니티 메인화면 글 전체보기 용 -->
+	<select id="selectAllC_boardView" resultType="C_boardContentVO">
+		select * from c_boardView
+		order by regdate desc
+	</select>
+	
+	<!-- 커뮤니티 게시판 글, 검색 및 페이징 처리 -->
+	<select id="selectC_boardContent" parameterType="CommunitySearchVo" resultType="C_boardContentVO">
+		select * 
+		from
+		(
+			select rownum as RNUM, A.* 
+			from
+			(
+				select c.*, (sysdate-regdate)*24 as newImgTerm
+				from c_BoardContent c
+				<include refid="searchWhere"></include>
+				order by group_No desc, sortno;
+			)A
+		)
+		<![CDATA[
+		where RNUM > #{firstRecordIndex} 
+		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
+		]]>
+	</select>
+	
+	<select id="selectTotalRecord" parameterType="CommunitySearchVo"
+		resultType="int">
+		select count(*) from c_boardContent 
+        <include refid="searchWhere"></include>
+	</select>
+	
+	<update id="updateReadCount" parameterType="int">
+	 	update c_boardContent
+		set readcounts=readcounts+1
+		where content_No=#{contentNo}
+	 </update>
+	
 	
 	<delete id="deleteC_boardContent" parameterType="int">
 		delete from C_boardContent where content_No=#{contentNo}

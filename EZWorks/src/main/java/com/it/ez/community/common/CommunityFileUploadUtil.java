@@ -82,9 +82,9 @@ public String getUploadPath(HttpServletRequest request, int pathFlag) {
 		}
 	}else { //comment
 		if(pathFlag==CommunityConstUtil.UPLOAD_FILE_FLAG) {
-			path = CommunityConstUtil.FILE_UPLOAD_PATH;
+			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;
 		}else if(pathFlag==CommunityConstUtil.UPLOAD_IMAGE_FLAG) {
-			path = CommunityConstUtil.IMAGE_FILE_UPLOAD_PATH;				
+			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;				
 		}
 		
 		//실제 물리적인 경로 구하기
