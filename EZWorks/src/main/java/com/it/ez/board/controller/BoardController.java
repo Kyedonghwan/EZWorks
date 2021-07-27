@@ -33,6 +33,7 @@ import com.it.ez.emp.model.EmpVO;
 import com.it.ez.posting.model.BoardClassicPostingVO;
 import com.it.ez.posting.model.BoardFeedPostingVO;
 import com.it.ez.posting.model.BoardMainPostingVO;
+import com.it.ez.posting.model.PostingCommentsVO;
 import com.it.ez.posting.model.PostingFilesVO;
 import com.it.ez.posting.model.PostingService;
 import com.it.ez.posting.model.PostingVO;
@@ -119,6 +120,7 @@ public class BoardController {
 		List<String> adminList = boardService.selectBoardAdmin(boardNo);
 		model.addAttribute("adminList", adminList);
 		
+
 		//페이징처리
 		BoardPaginationInfo boardPagingInfo = new BoardPaginationInfo();
 		boardPagingInfo.setCurrentPage(searchVo.getCurrentPage());
@@ -151,6 +153,12 @@ public class BoardController {
 		String url="";
 		if(boardShowType.equals(BoardService.BOARD_CLASSIC)) {
 			List<BoardClassicPostingVO> postingClassicList = postingService.selectAllPostingClassic(searchVo);
+			
+			//좋아요 개수 처리
+			for(BoardClassicPostingVO postingvo : postingClassicList) {
+				int countLikes = postingService.countLikes(postingvo.getPostingNo());
+				postingvo.setPostingLikes(countLikes);
+			}
 			model.addAttribute("postingList", postingClassicList);
 			url = "board/boardClassic";
 		}else if(boardShowType.equals(BoardService.BOARD_FEED)) {
@@ -259,11 +267,20 @@ public class BoardController {
 		int empNo = empVo.getEmpNo();
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
+		
+		model.addAttribute("loginEmpNo", empNo);
 		//파일목록 추가
 		List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(postingNo);
 		logger.info("파일 목록, filesList.size={}", filesList.size());
 		model.addAttribute("filesList", filesList);
 		
+		int likes = postingService.countLikes(postingNo);
+		logger.info("게시물 좋아요 수 postingNo={}, likes={}", postingNo, likes);
+		model.addAttribute("likes", likes);
+		
+		int hasLiked = postingService.hasLiked(postingNo, empNo);
+		logger.info("좋아요 여부, hasLiked={}", hasLiked);
+		model.addAttribute("hasLiked", hasLiked);
 		
 		//PostingVO vo = postingService.selectByPostingNo(postingNo);
 		BoardClassicPostingVO vo = postingService.selectClassicByPostingNo(postingNo);
@@ -298,13 +315,16 @@ public class BoardController {
 		logger.info("파라미터, list={}", list.size());
 		model.addAttribute("boardList", list);
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
+		
 		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		
 		BoardClassicPostingVO vo = postingService.selectClassicPrev(postingNo, boardNo);
 		logger.info("vo.current={}", vo.getCurrentStatusVal());
 		model.addAttribute("vo", vo);
+		int newPostingNo = vo.getPostingNo();
 		
 		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
 		model.addAttribute("boardVo", boardVo);
@@ -312,6 +332,21 @@ public class BoardController {
 		
 		int totalCount = postingService.selectTotalCount(boardNo);
 		model.addAttribute("totalCount", totalCount);
+		
+		//파일목록 추가
+		List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(newPostingNo);
+		logger.info("파일 목록, filesList.size={}", filesList.size());
+		model.addAttribute("filesList", filesList);
+		
+		int likes = postingService.countLikes(newPostingNo);
+		logger.info("게시물 좋아요 수 postingNo={}, likes={}", newPostingNo, likes);
+		model.addAttribute("likes", likes);
+		
+		int hasLiked = postingService.hasLiked(newPostingNo, empNo);
+		logger.info("좋아요 여부, hasLiked={}", hasLiked);
+		model.addAttribute("hasLiked", hasLiked);
+		
+		logger.info("empNo={}, postingNo={}", empNo, postingNo);
 		
 		return "board/boardClassicDetail";
 	}
@@ -325,6 +360,7 @@ public class BoardController {
 		model.addAttribute("boardList", list);
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		
@@ -332,12 +368,29 @@ public class BoardController {
 		logger.info("vo.current={}", vo.getCurrentStatusVal());
 		model.addAttribute("vo", vo);
 		
+		int newPostingNo = vo.getPostingNo();
+		
 		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
 		model.addAttribute("boardVo", boardVo);
 		logger.info("boardVo={}",boardVo);
 		
 		int totalCount = postingService.selectTotalCount(boardNo);
 		model.addAttribute("totalCount", totalCount);
+		
+		//파일목록 추가
+		List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(newPostingNo);
+		logger.info("파일 목록, filesList.size={}", filesList.size());
+		model.addAttribute("filesList", filesList);
+		
+		int likes = postingService.countLikes(newPostingNo);
+		logger.info("게시물 좋아요 수 postingNo={}, likes={}", newPostingNo, likes);
+		model.addAttribute("likes", likes);
+		
+		int hasLiked = postingService.hasLiked(newPostingNo, empNo);
+		logger.info("좋아요 여부, hasLiked={}", hasLiked);
+		model.addAttribute("hasLiked", hasLiked);
+		
+		logger.info("empNo={}, postingNo={}", empNo, postingNo);
 		
 		return "board/boardClassicDetail";
 	}
@@ -403,4 +456,32 @@ public class BoardController {
 	 * 
 	 * }
 	 */
+	
+	@ResponseBody
+	@RequestMapping("/addLike")
+	public int addLike(@RequestParam int postingNo, @RequestParam int empNo) {
+		logger.info("좋아요 처리, 파라미터 postingNo={}, empNo={}", postingNo, empNo);
+		
+		int cnt = postingService.addLike(postingNo, empNo);
+		logger.info("좋아요 처리 결과, cnt={}", cnt);
+		
+		int likes = postingService.countLikes(postingNo);
+		logger.info("게시물 좋아요 수 postingNo={}, likes={}", postingNo, likes);
+		
+		return likes;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteLike")
+	public int deleteLike(@RequestParam int postingNo, @RequestParam int empNo) {
+		logger.info("좋아요 삭제 처리, 파라미터 postingNo={}, empNo={}", postingNo, empNo);
+		
+		int cnt = postingService.deleteLike(postingNo, empNo);
+		logger.info("좋아요 삭제 처리 결과, cnt={}", cnt);
+		
+		int likes = postingService.countLikes(postingNo);
+		logger.info("게시물 좋아요 수 postingNo={}, likes={}", postingNo, likes);
+		
+		return likes;
+	}
 }

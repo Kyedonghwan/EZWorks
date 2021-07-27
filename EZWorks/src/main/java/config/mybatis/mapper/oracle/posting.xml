@@ -87,6 +87,19 @@
 	<select id="selectFilesOfPosting" resultType="PostingFilesVO">
 		select * from posting_files where posting_no=#{posting_no}
 	</select>
+	<insert id="addLike">
+		insert into EMP_LIKES_POSTING(emp_no, posting_no)
+		values(#{empNo}, #{postingNo})
+	</insert>
+	<delete id="deleteLike">
+		delete from EMP_LIKES_POSTING where emp_no=#{empNo} and posting_no=#{postingNo}
+	</delete>
+	<select id="countLikes" resultType="int">
+		select count(*) from EMP_LIKES_POSTING where posting_no=#{postingNo}
+	</select>
+	<select id="hasLiked" resultType="int">
+		select count(*) from EMP_LIKES_POSTING where posting_no=#{postingNo} and emp_no=#{empNo}
+	</select>
 </mapper>
 
 

@@ -23,4 +23,8 @@ public interface PostingDAO {
 	public int getCurrentStatusVal(int boardNo, int postingNo);
 	public List<BoardMainPostingVO> selectAllFavBoardPosting(int empNo);
 	public List<PostingFilesVO> selectFilesOfPosting(int postingNo);
+	public int addLike(int postingNo, int empNo);
+	public int deleteLike(int postingNo, int empNo);
+	public int countLikes(int postingNo);
+	public int hasLiked(int postingNo, int empNo);
 }

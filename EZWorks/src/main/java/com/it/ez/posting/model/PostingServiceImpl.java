@@ -87,4 +87,24 @@ public class PostingServiceImpl implements PostingService{
 	public List<PostingFilesVO> selectFilesOfPosting(int postingNo) {
 		return postingDao.selectFilesOfPosting(postingNo);
 	}
+
+	@Override
+	public int addLike(int postingNo, int empNo) {
+		return postingDao.addLike(postingNo, empNo);
+	}
+
+	@Override
+	public int deleteLike(int postingNo, int empNo) {
+		return postingDao.deleteLike(postingNo, empNo);
+	}
+
+	@Override
+	public int countLikes(int postingNo) {
+		return postingDao.countLikes(postingNo);
+	}
+
+	@Override
+	public int hasLiked(int postingNo, int empNo) {
+		return postingDao.hasLiked(postingNo, empNo);
+	}
 }
