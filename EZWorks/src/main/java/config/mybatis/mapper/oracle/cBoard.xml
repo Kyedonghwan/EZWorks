@@ -59,20 +59,20 @@
 	</insert>
 	
 	<!-- 개별 커뮤니티 글 전체 보기용 -->
-	<select id="selectC_boardView" parameterType="int" resultType="C_boardContentVO">
+	<select id="selectC_boardView" parameterType="int" resultType="C_boardClassicVO">
 		select * from c_boardView
 		where community_No=#{communityNo}
 		order by regdate desc
 	</select>
 
 	<!-- 커뮤니티 메인화면 글 전체보기 용 -->
-	<select id="selectAllC_boardView" resultType="C_boardContentVO">
+	<select id="selectAllC_boardView" resultType="C_boardClassicVO">
 		select * from c_boardView
 		order by regdate desc
 	</select>
 	
 	<!-- 커뮤니티 클래식 게시판 뷰 페이지 -->
-	<select id="selectC_boardClassic" parameterType="CommunitySearchVo" resultType="C_boardContentVO">
+	<select id="selectC_boardClassic" parameterType="CommunitySearchVo" resultType="C_boardClassicVo">
 		select * 
 		from
 		(

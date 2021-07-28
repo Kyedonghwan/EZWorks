@@ -3,13 +3,21 @@ package com.it.ez.communityBoard.model;
 import java.util.List;
 import java.util.Map;
 
+import com.it.ez.community.common.CommunitySearchVO;
+
 public interface C_boardService {
 	int insertC_board(C_boardVO boardVo);
 	List<C_boardVO> selectC_board(int communityNo);
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
-	int insertBoardContent(C_boardClassicVO contentVo);
+	int insertBoardClassic(C_boardClassicVO classicVo);
+	int insertBoardFeed(C_boardFeedVO feedVo);
 	List<C_boardClassicVO> selectC_boardView(int communityNo);
 	List<C_boardClassicVO> selectAllC_boardView();
-	int deleteC_boardContent(int contentNo);
+	C_boardClassicVO selectC_boardClassic(CommunitySearchVO searchVo);
+	int selectTotalRecord(CommunitySearchVO searchVo);
+	int updateClassicReadCount(int contentNo);
+	int updateFeedReadCount(int contentNo);
+	int deleteC_boardClassic(int contentNo);
+	int deleteC_boardFeed(int contentNo);
 }
