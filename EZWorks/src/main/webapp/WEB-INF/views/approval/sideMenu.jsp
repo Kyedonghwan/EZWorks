@@ -15,7 +15,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="#" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+			<a href="#" class="btn btn-outline-secondary" id="newApproval" style="width:100%;font-size:0.85em;">
 				새 결제 진행
 			</a>
 	</div>
@@ -23,6 +23,15 @@
 <section>
 	<div>
 		<ul style="list-style:none">
+			<li class="sidebar-item active has-sub">
+                <a href="#" class='sidebar-link'>
+                    <!-- <i class="bi bi-stack"></i> -->
+                    <span style="font-weight:bold">자주쓰는양식</span>
+                </a>
+                <ul class="submenu active" style="list-style:none" id="usedFormSideBar">
+                </ul>
+             </li>
+             <br>
 			<li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
                     <!-- <i class="bi bi-stack"></i> -->
@@ -86,7 +95,31 @@
 	</div>
 </section>
 
-
+<script>
+	$.showUsedForm=function(){
+		$.ajax({
+			url:'<c:url value="/form/showUsedForm"/>',
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				var temp="";
+				$.each(res,function(){
+					temp+='<li class="submenu-item ">';
+					temp+='<a href="<c:url value='/form'/>/'+this.FORM_NO+'">'+this.FORM_NAME+'</a>';
+                    temp+='</li>';   
+				})
+				$('#usedFormSideBar').html(temp);
+			},
+			error:function(e){
+				alert("자주쓰는양식 불러오기 ajax 에러");
+			}
+		})
+	}
+	
+	$(function(){
+		$.showUsedForm();
+	});
+</script>
 
 <!-- 
 <li class="submenu-item ">

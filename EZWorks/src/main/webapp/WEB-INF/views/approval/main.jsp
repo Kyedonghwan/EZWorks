@@ -19,7 +19,7 @@
     <!-- end row -->
 	<section style="height:64px;padding:24px 24px 16px">
 		<h5>
-			<a id="currentFolderName">전사자료실
+			<a>전사자료실
 				<input type="hidden" id="currentFolderNo" value="1">
 			</a>			
 		</h5>
@@ -106,6 +106,7 @@
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <!-- filepond -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>	
+<%@include file="selectFormModal.jsp"%>
 </body>
 
 </html>	

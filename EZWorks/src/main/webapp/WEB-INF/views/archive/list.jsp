@@ -361,7 +361,6 @@
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
-<!-- filepond -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 							</div>
 
