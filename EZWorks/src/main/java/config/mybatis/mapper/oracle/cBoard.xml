@@ -35,15 +35,27 @@
 		delete from C_board where board_No=#{boardNo}
 	</delete>
 
-	<insert id="insertBoardContent" parameterType="C_boardContentVO">
+	<insert id="insertBoardClassic" parameterType="C_boardClassicVO">
 		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
 			select c_boardContent_seq.nextval from dual
 		</selectKey>
-		insert into c_boardContent(content_No, board_No, name, title, text, 
-			groupNo, images, fileName, fileSize, originalFileName)
-		values(#{contentNo}, #{boardNo} , #{name}, #{title}, #{text}, #{contentNo}, 
-		#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{fileSize}, 
-		#{originalFileName})
+		insert into c_boardClassic(content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+							Pos_No, Pos_Name, title, text,
+							group_No, images, fileName, fileSize, originalFileName)
+		values(#{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+			  	#{posNo}, #{posName}, #{title}, #{text}, #{contentNo}, 
+				#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, 
+				#{fileSize}, #{originalFileName})
+	</insert>
+	
+	<insert id="insertBoardFeed" parameterType="C_boardFeedVO">
+		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
+			select c_boardContent_seq.nextval from dual
+		</selectKey>
+		insert into c_boardClassic(content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+							Pos_No, Pos_Name, title, text)
+		values(#{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+			  	#{posNo}, #{posName}, #{title}, #{text})
 	</insert>
 	
 	<!-- 개별 커뮤니티 글 전체 보기용 -->
@@ -59,18 +71,18 @@
 		order by regdate desc
 	</select>
 	
-	<!-- 커뮤니티 게시판 글, 검색 및 페이징 처리 -->
-	<select id="selectC_boardContent" parameterType="CommunitySearchVo" resultType="C_boardContentVO">
+	<!-- 커뮤니티 클래식 게시판 뷰 페이지 -->
+	<select id="selectC_boardClassic" parameterType="CommunitySearchVo" resultType="C_boardContentVO">
 		select * 
 		from
 		(
-			select rownum as RNUM, A.* 
+			select rownum as currentStats, A.* 
 			from
 			(
 				select c.*, (sysdate-regdate)*24 as newImgTerm
-				from c_BoardContent c
+				from c_BoardClassic c
 				<include refid="searchWhere"></include>
-				order by group_No desc, sortno;
+				order by group_No desc, sortno
 			)A
 		)
 		<![CDATA[
@@ -79,21 +91,29 @@
 		]]>
 	</select>
 	
-	<select id="selectTotalRecord" parameterType="CommunitySearchVo"
-		resultType="int">
-		select count(*) from c_boardContent 
+	<select id="selectTotalRecord" parameterType="CommunitySearchVo" resultType="int">
+		select count(*) from (select * from c_boardClassic where content_No=#{contentNo}) 
         <include refid="searchWhere"></include>
 	</select>
 	
-	<update id="updateReadCount" parameterType="int">
-	 	update c_boardContent
+	<update id="updateClassicReadCount" parameterType="int">
+	 	update c_boardClassic
+		set readcounts=readcounts+1
+		where content_No=#{contentNo}
+	 </update>
+	 
+	 <update id="updateFeedReadCount" parameterType="int">
+	 	update c_boardFeed
 		set readcounts=readcounts+1
 		where content_No=#{contentNo}
 	 </update>
 	
-	
-	<delete id="deleteC_boardContent" parameterType="int">
-		delete from C_boardContent where content_No=#{contentNo}
+	<delete id="deleteC_boardClassic" parameterType="int">
+		delete from C_boardClassic where content_No=#{contentNo}
+	</delete>
+
+	<delete id="deleteC_boardFeed" parameterType="int">
+		delete from C_boardFeed where content_No=#{contentNo}
 	</delete>
 </mapper>
 

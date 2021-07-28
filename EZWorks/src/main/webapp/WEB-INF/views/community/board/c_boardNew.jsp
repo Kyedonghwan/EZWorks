@@ -14,7 +14,7 @@
 	#intro{
 		height: 150px;
 	}
-	.radioWrapper{
+	.radioWrapper1, .radioWrapper2{
 		display: inline-flex;
 	}
 	
@@ -40,6 +40,8 @@
                      <form class="form form-horizontal" method="post" 
                      		action="<c:url value='/community/c_boardNew'/>">
                      <input type='hidden' value="${param.communityNo }">
+                     <input type='hidden' name="c_boardType" value="">
+                     
                        <div class="form-body">
                            <div class="row">
                                <div class="col-md-2" id="label">
@@ -67,10 +69,27 @@
                                     </div>
                                </div>
                                <div class="col-md-2" id="label">
+                                   <label>유형</label>
+                               </div>
+                               <div class="col-md-10 form-group">
+                               	<div class="radioWrapper1">
+                               	  <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="c_boardType"
+                                             id="c_boardClassic" value="Classic" checked>
+                                        <label class="form-check-label" for="c_boardType">클래식</label>&nbsp&nbsp&nbsp
+                                  </div>
+                                  <div class="form-check">
+                                  		<input class="form-check-input" type="radio" name="c_boardType"
+                                            id="c_boardFeed" value="Feed">
+                                        <label class="form-check-label" for="c_boardType">피드</label>
+                                    </div>
+                               	</div>
+                               </div>
+                               <div class="col-md-2" id="label">
                                    <label>공개여부</label>
                                </div>
                                <div class="col-md-10 form-group">
-                               	<div class="radioWrapper">
+                               	<div class="radioWrapper2">
                                	  <div class="form-check">
                                         <input class="form-check-input" type="radio" name="publicSet"
                                              id="publicSet1" value="Y" checked>

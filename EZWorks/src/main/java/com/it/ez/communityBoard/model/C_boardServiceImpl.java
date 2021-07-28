@@ -18,7 +18,7 @@ public class C_boardServiceImpl implements C_boardService{
 	}
 
 	@Override
-	public int insertBoardContent(C_boardContentVO contentVo) {
+	public int insertBoardContent(C_boardClassicVO contentVo) {
 		return c_boardDao.insertBoardContent(contentVo);
 	}
 
@@ -28,12 +28,12 @@ public class C_boardServiceImpl implements C_boardService{
 	}
 
 	@Override
-	public List<C_boardContentVO> selectC_boardView(int communityNo) {
+	public List<C_boardClassicVO> selectC_boardView(int communityNo) {
 		return c_boardDao.selectC_boardView(communityNo);
 	}
 	
 	@Override
-	public List<C_boardContentVO> selectAllC_boardView() {
+	public List<C_boardClassicVO> selectAllC_boardView() {
 		return c_boardDao.selectAllC_boardView();
 	}
 

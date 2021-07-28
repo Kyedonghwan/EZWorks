@@ -24,7 +24,7 @@ import com.it.ez.community.common.CommunitySearchVO;
 import com.it.ez.community.common.CommunutyPaginationInfo;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
-import com.it.ez.communityBoard.model.C_boardContentVO;
+import com.it.ez.communityBoard.model.C_boardClassicVO;
 import com.it.ez.communityBoard.model.C_boardService;
 import com.it.ez.communityBoard.model.C_boardVO;
 import com.it.ez.emp.model.EmpService;
@@ -54,7 +54,7 @@ public class CommunityController {
 		
 		//화면 보여주기 
 		List<CommunityVO> list=communityService.selectCommunity();
-		List<C_boardContentVO> viewList= c_boardService.selectAllC_boardView();
+		List<C_boardClassicVO> viewList= c_boardService.selectAllC_boardView();
 		logger.info("개별 커뮤니티 처리결과, list.size={}, viewList.size={}",
 				list.size(), viewList.size());
 		
@@ -136,7 +136,7 @@ public class CommunityController {
 		logger.info("페이지번호 관련 셋팅 후 searchVo={}", searchVo);
 		
 		//2
-		List<C_boardContentVO> contentlist=c_boardService.selectAllC_boardView(searchVo);
+		List<C_boardClassicVO> contentlist=c_boardService.selectAllC_boardView(searchVo);
 		logger.info("글 전체 조회 결과, contentlist.size={}", list.size());
 		
 		int totalRecord=reBoardService.selectTotalRecord(searchVo);
@@ -148,7 +148,7 @@ public class CommunityController {
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
 		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
-		List<C_boardContentVO> viewList= c_boardService.selectC_boardView(communityNo);
+		List<C_boardClassicVO> viewList= c_boardService.selectC_boardView(communityNo);
 		
 		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}, viewList.size={}", 
 				vo, list.size(), boardList.size(), viewList.size());
@@ -186,7 +186,7 @@ public class CommunityController {
 	}
 	
 	@PostMapping("/c_boardWrite")
-	public String writeCommunity_post(@ModelAttribute C_boardContentVO contentVo,
+	public String writeCommunity_post(@ModelAttribute C_boardClassicVO contentVo,
 			@RequestParam(defaultValue = "0") int boardNo,  
 			@RequestParam(defaultValue = "0") int communityNo,
 			HttpServletRequest request, HttpServletResponse response,

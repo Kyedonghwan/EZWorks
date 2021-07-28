@@ -11,8 +11,8 @@ public interface C_boardDAO {
 	List<C_boardVO> selectC_board(int communityNo);
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
-	int insertBoardContent(C_boardContentVO contentVo);
-	List<C_boardContentVO> selectC_boardView(int communityNo);
-	List<C_boardContentVO> selectAllC_boardView();
+	int insertBoardContent(C_boardClassicVO contentVo);
+	List<C_boardClassicVO> selectC_boardView(int communityNo);
+	List<C_boardClassicVO> selectAllC_boardView();
 	int deleteC_boardContent(int contentNo);
 }

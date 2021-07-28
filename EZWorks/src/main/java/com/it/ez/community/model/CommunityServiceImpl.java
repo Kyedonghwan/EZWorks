@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.it.ez.communityBoard.model.C_boardContentVO;
+import com.it.ez.communityBoard.model.C_boardClassicVO;
 import com.it.ez.communityBoard.model.C_boardVO;
 import lombok.RequiredArgsConstructor;
 

@@ -7,16 +7,19 @@
 		padding:0;
 	}
 </style>
-		
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">		
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script type="text/javascript">	
 $(function(){
+	var selectVal= $('#selectBoard option:selected').val();
+	
 	$('#btnSubmit').click(function(){
 		$('input[name=boardNo]').val($('#selectBoard option:selected').val());
 		
-		var selectVal= $('#selectBoard option:selected').val();
 		if(selectVal==null || selectVal.isEmpty()){
 			Toastify({
                 text: "게시판을 선택하세요",
@@ -31,7 +34,8 @@ $(function(){
 		}else{
 			$('.frmWrite').submit();
 		}
-	});
+	);
+	
 });
 </script>
 
@@ -55,7 +59,7 @@ $(function(){
 		              	<select class="form-select" id="selectBoard" name="selectBoard">
 		                    <optgroup label="작성할 게시판을 선택하세요">                 	
 		                    	<c:forEach var="vo2" items="${boardList}">
-		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>	                    	
+		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>                 	
 		                    	</c:forEach>
 		                   	</optgroup>
 		               	</select>
@@ -72,11 +76,8 @@ $(function(){
 		                    </div>
 		          	   </div>
 	          	   </div>
-          	   </div>  
-               <div class="summernote">
-				   <textarea id="summernote" name="text"></textarea><br>
-               </div>
-		       <div class="row">
+          	   </div>
+          	   <div class="row">
 	               <div class="col-12">
 		               <div class="form-group row align-items-center">
 		               		<div class="col-12">
@@ -89,13 +90,16 @@ $(function(){
 		                    </div>
 		          	   </div>
 	          	   </div>	               
-		       </div><hr>
-		   	<div class="col-sm-12 d-flex justify-content-end">
+		       </div>
+               <div class="summernote">
+				   <textarea id="summernote" name="text"></textarea><br>
+               </div>
+               <div class="col-sm-12 d-flex justify-content-end">
 	           <button type="submit" id="btnSubmit" 
 	          		class="btn btn-primary me-1 mb-1">등록</button>
 	           <button type="reset" 
 	          		class="btn btn-light-secondary me-1 mb-1">취소</button>
-	        </div>
+	          </div>
 		  </form>
 		</div>
 	</div>
@@ -104,16 +108,22 @@ $(function(){
 <!-- toastify -->
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 
+
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-
+<!-- image editor -->
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 <!-- filepond validation -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
-
 <!-- filepond -->
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script>
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+<script type="text/javascript">
    		 // register desired plugins...
 		FilePond.registerPlugin(
         // validates the size of the file...

@@ -2,7 +2,7 @@ package com.it.ez.community.model;
 
 import java.util.List;
 
-import com.it.ez.communityBoard.model.C_boardContentVO;
+import com.it.ez.communityBoard.model.C_boardClassicVO;
 import com.it.ez.communityBoard.model.C_boardVO;
 
 public interface CommunityService {

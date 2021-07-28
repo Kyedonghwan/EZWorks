@@ -25,7 +25,15 @@
 	}
 </style>
 <script type="text/javascript">
-	
+	$(function(){
+		$('#headingOne').click(function(){
+			if($(this).prop('class')=="card-header collapsed"){
+				$('#headingOne span img').attr('src',"<c:url value='/resources/images/accordion/chevron-right.svg'/>");				
+			}else if($(this).prop('class')=="card-header"){
+				$('#headingOne span img').attr('src',"<c:url value='/resources/images/accordion/chevron-down.svg'/>");
+			}
+		});
+	});
 </script>    
 <div class="card-header">
 	   <h5 class="card-title">커뮤니티</h5> 
@@ -39,8 +47,8 @@
         <div class="card">
             <div class="card-header" id="headingOne" data-bs-toggle="collapse"
                 data-bs-target="#collapseOne" aria-expanded="false"
-                aria-controls="collapseOne" role="button">
-             <span class="fa-fw select-all fas"></span> 가입한 커뮤니티
+                aria-controls="collapseOne" role="button">  
+             <span id="chevronRight"><img src="<c:url value='/resources/images/accordion/chevron-right.svg'/>"></span> 가입한 커뮤니티
 	         <span class="collapsed collapse-title">${vo.communityName}</span>
             </div>
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"

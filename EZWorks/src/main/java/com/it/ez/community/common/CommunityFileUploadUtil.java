@@ -80,7 +80,7 @@ public String getUploadPath(HttpServletRequest request, int pathFlag) {
 		}else if(pathFlag==CommunityConstUtil.UPLOAD_IMAGE_FLAG) {
 			path = CommunityConstUtil.C_BOARD_IMAGE_FILE_UPLOAD_PATH_TEST;
 		}
-	}else { //comment
+	}else { //deploy
 		if(pathFlag==CommunityConstUtil.UPLOAD_FILE_FLAG) {
 			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;
 		}else if(pathFlag==CommunityConstUtil.UPLOAD_IMAGE_FLAG) {
