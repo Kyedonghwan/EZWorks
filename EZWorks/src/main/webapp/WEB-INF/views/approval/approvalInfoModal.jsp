@@ -63,7 +63,7 @@
 										<td style="width:15%;text-align:center"></td>
 									</tr>
 									
-									<tr>
+									<tr id="beforeTarget">
 										<th colspan="5" style="background-color:#e6e6ec">수신</th>
 									</tr>
 									<tr>
@@ -80,7 +80,7 @@
 					<tr style="border:1px solid #eaf1f7;">
 						<td colspan="5" style="background-color:#e6e6ec;text-align:center">
 							<button type="button" class="btn btn-primary btn-sm" id="loadApprovalLine">나의 결제선 불러오기</button>
-							<button type="button" class="btn btn-primary btn-sm" id="saveApprovalLine">개인결재선으로 저장</button>
+							<button type="button" class="btn btn-primary btn-sm" id="addApprovalLine">개인결재선으로 저장</button>
 						</td>
 					</tr>
 				</table>
@@ -159,7 +159,55 @@
   </div>
   </form>
 </div>
-	
+
+<!-- 결제선 생성 모달 -->
+
+<div class="modal" tabindex="-1" id="addApprovalLineModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content" style="width:330px;height:330px">
+	      <div class="modal-header">
+	        <h5 class="modal-title">개인 결재선으로 저장</h5>
+	        <button type="button" class="btn-close addApprovalLineModal-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+	      </div>
+	      <div class="modal-body" style="height:330px">
+	      	<div class="input-group">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="">결재선 이름</span>
+			  </div>
+			  <input type="text" class="form-control" id="addApprovalLineModalName">
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="addApprovalLineModalOk">확인</button>
+	        <button type="button" class="btn btn-secondary addApprovalLineModal-close" data-bs-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	  </div>
+	  
+</div>
+
+<!-- 결제선 불러오기 모달 -->
+
+<div class="modal" tabindex="-1" id="loadApprovalLineModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content" style="width:330px;height:330px">
+	      <div class="modal-header">
+	        <h5 class="modal-title">나의 결재선</h5>
+	        <button type="button" class="btn-close loadApprovalLineModal-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+	      </div>
+	      <div class="modal-body">
+	        <div id="loadApprovalModalContent" class="overflow-auto" style="height:150px">
+    		</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="loadApprovalLineModalOk">확인</button>
+	        <button type="button" class="btn btn-secondary loadApprovalLineModal-close" data-bs-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	  </div>
+	  
+</div>
+
 <script type="text/javascript" src="<c:url value='/resources/js/tree.js'/>"></script>
 <script type="text/javascript">
 
@@ -171,6 +219,168 @@ $(function(){
 	$('.approvalInfoBtn').click(function(){
 		$('#approvalInfoModal').show();
 	})
+	
+	$('#addApprovalLine').click(function(){
+		$('#addApprovalLineModal').show();
+	})
+	
+	$('.addApprovalLineModal-close').click(function(){
+		$('#addApprovalLineModal').hide();
+	})
+	
+	$('.loadApprovalLineModal-close').click(function(){
+		$('#loadApprovalLineModal').hide();
+	})
+	
+	
+	
+	
+	
+	<!-- 결재선 저장버튼 클릭 -->
+	$('#addApprovalLineModalOk').click(function(){
+		var malName=$('#addApprovalLineModalName').val();
+		if(malName<1){
+			Toastify({
+				text:"결재선 이름을 입력하세요.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			$('#addApprovalLineModalName').focus();
+			return false;
+		}
+		
+		var temp=$('#add1').parent().parent().parent().children('tr:gt(3)');
+		var malList=[];
+		
+		var detailTemp="";
+		
+		temp.each(function(idx,item){
+			if(!$(this).children().is('td')){
+				return false;
+			}
+			
+			if($(this).children().is('td')){
+				var malFull=$(this).children().eq(1).text();
+				
+				malList.push({"malName":malName,"malFull":malFull});
+			}
+		})
+		
+		if(malList.length==0){
+			Toastify({
+				text:"결재선 항목이 없습니다.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			return false;
+		}
+		
+		
+		$.ajax({
+			url:'<c:url value="/mal/insert"/>',
+			type:'post',
+			data:JSON.stringify(malList),
+			contentType: 'application/json',
+			traditional:true,
+			success:function(res){
+				
+				Toastify({
+					text:res,
+					duration: 2000,
+					close:false,
+					gravity:"top",
+					position:"center",
+					backgroundColor:"black",
+				}).showToast();
+				if(res=="추가되었습니다.")
+					$('#addApprovalLineModal').hide();
+			},
+			error:function(e){
+				alert("결재선 추가 ajax 에러");
+			}
+		})
+		
+	})
+		
+		$('#loadApprovalLine').click(function(){
+			$('#loadApprovalLineModal').show();
+			$.ajax({
+				url:'<c:url value="/mal/load"/>',
+				type:"get",
+				dataType:"json",
+				success:function(res){
+					var temp="";
+					$.each(res,function(idx,item){
+						temp+='<p><a href="#" style="font-size:20px;font-weight:bold;color:#00001f">'+this+'</a></p>';
+					})
+					$('#loadApprovalModalContent').html(temp);
+					$('#loadApprovalModalContent a').click(function(){
+						$('#loadApprovalModalContent a').css('color','#00001f');
+						$(this).css('color','#435ebe');
+						
+						var malName=$(this).text();
+						
+						$('#loadApprovalLineModalOk').click(function(){
+							$.ajax({
+								url:"<c:url value='/mal/load2'/>",
+								type:"post",
+								dataType:"json",
+								data:{"malName":malName},
+								success:function(res){
+									var temp=$('#add1').parent().parent().parent().children('tr:gt(3)');
+									
+									temp.each(function(idx,item){
+										if(!$(this).children().is('td')){
+											return false;
+										}
+										if($(this).children().is('td')){
+											$(this).remove();
+											
+										}
+									})
+									var idx1=1;
+									$.each(res,function(idx,item){
+										var str="";
+										str+='<tr>';
+										str+='<td style="width:20%;text-align:center">'+this.MALFULL+'</td>';
+										str+='<td style="width:30%;text-align:center">'+this.DEPTNAME+'</td>';
+										str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn4"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
+										str+='</tr>';
+										$('#add1').parent().attr('rowspan',++idx1);
+										$('#beforeTarget').before(str);
+										
+									})
+									
+									$('#loadApprovalLineModal').hide();
+									Toastify({
+										text:"등록되었습니다.",
+										duration: 2000,
+										close:false,
+										gravity:"top",
+										position:"center",
+										backgroundColor:"black",
+									}).showToast();
+								},
+								error:function(e){
+									alert("불러오기 2 ajax");
+								}
+							})
+						})
+					})
+				},
+				error:function(e){
+					alert("결재선 불러오기 ajax 에러")
+				}
+				
+			})
+		})
+	
 	
 	$.ajax({
 		url:"<c:url value='/emp/showOrganization'/>",
@@ -312,7 +522,7 @@ $(function(){
 								str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
 								str+='</tr>';
 								$(this).parent().attr('rowspan',++idx1);
-								$(this).parent().parent().after(str);
+								$('#beforeTarget').before(str);
 								
 								
 								
@@ -374,7 +584,7 @@ $(function(){
 								str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn2"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
 								str+='</tr>';
 								$(this).parent().attr('rowspan',++idx2);
-								$(this).parent().parent().after(str);
+								$(this).parent().parent().parent().append(str);
 								
 								
 								
@@ -437,7 +647,7 @@ $(function(){
 								str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn3"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
 								str+='</tr>';
 								$(this).parent().attr('rowspan',++idx3);
-								$(this).parent().parent().after(str);
+								$(this).parent().parent().parent().append(str);
 								
 								
 								
@@ -502,7 +712,7 @@ $(function(){
 								str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn4"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
 								str+='</tr>';
 								$(this).parent().attr('rowspan',++idx4);
-								$(this).parent().parent().after(str);
+								$(this).parent().parent().parent().append(str);
 								
 								
 								
