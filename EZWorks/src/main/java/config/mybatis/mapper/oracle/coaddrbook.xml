@@ -3,15 +3,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.it.ez.addrbook.model.CoAddrBookDAO">
-	<select id="selectAll" parameterType="employeeVo" resultType="employeeVo">
+	<select id="selectAll" parameterType="coEmpVo" resultType="coEmpVo">
 		select *
 		from
 		(
 			select rownum as RNUM,A.*
 			from 
 			(
-				select * from emp
-				order by empNo desc
+				select * from coaddr_view
+				order by fk_emp_no desc
 			)A
 		)
 		<![CDATA[
@@ -20,9 +20,9 @@
 		]]>
 	</select>
 	
-	<select id ="selectTotalRecord" parameterType="employeeVo"
+	<select id ="selectTotalRecord" parameterType="coEmpVo"
 		resultType="int">
-		select count(*) from emp
+		select count(*) from coaddr_view
 	</select>
 	
 

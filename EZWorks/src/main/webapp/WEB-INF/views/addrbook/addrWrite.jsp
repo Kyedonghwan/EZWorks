@@ -51,6 +51,12 @@ body{
     vertical-align: top;
     padding: 4px 24px 4px 0;
    }
+   .imgst{
+
+    width: 100px;
+    height: 100px;
+
+    }
 </style>
 <body>
 <%@ include file="../include/top.jsp" %>																
@@ -69,17 +75,21 @@ body{
 				</colgroup>
 				<tbody>
 				<br>
-				<!--<tr>
+				<tr>
 					<th><span class="title">사진</span></th>
 					<td>
 					<span class="img_profile" style="overflow:hidden">
-						<span class="wrap_btn wrap_file_upload"><span class="btn_file_form fileinput-button" style="text-align: center;"><span class="button text"><span class="buttonText">사진 올리기</span></span><input type="file" name="file" title="파일 첨부" multiple="" accept="undefined"></span><div class="progress" style="display:none;margin-top:5px"></div></span>
-						<img src="/resources/images/photo_profile_large.jpg" alt="" id="thumbnail_image" data-filename="" data-filepath="">
+						<span class="wrap_btn wrap_file_upload">
+						<span class="btn_file_form fileinput-button" style="text-align: center;">
+						<span class="button text"><span class="buttonText">사진 올리기</span></span>
+						<input type="file" name="file" title="파일 첨부" multiple="" accept="undefined"></span>
+						<div class="progress" style="display:none;margin-top:5px"></div></span>
+						<img class ="imgst" src="<%=request.getContextPath()%>/resources/images/faces/photo_profile_large.jpg" alt="" id="thumbnail_image" data-filename="" data-filepath="">
 					</span>
 					<span class="btn_fn7" id="del_photo" data-role="button">삭제</span>
                        <div class="wrap_desc"><span class="desc">※ 사진은 자동으로 150x150 사이즈로 적용 됩니다.</span></div>
 					</td>
-				</tr> -->
+				</tr> 
 				<tr>
 					<th><span class="title">이름</span>
 						<ins class="asterisk">*</ins>
@@ -105,7 +115,7 @@ body{
 					</th>
 					<td><span class="txt_edit"><input name="posName" class="input wfix_large" type="text"></span></td>
 				</tr>
-				<tr class="line">
+			<!-- 	<tr class="line">
 					<th><span class="title">그룹</span></th>
 					<td>
 						<ul id="groupNameTag" class="name_tag">
@@ -114,7 +124,7 @@ body{
 							</li>
 						</ul>																		
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<th><span class="title">이메일</span>
 					</th>

@@ -12,12 +12,12 @@ public class CoAddrBookServiceImpl implements CoAddrBookService {
 	private final CoAddrBookDAO dao;
 	
 	@Override
-	public List<EmployeeVO> selectAll(EmployeeVO searchVo) {
+	public List<CoEmpVO> selectAll(CoEmpVO searchVo) {
 		return dao.selectAll(searchVo);
 	}
 
 	@Override
-	public int selectTotalRecord(EmployeeVO searchVo) {
+	public int selectTotalRecord(CoEmpVO searchVo) {
 		return dao.selectTotalRecord(searchVo);
 	}
 	

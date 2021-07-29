@@ -23,5 +23,13 @@ public class AddrBookServiceImpl implements AddrBookService {
 	public int selectTotalRecord(AddrBookVO searchVo) {
 		return dao.selectTotalRecord(searchVo);
 	}
+	@Override
+	public int updateBook(AddrBookVO vo) {
+		return dao.updateBook(vo);
+	}
+	@Override
+	public AddrBookVO selectByNo(int bookNo) {
+		return dao.selectByNo(bookNo);
+	}
 
 }

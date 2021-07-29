@@ -35,7 +35,17 @@
 		select count(*) from addrbook
 	</select>
 	
+	<update id="updateBook" parameterType="addrBookVo">
+		update addrbook
+		set name=#{name}, company_name=#{company_name}, deptName=#{deptName}, posName=#{posName},
+			email=#{email},	hp=#{hp}, corp_phone=#{corp_phone},
+			address=#{address},addressDetail=#{addressDetail}
+		where bookNo=#{bookNo}
+	</update>
 	
+	<select id="selectByNo" parameterType="int" resultType="addrBookVo">
+	 	select * from addrbook where bookNo=${bookNo}
+	 </select>
 
 </mapper>
 
