@@ -12,4 +12,5 @@ public interface MessageService {
 	boolean checkPwd(int no, String pwd);
 	int deleteMessage(int no);
 	int updateMessage(MessageVO vo);
+
 }

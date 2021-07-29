@@ -21,6 +21,14 @@
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">	
 	
+	$(function(){
+		$('.table tbody tr').hover(function(){
+			$(this).css('background',"Aquamarine");
+		}, function(){
+			$(this).css('background',"");
+		});
+	});
+	
 	function pageProc(curPage){
 		$('input[name=currentPage]').val(curPage);
 		$('form[name=frmPage]').submit();	
@@ -83,6 +91,12 @@
 		padding:10px;
 		margin:10px;
 	 }	
+	 
+	 .table-bordered {
+	  width: 85%;
+	  margin: 0 auto;
+	}
+	
  
 </style>	
 </head>	
@@ -101,10 +115,10 @@
 	<input type="hidden" name="searchKeyword" value="${param.searchKeyword }"><br>	
 </form>
 
-<table class="table table-striped">
+<table class="table table-bordered">
 	<thead class="thead-dark">
-	  <tr style="text-align: center">
-	    <th scope="col">번호</th>
+	  <tr class="table-info" style="text-align: center">
+	    <th scope="col">no</th>
 	    <th scope="col">내용</th>
 	    <th scope="col">작성자</th>
 	    <th scope="col">작성일</th>
@@ -117,7 +131,7 @@
 			</tr>
 		</c:if>		
 		<c:if test="${!empty list }">			 
-		  	<!-- 반복문 시작  -->		
+		  	<!-- 반복문 시작  -->
 		  	<c:forEach var="vo2" items="${list }">			 
 				<tr class="align_center">
 					<td>${vo2.no}</td>
@@ -140,20 +154,26 @@
 <div style="margin-top:40px">
 		<nav aria-label="Page navigation example">
 			<ul class="pagination pagination-primary pagination-sm justify-content-center">
-				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>disabled</c:if>">
-				<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">Previous</a></li>
+				<li class="page-item 
+				<c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>
+				</c:if>">
+				<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">
+					Previous		
+				</a></li>
+				
 				<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
 					<c:if test="${i==pagingInfo.currentPage }">
-						<li class="page-item active"><a class="page-link" href="#">${i }</a></li>
+						<li class="page-item active"><a class="page-link" href="#">${i}</a></li>
 					</c:if>
 					<c:if test="${i!=pagingInfo.currentPage }">
-						<li class="page-item"><a class="page-link" href="#" onclick="pageProc(${i})">${i }</a></li>
+						<li class="page-item"><a class="page-link" href="#" onclick="pageProc(${i})">${i}</a></li>
 					</c:if>
 				</c:forEach>
 				<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
 					<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> <img
 						src="<c:url value='/resources/images/message/last.JPG'/>" alt="다음 블럭으로">
 					</a>
+			
 				</c:if>
 				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.lastPage }'>disabled</c:if>"><a class="page-link" href="#">Next</a></li>
 			</ul>

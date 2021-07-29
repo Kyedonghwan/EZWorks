@@ -33,6 +33,15 @@
 	  width: 70%;
 	  margin: 0 auto;
 	}
+	 .a {
+        border: 4px dashed #bcbcbc;
+     }
+     
+      h2{
+	 	font-size: 30px;
+	 	text-align: center;
+	 }	
+      
 </style>  
 </head>
 <nav>
@@ -40,7 +49,7 @@
 </nav>
 <body>
 <form class="write-form">
-	<h2>쪽지 상세보기</h2>
+	<h2>보낸쪽지 상세보기</h2>
 	<div class="form-group">
     <label for="exampleFormControlInput1">작성자</label>
     <input type="email" class="form-control" readonly="readonly" id="exampleFormControlInput1" placeholder="${vo.name}">
@@ -53,20 +62,22 @@
     <label for="exampleFormControlTextarea1">쪽지내용</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" readonly="readonly" rows="3">${fn:replace(vo.content, newLine, "<br>") }</textarea>
   </div>	
-	
+  <nav><br></nav>
+  <div class="border border-warning p-3">
   <div class="form-group">
-    <label for="exampleFormControlInput1">작성자</label>
+    <label for="exampleFormControlInput1">답변작성자</label>
     <input type="email" class="form-control" id="exampleFormControlInput1" readonly="readonly" placeholder="${vo2.name}">
   </div>
   <div class="form-group">
     <label for="exampleFormControlTextarea1">쪽지내용</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" readonly="readonly" rows="3">${fn:replace(vo2.content, newLine, "<br>") }</textarea>
   </div>
+  </div>
 </form>
+	<nav><br></nav>
 	<div style="text-align: center">
 	<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendList'/>'">쪽지목록</button>		
 </div>
-
 <nav><br></nav>
 	<hr>
 	<footer id="main_footer" style="text-align: center">

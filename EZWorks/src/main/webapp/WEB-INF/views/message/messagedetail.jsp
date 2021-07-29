@@ -44,7 +44,7 @@
 </nav>
 <body>
 <form class="write-form">
-	<h2>쪽지 상세보기</h2>
+	<h2>받은쪽지 상세보기</h2>
   <div class="form-group">
     <label for="exampleFormControlInput1">작성자</label>
     <input type="email" class="form-control" readonly="readonly" id="exampleFormControlInput1" placeholder="${vo.name}">

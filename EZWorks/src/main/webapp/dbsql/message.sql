@@ -38,7 +38,7 @@ start with 1
 nocache;
 
 insert into send(no, name, content, regdate)
-values(send_seq.nextval, '김길수' , '테스트용 답변입니다','sysdate');
+values(send_seq.nextval, '김길수' , '테스트용 답변입니다','2021-07-26');
 
 select * from send;
 

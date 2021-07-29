@@ -24,18 +24,20 @@
 		<a style="font-size: 150%">쪽지</a>
 	</h5>
 </section>
+
+
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-outline-primary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/message/messageWrite'/>" class="btn btn-primary" style="width:100%;font-size:0.85em;">
 				쪽지작성
 			</a>
 			<nav><br></nav>
 			<a href="<c:url value='/message/messageList'/>" class="btn btn-outline-success" style="width:100%;font-size:0.85em;">
-				받은 쪽지
+				받은 쪽지함
 			</a>
 			<nav><br></nav>
 			<a href="<c:url value='/message/sendList'/>" class="btn btn-outline-warning" style="width:100%;font-size:0.85em;">
-				보낸 쪽지
+				보낸 쪽지함
 			</a>
 	</div>
 </section>
