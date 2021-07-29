@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -109,6 +110,7 @@ public class BoardController {
 		
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		//선택한 게시판의 vo
@@ -164,6 +166,24 @@ public class BoardController {
 		}else if(boardShowType.equals(BoardService.BOARD_FEED)) {
 			List<BoardFeedPostingVO> postingFeedList = postingService.selectPostingFeed(boardNo);
 			model.addAttribute("postingList", postingFeedList);
+			
+			List<PostingFilesVO> allFilesList = new ArrayList<>();
+			for(BoardFeedPostingVO feedvo : postingFeedList) {
+				List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(feedvo.getPostingNo());
+				logger.info("파일 목록, filesList.size={}", filesList.size());
+				
+				for(PostingFilesVO pf : filesList) {
+					allFilesList.add(pf);
+				}
+				//로그인된 사용자가 좋아요 등록 여부
+				int hasLiked = postingService.hasLiked(feedvo.getPostingNo(), empNo);
+				feedvo.setHasLiked(hasLiked);
+				//게시물 좋아요 수
+				int likes = postingService.countLikes(feedvo.getPostingNo());
+				feedvo.setPostingLikes(likes);
+			}
+			model.addAttribute("allFilesList", allFilesList);
+			
 			url = "board/boardFeed";
 		}
 		
@@ -222,31 +242,31 @@ public class BoardController {
 		
 		List<Map<String, Object>> list;
 		try {
-			list = boardFileUploadUtil.fileUpload(request, BoardConstUtil.UPLOAD_FILE_FLAG);
+			list = boardFileUploadUtil.fileUpload(request, BoardConstUtil.UPLOAD_FILE_FLAG, "filepond");
 			if(!list.isEmpty()&&list!=null) {
 			logger.info(BoardConstUtil.UPLOAD_FILE_FLAG+"");
 			logger.info(boardFileUploadUtil.getUploadPath(request, BoardConstUtil.UPLOAD_FILE_FLAG));
 			logger.info("파일 list.size={}",list.size());
 			List<PostingFilesVO> pfVoList = new ArrayList<>();
-			for(int i=0;i<list.size();i++) {
-				Map<String, Object> map = list.get(i);
-				pfFileName=(String)map.get("fileName");
-				pfFileSize=(Long)map.get("fileSize");
-				pfOFileName=(String)map.get("originalFileName");
-				
-				PostingFilesVO pfVo = new PostingFilesVO();
-				
-				pfVo.setPfFileName(pfFileName);
-				pfVo.setPfFileSize(pfFileSize);
-				pfVo.setPfOFileName(pfOFileName);
-				pfVo.setPostingNo(postingNo);
-				
-				int fileupcnt = postingService.insertPostingFiles(pfVo);
-				if(fileupcnt>0) {
-					logger.info("파일 업로드 성공, pfVo={}",pfVo);
+				for(int i=0;i<list.size();i++) {
+					Map<String, Object> map = list.get(i);
+					pfFileName=(String)map.get("fileName");
+					pfFileSize=(Long)map.get("fileSize");
+					pfOFileName=(String)map.get("originalFileName");
+					
+					PostingFilesVO pfVo = new PostingFilesVO();
+					
+					pfVo.setPfFileName(pfFileName);
+					pfVo.setPfFileSize(pfFileSize);
+					pfVo.setPfOFileName(pfOFileName);
+					pfVo.setPostingNo(postingNo);
+					
+					int fileupcnt = postingService.insertPostingFiles(pfVo);
+					if(fileupcnt>0) {
+						logger.info("파일 업로드 성공, pfVo={}",pfVo);
+					}
+					pfVoList.add(pfVo);
 				}
-				pfVoList.add(pfVo);
-			}
 			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -257,14 +277,67 @@ public class BoardController {
 		//목록으로 반환
 	}
 	
+
+	@PostMapping("/writeFeedPosting")
+	public String writeFeedPosting_post(@ModelAttribute PostingVO postVo, HttpServletRequest request, Model model, HttpSession session) {
+		logger.info("Feed 게시판 posting 파라미터 postVo={}", postVo);
+		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
+		int empNo = empVo.getEmpNo();
+		postVo.setEmpNo(empNo);
+		int cnt = postingService.insertPosting(postVo);
+		int postingNo = postVo.getPostingNo();
+		logger.info("request={}", request);
+		String pfFileName="", pfOFileName="";
+		long pfFileSize=0;
+		
+		List<Map<String, Object>> list;
+		try {
+			list = boardFileUploadUtil.fileUpload(request, BoardConstUtil.UPLOAD_FILE_FLAG, "img_upload");
+			if(!list.isEmpty()&&list!=null) {
+			logger.info(BoardConstUtil.UPLOAD_FILE_FLAG+"");
+			logger.info(boardFileUploadUtil.getUploadPath(request, BoardConstUtil.UPLOAD_FILE_FLAG));
+			logger.info("파일 list.size={}",list.size());
+			List<PostingFilesVO> pfVoList = new ArrayList<>();
+				for(int i=0;i<list.size();i++) {
+					Map<String, Object> map = list.get(i);
+					pfFileName=(String)map.get("fileName");
+					pfFileSize=(Long)map.get("fileSize");
+					pfOFileName=(String)map.get("originalFileName");
+					
+					PostingFilesVO pfVo = new PostingFilesVO();
+					
+					pfVo.setPfFileName(pfFileName);
+					pfVo.setPfFileSize(pfFileSize);
+					pfVo.setPfOFileName(pfOFileName);
+					pfVo.setPostingNo(postingNo);
+					
+					int fileupcnt = postingService.insertPostingFiles(pfVo);
+					if(fileupcnt>0) {
+						logger.info("파일 업로드 성공, pfVo={}",pfVo);
+					}
+					pfVoList.add(pfVo);
+				}
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/board/selectedBoard?boardNo="+postVo.getBoardNo();
+	}
+	
 	@RequestMapping("/postingDetail")
 	public String postingDetail(HttpSession session, @RequestParam int postingNo, @RequestParam(required = false) Integer currentStatusVal, Model model) {
 		logger.info("상세 게시글 조회, 파라미터 postingNo={}", postingNo);
 		List<BoardVO> list = boardService.selectAllBoard();
 		logger.info("파라미터, list={}", list.size());
 		model.addAttribute("boardList", list);
+		
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
+		
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		
@@ -274,13 +347,18 @@ public class BoardController {
 		logger.info("파일 목록, filesList.size={}", filesList.size());
 		model.addAttribute("filesList", filesList);
 		
+		//게시물 좋아요 수
 		int likes = postingService.countLikes(postingNo);
 		logger.info("게시물 좋아요 수 postingNo={}, likes={}", postingNo, likes);
 		model.addAttribute("likes", likes);
 		
+		//로그인된 사용자가 좋아요 등록 여부
 		int hasLiked = postingService.hasLiked(postingNo, empNo);
 		logger.info("좋아요 여부, hasLiked={}", hasLiked);
 		model.addAttribute("hasLiked", hasLiked);
+		
+		//조회수 증가
+		int viewcountupdate = postingService.updateViewCount(postingNo);
 		
 		//PostingVO vo = postingService.selectByPostingNo(postingNo);
 		BoardClassicPostingVO vo = postingService.selectClassicByPostingNo(postingNo);
@@ -326,6 +404,7 @@ public class BoardController {
 		model.addAttribute("vo", vo);
 		int newPostingNo = vo.getPostingNo();
 		
+		
 		BoardVO boardVo = boardService.selectByBoardNo(boardNo);
 		model.addAttribute("boardVo", boardVo);
 		logger.info("boardVo={}",boardVo);
@@ -347,6 +426,9 @@ public class BoardController {
 		model.addAttribute("hasLiked", hasLiked);
 		
 		logger.info("empNo={}, postingNo={}", empNo, postingNo);
+		
+		//조회수 증가
+		int viewcountupdate = postingService.updateViewCount(newPostingNo);
 		
 		return "board/boardClassicDetail";
 	}
@@ -392,7 +474,37 @@ public class BoardController {
 		
 		logger.info("empNo={}, postingNo={}", empNo, postingNo);
 		
+		//조회수 증가
+		int viewcountupdate = postingService.updateViewCount(postingNo);
+		
 		return "board/boardClassicDetail";
+	}
+	
+	@RequestMapping("/deletePosting")
+	public String deletePosting(@RequestParam int postingNo, @RequestParam int boardNo, HttpServletRequest request) {
+		//파일이 있으면 파일 삭제
+		List<PostingFilesVO> list = postingService.selectFilesOfPosting(postingNo);
+		for(PostingFilesVO vo : list) {
+			String fileName = vo.getPfFileName();
+			if(fileName!=null&&!fileName.isEmpty()) {
+				String upPath = boardFileUploadUtil.getUploadPath(request, BoardConstUtil.UPLOAD_FILE_FLAG);
+				File file = new File(upPath, fileName);
+				if(file.exists()) {
+					boolean bool = file.delete();
+					logger.info("파일 삭제 여부:{}", bool);
+				}
+			}
+		}
+		//posting 좋아요 삭제 처리
+		
+		
+		//파일 리스트 db 삭제
+		int cnt = postingService.deleteFileList(postingNo);
+		
+		//posting 삭제
+		int cnt2 = postingService.deletePosting(postingNo);
+		
+		return "redirect:/board/selectedBoard?boardNo="+boardNo;
 	}
 	
 	/* public int insertFavBoards(int boardNo, int empNo);
@@ -444,7 +556,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView("boardDownloadView", map); 
 		return mav; 
 	}
-	 
+	
 	/*
 	 * @RequestMapping("/uploadAndDisplayFeedPosting") public
 	 * uploadAndDisplayFeedPosting(HttpSession session, Model model) {

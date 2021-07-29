@@ -28,8 +28,8 @@ EZWorks/.project
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
-**/src/main/**/target/
-**/src/test/**/target/
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -54,16 +54,10 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-**/src/main/**/build/
-**/src/test/**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
-/EZWorks/
-EZWorks/src/main/resources/application.properties
 *.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
 EZWorks/src/main/resources/application.properties

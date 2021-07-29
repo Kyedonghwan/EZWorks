@@ -25,6 +25,9 @@
 	<delete id="deleteFavBoards">
 		delete from user_sel_board where emp_no=#{empNo} and board_no=#{boardNo}
 	</delete>
+	<select id="hasFavoredBoard">
+		select count(*) from user_sel_board where emp_no=#{empNo} and board_no=#{boardNo}
+	</select>
 </mapper>
 
 

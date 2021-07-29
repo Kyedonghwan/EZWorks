@@ -107,4 +107,19 @@ public class PostingServiceImpl implements PostingService{
 	public int hasLiked(int postingNo, int empNo) {
 		return postingDao.hasLiked(postingNo, empNo);
 	}
+
+	@Override
+	public int deleteFileList(int postingNo) {
+		return postingDao.deleteFileList(postingNo);
+	}
+
+	@Override
+	public int deletePosting(int postingNo) {
+		return postingDao.deletePosting(postingNo);
+	}
+
+	@Override
+	public int updateViewCount(int postingNo) {
+		return postingDao.updateViewCount(postingNo);
+	}
 }

@@ -33,4 +33,7 @@ public interface PostingService {
 	public int deleteLike(int postingNo, int empNo);
 	public int countLikes(int postingNo);
 	public int hasLiked(int postingNo, int empNo);
+	public int deleteFileList(int postingNo);
+	public int deletePosting(int postingNo);
+	public int updateViewCount(int postingNo);
 }

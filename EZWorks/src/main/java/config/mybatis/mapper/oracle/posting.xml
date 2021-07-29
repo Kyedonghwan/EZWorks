@@ -23,7 +23,7 @@
 		</selectKey>
 		insert into posting(POSTING_NO, POSTING_TITLE, BOARD_NO, EMP_NO, POSTING_CONTENT, POSTING_ISPUBLIC, 
 			POSTING_ISNOTICE, POSTING_ISTEMP)
-		values(#{postingNo}, #{postingTitle}, #{boardNo}, #{empNo}, #{postingContent},
+		values(#{postingNo}, #{postingTitle, jdbcType=VARCHAR}, #{boardNo}, #{empNo}, #{postingContent},
 		#{postingIsPublic}, #{postingIsNotice}, #{postingIsTemp})
 	</insert>
 	<insert id="insertPostingFiles" parameterType="PostingFilesVO">
@@ -100,6 +100,17 @@
 	<select id="hasLiked" resultType="int">
 		select count(*) from EMP_LIKES_POSTING where posting_no=#{postingNo} and emp_no=#{empNo}
 	</select>
+	<delete id="deleteFileList">
+		delete from posting_files where posting_no=#{postingNo}
+	</delete>
+	<delete id="deletePosting">
+		delete from posting where posting_no=#{postingNo}
+	</delete>
+	<update id="updateViewCount">
+		update posting
+		set posting_viewcount = posting_viewcount + 1
+		where posting_no=#{postingNo}
+	</update>
 </mapper>
 
 

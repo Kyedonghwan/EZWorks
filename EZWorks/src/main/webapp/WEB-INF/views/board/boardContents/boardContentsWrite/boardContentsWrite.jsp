@@ -119,12 +119,19 @@
 			}
 		});
 		
+		
+		
 		/* $('#tempSubmitBtn').click(function(){
 			$.ajax({
 				
 			});
 		}); */
 	});
+	function checkfiles(input){
+		if(input.files){
+			console.log(input.files)
+		}
+	}
 </script>
 <form name="postingWriteForm" action="<c:url value='/board/writePosting'/>" method="post" enctype="multipart/form-data" style="padding:0px;margin:0px;" >
 <input type="hidden" name="boardNo">

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/top.jsp"%>
 <%@ include file="boardMenu/boardMenu.jsp"%>
-<%@ include file="../include/middle.jsp"%>
+<%@ include file="../include/middle_temp_board.jsp"%>
 
 <!-- Contents 영역 추가 -->
 <jsp:include page="boardContents/boardContentsFeed/boardContentsFeedDetail.jsp">

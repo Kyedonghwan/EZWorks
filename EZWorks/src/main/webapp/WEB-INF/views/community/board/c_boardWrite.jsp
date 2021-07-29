@@ -153,7 +153,7 @@ $(function(){
 		                    </div>
 		                    <div class="col-9">
 		                        <!-- Basic file uploader -->
-                 				<input type="file" class="basic-filepond">	
+                 				<input type="file" class="multiple-files-filepond" multiple>	
 		                    </div>
 		          	   </div>
 	          	   </div>	               
@@ -168,4 +168,57 @@ $(function(){
 		</div>
 	</div>
 </section>
+
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<!-- image editor -->
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+<!-- filepond validation -->
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+<!-- filepond -->
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+<script type="text/javascript">
+	// register desired plugins...
+	FilePond.registerPlugin(
+    // validates the size of the file...
+    FilePondPluginFileValidateSize,
+    // validates the file type...
+    FilePondPluginFileValidateType,
+
+    // calculates & dds cropping info based on the input image dimensions and the set crop ratio...
+    FilePondPluginImageCrop,
+    // preview the image file type...
+    FilePondPluginImagePreview,
+    // filter the image file
+    FilePondPluginImageFilter,
+    // corrects mobile image orientation...
+    FilePondPluginImageExifOrientation,
+    // calculates & adds resize information...
+    FilePondPluginImageResize
+    );
+
+    // Filepond: Multiple Files
+	FilePond.create( document.querySelector('.multiple-files-filepond'), { 
+        allowImagePreview: false,
+        allowMultiple: true,
+        allowFileEncode: false,
+        required: false,
+        maxFiles: 2,
+        checkValidity: false,
+        maxFileSize: '100MB',
+        storeAsFile: true
+    });
+    
+    $('.multiple-files-filepond').on('FilePond:addfile', function(e){
+    	console.log('file added event', e);
+    });    
+    
+   	
+</script>
 <%@ include file="../../include/bottom.jsp" %>
