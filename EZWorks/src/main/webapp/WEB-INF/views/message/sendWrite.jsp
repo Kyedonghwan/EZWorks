@@ -69,7 +69,7 @@
  			<textarea id="content"  class="form-control" name="content" rows="10" cols="40"></textarea>
         </div>
         <div style="text-align: center">
-            <input type = "submit" class="btn btn-primary" value="쪽지등록"/>
+            <input type = "submit" class="btn btn-primary" value="답변작성"/>
             <input type = "Button" class="btn btn-success" value="쪽지목록"/>         
         </div>
     </fieldset>

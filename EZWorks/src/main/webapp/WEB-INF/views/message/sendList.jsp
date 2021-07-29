@@ -12,7 +12,7 @@
 <head>
 <title>보낸 편지함</title>
 <meta charset="utf-8">
-<link rel="stylesheet" typ	e="text/css" 
+<link rel="stylesheet" type="text/css" 
 	href="<c:url value='/resources/css/message/mainstyle.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/clear.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/message/formLayout.css'/>" />
