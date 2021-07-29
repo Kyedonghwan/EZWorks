@@ -24,7 +24,7 @@ $(document).ready(function () {
     		  icon: 'warning',
     		  showCancelButton: true,
     		  confirmButtonColor: '#4374D9',
-    		  cancelButtonColor: '#EAEAEA',
+    		  cancelButtonColor: '#BDBDBD',
     		  confirmButtonText: '삭제'
     		}).then((result) => {
     		  if (result.isConfirmed) {
@@ -39,6 +39,10 @@ $(document).ready(function () {
     		  }
     		});
     });
+    
+    if($('#cfSchAll').val()=="Y"){
+    	$('.hide').hide();
+    }
 });
 </script>
 <style>
@@ -112,6 +116,11 @@ p{
 	width: 70%;
 	display: inline-block;
 }
+#disabledInput{
+	width: 30%;
+	background-color: white;
+	border: none;
+}
 </style>
 
 <%@ include file="sidebar2.jsp" %>
@@ -127,51 +136,35 @@ p{
 		</div>
 		<div class="registerDiv">
 			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schStart}</p>
-			<p style="font-size: 1.2em">/</p>
-			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schStartTime}</p>
+			<p style="font-size: 1.2em" class="hide">/</p>
+			<p class="form-control-static hide" id="staticInput" style="font-size: 1.2em">${vo.schStartTime}</p>
 			&nbsp;
 			<label for="to" style="font-size: 1.2em">~</label> 
 			&nbsp;
 			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schEnd}</p>
-			<p style="font-size: 1.2em">/</p>
-			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schEndTime}</p>
+			<p style="font-size: 1.2em" class="hide">/</p>
+			<p class="form-control-static hide" id="staticInput" style="font-size: 1.2em">${vo.schEndTime}</p>
 				&nbsp;&nbsp;
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">종일</label>
+                       <input type="hidden" name="schAll" id="cfSchAll" value="${vo.schAll }">
                     </div>
 		</div>
 		<div class="registerDiv">
-			<label class="writeLabel">전사일정</label> 
-			 <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">전사일정</label>
-              </div>
-		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">내 캘린더</label> 
-			<select class="form-select" name="schCate"
-				id="basicSelect">
-			<c:forEach var="vo" items="${list }">
-				<option value="${vo.schCateNo }">${vo.schCateName }</option>
-			</c:forEach>
-			</select>
+			<label class="writeLabel">분류</label> 
+			<input type="text" class="form-control round" 
+				value="${vo2.schCateName }" disabled id="disabledInput">
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">참석자</label> 
-			<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
-			<span>참석자선택</span>
+			<input type="text" class="form-control round" value="${vo.schAttend }" disabled id="disabledInput">
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">외부참석자</label> 
-			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schExtAttend}</p>
-			<input type="button" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+			<input type="text" class="form-control round" value="${vo.schExtAttend }" disabled id="disabledInput">
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">장소</label> 
-			<p class="form-control-static" id="staticInput" style="font-size: 1.2em">${vo.schPlace}</p>
+			<input type="text" class="form-control round" value="${vo.schPlace }" disabled id="disabledInput">
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">내용</label>

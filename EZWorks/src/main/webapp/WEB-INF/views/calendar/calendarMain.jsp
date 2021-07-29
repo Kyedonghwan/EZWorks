@@ -51,13 +51,25 @@
 						var events=[];
 						
 						$.each(res, function(idx,item){
-							events.push({
-								id:item.schNo,
-								title:item.schTitle,
-								start:item.schStart+"T"+item.schStartTime,
-								end:item.schEnd+"T"+item.schEndTime,
-								color:item.schColor,
-							});
+							
+							if(item.schAll == "Y"){
+								events.push({
+									id:item.schNo,
+									title:item.schTitle,
+									start:item.schStart,
+									end:item.schEnd,
+									color:item.schColor,
+								});
+							}else if(item.schAll=="N" || item.schAll==null){
+								events.push({
+									id:item.schNo,
+									title:item.schTitle,
+									start:item.schStart+"T"+item.schStartTime,
+									end:item.schEnd+"T"+item.schEndTime,
+									color:item.schColor,
+								});
+							}
+							
 							console.log(events);
 						});
 						
@@ -69,10 +81,6 @@
 				}
 		});
 		calendar.render();
-		
-		$('#regBtn').click(function(){
-			location.href="${pageContext.request.contextPath}/calendar/calRegister"
-		});
 		
 	});
 	
@@ -90,9 +98,6 @@ body {
 	margin: 0 auto;
 }
 
-ul, li {
-	list-style-type: none;
-}
 </style>
 </head>
 <body>
@@ -113,7 +118,7 @@ ul, li {
 		</div>
 	</div>
 	
-	<%@ include file="writeModal.jsp"%>
+	<jsp:include page="writeModal.jsp"/>
 	<%@ include file="../include/bottom.jsp"%>
 	<script type="text/javascript">
 		$(function(){
@@ -122,9 +127,9 @@ ul, li {
 				$('.panel').slideToggle('fast');
 				
 				if(bool){
-					$('.more').html('<img src="<c:url value='/resources/images/accordion/chevron-right.svg'/>">');
+					$('#more').html('<span class="fa-fw select-all fas"></span>');
 				}else{
-					$('.more').html('<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>">');
+					$('#more').html('<span class="fa-fw select-all fas"></span>');
 				}
 				bool=!bool;
 			});

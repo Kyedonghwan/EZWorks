@@ -29,8 +29,7 @@
 		insert into schedule(SCH_NO, SCH_TITLE, SCH_START,SCH_START_TIME, SCH_END, SCH_END_TIME, SCH_ALL,
 			 SCH_PLACE, SCH_COLOR ,SCH_CATE)
 		values(#{schNo}, #{schTitle}, #{schStart}, #{schStartTime}, #{schEnd},#{schEndTime}, #{schAll , jdbcType=VARCHAR},
-			  #{schPlace},
-			 #{schColor , jdbcType=VARCHAR}, #{schCate , jdbcType=VARCHAR})
+			  #{schPlace, jdbcType=VARCHAR},#{schColor , jdbcType=VARCHAR}, #{schCate , jdbcType=VARCHAR})
 	</insert>
 	
 	<update id="updateCal" parameterType="calendarVO">
@@ -46,10 +45,10 @@
 		where SCH_NO=#{schNo}
 	</delete>
 
-	
-	<update id="insertColor">
-		update schedule sd
-		set sd.SCH_COLOR=(select sc.SCH_COLOR from schcategory sc where sc.SCH_CATENO=sd.SCH_CATE)
+	<update id="insertColor" parameterType="int">
+		update schedule
+		set SCH_COLOR=(select SCH_COLOR from colorView where SCH_NO=#{schNo})
+		where SCH_NO=#{schNo}
 	</update>
 
 </mapper>

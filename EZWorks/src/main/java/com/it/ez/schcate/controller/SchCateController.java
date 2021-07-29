@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.schcate.model.SchCateService;
@@ -32,19 +36,19 @@ public class SchCateController {
 		return list;
 	}
 	
-	@GetMapping("/calendar/calRegister")
-	public String listCate(Model model) {
+	@GetMapping(value={"/calendar/calRegister","/calendar/writeModal"})
+	public void listCate(Model model) {
 		List<SchCateVO> list = schCateService.showAllCate(1);
 		model.addAttribute("list", list);
-		
-		return "calendar/calRegister";
 	}
 	
-	@GetMapping("/calendar/writeModal")
-	public String listModal(Model model) {
-		List<SchCateVO> list = schCateService.showAllCate(1);
-		model.addAttribute("list", list);
+	@RequestMapping("/calendar/sidebar2")
+	public String insertCate(@ModelAttribute SchCateVO vo) {
+		logger.info("내 캘린더 추가 vo={}",vo);
+		int cnt=schCateService.insertCate(vo);
+		logger.info("내 캘린더 추가, cnt={}",cnt);
 		
-		return "calendar/writeModal";
+		return "calendar/sidebar2";
 	}
+
 }

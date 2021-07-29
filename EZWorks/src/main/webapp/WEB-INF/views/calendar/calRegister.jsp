@@ -14,6 +14,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+    	 
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
             $( "#startDate" ).datepicker({
                  changeMonth: true, 
@@ -96,6 +97,30 @@
             	location.href="<c:url value='/calendar/calendarMain'/>"
             });
             
+            $('#selectAttend').click(function(){
+            	$('#organizationModal').modal('show');
+            });
+            
+            
+            $('.addExtAttend').hide();
+            $('#addExtAttend').click(function(){
+            	$('.addExtAttend').show();
+            	var joinVal = $('#join').val();
+            	$('#add').append("<span class='multiple-remove'>"+joinVal+"</span>&nbsp;&nbsp;");
+            });
+            
+            $('#schAll').change(function(){
+                if($('#schAll').is(':checked')){
+                	$('#cfSchAll').val('Y');
+                	$('#startTime').hide();
+                	$('#endTime').hide();
+                }else{
+                	$('#cfSchAll').val('N');
+                	$('#startTime').show();
+                	$('#endTime').show();
+                }
+            });
+            
     });
     
     
@@ -112,7 +137,7 @@ p{
 }
 
 .writeLabel {
-	width: 20%;
+	width: 10%;
 	float: left;
 	text-align: left;
 	padding: 5px 10px 0 10px;
@@ -175,7 +200,7 @@ p{
 
 
 <%@ include file="sidebar2.jsp" %>
-
+<%@ include file="../include/organization.jsp" %>
 <%@ include file="../include/middle.jsp"%>
 <div class="card-header" style="border-left: 1px solid #BDBDBD">
 	<h4>일정등록</h4>
@@ -200,21 +225,13 @@ p{
 				&nbsp;&nbsp;
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">종일</label>
+                        	name="customCheck" style="margin-right: 0px" id="schAll">
+                        <label style="font-size: 1em" >종일</label><input type="hidden" name="schAll" id="cfSchAll">
                     </div>
 		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">전사일정</label> 
-			 <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">전사일정</label>
-              </div>
-		</div>
-		<div class="registerDiv">
+		<div class="registerDiv" id="myCalSelect">
 			<label class="writeLabel">내 캘린더</label> 
-			<select class="form-select" name="schCate"
+			<select class="form-select"  name="schCate"
 				id="basicSelect">
 			<c:forEach var="vo" items="${list }">
 				<option value="${vo.schCateNo }">${vo.schCateName }</option>
@@ -224,13 +241,17 @@ p{
 		<div class="registerDiv">
 			<label class="writeLabel">참석자</label> 
 			<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
-			<span>참석자선택</span>
+			<span id="selectAttend">참석자선택</span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">외부참석자</label> 
 			<input type="text" id="join" name="schExtAttend" 
 				class="form-control round"> 
-			<input type="button" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+			<input type="button" id="addExtAttend" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+		</div>
+		<div class="addExtAttend">
+			<label class="writeLabel"></label> 
+			<span id="add"></span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">장소</label> 

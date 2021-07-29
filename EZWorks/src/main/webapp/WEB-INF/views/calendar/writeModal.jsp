@@ -10,6 +10,10 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
 
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
  <script type="text/javascript">
     $(document).ready(function () {
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
@@ -50,36 +54,12 @@
  
             });    
             
-            $('#startTime').timepicker({
-                timeFormat: 'HH:mm',
-                interval: 30,
-                minTime: '00:00',
-                maxTime: '23:30',
-                defaultTime: '00',
-                startTime: '00:00',
-                dynamic: true,
-                dropdown: true,
-                scrollbar: true
-            });
-            
-            $('#endTime').timepicker({
-                timeFormat: 'HH:mm',
-                interval: 30,
-                minTime: '00:00',
-                maxTime: '23:30',
-                defaultTime: '00',
-                startTime: '00:00',
-                dynamic: true,
-                dropdown: true,
-                scrollbar: true
-            });
-            
+        
             var d= new Date();
             document.getElementById('startDate').value = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(0,10);
             document.getElementById('endDate').value = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(0,10);
             
-            document.getElementById('startTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
-            document.getElementById('endTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
+            
             
             $('#detailSch').click(function(){
             	location.href="<c:url value='/calendar/calRegister'/>"
@@ -91,12 +71,12 @@
             		type:"post",
             		dataType:"json",
             		data:{
-            			schTitle:$('#schTitle').val(),
-            			schStart:$('#startDate').val(),
-            			schStartTime:$('#startTime').val(),
-            			schEnd:$('#endDate').val(),
-            			schEndTime:$('#endTime').val(),
-            			schPlace:$('#schPlace').val()
+            			'schTitle':$('#title').val(),
+            			'schStart':$('#startDate').val(),
+            			'schStartTime':$('#startTime').val(),
+            			'schEnd':$('#endDate').val(),
+            			'schEndTime':$('#endTime').val(),
+            			'schPlace':$('#schPlace').val()
             		},
             		success:function(){
             		},error:function(){
@@ -132,7 +112,7 @@
         }
 }
 .modal-body{
-	margin-top: 20px;
+	margin-top: 7px;
 }
 
 .modal-dialog {
@@ -152,14 +132,16 @@
 .chkbox{
 	margin : 10px 0 25px 0;
 }
-.datepick{
-	width: 15%;
-		height: 1.5em;
-		font-size: 0.9em;
-		margin : 5px 0 20px 0;
-}
 
 #startDate, #endDate, #startTime, #endTime {
+	width: 20%;
+	height: 30px;
+	margin: 5px 0 10px 0;
+	display: inline-block;
+	border: 1px solid #CFCFCF;
+}
+
+#startTime, #endTime{
 	width: 12%;
 	height: 30px;
 	margin: 5px 0 10px 0;
@@ -171,10 +153,28 @@
 	height: 30px;
 	font-size: 0.9em;
 }
+
+#title {
+	width: 70%;
+	display: inline-block;
+	margin-right: 10px;
+	border: 1px solid #CFCFCF;
+	padding: .2rem .75rem;
+}
+.registerDiv {
+	margin: 10px 0 15px 0;
+}
+#place {
+	width: 70%;
+	height: 30px;
+	display: inline-block;
+	margin-right: 10px;
+	border: 1px solid #CFCFCF;
+	padding: .2rem .75rem;
+}
 </style>
-<div class="modal" tabindex="-1" id="writeModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<form name="writeSch" method="post"
-		action="<c:url value='/calendar/calendarMain'/>">
+<div class="modal" id="writeModal">
+	<form name="writeSch" method="post" action="<c:url value='/calendar/calendarMain'/>">
 		<div class="modal-dialog">
 					<div class="modal-content" style="width:700px;height: 450px">
 						<div class="modal-header">
@@ -185,30 +185,33 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<div>
+							<div class="registerDiv">
 								<label class="writeLabel1">
 									일정명
 								</label>
 								<span style="color:red; padding-right: 55px; width: 40%">*</span>
-								<input type="text" name="schTitle" id="schTitle" class="input">
+								<input type="text" id="title" class="form-control round" 
+									name="schTitle">
 							</div>
-							<div>
+							<div class="registerDiv">
 								<label class="writeLabel">일시</label>
-								<input type="text" id="startDate" name="schStart" class="datepick">
+								<input type="text" id="startDate" name="schStart"
+									class="form-control round" value=""> 
 								<input type="text" id="startTime" name="schStartTime"
-									class="form-control round" value="">
-								<label for="to">~</label>
-								<input type="text" id="endDate" name="schEnd" class="datepick">
+									class="form-control round" value=""> 
+								<label for="to">~</label> 
+								<input type="text" id="endDate" name="schEnd" 
+									class="form-control round">
 								<input type="text" id="endTime" name="schEndTime" 
 									class="form-control round">
-								&nbsp;&nbsp;
+								&nbsp;
 								<input type="checkbox" value="종일" class="chkbox">종일
 							</div>
-							<div>
+							<div class="registerDiv">
 								<label class="writeLabel">전사일정</label>
 								<input type="checkbox" value="전사일정" class="chkbox">전사일정
 							</div>
-							<div>
+							<div class="registerDiv">
 								<label class="writeLabel">내 캘린더</label>
 								<select class="form-select" name="schCate"
 										id="basicSelect">
@@ -219,7 +222,8 @@
 							</div>
 							<div>
 								<label class="writeLabel">장소</label>
-								<input type="text" id="schPlace" name="schPlace" class="input">
+								<input type="text" id="place" name="schPlace" 
+				class="form-control round">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -243,9 +247,40 @@
 				</div>
 	</form>
 </div>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
 
 <!-- timepicker -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script>
+$(function(){
+	$('#startTime').timepicker({
+	    timeFormat: 'HH:mm',
+	    interval: 30,
+	    minTime: '00:00',
+	    maxTime: '23:30',
+	    defaultTime: '00',
+	    startTime: '00:00',
+	    dynamic: true,
+	    dropdown: true,
+	    scrollbar: true
+	});
+	
+	$('#endTime').timepicker({
+	    timeFormat: 'HH:mm',
+	    interval: 30,
+	    minTime: '00:00',
+	    maxTime: '23:30',
+	    defaultTime: '00',
+	    startTime: '00:00',
+	    dynamic: true,
+	    dropdown: true,
+	    scrollbar: true
+	});
+	
+	var d=new Date();
+	document.getElementById('startTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
+    document.getElementById('endTime').value =  new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(11, 13)+":00";
+});
+
+</script>

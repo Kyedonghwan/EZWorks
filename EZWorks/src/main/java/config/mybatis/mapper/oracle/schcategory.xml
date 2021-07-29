@@ -6,4 +6,16 @@
 	<select id="showAllCate" parameterType="int" resultType="schCateVO">
 		select * from SCHCATEGORY where EMP_NO=#{empNO}
 	</select>
+	
+	<insert id="insertCate" parameterType="schCateVO">
+		<selectKey keyProperty="schCateNo" resultType="int" order="BEFORE">
+			select schcate_seq.nextval from dual
+		</selectKey>
+			insert into SCHCATEGORY(SCH_CATENO, SCH_CATENAME, EMP_NO)
+			values(#{schCateNo},#{schCateName},#{empNo})
+	</insert>
+	
+	<select id="showCateName" parameterType="String" resultType="schCateVo">
+		select sch_cateName from SCHCATEGORY where SCH_CATENO=#{#schCate}
+	</select>
 </mapper>

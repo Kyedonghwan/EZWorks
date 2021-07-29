@@ -86,6 +86,23 @@ $(document).ready(function () {
     $('#close').click(function(){
     	location.href="<c:url value='/calendar/calendarMain'/>";
     });
+    
+    
+    $('#schAll').change(function(){
+        if($('#schAll').is(':checked')){
+        	$('#inschAll').val('Y');
+        	$('#startTime').hide();
+        	$('#endTime').hide();
+        }else{
+        	$('#inschAll').val('N');
+        	$('#startTime').show();
+        	$('#endTime').show();
+        }
+    });
+    
+    
+    
+    
 });
 </script>
 <style>
@@ -176,18 +193,20 @@ p{
 		<div class="registerDiv">
 			<input type="text" id="startDate" name="schStart"
 				class="form-control round" value="${vo.schStart }"> 
-			<input type="text" id="startTime" name="schStartTime"
+			<input type="text"  class="hide" id="startTime" name="schStartTime"
 				class="form-control round" value="${vo.schStartTime }"> 
 			<label for="to">~</label> 
 			<input type="text" id="endDate" name="schEnd" 
 				class="form-control round" value="${vo.schEnd }">
-			<input type="text" id="endTime" name="schEndTime" 
+			<input type="text"  class="hide" id="endTime" name="schEndTime" 
 				class="form-control round" value="${vo.schEndTime }">
 				&nbsp;&nbsp;
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
+                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6" id="schAll">
                         <label style="font-size: 1em">종일</label>
+                        <input type="text" id="cfSchAll"  value="${vo.schAll }">
+                        <input type=text" name="schAll" id="inschAll">
                     </div>
 		</div>
 		<div class="registerDiv">

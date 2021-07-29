@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.calendar.model.CalendarService;
 import com.it.ez.calendar.model.CalendarVO;
+import com.it.ez.schcate.model.SchCateService;
+import com.it.ez.schcate.model.SchCateVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,51 +27,64 @@ public class CalController {
 	private static final Logger logger = LoggerFactory.getLogger(CalController.class);
 	
 	private final CalendarService calendarService;
-	
+	private final SchCateService schCateService;
 	
 	@RequestMapping("/calendarMain")
 	public void Calendar() {
-		logger.info("Ķ���� ȭ�� �����ֱ�");
+		logger.info("일정보여주기");
 	}
 	
 	@GetMapping("/calDetail")
 	public void detailView(@RequestParam(defaultValue = "0")int schNo, Model model) {
-		logger.info("�� ȭ�� �����ֱ�, �Ķ���� schNo={}",schNo);
+		logger.info("일정상세보기 schNo={}",schNo);
 		
 		CalendarVO vo=calendarService.selectBySchNo(schNo);
-		logger.info("��ȭ��-��ȸ,��� vo={}", vo);
+		logger.info("일정 상세보기 처리, vo={}", vo);
+		
+		SchCateVO vo2 = schCateService.showCateName(vo.getSchCate());
+		logger.info("vo2={}",vo2);
+		logger.info("분류 이름, cateName={},schCate={}",vo2.getSchCateName(),vo.getSchCate());
 		model.addAttribute("vo", vo);
+		model.addAttribute("vo2", vo2);
 	}
 	
 	@RequestMapping("/calRegister")
 	public String insertSch(@ModelAttribute CalendarVO vo) {
-		logger.info("���� �Է½� �Ķ����, vo={}",vo);
+		logger.info("일정등록해주기, vo={}",vo);
 		
 		int cnt=calendarService.insertSch(vo);
-		logger.info("���� �Է� ó�� ���, cnt={}",cnt);
-		/*
-		 * if(cnt>0) { int color=calendarService.insertColor();
-		 * logger.info("�� �Է� ó�� ���, color={}",color); }
-		 */
-		
+		logger.info("일정등록, cnt={},schNo={}",cnt,vo.getSchNo());
+		if(cnt>0) {
+			int color=calendarService.insertColor(vo.getSchNo());
+			logger.info("색넣기,color={}",color);
+		}
 		return "redirect:/calendar/calendarMain";
 	}
 	
+	
 	@GetMapping("/calEdit")
 	public void editView(@RequestParam(defaultValue = "0")int schNo, Model model) {
-		logger.info("���� ȭ�� �����ֱ�, �Ķ���� schNo={}",schNo);
+		logger.info("일정 수정 처리, schNo={}",schNo);
+		
+		
+		List<SchCateVO> list = schCateService.showAllCate(1);
+		model.addAttribute("list", list);
 		
 		CalendarVO vo=calendarService.selectBySchNo(schNo);
-		logger.info("����ȭ��-��ȸ,��� vo={}", vo);
+		logger.info("일정 수정 보여주기, vo={}", vo);
 		model.addAttribute("vo", vo);
 	}
 	
 	@PostMapping("/calEdit")
 	public String editSch(@ModelAttribute CalendarVO vo) {
-		logger.info("���� ������ �Ķ����, vo={}",vo);
+		logger.info("일정 수정 처리, vo={}",vo);
 		
 		int cnt=calendarService.updateCal(vo);
-		logger.info("���� ���� ó�� ���, cnt={}",cnt);
+		logger.info("일정 수정 결과, cnt={}",cnt);
+		if(cnt>0) {
+			int color=calendarService.insertColor(vo.getSchNo());
+			logger.info("색넣기,color={}",color);
+		}
 		
 		return "redirect:/calendar/calendarMain";
 	}
@@ -78,20 +93,20 @@ public class CalController {
 	@ResponseBody
 	@RequestMapping("/writeSchModal")
 	public void insertModal(@ModelAttribute CalendarVO vo) {
-		logger.info("modal���� �����Է�, �Ķ���� vo={}",vo);
-
+		logger.info("modal에서 일정등록 vo={}",vo);
+		
 		int cnt=calendarService.insertModal(vo);
-		logger.info("modal�����Է� ���, cnt={}",cnt);
+		logger.info("modal에서 일정등록 결과, cnt={}",cnt);
 		
 	}
 	
 	@ResponseBody
 	@GetMapping("/showCal")
 	public List<CalendarVO> showCal() {
-		logger.info("���� ��ü �����ֱ�");
+		logger.info("일정보여주기");
 		
 		List<CalendarVO> list = calendarService.selectAll();
-		logger.info("���������ֱ� list.size()={}",list.size());
+		logger.info("일정보여주기 메인list.size()={}",list.size());
 		
 		return list;
 	}
