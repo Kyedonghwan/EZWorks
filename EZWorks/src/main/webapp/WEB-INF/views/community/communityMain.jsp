@@ -60,16 +60,32 @@
                             <div class="table-responsive">
 		                       <table class="table table-hover table-lg">
 		                        <tbody>
-		                        <c:forEach var="vo2" items="${viewList}">
+		                        <c:forEach var="vo2" items="${classicList}">
 	                               <tr>
 	                                   <td class="col-auto">
 	                                       <p class=" mb-0">${vo2.communityName } > ${vo2.boardName}</p>
-	                                       <p class=" mb-0" id="mainTitle">${vo2.title}</p>	                                      
+	                                       <p class=" mb-0" id="mainTitle">
+	                                       	<a href="<c:url value='/community/c_boardClassicDetail?contentNo=${vo2.contentNo}'/>">${vo2.title}</a></p>	                                      
 	                                       <p class=" mb-0">${vo2.text }</p>
 	                                       <div class="avatar avatar-md">
 												<img src="<c:url value='/resources/images/faces/1.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp${vo2.name } 
+												<span class="mb-0" id="sp2">&nbsp&nbsp${vo2.empName } 
 												<fmt:formatDate value="${vo2.regdate }" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
+										   </div>
+	                                   </td>
+	                               </tr>
+		                        </c:forEach>
+		                        <c:forEach var="vo" items="${feedList}">
+	                               <tr>
+	                                   <td class="col-auto">
+	                                       <p class=" mb-0">${vo.communityName } > ${vo.boardName}</p>
+	                                       <p class=" mb-0" id="mainTitle">
+	                                       <a href="<c:url value='/community/c_boardFeedDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+	                                       <p class=" mb-0">${vo.text }</p>
+	                                       <div class="avatar avatar-md">
+												<img src="<c:url value='/resources/images/faces/1.jpg'/>">
+												<span class="mb-0" id="sp2">&nbsp&nbsp${vo.empName } 
+												<fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 										   </div>
 	                                   </td>
 	                               </tr>

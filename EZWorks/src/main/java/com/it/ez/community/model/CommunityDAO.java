@@ -12,4 +12,6 @@ public interface CommunityDAO {
 	int insertCommunity(CommunityVO vo);
 	List<CommunityVO> selectCommunity();
 	CommunityVO selectCommunityByNo(int communityNo);
+	List<CommunityLevelVO>selectCommunityMember(int communityNo);
+	int insertCommunityMember(CommunityLevelVO levelVo);
 } 

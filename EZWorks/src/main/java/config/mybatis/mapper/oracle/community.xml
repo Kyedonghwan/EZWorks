@@ -21,16 +21,21 @@
 		where community_No=#{communityNo}
 	</select>
 	
-	<select id="selectCommunityMember" parameterType="int" resultType="CommunityVO">
+	<select id="selectCommunityMember" parameterType="int" resultType="CommunityLevelVO">
 		select * from communityMemberView
 		where community_No=#{communityNo}
 	</select>
+	
+	<insert id="insertCommunityMember" parameterType="CommunityLevelVO">
+		insert into community_level(COMMUNITY_NO, COMMUNITY_MEMBER, COMMUNITY_LEVEL)
+		values(#{communityNo},#{EmpNo},#{communityLevel})
+	</insert>
 	
 	<update id="updateCommunityCount" parameterType="communityVO">
 		update community
 		set community_Count=#{communityCount}
 		where community_No=#{communityNo}		
-	</update>	
+	</update>
 </mapper>
 
 

@@ -33,7 +33,7 @@
 	}
 	.dropdown-menu.show {
 	    /* width: min-content; */
-	    min-width: auto;
+		/* min-width: auto; */
 	}
 </style>	    
 	<div class="card-header">
@@ -54,7 +54,7 @@
             <div class="dropdown-menu">
 				<c:forEach var="vo" items="${list}">
                   <span class="sp2">
-                   <a class="dropdown-item" href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
+                   <a class="dropdown-item" href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
 	               <a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
 				   <img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
 				</c:forEach>
@@ -71,22 +71,13 @@
           <span class="sp1"><a class="dropdown-item" href="<c:url value='/community/c_boardNew?communityNo=${vo.communityNo }'/>">+ 게시판 추가</a></span>
        </div><br>  
         <div class="member">
-          <p style="font-size:0.9em">가입 멤버 5</p>
+        <p style="font-size:0.9em">가입 멤버 ${vo.communityCount}</p>
+        <c:forEach var="mem" items="${memList}">
          	 <div class="avatar avatar-md">
 	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/1.jpg'/>"> 홍길동 과장</a></span></div>
-	          <div class="avatar avatar-md">
-	          <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/2.jpg'/>"> 김길동 부장</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/3.jpg'/>"> 박길동 상무</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/4.jpg'/>"> 최길동 대리</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/5.jpg'/>"> 이길동 대표</a></span></div>		
+	       	  	<img src="<c:url value='/resources/images/faces/${mem.empImg}'/>"> ${mem.empName} ${mem.posName}</a>
+	       	  </span></div>
+        </c:forEach>
           <span class="sp1"><a class="dropdown-item" href="#">+ 초대하기</a></span>
        </div>           
 	</div>				

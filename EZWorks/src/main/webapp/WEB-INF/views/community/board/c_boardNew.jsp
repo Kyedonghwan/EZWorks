@@ -37,8 +37,7 @@
                     <h5 class="card-title">게시판 개설</h5>
                 </div>
                 <div class="card-body">
-                     <form class="form form-horizontal" method="post" 
-                     		action="<c:url value='/community/c_boardNew'/>">
+                     <form class="form form-horizontal" method="post" action="<c:url value='/community/c_boardNew'/>">
                      <input type='hidden' value="${param.communityNo }">
                      <input type='hidden' name="c_boardType" value="">
                      
@@ -75,7 +74,7 @@
                                	<div class="radioWrapper1">
                                	  <div class="form-check">
                                         <input class="form-check-input" type="radio" name="c_boardType"
-                                             id="c_boardClassic" value="Classic" checked>
+                                             id="c_boardClassic" value="${}" checked>
                                         <label class="form-check-label" for="c_boardType">클래식</label>&nbsp&nbsp&nbsp
                                   </div>
                                   <div class="form-check">

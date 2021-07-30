@@ -28,4 +28,14 @@ public class CommunityServiceImpl implements CommunityService{
 		return communityDao.selectCommunityByNo(communityNo);
 	}
 
+	@Override
+	public List<CommunityLevelVO> selectCommunityMember(int communityNo) {
+		return communityDao.selectCommunityMember(communityNo);
+	}
+
+	@Override
+	public int insertCommunityMember(CommunityLevelVO levelVo) {
+		return communityDao.insertCommunityMember(levelVo);
+	}
+
 }

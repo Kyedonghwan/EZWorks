@@ -43,7 +43,7 @@
       <div class="col-12 col-lg-12">
            <div class="card">
                <div class="card-header">
-                   <h5 class="card-title">커뮤니티 이름</h5>
+                   <h5 class="card-title">커뮤니티 ${vo.communityName}</h5>
                </div>
                <div class="card-body">
                    <ul class="nav nav-tabs" id="myTab" role="tablist">

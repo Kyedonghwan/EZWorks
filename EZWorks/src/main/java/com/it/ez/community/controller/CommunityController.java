@@ -22,9 +22,11 @@ import com.it.ez.community.common.CommunityConstUtil;
 import com.it.ez.community.common.CommunityFileUploadUtil;
 import com.it.ez.community.common.CommunitySearchVO;
 import com.it.ez.community.common.CommunutyPaginationInfo;
+import com.it.ez.community.model.CommunityLevelVO;
 import com.it.ez.community.model.CommunityService;
 import com.it.ez.community.model.CommunityVO;
 import com.it.ez.communityBoard.model.C_boardClassicVO;
+import com.it.ez.communityBoard.model.C_boardFeedVO;
 import com.it.ez.communityBoard.model.C_boardService;
 import com.it.ez.communityBoard.model.C_boardVO;
 import com.it.ez.emp.model.EmpService;
@@ -54,11 +56,14 @@ public class CommunityController {
 		
 		//화면 보여주기 
 		List<CommunityVO> list=communityService.selectCommunity();
-		List<C_boardClassicVO> viewList= c_boardService.selectAllC_boardView();
-		logger.info("개별 커뮤니티 처리결과, list.size={}, viewList.size={}",
-				list.size(), viewList.size());
+		List<C_boardClassicVO> classicList= c_boardService.selectC_boardClassicAll();
+		List<C_boardFeedVO> feedList= c_boardService.selectC_boardFeedAll();
 		
-		model.addAttribute("viewList", viewList);
+		logger.info("개별 커뮤니티 처리결과, list.size={}, classicList.size={}, feedList.size={}",
+				list.size(), classicList.size(), feedList.size());
+		
+		model.addAttribute("classicList", classicList);
+		model.addAttribute("feedList", feedList);
 		model.addAttribute("list", list);
 		
 		return "community/communityMain";
@@ -103,26 +108,54 @@ public class CommunityController {
 		logger.info("커뮤니티 정보 보기, 파라미터 communityNo={}", communityNo);
 		
 		List<CommunityVO> list = communityService.selectCommunity();
+		List<CommunityLevelVO> memList=communityService.selectCommunityMember(communityNo);
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
-		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
-		logger.info("커뮤니티 게시판 목)록 결과, list.size={}, Boardlist.size={}", 
+		List<C_boardVO> boardList= c_boardService.selectC_boardByNo(communityNo);
+		logger.info("커뮤니티 게시판 목록 결과, list.size={}, Boardlist.size={}", 
 				list.size(), boardList.size());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
+		model.addAttribute("memList", memList);
 		model.addAttribute("boardList", boardList);
 
 		return "community/communityDetail";
 	}
 	
+	@GetMapping("/communityOneMain")
+	public String oneCommunity(HttpSession session, 
+			@RequestParam(defaultValue = "0") int communityNo,
+			@RequestParam(defaultValue = "0") int boardNo, Model model) {
+		logger.info("개별 커뮤니티 페이지, 파라미터 communityNo={}, boardNo={}", communityNo, boardNo);
+		
+		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
+		List<CommunityVO> list = communityService.selectCommunity();
+		List<C_boardVO> boardList= c_boardService.selectC_boardByNo(communityNo);
+		List<CommunityLevelVO> memList=communityService.selectCommunityMember(communityNo);
+		List<C_boardClassicVO>classicList=c_boardService.selectC_boardClassicMain(communityNo);
+		List<C_boardFeedVO>feedList=c_boardService.selectC_boardFeedMain(communityNo);
+		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}, classicList.size={}", 
+				vo, list.size(), boardList.size(), classicList.size(), feedList.size());
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
+		model.addAttribute("memList", memList);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("classicList", classicList);
+		model.addAttribute("feedList", feedList);
+		
+		return "community/communityOneMain";
+		
+	}
 	
-	@GetMapping("/communityOne")
-	public String oneCommunity(@RequestParam(defaultValue = "0")int communityNo, 
-			@RequestParam(defaultValue = "0") int boardNo, 
-			@ModelAttribute CommunitySearchVO searchVo,
-			Model model) {
-		logger.info("개별 커뮤니티 페이지, 파라미터 communityNo={}, boardNo={}, searchVo={}", 
-				communityNo, boardNo, searchVo);
+	
+	@RequestMapping("/communityOneClassic")
+	public String oneCommunity(HttpSession session, 
+			@ModelAttribute C_boardClassicVO classicVo,
+			@ModelAttribute CommunitySearchVO searchVo, Model model) {
+		logger.info("개별 커뮤니티 페이지, 파라미터 classicVo={}, searchVo={}", 
+				classicVo, searchVo.getRecordCountPerPage());
+		
 		//페이징 처리
 		//[1] PaginationInfo 객체 생성
 		CommunutyPaginationInfo pagingInfo = new CommunutyPaginationInfo();
@@ -136,29 +169,28 @@ public class CommunityController {
 		logger.info("페이지번호 관련 셋팅 후 searchVo={}", searchVo);
 		
 		//2
-		List<C_boardClassicVO> contentlist=c_boardService.selectAllC_boardView(searchVo);
-		logger.info("글 전체 조회 결과, contentlist.size={}", list.size());
+		List<C_boardClassicVO> classicList=c_boardService.searchC_boardClassic(searchVo);
+		logger.info("글 전체 조회 결과, classicList.size={}", classicList.size());
 		
-		int totalRecord=reBoardService.selectTotalRecord(searchVo);
+		int totalRecord=c_boardService.selectTotalRecord(searchVo);
 		logger.info("totalRecord="+totalRecord);
 		pagingInfo.setTotalRecord(totalRecord);
 
 		
 		//화면 보기
-		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
+		CommunityVO vo= communityService.selectCommunityByNo(classicVo.getCommunityNo());
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
-		List<C_boardClassicVO> viewList= c_boardService.selectC_boardView(communityNo);
-		
-		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}, viewList.size={}", 
-				vo, list.size(), boardList.size(), viewList.size());
+		List<CommunityLevelVO> memList=communityService.selectCommunityMember(classicVo.getCommunityNo());
+		List<C_boardVO> boardList= c_boardService.selectC_boardByNo(classicVo.getCommunityNo());
+		logger.info("개별 커뮤니티 처리결과, vo={}, list.size={}, boardList.size={}", 
+				vo, list.size(), boardList.size());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
+		model.addAttribute("memList", memList);
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("viewList", viewList);
-		
-		return "community/communityOne";
+
+		return "community/communityOneClassic";
 		
 	}
 	
@@ -174,32 +206,30 @@ public class CommunityController {
 		//화면 보여주기 데이터
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
-		logger.info("커뮤니티 게시판 목록 결과, vo={}, list.size={}, boardList.size={}", 
-				vo, list.size(), boardList.size());
+		List<CommunityLevelVO> memList=communityService.selectCommunityMember(communityNo);
+		List<C_boardVO> boardList= c_boardService.selectC_boardByNo(communityNo);
+		logger.info("커뮤니티 게시판 목록 결과, vo={}, list.size={}, boardList.size={}, memList.size={}", 
+				vo, list.size(), boardList.size(), memList.size());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
+		model.addAttribute("memList", memList);
 		model.addAttribute("boardList", boardList);
 		
 		return "community/board/c_boardWrite";
 	}
 	
 	@PostMapping("/c_boardWrite")
-	public String writeCommunity_post(@ModelAttribute C_boardClassicVO contentVo,
-			@RequestParam(defaultValue = "0") int boardNo,  
-			@RequestParam(defaultValue = "0") int communityNo,
-			HttpServletRequest request, HttpServletResponse response,
-			HttpSession session, Model model) {
-		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 contentVo={}, boardNo={}, communityNo={}"
-				, contentVo, boardNo, communityNo);
+	public String writeCommunity_post(@ModelAttribute C_boardClassicVO classicVo,
+			HttpServletRequest request, HttpSession session, Model model) {
+		logger.info("커뮤니티 게시판 글쓰기 처리, 파라미터 classicVo={}",classicVo);
 		
 		//아이디 세션 저장
 		EmpVO empVo = (EmpVO)session.getAttribute("empVo");
 		String empName=empVo.getEmpName();
 		
-		contentVo.setName(empName);
-		contentVo.setBoardNo(boardNo);
+		classicVo.setEmpName(empName);
+		classicVo.setBoardNo(classicVo.getBoardNo());
 		
 		//파일 업로드 처리
 		String fileName="", originFileName="";
@@ -229,17 +259,17 @@ public class CommunityController {
 			e.printStackTrace();
 		}
 		
-		contentVo.setFileName(fileName);
-		contentVo.setFileSize(fileSize);
-		contentVo.setOriginalFileName(originFileName);
+		classicVo.setFileName(fileName);
+		classicVo.setFileSize(fileSize);
+		classicVo.setOriginalFileName(originFileName);
 				
 				
 		String msg="", url="";
-		int cnt = c_boardService.insertBoardContent(contentVo);
+		int cnt = c_boardService.insertBoardClassic(classicVo);
 		logger.info("커뮤니티 게시판 처리결과 cnt={}", cnt);
 		if(cnt>0) {
 			msg="커뮤니티 게시판 글쓰기 성공";
-			url="/community/communityOne?communityNo="+communityNo;
+			url="/community/communityOne?communityNo="+classicVo.getCommunityNo();
 		}else {
 			msg="커뮤니티 게시판 글쓰기 실패!";
 			url="/community/board/c_boardWrite";
@@ -257,12 +287,14 @@ public class CommunityController {
 		
 		CommunityVO vo= communityService.selectCommunityByNo(communityNo);
 		List<CommunityVO> list = communityService.selectCommunity();
-		List<C_boardVO> boardList= c_boardService.selectC_board(communityNo);
-		logger.info("커뮤니티 게시판 개설 화면 결과, vo={}, list.size={}, boardList.size={}", 
-				vo, list.size(), boardList.size());
+		List<C_boardVO> boardList= c_boardService.selectC_boardByNo(communityNo);
+		List<CommunityLevelVO> memList=communityService.selectCommunityMember(communityNo);
+		logger.info("커뮤니티 게시판 개설 화면 결과, vo={}, list.size={}, boardList.size={}, memList.size={}", 
+				vo, list.size(), boardList.size(), memList.size());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
+		model.addAttribute("memList", memList);
 		model.addAttribute("boardList", boardList);
 		
 		return "community/board/c_boardNew";

@@ -7,17 +7,16 @@
 		padding:0;
 	}
 </style>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">		
+<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script type="text/javascript">	
 $(function(){
-	var selectVal= $('#selectBoard option:selected').val();
-	
 	$('#btnSubmit').click(function(){
+		var selectVal= $('#selectBoard option:selected').val();
 		$('input[name=boardNo]').val($('#selectBoard option:selected').val());
 		
 		if(selectVal==null || selectVal.isEmpty()){
@@ -33,9 +32,8 @@ $(function(){
 			$('select[name=communityBoard]').focus();
 		}else{
 			$('.frmWrite').submit();
-		}
-	);
-	
+		}	
+	});
 });
 </script>
 
@@ -49,7 +47,7 @@ $(function(){
 			<h5 class="card-title">글쓰기</h5>
 		</div>
 		<div class="card-body">
-			<form class="frmWrite" method="post" action="<c:url value='/community/communityWrite?communityNo=${param.communityNo}'/>">
+			<form class="frmWrite" method="post" action="<c:url value='/community/c_boardWrite?communityNo=${param.communityNo}'/>">
 			   <input type="hidden" name="boardNo">
 			   <div class="form-group row align-items-center">
 			   		<div class="col-1">
@@ -107,7 +105,6 @@ $(function(){
          
 <!-- toastify -->
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
-
 
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>

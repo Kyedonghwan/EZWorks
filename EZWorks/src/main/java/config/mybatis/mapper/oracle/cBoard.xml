@@ -18,7 +18,7 @@
 	</insert>
 	
 	<!-- 커뮤니티별 게시판 목록 보기용 -->
-	<select id="selectC_board" parameterType="int" resultType="C_boardVO">
+	<select id="selectC_boardByNo" parameterType="int" resultType="C_boardVO">
 		select * from c_board
 		where community_No=#{communityNo}
 		order by board_No
@@ -58,29 +58,49 @@
 			  	#{posNo}, #{posName}, #{title}, #{text})
 	</insert>
 	
-	<!-- 개별 커뮤니티 글 전체 보기용 -->
-	<select id="selectC_boardView" parameterType="int" resultType="C_boardClassicVO">
-		select * from c_boardView
+	<!-- 커뮤니티 메인 화면 글 전체 보기용 -->
+	<select id="selectC_boardClassicAll" resultType="C_boardClassicVO">
+		select * from c_boardClassicView
+		order by regdate desc
+	</select>
+	
+	<select id="selectC_boardFeedAll" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		order by regdate desc
+	</select>
+	
+
+	<!-- 개별 커뮤니티 클래식 글 전체 보기용 -->
+	<select id="selectC_boardClassicMain" parameterType="int" resultType="C_boardClassicVO">
+		select * from c_boardClassicView
 		where community_No=#{communityNo}
 		order by regdate desc
 	</select>
 
-	<!-- 커뮤니티 메인화면 글 전체보기 용 -->
-	<select id="selectAllC_boardView" resultType="C_boardClassicVO">
-		select * from c_boardView
+	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
+	<select id="selectC_boardFeedMain" parameterType="int" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		where community_No=#{communityNo}
 		order by regdate desc
 	</select>
 	
-	<!-- 커뮤니티 클래식 게시판 뷰 페이지 -->
-	<select id="selectC_boardClassic" parameterType="CommunitySearchVo" resultType="C_boardClassicVo">
+	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
+	<select id="selectFeed" parameterType="C_boardFeedVO" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		where community_No=#{communityNo} and board_No=#{boardNo}
+		order by regdate desc
+	</select>
+	
+	<!-- 커뮤니티 클래식 게시판 페이징 처리용 -->
+	<select id="searchC_boardClassic" parameterType="CommunitySearchVO" resultType="C_boardClassicVO">
 		select * 
 		from
 		(
-			select rownum as currentStats, A.* 
+			select rownum as RNUM, A.* 
 			from
 			(
-				select c.*, (sysdate-regdate)*24 as newImgTerm
-				from c_BoardClassic c
+				select rownum as currentStats, c.* 
+				from (select * from c_BoardClassic where board_No=#{boardNo} order by content_No) C
 				<include refid="searchWhere"></include>
 				order by group_No desc, sortno
 			)A

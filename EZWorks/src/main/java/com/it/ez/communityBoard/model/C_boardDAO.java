@@ -9,14 +9,17 @@ import com.it.ez.community.common.CommunitySearchVO;
 @Mapper
 public interface C_boardDAO {
 	int insertC_board(C_boardVO boardVo);
-	List<C_boardVO> selectC_board(int communityNo);
+	List<C_boardVO> selectC_boardByNo(int communityNo);
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
 	int insertBoardClassic(C_boardClassicVO classicVo);
 	int insertBoardFeed(C_boardFeedVO feedVo);
-	List<C_boardClassicVO> selectC_boardView(int communityNo);
-	List<C_boardClassicVO> selectAllC_boardView();
-	C_boardClassicVO selectC_boardClassic(CommunitySearchVO searchVo);
+	List<C_boardClassicVO> selectC_boardClassicAll();
+	List<C_boardClassicVO> selectC_boardClassicMain(int communityNo);
+	List<C_boardClassicVO> searchC_boardClassic(CommunitySearchVO searchVo);
+	List<C_boardFeedVO> selectC_boardFeedAll();
+	List<C_boardFeedVO> selectC_boardFeedMain(int communityNo);
+	List<C_boardFeedVO> selectFeed(C_boardFeedVO feedVo);
 	int selectTotalRecord(CommunitySearchVO searchVo);
 	int updateClassicReadCount(int contentNo);
 	int updateFeedReadCount(int contentNo);

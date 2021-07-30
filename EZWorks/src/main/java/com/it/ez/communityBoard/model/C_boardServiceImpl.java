@@ -20,8 +20,8 @@ public class C_boardServiceImpl implements C_boardService{
 	}
 
 	@Override
-	public List<C_boardVO> selectC_board(int communityNo) {
-		return c_boardDao.selectC_board(communityNo);
+	public List<C_boardVO> selectC_boardByNo(int communityNo) {
+		return c_boardDao.selectC_boardByNo(communityNo);
 	}
 
 	@Override
@@ -45,18 +45,8 @@ public class C_boardServiceImpl implements C_boardService{
 	}
 
 	@Override
-	public List<C_boardClassicVO> selectC_boardView(int communityNo) {
-		return c_boardDao.selectC_boardView(communityNo);
-	}
-
-	@Override
-	public List<C_boardClassicVO> selectAllC_boardView() {
-		return c_boardDao.selectAllC_boardView();
-	}
-
-	@Override
-	public C_boardClassicVO selectC_boardClassic(CommunitySearchVO searchVo) {
-		return c_boardDao.selectC_boardClassic(searchVo);
+	public List<C_boardClassicVO> searchC_boardClassic(CommunitySearchVO searchVo) {
+		return c_boardDao.searchC_boardClassic(searchVo);
 	}
 
 	@Override
@@ -82,6 +72,31 @@ public class C_boardServiceImpl implements C_boardService{
 	@Override
 	public int deleteC_boardFeed(int contentNo) {
 		return c_boardDao.deleteC_boardFeed(contentNo);
+	}
+
+	@Override
+	public List<C_boardClassicVO> selectC_boardClassicAll() {
+		return c_boardDao.selectC_boardClassicAll();
+	}
+
+	@Override
+	public List<C_boardFeedVO> selectC_boardFeedAll() {
+		return c_boardDao.selectC_boardFeedAll();
+	}
+
+	@Override
+	public List<C_boardClassicVO> selectC_boardClassicMain(int communityNo) {
+		return c_boardDao.selectC_boardClassicMain(communityNo);
+	}
+
+	@Override
+	public List<C_boardFeedVO> selectC_boardFeedMain(int communityNo) {
+		return c_boardDao.selectC_boardFeedMain(communityNo);
+	}
+
+	@Override
+	public List<C_boardFeedVO> selectFeed(C_boardFeedVO feedVo) {
+		return c_boardDao.selectFeed(feedVo);
 	}
 	
 	
