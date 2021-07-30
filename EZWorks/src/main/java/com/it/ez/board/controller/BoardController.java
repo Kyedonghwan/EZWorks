@@ -2,12 +2,13 @@ package com.it.ez.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,10 +32,13 @@ import com.it.ez.board.model.BoardService;
 import com.it.ez.board.model.BoardVO;
 import com.it.ez.emp.model.EmpService;
 import com.it.ez.emp.model.EmpVO;
+import com.it.ez.position.model.PositionService;
+import com.it.ez.comments.model.PostingCommentsService;
+import com.it.ez.comments.model.PostingReplyVO;
+import com.it.ez.comments.model.PostingReplyViewVO;
 import com.it.ez.posting.model.BoardClassicPostingVO;
 import com.it.ez.posting.model.BoardFeedPostingVO;
 import com.it.ez.posting.model.BoardMainPostingVO;
-import com.it.ez.posting.model.PostingCommentsVO;
 import com.it.ez.posting.model.PostingFilesVO;
 import com.it.ez.posting.model.PostingService;
 import com.it.ez.posting.model.PostingVO;
@@ -50,6 +54,8 @@ public class BoardController {
 	private final BoardService boardService;
 	private final PostingService postingService;
 	private final BoardFileUploadUtil boardFileUploadUtil;
+	private final PostingCommentsService commentsService;
+	private final PositionService positionService;
 	//temporary
 	private final EmpService empService;
 	
@@ -165,9 +171,9 @@ public class BoardController {
 			url = "board/boardClassic";
 		}else if(boardShowType.equals(BoardService.BOARD_FEED)) {
 			List<BoardFeedPostingVO> postingFeedList = postingService.selectPostingFeed(boardNo);
-			model.addAttribute("postingList", postingFeedList);
 			
 			List<PostingFilesVO> allFilesList = new ArrayList<>();
+			List<PostingReplyViewVO> replyList = new ArrayList<>();
 			for(BoardFeedPostingVO feedvo : postingFeedList) {
 				List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(feedvo.getPostingNo());
 				logger.info("파일 목록, filesList.size={}", filesList.size());
@@ -181,8 +187,19 @@ public class BoardController {
 				//게시물 좋아요 수
 				int likes = postingService.countLikes(feedvo.getPostingNo());
 				feedvo.setPostingLikes(likes);
+				
+				List<PostingReplyViewVO> postingreplylist = commentsService.allCommentsByPostingNo(feedvo.getPostingNo());
+				int replyCount = postingreplylist.size();
+				for(PostingReplyViewVO list : postingreplylist) {
+					replyList.add(list);
+				}
 			}
+			for(PostingReplyViewVO abcd : replyList) {
+				logger.info("이것은..? {}", abcd.getPostingNo());
+			}
+			model.addAttribute("replyList", replyList);
 			model.addAttribute("allFilesList", allFilesList);
+			model.addAttribute("postingList", postingFeedList);
 			
 			url = "board/boardFeed";
 		}
@@ -375,12 +392,21 @@ public class BoardController {
 		String url = "";
 		if(boardShowType.equals(BoardService.BOARD_CLASSIC)) {
 			url = "board/boardClassicDetail";
+			List<PostingReplyViewVO> commentsList = commentsService.allCommentsByPostingNo(postingNo);
+			for(PostingReplyViewVO pscv: commentsList) {
+				logger.info("이놈을 보자 postingcommentsviewvo={}", pscv);
+				model.addAttribute("please", pscv.getReplyRegdate());
+			}
+			model.addAttribute("commentsList", commentsList);
 		}else if(boardShowType.equals(BoardService.BOARD_FEED)) {
 			url = "board/boardFeedDetail";
 		}
 		
 		int totalCount = postingService.selectTotalCount(boardNo);
 		model.addAttribute("totalCount", totalCount);
+		
+		int initTotalCount = commentsService.selectReplyCountByPostingNo(postingNo);
+		model.addAttribute("initTotalCount", initTotalCount);
 		
 		return url;
 	}
@@ -430,6 +456,13 @@ public class BoardController {
 		//조회수 증가
 		int viewcountupdate = postingService.updateViewCount(newPostingNo);
 		
+		//댓글 추가
+		List<PostingReplyViewVO> commentsList = commentsService.allCommentsByPostingNo(newPostingNo);
+		for(PostingReplyViewVO pscv: commentsList) {
+			logger.info("이놈을 보자 postingcommentsviewvo={}", pscv);
+		}
+		model.addAttribute("commentsList", commentsList);
+		
 		return "board/boardClassicDetail";
 	}
 	
@@ -476,6 +509,13 @@ public class BoardController {
 		
 		//조회수 증가
 		int viewcountupdate = postingService.updateViewCount(postingNo);
+		
+		//댓글 추가
+		List<PostingReplyViewVO> commentsList = commentsService.allCommentsByPostingNo(newPostingNo);
+		for(PostingReplyViewVO pscv: commentsList) {
+			logger.info("이놈을 보자 postingcommentsviewvo={}", pscv);
+		}
+		model.addAttribute("commentsList", commentsList);
 		
 		return "board/boardClassicDetail";
 	}
@@ -596,4 +636,26 @@ public class BoardController {
 		
 		return likes;
 	}
+	
+	
+	@ResponseBody
+	@PostMapping("/addComments") 
+	public PostingReplyViewVO addComments(@ModelAttribute PostingReplyVO replyVo) { 
+		//db에 replyvo 값 저장
+		int cnt =commentsService.addComments(replyVo); 
+		int postingNo = replyVo.getPostingNo();
+		//방금 replyvo에서 replyNo로 reply"View"Vo를 들고옴
+		int replyNo = replyVo.getReplyNo();
+		logger.info("replyno={}", replyNo);
+		PostingReplyViewVO outReplyVo = commentsService.selectReplyByNo(replyNo);
+		logger.info("outreplyvo={}", outReplyVo);
+		int tempTotalCount = commentsService.selectReplyCountByPostingNo(postingNo);
+		outReplyVo.setInitTotalCount(tempTotalCount);
+		Date regdate = outReplyVo.getReplyRegdate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
+		String brandnewdate = sdf.format(regdate);
+		outReplyVo.setBrandnewdate(brandnewdate);
+		return outReplyVo; 
+	}
+	 
 }

@@ -88,7 +88,6 @@
 		</div>
 	</section>
 
-
 	<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
 			<div class="modal-content">
@@ -164,25 +163,62 @@
 	</section>
 	<section name="comments" style="padding:10px 20px 10px 20px;">
 			<div style="margin-bottom: 5px">
-				<div name="comments-icons">
-					<a><span class="fa-fw select-all fas"></span> 댓글 0 개</a>&nbsp&nbsp&nbsp&nbsp<a><span
+				<div name="comments-icons" style="border-bottom:1px solid #dfe3e7;">
+					<a><span class="fa-fw select-all fas"></span> 댓글 <span id="totalReplyCount">${initTotalCount }</span> 개</a>&nbsp&nbsp&nbsp&nbsp<a><span
 						class="fa-fw select-all fas"></span> 좋아요 누른 사람 <span id="likes">${likes }</span>명</a>
 				</div>
 			</div>
-			<div id="commentsList">
+			<%-- <c:if test="">
+				<c:forEach>
+					
+				</c:forEach>
+			</c:if> --%>
+			<div id="replyList" style="margin-top:10px;padding-left:5px">
+				<c:if test="${!empty commentsList }">
+					<c:forEach items='${commentsList}' var='thisiscomment'>
+						<div style="display: inline; align-content: stretch">
+							<span class="avatar avatar-md"
+								style="display: inline; float: left; position: absolute; margin-top: 6px">
+								<img alt="사원 사진"
+								src="<c:url value='/resources/empImages/${thisiscomment.empImg }'/>">
+							</span>
+							<div class="input-group input-group-sm"
+								style="padding-left: 40px; display: block;">
+								<div>
+									<a style="font-weight: bold">${thisiscomment.empName }</a>&nbsp&nbsp<span style="font-size:0.8em"><fmt:formatDate value='${thisiscomment.replyRegdate}' pattern="yyyy-MM-dd (E) hh:mm"/> </span>
+								</div>
+								<div>
+									<span style="font-size: 0.8em">${thisiscomment.replyText}</span>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</c:if>
+
+				<%-- <div style="display:inline;align-content:stretch">
+					<span class="avatar avatar-md" style="display:inline;float:left;position:absolute;margin-top:6px">
+						<img alt="사원 사진" src="<c:url value='/resources/empImages/${vo.empImg }'/>">
+					</span>
+					<div class="input-group input-group-sm" style="padding-left: 40px;display:block;">
+						<div>
+							<a style="font-weight:bold">사원이름</a>
+						</div>
+						<div>
+							<span style="font-size:0.8em">댓글 내용</span>
+						</div>
+					</div>
+				</div> --%>
 			</div>
-			<form action="" name="commentsForm">
-				<div style="padding: 20px 5px 20px 5px; border-top: 1px solid #dfe3e7;align-content:stretch;">
+			<form name="replyForm">
+				<div style="padding: 20px 5px 20px 5px;align-content:stretch;">
 					<span class="avatar avatar-md" style="display:inline;float:left;position:absolute;">
 						<img alt="사원 사진" src="<c:url value='/resources/empImages/${vo.empImg }'/>">
 					</span>
 					<div class="input-group input-group-sm" style="padding-left: 40px;">
-							<input type="text" class="form-control form-control-sm" name="pCommentsContents">
-							<input type="submit" class="btn btn-outline-primary btn-sm" id="comment-submit" value="댓글 작성">
-							<input type="text" name="postingNo" value="${vo.postingNo }">
-							<input type="text" name="empNo" value="${loginEmpNo }">
-					</div>
-					<div>
+						<input type="text" class="form-control form-control-sm" name="replyText">
+						<button type="button" class="btn btn-outline-primary btn-sm" id="replySubmit">댓글 작성 데헷</button>
+						<input type="hidden" name="postingNo" value="${vo.postingNo }">
+						<input type="hidden" name="empNo" value="${loginEmpNo }">
 					</div>
 				</div>
 			</form>
@@ -216,5 +252,60 @@
 				});
 			}
 		});
+		$('input[name=replyText]').keydown(function() {
+			  if (event.keyCode === 13) {
+				  if($('input[name=replyText]').val()==''){
+				    event.preventDefault();
+					  
+				  }
+			  };
+			});
+		
+		$('#replySubmit').click(function(){
+			if($('input[name=replyText]').val()==''){
+				return false;
+			}
+			var queryString = $('form[name=replyForm]').serialize();
+			$.ajax({
+				url: '<c:url value="/board/addComments"/>'
+				,type: "post"
+				,data: queryString
+				,dataType: 'json'
+				,success: function(res){
+					if(res != null){
+						makeCommentsList(res);
+						console.log('성공했다 싀발');
+					}
+				},error: function(xhr, status, error){
+					alert(error);
+				}
+			});
+		});
 	});
+	
+	function makeCommentsList(res){
+		var htmlStr = "";
+		var regdate = res.replyRegdate;
+		
+		htmlStr += "<div style='display: inline; align-content: stretch'>";
+		htmlStr += "<span class='avatar avatar-md' style='display: inline; float: left; position: absolute; margin-top: 6px'>";
+		htmlStr += "<img alt='사원 사진' src='<c:url value='/resources/empImages/"+res.empImg+"'/>'>";
+		htmlStr += "</span>";
+		htmlStr += "<div class='input-group input-group-sm' style='padding-left: 40px; display: block;'>";
+		htmlStr += "<div>";
+		htmlStr += "<a style='font-weight: bold'>"+res.empName+"</a>&nbsp&nbsp<span style='font-size:0.8em'>";
+		htmlStr += res.brandnewdate+"</span>";
+		htmlStr += "</div>";
+		htmlStr += "<div>";
+		htmlStr += "<span style='font-size: 0.8em'>"+res.replyText+"</span>";
+		htmlStr += "</div>";
+		htmlStr += "</div>";
+		htmlStr += "</div>";
+		
+		$('#replyList').append(htmlStr);
+		$('input[name=replyText]').val('');
+		$('#totalReplyCount').html(res.initTotalCount);
+		
+		
+	}
 </script>

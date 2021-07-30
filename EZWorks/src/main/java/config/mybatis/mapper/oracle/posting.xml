@@ -54,7 +54,7 @@
         <include refid="searchWhere"></include>
 	</select>
 	<select id="selectPostingFeed" resultType="BoardFeedPostingVO">
-		select * from POSTING_VIEW_FEED where board_no=#{boardNo}
+		select * from POSTING_VIEW_FEED where board_no=#{boardNo} order by posting_regdate desc 
 	</select>
 	<select id="selectByPostingNo" resultType="PostingVo">
 		select * from posting where posting_no=#{postingNo}
