@@ -20,7 +20,100 @@
 	 section.menus:hover img{
 	 	opacity: 1;
 	 }
-
+	 #date{
+	 	font-size:0.7em;
+	 	color:#888888;
+	 	margin-bottom:0px;
+	 }
+	 #timer{
+	 	font-size:2.5em;
+	 	text-align:center;
+	 }
+	 .log_view{
+	 	font-size: 14px;
+	 	list-style:none;
+	 	margin-bottom: 1rem;
+	    margin-top: 0;
+	    padding-left: 0;
+	    box-sizing: border-box;
+	    display: block;
+	    margin-block-start: 1em;
+	    margin-block-end: 1em;
+	    margin-inline-start: 0px;
+	    margin-inline-end: 0px;
+	    border-collapse: collapse;
+	 }
+	dl {
+	    line-height: 150%;
+	    margin: 0px;
+    	padding: 0px;
+    	display: block;
+    	margin-block-start: 0.8em;
+    	margin-block-end: 0.8em;
+    	margin-inline-start: 0px;
+    	margin-inline-end: 0px;
+    	text-align: -webkit-match-parent;
+	}
+	dt {
+		font-weight: bold;
+	    float: left;
+	    font-size: 13px;
+	    color: #333;
+	    margin: 0;
+    	padding: 0;
+    	display: block;
+    	line-height: 150%;
+	}
+	dd {
+	    display: block;
+	    margin-inline-start: 40px;
+	    text-align: right;
+    	color: #666;
+    	margin: 0px;
+    	padding: 0px;
+	}
+	.vertical_bar{
+		margin-top: 20px!important;
+    	padding: 10px 0!important;
+    	border-top: 1px dashed #c9c9c9;
+    	display: block;
+	}
+	#workIn {
+		margin-left: 0;
+		margin-top: 0;
+		float: left;
+		width: calc(50% - 4px);
+    	height: 42px;
+    	border-radius: 25px;
+    	background: none!important;
+    	position: relative;
+    	display: block;
+    	text-align: center;
+    	line-height: 33px;
+    	border-color: #607080;
+    	color: #607080;
+	}
+	#workIn:hover{
+		background-color:#607080;
+	}
+	#workOut {
+		margin-left: 0;
+		margin-top: 0;
+		float: right;
+		width: calc(50% - 4px);
+    	height: 42px;
+    	border-radius: 25px;
+    	background: none!important;
+    	position: relative;
+    	display: block;
+    	text-align: center;
+    	line-height: 30px;
+    	border-color: #607080;
+    	color: #607080;
+	}
+	.submenu-item:hover {
+		background-color: #f9f9f9;
+	}
 </style>
 <script>
 	$(function(){
@@ -38,53 +131,116 @@
 <div id="wanttocal" style="margin:0px;padding:0px;height:100%;">
 <section style="height:64px;padding:24px 24px 16px;">
 	<h5>
-		<a href="<c:url value='/board/boardMain'/>">게시판</a>
+		<a href="<c:url value='/board/boardMain'/>">근태관리</a>
 	</h5>
 </section>
-<section style="height:64px;padding:0px 24px 16px;">
-	<div  style="align:center;width:auto;">
+<section style="padding:0px 24px 16px;">
+	<p class="date" id="date">2021-07-30(금)</p>
+	<p class="time" id="timer">13:19:08</p>
+	<div class="log_view_wrap">
+		<ul class="log_view">
+			<li>
+				<dl>
+					<dt>출근시간</dt>
+					<dd id="workInTime">12:30:38</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt>퇴근시간</dt>
+					<dd id="workOutTime">12:32:23</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt>주간 누적 근무시간</dt>
+					<dd id="weeklyTotalTime">27h 0m 0s</dd>
+				</dl>
+			</li>
+		</ul>
+    </div>
+    
+    <div class="vertical_bar"></div>
+    
+	<div class="function_btn_wrap">
+		<a class="btn btn-outline-primary" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
+		<a class="btn btn-outline-primary" id="workOut"><span class="txt">퇴근하기</span></a>
+	</div>
+	<div class="works_state">
+		<a class="btn btn-outline-primary" id="changeStatus"><!--클릭 시, 클래스명 on 추가-->
+			<span class="txt">업무&nbsp;&nbsp;<span class="ic_side ic_show_down"></span></span>
+		</a>
+		<div el-backdrop="" class="layer_transition" style="z-index: 100; display: none;">
+			<div class="ui-menu-container container">
+				<div class="content">
+					<div class="row_wrap menuitem my-todo-list foldable">
+						<ul class="submenu-list" id="statusList" style="max-height: 200px; overflow-y: auto;">
+							<li class="timelineStatus"><span class="txt " data-code="3">업무</span></li>
+							<li class="timelineStatus"><span class="txt " data-code="4">업무종료</span></li>
+							<li class="timelineStatus"><span class="txt " data-code="5">외근</span></li>
+							<li class="timelineStatus"><span class="txt " data-code="6">출장</span></li>
+							<li class="timelineStatus"><span class="txt " data-code="30">반차</span></li>
+						</ul>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="vertical_bar"></div>
+	
+	
+	
+	<%-- <div  style="align:center;width:auto;">
 			<a href="<c:url value='/board/writePosting'/>" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
 				글쓰기
 			</a>
-	</div>
+	</div> --%>
 </section>
+
+
+
+
+
+
+
+
+
 <section class="menus">
 	<div style="padding-right:10px;padding-left:10px">
 		<ul style="list-style:none;padding:0px;margin:0px;">
-			<c:if test="${!empty favList }">
 			<li class="sidebar-item active has-sub">
+				
 				<p style="padding:0px 20px 0px 20px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
 					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 0px;">
            			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
-           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>즐겨찾기</span></a>
+           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>근태관리</span></a>
 				</p>
+				
                 <!-- c:if절, boardType => enterprise -->
-                <ul class="submenu active" style="list-style:none">
-                	<c:forEach var="vo" items="${favList }">
-                			<li class="submenu-item" id="favBoardList" style="height:25px;">
-                				<c:if test="${vo.boardIsLine==1 }">
-                				<div style="display:inline-block;height:23.63px;width:100%;overflow:hidden;background-image:url('<c:url value='/resources/images/board/dotted-line.png'/>');background-size:contain;">
-                				<span class="separator">${vo.boardName }&nbsp</span>
-                				</div>
-                				</c:if>
-                				<c:if test="${vo.boardIsLine==0 }">
-                				<a href="<c:url value='/board/selectedBoard?boardNo=${vo.boardNo }'/>">${vo.boardName }</a>
-                				</c:if>
-                			</li>
-                	</c:forEach>
-               </ul>
-           </li>
-           <br>
-			</c:if>
-		
-			<li class="sidebar-item active has-sub">
-				<p style="padding:0px 20px 0px 20px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
-					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 0px;">
-           			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
-           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>전사게시판</span></a>
-				</p>
-                <!-- c:if절, boardType => enterprise -->
-                <ul class="submenu active" style="list-style:none">
+                <ul class="submenu active" style="list-style:none;padding-left:0px">
+                	<li class="submenu-item" style="height:25px;">
+                		<p class="approval title" style="padding-left:32px">
+							<a href="#">
+							<span class="txt"id="myTimelineStatus" title="내 근태 현황">내 근태 현황</span>
+							</a>
+						</p>
+					</li>
+					<li class="submenu-item" style="height:25px;">
+                		<p class="approval title" style="padding-left:32px">
+							<a href="#">
+							<span class="txt"id="myTimelineStatus" title="내 근태 현황">내 연차 내역</span>
+							</a>
+						</p>
+					</li>
+					<li class="submenu-item" style="height:25px;">
+                		<p class="approval title" style="padding-left:32px">
+							<a href="#">
+							<span class="txt"id="myTimelineStatus" title="내 근태 현황">내 인사정보</span>
+							</a>
+						</p>
+					</li>
                 	<c:forEach var="vo" items="${boardList }">
                 		<c:if test="${vo.boardType == '전사게시판' }">
                 			<li class="submenu-item" style="height:25px;">
@@ -106,7 +262,7 @@
 				<p style="padding:0px 20px 0px 20px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
 					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 0px;">
            			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
-           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>부서게시판</span></a>
+           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>부서 근태관리</span></a>
 				</p>
 				<ul class="submenu active" style="list-style: none; padding:0px;">
 					<li class="sidebar-item active has-sub">
@@ -114,12 +270,11 @@
 					<p style="padding:0px 20px 0px 32px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
 					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 12px;">
            			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
-           			<a href="#" class="sidebar-link chevron-right"><span>${deptVo.deptName}<!-- require parameter(from emp) --></span></a>
+           			<a href="#" class="sidebar-link chevron-right"><span>영업팀<!-- require parameter(from emp) --></span></a>
 					</p>
 						<ul class="submenu active" style="list-style:none;padding:0px;margin:0px;padding-left:0px">
 							<!-- forEach -->
 							<c:forEach var="vo" items="${boardList }">
-								<c:if test="${vo.deptNo == deptVo.deptNo }">
 								<c:if test="${vo.boardType == '부서게시판' }">
 									<c:if test="${vo.boardIsFolder==0 and vo.boardGroupNo==0 }">
 									<li class="submenu-item"style="padding-left:44px">
@@ -143,7 +298,6 @@
 										</c:forEach>
 										</ul>
 									</li>
-									</c:if>
 									</c:if>
 								</c:if>
 							</c:forEach>

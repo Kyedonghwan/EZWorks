@@ -36,6 +36,8 @@ import com.it.ez.position.model.PositionService;
 import com.it.ez.comments.model.PostingCommentsService;
 import com.it.ez.comments.model.PostingReplyVO;
 import com.it.ez.comments.model.PostingReplyViewVO;
+import com.it.ez.dept.model.DeptService;
+import com.it.ez.dept.model.DeptVO;
 import com.it.ez.posting.model.BoardClassicPostingVO;
 import com.it.ez.posting.model.BoardFeedPostingVO;
 import com.it.ez.posting.model.BoardMainPostingVO;
@@ -56,6 +58,7 @@ public class BoardController {
 	private final BoardFileUploadUtil boardFileUploadUtil;
 	private final PostingCommentsService commentsService;
 	private final PositionService positionService;
+	private final DeptService deptService;
 	//temporary
 	private final EmpService empService;
 	
@@ -63,12 +66,16 @@ public class BoardController {
 	public String showboard(Model model, HttpSession session) {
 		logger.info("게시판 메인 화면");
 		
-		//temporary
+///////////////////////temporary///////////////////////
 		EmpVO empVo=empService.selectEmpByEname("KIMDEMO");
 		session.setAttribute("empVo", empVo);
 		
+		/* EmpVO empVo = (EmpVO) session.getAttribute("empVo"); */
+///////////////////////temporary///////////////////////	
 		int empNo = empVo.getEmpNo();
-		
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
 		//게시판 사이드바 정보처리
 		List<BoardVO> list = boardService.selectAllBoard();
 		logger.info("파라미터, list={}", list.size());
@@ -110,15 +117,19 @@ public class BoardController {
 		logger.info("선택한 게시판으로 이동, 파라미터 boardNo={}", boardNo);
 		logger.info("받은 searchvo.레코드카운트퍼페이지={}",searchVo.getRecordCountPerPage());
 		//게시판 사이드바 정보
-		List<BoardVO> boardList = boardService.selectAllBoard();
-		logger.info("파라미터, list={}", boardList.size());
-		model.addAttribute("boardList", boardList);
-		
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
 		model.addAttribute("loginEmpNo", empNo);
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
+		//게시판 사이드바 정보처리
+		List<BoardVO> boardlist = boardService.selectAllBoard();
+		logger.info("파라미터, list={}", boardlist.size());
+		model.addAttribute("boardList", boardlist);
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
+		
 		//선택한 게시판의 vo
 		BoardVO vo = boardService.selectByBoardNo(boardNo);
 		logger.info("선택한 게시판 vo={}", vo);
@@ -218,12 +229,18 @@ public class BoardController {
 	
 	@GetMapping("/writePosting")
 	public String writePosting(HttpSession session, Model model, @RequestParam(required = false) Integer boardNo, @RequestParam(required = false) Integer postingNo) {
-		logger.info("게시판 메인 화면");
+		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
+		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
+		
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
+		//게시판 사이드바 정보처리
 		List<BoardVO> list = boardService.selectAllBoard();
 		logger.info("파라미터, list={}", list.size());
 		model.addAttribute("boardList", list);
-		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
-		int empNo = empVo.getEmpNo();
+		
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		
@@ -348,18 +365,22 @@ public class BoardController {
 	@RequestMapping("/postingDetail")
 	public String postingDetail(HttpSession session, @RequestParam int postingNo, @RequestParam(required = false) Integer currentStatusVal, Model model) {
 		logger.info("상세 게시글 조회, 파라미터 postingNo={}", postingNo);
-		List<BoardVO> list = boardService.selectAllBoard();
-		logger.info("파라미터, list={}", list.size());
-		model.addAttribute("boardList", list);
 		
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
 		model.addAttribute("loginEmpNo", empNo);
 		
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
+		//게시판 사이드바 정보처리
+		List<BoardVO> list = boardService.selectAllBoard();
+		logger.info("파라미터, list={}", list.size());
+		model.addAttribute("boardList", list);
+		
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
-		
-		model.addAttribute("loginEmpNo", empNo);
+
 		//파일목록 추가
 		List<PostingFilesVO> filesList = postingService.selectFilesOfPosting(postingNo);
 		logger.info("파일 목록, filesList.size={}", filesList.size());
@@ -416,13 +437,18 @@ public class BoardController {
 	public String postingClassicPrev(HttpSession session, @RequestParam int postingNo, @RequestParam int boardNo, Model model) {
 		logger.info("이전 글 조회, postingNo={}, boardNo={}", postingNo, boardNo);
 		
+		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
+		int empNo = empVo.getEmpNo();
+		model.addAttribute("loginEmpNo", empNo);
+		
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
+		//게시판 사이드바 정보처리
 		List<BoardVO> list = boardService.selectAllBoard();
 		logger.info("파라미터, list={}", list.size());
 		model.addAttribute("boardList", list);
-		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		
-		int empNo = empVo.getEmpNo();
-		model.addAttribute("loginEmpNo", empNo);
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		
@@ -471,12 +497,18 @@ public class BoardController {
 	public String postingClassicNext(HttpSession session, @RequestParam int postingNo, @RequestParam int boardNo, Model model) {
 		logger.info("다음 글 조회, postingNo={}, boardNo={}", postingNo, boardNo);
 		
-		List<BoardVO> list = boardService.selectAllBoard();
-		logger.info("파라미터, list={}", list.size());
-		model.addAttribute("boardList", list);
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
 		model.addAttribute("loginEmpNo", empNo);
+		
+		int deptNo = empVo.getDeptNo();
+		DeptVO deptVo = deptService.selectDeptByDeptNo(deptNo);
+		model.addAttribute("deptVo", deptVo);
+		//게시판 사이드바 정보처리
+		List<BoardVO> list = boardService.selectAllBoard();
+		logger.info("파라미터, list={}", list.size());
+		model.addAttribute("boardList", list);
+		
 		List<BoardVO> favList = boardService.selectFavBoards(empNo);
 		model.addAttribute("favList", favList);
 		

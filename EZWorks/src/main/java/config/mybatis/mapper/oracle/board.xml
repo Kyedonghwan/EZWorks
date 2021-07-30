@@ -6,6 +6,9 @@
 	<select id="selectAllBoard" resultType="BoardVO">
 		select * from board order by board_no
 	</select>
+	<select id="selectBoardByDeptNo" resultType="BoardVO">
+		select * from board where dept_no=#{deptNo}
+	</select>
 	<select id="selectByBoardNo" resultType="BoardVO">
 		select * from board where board_no = #{boardNo}
 	</select>

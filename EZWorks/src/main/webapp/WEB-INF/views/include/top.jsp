@@ -90,7 +90,7 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>전자결재</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
+						<li class="sidebar-item  "><a href="<c:url value='/attendance/attendanceMain'/>"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>근태관리</span>
 						</a></li>
 

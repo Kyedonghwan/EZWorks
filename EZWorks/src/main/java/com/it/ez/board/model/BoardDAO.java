@@ -13,4 +13,5 @@ public interface BoardDAO {
 	public int insertFavBoards(int boardNo, int empNo);
 	public List<BoardVO> selectFavBoards(int empNo);
 	public int deleteFavBoards(int boardNo, int empNo);
+	public List<BoardVO> selectBoardByDeptNo(int deptNo);
 }
