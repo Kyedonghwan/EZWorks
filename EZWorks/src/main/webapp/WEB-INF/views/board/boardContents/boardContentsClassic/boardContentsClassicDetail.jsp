@@ -36,6 +36,15 @@
     	color:#607080;
     	border-color:#607080;
     }
+    #replySubmit{
+		background-color:#607080;
+    	border-color:#607080;
+    	color:white;
+	}
+	#replaySubmit:hover{
+		background-color:#7c90a4;
+    	border-color:#7c90a4;
+	}
 </style>
 	<section style="padding:0px">
 
@@ -216,9 +225,9 @@
 					</span>
 					<div class="input-group input-group-sm" style="padding-left: 40px;">
 						<input type="text" class="form-control form-control-sm" name="replyText">
-						<button type="button" class="btn btn-outline-primary btn-sm" id="replySubmit">댓글 작성 데헷</button>
 						<input type="hidden" name="postingNo" value="${vo.postingNo }">
 						<input type="hidden" name="empNo" value="${loginEmpNo }">
+						<button type="button" class="btn btn-outline-primary btn-sm" id="replySubmit">댓글 작성</button>
 					</div>
 				</div>
 			</form>

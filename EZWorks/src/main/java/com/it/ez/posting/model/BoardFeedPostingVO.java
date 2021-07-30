@@ -26,4 +26,5 @@ public class BoardFeedPostingVO {
 	private int posNo;
 	private String posName;
 	private int hasLiked;
+	private int replyCount;
 }

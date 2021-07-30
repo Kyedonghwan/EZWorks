@@ -189,7 +189,8 @@ public class BoardController {
 				feedvo.setPostingLikes(likes);
 				
 				List<PostingReplyViewVO> postingreplylist = commentsService.allCommentsByPostingNo(feedvo.getPostingNo());
-				int replyCount = postingreplylist.size();
+				int replyCount = commentsService.selectReplyCountByPostingNo(feedvo.getPostingNo());
+				feedvo.setReplyCount(replyCount);
 				for(PostingReplyViewVO list : postingreplylist) {
 					replyList.add(list);
 				}

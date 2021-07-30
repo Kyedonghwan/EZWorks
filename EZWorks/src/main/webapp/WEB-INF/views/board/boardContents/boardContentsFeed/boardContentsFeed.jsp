@@ -95,6 +95,14 @@
 		background-color:#7c90a4;
     	border-color:#7c90a4;
 	}
+	#fileDownload{
+    	border-color:white;
+		font-size:0.8em;
+		color:#607080;
+    }
+    #fileDownload:hover{
+    	background-color:#eeeeee;
+    }
 </style>
 <script type="text/javascript">
 	/* var index = 0;
@@ -138,16 +146,7 @@
 	    
 	    t = document.getElementById("time"),
 	    res2 = document.getElementById("result2"); */
-		
-	   
-	   $('#listing').each(function(idx, item){
-		   var c = $(item).find('#color');
-		   var res = $(item).find('#result');
-		   
-		   c.addEventListener("input", function(){
-			   res.innerHTML = c.value;
-		   });
-	   });
+
 		/* c.addEventListener("input", function() {
 	    res.innerHTML = c.value;
 		}, false);  */
@@ -487,7 +486,7 @@
 <form action="<c:url value='/board/writeFeedPosting'/>"
 	name="PostingFeedForm" method="post" enctype="multipart/form-data">
 	<section style="padding: 0px; max-width: 1200px; min-width: 650px">
-		<input type="text" name="boardNo" value="${boardVo.boardNo }">
+		<input type="hidden" name="boardNo" value="${boardVo.boardNo }">
 		<div
 			style="padding: 10px; padding-top: 10px; margin: 20px; margin-right: 100px; border: 1px solid #dfe3e7; border-radius: 3px; min-width: 50px; display: block">
 			<div style="display: block">
@@ -594,8 +593,14 @@
 														&&ext ne 'jfi'&&ext ne 'png'&&ext ne 'gif'&&ext ne 'webp'
 														&&ext ne 'svg'&&ext ne 'svgz'&&ext ne 'eps'&&ext ne 'ai'&&ext ne 'tiff'&&ext ne 'tif'&&ext ne 'heif'&&ext ne 'heic'&&ext ne 'ind'&&ext ne 'indd'&&ext ne 'indt'
 														&&ext ne 'psd'&&ext ne 'raw'&&ext ne 'arw'&&ext ne 'cr'&&ext ne 'rw2'&&ext ne 'nrw'&&ext ne 'k25'}">
-
-																<a>${attached_file.pfFileName}</a>
+																<form action="<c:url value='/board/download'/>">
+																	<input type="hidden" value="${attached_file.pfFileName }" name="pfFileName"> 
+																	<input type="hidden" value="${attached_file.pfOFileName }" name="pfOFileName">
+																	<div>
+																		<span class="fa-fw select-all fas" style="font-size: 0.8em"></span>
+																		<input type="submit" id="fileDownload" class="btn btn-outline-primary" value="${attached_file.pfOFileName } (${attached_file.pfFileSize })">
+																	</div>
+																</form>
 															</c:if>
 														</c:if>
 													</c:forTokens>
@@ -635,7 +640,7 @@
 								<div name="comments-icons"
 									style="border-bottom: 1px solid #dfe3e7;">
 									<a><span class="fa-fw select-all fas"></span> 댓글 <span
-										id="totalReplyCount">${initTotalCount }</span> 개</a>&nbsp&nbsp&nbsp&nbsp<a><span
+										id="totalReplyCount">${vo.replyCount }</span> 개</a>&nbsp&nbsp&nbsp&nbsp<a><span
 										class="fa-fw select-all fas"></span> 좋아요 누른 사람 <span
 										id="likes">${vo.postingLikes }</span>명</a>
 								</div>
@@ -684,9 +689,6 @@
 										<button type="button" class="btn btn-outline-primary btn-sm"
 											id="replySubmit">댓글 작성</button>
 									</div>
-									<input id="color" type="color" value="" />
-									<p id="result"></p>
-									<span>색좀 바껴라</span>
 								</div>
 							</form>
 						</div>
