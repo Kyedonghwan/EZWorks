@@ -2,121 +2,39 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
+<link rel="stylesheet" href="<c:url value='/resources/css/attendance/attendanceMenu.css'/>">
 <style type="text/css">
-	 a{
-		color:black;
-		font-size:0.85em;
-	 }
-	 span.separator{
-	 	color:#949599;
-	 	font-size:0.85em;
-	 	background-color:white;
-	 }	
-	 
-	 section.menus img{
-	 	opacity: 0;
-		transition: opacity 0.3s
-	 }
-	 section.menus:hover img{
-	 	opacity: 1;
-	 }
-	 #date{
-	 	font-size:0.7em;
-	 	color:#888888;
-	 	margin-bottom:0px;
-	 }
-	 #timer{
-	 	font-size:2.5em;
-	 	text-align:center;
-	 }
-	 .log_view{
-	 	font-size: 14px;
-	 	list-style:none;
-	 	margin-bottom: 1rem;
-	    margin-top: 0;
-	    padding-left: 0;
-	    box-sizing: border-box;
-	    display: block;
-	    margin-block-start: 1em;
-	    margin-block-end: 1em;
-	    margin-inline-start: 0px;
-	    margin-inline-end: 0px;
-	    border-collapse: collapse;
-	 }
-	dl {
-	    line-height: 150%;
-	    margin: 0px;
-    	padding: 0px;
-    	display: block;
-    	margin-block-start: 0.8em;
-    	margin-block-end: 0.8em;
-    	margin-inline-start: 0px;
-    	margin-inline-end: 0px;
-    	text-align: -webkit-match-parent;
-	}
-	dt {
-		font-weight: bold;
-	    float: left;
-	    font-size: 13px;
-	    color: #333;
-	    margin: 0;
-    	padding: 0;
-    	display: block;
-    	line-height: 150%;
-	}
-	dd {
-	    display: block;
-	    margin-inline-start: 40px;
-	    text-align: right;
-    	color: #666;
-    	margin: 0px;
-    	padding: 0px;
-	}
-	.vertical_bar{
-		margin-top: 20px!important;
-    	padding: 10px 0!important;
-    	border-top: 1px dashed #c9c9c9;
-    	display: block;
-	}
-	#workIn {
-		margin-left: 0;
-		margin-top: 0;
-		float: left;
-		width: calc(50% - 4px);
-    	height: 42px;
-    	border-radius: 25px;
-    	background: none!important;
-    	position: relative;
-    	display: block;
-    	text-align: center;
-    	line-height: 33px;
-    	border-color: #607080;
-    	color: #607080;
-	}
-	#workIn:hover{
-		background-color:#607080;
-	}
-	#workOut {
-		margin-left: 0;
-		margin-top: 0;
-		float: right;
-		width: calc(50% - 4px);
-    	height: 42px;
-    	border-radius: 25px;
-    	background: none!important;
-    	position: relative;
-    	display: block;
-    	text-align: center;
-    	line-height: 30px;
-    	border-color: #607080;
-    	color: #607080;
-	}
-	.submenu-item:hover {
-		background-color: #f9f9f9;
-	}
+#statusList{
+	font-size: 14px;
+	white-space: normal;
+    word-break: break-all;
+    letter-spacing: -0.5px;
+	margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin: 0;
+    list-style: none;
+	max-height: 200px;
+    overflow-y: auto;
+    padding-left:0px;
+}
+li.timelineStatus{
+	border-radius: 4px 0 0 0;
+	padding: 8px 10px;
+	margin: 0;
+	display: list-item;
+}
+div.dropdown-menu{
+	width: 100px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border:1px solid black;
+}
 </style>
 <script>
 	$(function(){
+		time();
 		$('.chevron-right').click(function(){
 			if($(this).children('span').children('img').attr("class")=="fold"){
 				$(this).children('span').children('img').attr("src","<c:url value='/resources/images/accordion/chevron-down.svg'/>");
@@ -126,12 +44,24 @@
 				$(this).children('span').children('img').attr("class","fold");
 			}
 		});
-	})
+	});
+
+	function time(){
+		var time = new Date(); //시간받기위해서 new date
+		var year = time.getFullYear();
+		var month = ('0' + (time.getMonth() + 1)).slice(-2);
+		var day = ('0' + time.getDate()).slice(-2);
+		var week = new Array('일', '월', '화', '수', '목', '금', '토');
+		document.getElementById("timer").innerHTML = time.getHours() + ":"
+				+ (time.getMinutes()<10?'0':'')+time.getMinutes() + ":" + (time.getSeconds()<10?'0':'') + time.getSeconds();
+		document.getElementById("date").innerHTML = (year)+"-"+(month)+"-"+(day)+"("+(week[time.getDay()])+")";
+		setInterval("time()", 1000); //1초 지난후 time()실행
+	}
 </script>
 <div id="wanttocal" style="margin:0px;padding:0px;height:100%;">
 <section style="height:64px;padding:24px 24px 16px;">
 	<h5>
-		<a href="<c:url value='/board/boardMain'/>">근태관리</a>
+		<a href="<c:url value='/attendance/attendanceMain'/>">근태관리</a>
 	</h5>
 </section>
 <section style="padding:0px 24px 16px;">
@@ -166,28 +96,24 @@
 		<a class="btn btn-outline-primary" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
 		<a class="btn btn-outline-primary" id="workOut"><span class="txt">퇴근하기</span></a>
 	</div>
-	<div class="works_state">
-		<a class="btn btn-outline-primary" id="changeStatus"><!--클릭 시, 클래스명 on 추가-->
-			<span class="txt">업무&nbsp;&nbsp;<span class="ic_side ic_show_down"></span></span>
-		</a>
-		<div el-backdrop="" class="layer_transition" style="z-index: 100; display: none;">
-			<div class="ui-menu-container container">
-				<div class="content">
-					<div class="row_wrap menuitem my-todo-list foldable">
-						<ul class="submenu-list" id="statusList" style="max-height: 200px; overflow-y: auto;">
-							<li class="timelineStatus"><span class="txt " data-code="3">업무</span></li>
-							<li class="timelineStatus"><span class="txt " data-code="4">업무종료</span></li>
-							<li class="timelineStatus"><span class="txt " data-code="5">외근</span></li>
-							<li class="timelineStatus"><span class="txt " data-code="6">출장</span></li>
-							<li class="timelineStatus"><span class="txt " data-code="30">반차</span></li>
-						</ul>
-					</div>
-					<hr>
-				</div>
+		<div class="dropdown works_state">
+			<a class="btn btn-outline-primary" id="changeStatus"
+				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<!--클릭 시, 클래스명 on 추가--> <span class="txt">업무&nbsp;&nbsp;<span
+					class="fa-fw select-all fas"></span></span>
+			</a>
+
+			<div class="dropdown-menu">
+				<ul class="submenu-list" id="statusList"
+					style="max-height: 200px; overflow-y: auto;">
+					<li class="timelineStatus"><span class="txt " data-code="3">업무</span></li>
+					<li class="timelineStatus"><span class="txt " data-code="4">업무종료</span></li>
+					<li class="timelineStatus"><span class="txt " data-code="5">외근</span></li>
+					<li class="timelineStatus"><span class="txt " data-code="6">출장</span></li>
+					<li class="timelineStatus"><span class="txt " data-code="30">반차</span></li>
+				</ul>
 			</div>
 		</div>
-	</div>
-	
 	<div class="vertical_bar"></div>
 	
 	
@@ -274,6 +200,14 @@
 					</p>
 						<ul class="submenu active" style="list-style:none;padding:0px;margin:0px;padding-left:0px">
 							<!-- forEach -->
+							<li class="submenu-item"style="padding-left:44px">
+								<a href="#">부서 근태현황</a>
+							</li>
+							<li class="submenu-item"style="padding-left:44px">
+								<a href="#">부서 근태통계</a>
+							</li>
+							
+							
 							<c:forEach var="vo" items="${boardList }">
 								<c:if test="${vo.boardType == '부서게시판' }">
 									<c:if test="${vo.boardIsFolder==0 and vo.boardGroupNo==0 }">
@@ -304,9 +238,6 @@
 						</ul>
 					</li>
 				</ul>
-			</li>
-			<li style="padding-left:14px">
-			<a href="#" style="font-weight: bold; color: #999"> + 게시판 추가 </a>
 			</li>
 		</ul>
 	</div>
