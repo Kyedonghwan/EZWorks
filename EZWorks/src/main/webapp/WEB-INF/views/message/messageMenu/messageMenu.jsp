@@ -48,7 +48,7 @@
 			
 			<nav><br></nav>
 			<a href="javascript:openWindowPop('../chat/chat', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;
-				javascript:openWindowPop('../chat/chat2', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;">
+				javascript:openWindowPop('../chat', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;">
 				채팅
 			</a>
 			
