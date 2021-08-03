@@ -2,7 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
-
+<script type="text/javascript">
+	function openWindowPop(url, name){
+	    var options = 'top=10, left=10, width=700, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+	    window.open(url, name, options);
+	}
+</script>
 <style type="text/css">
 	a{
 		color:black;
@@ -17,10 +22,10 @@
 		margin: 0 auto;
 	}
 
+
 </style>
 <br><br>
-<section style="height:64px;padding:24px 24px 16px;">
-	
+<section style="height:64px; padding:24px 24px 16px;">
 	<h5>
 		<a style="font-size: 150%">쪽지</a>
 	</h5>
@@ -39,6 +44,12 @@
 			<nav><br></nav>
 			<a href="<c:url value='/message/sendList'/>" class="btn btn-outline-warning" style="width:100%;font-size:0.85em;">
 				보낸 쪽지함
+			</a>
+			
+			<nav><br></nav>
+			<a href="javascript:openWindowPop('../chat/chat', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;
+				javascript:openWindowPop('../chat/chat2', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;">
+				채팅
 			</a>
 			
 	</div>
