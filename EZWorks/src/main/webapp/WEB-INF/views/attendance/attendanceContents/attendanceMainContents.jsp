@@ -46,6 +46,13 @@ $(function(){
         	var date = splitdate[2];
         	alert(year);
         	document.getElementById("baseDate").innerHTML = (year)+"."+(month);
+        	$.ajax({
+        		/* url:'<c:url value="/attendance/insertFavBoards"/>'
+				,type:"get"
+				,data:"empNo="+$('input[name=empNo]').val()+"&boardNo="+$('input[name=boardNo]').val()
+				,dataType:"json"
+				,success:function(res){ */
+        	});
         }
     });
     
@@ -146,13 +153,13 @@ function showDatepicker(){
 		<div id="month" class="wrap_tb_list">
 			<div>
 			
-				<c:forEach var="i" begin="1" end="${weeks }">
+				<c:forEach var="week" items="${daysList }" varStatus="status">
 			
 				<div>
 					<div class="wrap_tb_box" id="week">
 						
 					    <section class="wrap_tb_tit">
-					        <h2 class="table_tit"><span class="btn_wrap"><i class="fas fa-chevron-down" ></i></span>${i } 주차</h2>
+					        <h2 class="table_tit"><span class="btn_wrap"><i class="fas fa-chevron-down" ></i></span>${status.index+1} 주차</h2>
 					        <div class="tb_optional">
 					            <span class="txt">누적 근무시간 <strong class="">0h 0m 0s</strong></span>
 					            <span class="desc">(초과 근무시간 <strong>0h 0m 0s</strong>)</span>
@@ -161,12 +168,7 @@ function showDatepicker(){
 					    <div class="wrap_tb_shadow" id="day_area" style="display:none">
 					        <div class="tb_attend_header">
 					            <div class="tb_content date">
-					                <span class="txt">일자
-					                <c:forEach var="j" items="${datelist }">
-					                	<span>${j.year+1900 }/${j.month+1 }/${j.date }(${j.day })</span>
-					                </c:forEach>
-					                
-					                </span>
+					                <span class="txt">일자</span>
 					            </div>
 					            <div class="tb_content attend">
 					                <span class="txt">업무시작</span>
@@ -185,12 +187,24 @@ function showDatepicker(){
 					            </div>
 					        </div>
 					        <div class="tb_attend_body" id="day_list">
-					        	<div class="tb_attend_list">    
+					        	
+					        	<c:forEach var="day" items="${week }">
+					        	<div class="tb_attend_list <c:if test="${day.day==6 }">day_sat</c:if><c:if test="${day.day==0 }">day_sun</c:if>">    
 					        		<div class="tb_content date_l">
-					        			<span class="txt">28</span>
+					        			<span class="txt">${day.date }</span>
 					    			</div>
 								    <div class="tb_content date_r">
-								        <span class="txt">월</span>
+								        <span class="txt">
+											<c:choose>
+												<c:when test="${day.day==0 }">일</c:when>
+												<c:when test="${day.day==1 }">월</c:when>
+												<c:when test="${day.day==2 }">화</c:when>
+												<c:when test="${day.day==3 }">수</c:when>
+												<c:when test="${day.day==4 }">목</c:when>
+												<c:when test="${day.day==5 }">금</c:when>
+												<c:when test="${day.day==6 }">토</c:when>
+											</c:choose>
+										</span>
 								    </div>
 								    <div class="tb_content attend">
 								        <span class="txt">
@@ -207,137 +221,11 @@ function showDatepicker(){
 								        
 								    </div>
 								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list">    <div class="tb_content date_l">
-								        <span class="txt">29</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">화</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list">    <div class="tb_content date_l">
-								        <span class="txt">30</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">수</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list">    <div class="tb_content date_l">
-								        <span class="txt">01</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">목</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list">    <div class="tb_content date_l">
-								        <span class="txt">02</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">금</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list day_sat">    <div class="tb_content date_l">
-								        <span class="txt">03</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">토</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div></div><div class="tb_attend_list day_sun">    <div class="tb_content date_l">
-								        <span class="txt">04</span>
-								    </div>
-								    <div class="tb_content date_r">
-								        <span class="txt">일</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt  ">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
 								    </div>
 							    </div>
+							    </c:forEach>
 						    </div>
 					    </div>
-						
 					</div>
 				</div>
 			</c:forEach>
