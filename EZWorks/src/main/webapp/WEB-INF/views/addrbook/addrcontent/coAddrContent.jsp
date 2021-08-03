@@ -10,7 +10,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+
 <script type="text/javascript">
 $(function (){
 	$("#quickRegistToggler").click(function (){
@@ -158,6 +160,8 @@ td{
     border-radius: 32px;
    }
 </style>
+
+
 <body>
 
 				<div class="card-header">
@@ -265,9 +269,9 @@ td{
 		</td>
 		<td class="align_l name sorting_1">
 		<span class="photo small"><img src="<%=request.getContextPath()%>/resources/images/faces/1.jpg" title="test" alt="test"></span>
-		<a><span class="name contact_detail" data-id="1061">${vo.emp_name}</span></a></td>
-		<td class="align_l hp"><span class="hp">${vo.emp_tel}</span></td>
-		<td class="align_l department">${vo.dept_name}</td>
+		<a><span class="name contact_detail" data-id="1061">${vo.empName}</span></a></td>
+		<td class="align_l hp"><span class="hp">${vo.empTel}</span></td>
+		<td class="align_l department">${vo.deptName}</td>
 		<td class="align_l company"><span class="company">(주)ez그룹</span></td><td class="align_l tel"></td><td class="align_l company_address"></td>
 		<td class="align_l memo"></td><td class="align_l group"><span class="group" title="전사주소록2">전사주소록</span></td>
 		</tr>

@@ -27,5 +27,23 @@ public class EmpServiceImpl implements EmpService{
 		
 		return empDao.selectOrganization();
 	}
+
+	@Override
+	public int loginProc(int empNo, String pwd) {
+		String dbPwd=empDao.selectPwd(empNo);
+		int result=0;
+		if(dbPwd == null || dbPwd.isEmpty()) {
+			result=ID_NONE; //아이디 존재하지 않을시
+		}else {
+			if(dbPwd.equals(pwd)) {
+				result=LOGIN_OK; //db와 사용자가 입력한 비밀번호가 일치시
+			}else {
+				result=PWD_DISAGREE; //비밀번호 일치 실패시
+			}
+		}
+		
+		return result;		
+	}
+	
 	
 }

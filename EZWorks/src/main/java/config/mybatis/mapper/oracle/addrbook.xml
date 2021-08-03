@@ -7,10 +7,10 @@
 		<selectKey resultType="int" keyProperty="bookNo" order="BEFORE">
 			select addr_seq.nextval from dual
 		</selectKey>
-		insert into addrbook(bookNo, deptName, posName, name, 
-						corp_phone,  address, addressDetail, hp, email, memo )
-		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, 
-			#{corp_phone, jdbcType=VARCHAR},#{address, jdbcType=VARCHAR},#{addressDetail, jdbcType=VARCHAR}, #{hp, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR},#{memo, jdbcType=VARCHAR})
+		insert into addrbook(bookNo, deptName, posName, name, companyName,
+						corpPhone, zipcode,  address, addressDetail, hp, email, memo )
+		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, #{companyName, jdbcType=VARCHAR},
+			#{corpPhone, jdbcType=VARCHAR},#{zipcode, jdbcType=VARCHAR},#{address, jdbcType=VARCHAR},#{addressDetail, jdbcType=VARCHAR}, #{hp, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR},#{memo, jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="selectAll" parameterType="addrBookVo" resultType="addrBookVO">
@@ -37,9 +37,9 @@
 	
 	<update id="updateBook" parameterType="addrBookVo">
 		update addrbook
-		set name=#{name}, company_name=#{company_name}, deptName=#{deptName}, posName=#{posName},
-			email=#{email},	hp=#{hp}, corp_phone=#{corp_phone},
-			address=#{address},addressDetail=#{addressDetail}
+		set name=#{name}, companyName=#{companyName, jdbcType=VARCHAR}, deptName=#{deptName, jdbcType=VARCHAR}, posName=#{posName, jdbcType=VARCHAR},
+			email=#{email},	hp=#{hp}, corpPhone=#{corpPhone, jdbcType=VARCHAR}, zipcode=#{zipcode, jdbcType=VARCHAR}, memo=#{memo, jdbcType=VARCHAR},
+			address=#{address, jdbcType=VARCHAR},addressDetail=#{addressDetail, jdbcType=VARCHAR}
 		where bookNo=#{bookNo}
 	</update>
 	

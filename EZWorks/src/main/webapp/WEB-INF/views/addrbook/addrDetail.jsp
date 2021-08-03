@@ -82,7 +82,7 @@ input {
 					<tr>
 						<th><span>회사</span>
 						</th>
-						<td><span>${vo.company_name}</span></td>
+						<td><span>${vo.companyName}</span></td>
 					</tr>
 					<tr>
 						<th><span>부서</span>
@@ -111,12 +111,16 @@ input {
 						<th>
 	                        <span>회사전화</span>
 	                    </th>
-						<td><span>${vo.corp_phone}</span></td>
+						<td><span>${vo.corpPhone}</span></td>
 					</tr>
 					<tr>
 						<th><span>주소</span></th>
 						<td>
-							<span id="addressDetail"><span class="postcode" id="postcode">${empvo.postcode}</span>&nbsp;<span class="address" id="address">${empvo.address}</span>&nbsp;<span class="detail_address" id="detail_address">${empvo.addressDetail}</span>&nbsp;<span class="extra_address" id="extra_address">${empvo.extra_address}</span></span>
+							<span id="addressDetail">
+							<span class="zipcode" id="zipcode">${vo.zipcode}</span>&nbsp;
+							<span class="address" id="address">${vo.address}</span>&nbsp;
+							<span class="addressDetail" id="addressDetail">${vo.addressDetail}</span>&nbsp;
+							</span>
 						</td>
 					</tr>
 					

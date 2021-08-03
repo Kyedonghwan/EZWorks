@@ -16,7 +16,7 @@
 </section>
 <section style="height:64px;padding:0px 24px 16px;">
 	<div  style="align:center;width:auto;">
-			<a href="#" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+			<a href="<c:url value='/addrbook/addrWrite'/>" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
 				연락처 추가
 			</a>
 	</div>
@@ -31,7 +31,7 @@
                 </a>
                 <ul class="submenu active" style="list-style:none">
                     <li class="submenu-item ">
-                        <a href="component-alert.html">전사 주소록</a>
+                        <a href="<c:url value='/addrbook/coAddrbook'/>">전사 주소록</a>
                     </li>
                    
                 </ul>
@@ -46,7 +46,7 @@
                 
                     <li class="sidebar-item active has-sub">
                                            <li class="submenu-item ">
-                        <a href="component-alert.html">전체 주소록</a>
+                        <a href="<c:url value='/addrbook/addrbook'/>">전체 주소록</a>
                     </li>
                     	</ul>
                     

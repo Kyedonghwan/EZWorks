@@ -3,21 +3,28 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.it.ez.addrbook.model.CoAddrBookDAO">
-	<select id="selectAll" parameterType="coEmpVo" resultType="coEmpVo">
+	<select id="selectAll" parameterType="HashMap" resultType="coEmpVo">
 		select *
 		from
 		(
-			select rownum as RNUM,A.*
+			select rownum as RNUM,K.*
 			from 
 			(
-				select * from coaddr_view
-				order by fk_emp_no desc
-			)A
+				select * from ZCOADDR_VIEW
+				order by emp_no desc
+			)K
 		)
-		<![CDATA[
-		where RNUM > #{firstRecordIndex}
-		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
-		]]>
+		
+
+		            <!-- 초성 검색 -->
+            <if test='range1 != ""'>
+               <if test='range2 != ""'>
+                  <![CDATA[where substr(empName, 1, 1) >= #{range1} and substr(empName, 1, 1) < #{range2}]]>
+               </if>
+               <if test='range2 == ""'>
+                  <![CDATA[where substr(empName, 1, 1) >= #{range1}]]>
+               </if>
+            </if>
 	</select>
 	
 	<select id ="selectTotalRecord" parameterType="coEmpVo"
