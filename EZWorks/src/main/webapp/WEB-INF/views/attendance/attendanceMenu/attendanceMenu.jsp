@@ -65,8 +65,8 @@ div.dropdown-menu{
 	</h5>
 </section>
 <section style="padding:0px 24px 16px;">
-	<p class="date" id="date">2021-07-30(금)</p>
-	<p class="time" id="timer">13:19:08</p>
+	<p class="date" id="date"></p>
+	<p class="time" id="timer"></p>
 	<div class="log_view_wrap">
 		<ul class="log_view">
 			<li>
