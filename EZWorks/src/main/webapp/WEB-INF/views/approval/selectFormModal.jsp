@@ -4,7 +4,7 @@
     
 <!-- 새결제진행 버튼 -> 양식선택 모달 -->
 <div class="modal" tabindex="-1" id="selectFormModal">
-  <form name="selectFormFrm" method="post">
+  <form name="selectFormFrm" method="get">
   <div class="modal-dialog">
     <div class="modal-content" style="width:650px;height:480px">
       <div class="modal-header">
@@ -40,6 +40,12 @@
 <script type="text/javascript">
 
 $(function(){
+	
+	$('#selectFormOk').click(function(){
+		$('form[name=selectFormFrm]').attr('action','<c:url value="/form"/>/'+$('#formNo').val());
+		$('form[name=selectFormFrm]').submit();
+	})
+	
 	$('.selectFormModalClose').click(function(){
 		$('#selectFormModal').hide();
 	})
@@ -100,7 +106,7 @@ $(function(){
 								secu=this.formSecu;
 								formNo=this.formNo;
 								$('#formTable tr').eq(0).children('td').html("상세정보");
-								$('#formTable tr').eq(1).children('td').eq(0).html("제목");
+								$('#formTable tr').eq(1).children('td').eq(0).html("제목<input type='hidden' id='formNo' value="+formNo+">");
 								$('#formTable tr').eq(2).children('td').eq(0).html("보존연한");
 								$('#formTable tr').eq(3).children('td').eq(0).html("보안수준");
 								$('#formTable tr').eq(1).children('td').eq(1).html(name);

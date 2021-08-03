@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface EmpService {
 	List<Map<String,Object>> selectOrganization();
+	String selectName(int empNo);
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
     
 <!-- 결재정보 모달 /결재선 구현 -->
 
@@ -212,6 +213,7 @@
 <script type="text/javascript">
 
 $(function(){
+	var idx1=1;
 	$('.approvalInfoModalClose').click(function(){
 		$('#approvalInfoModal').hide();
 	})
@@ -264,8 +266,8 @@ $(function(){
 			
 			if($(this).children().is('td')){
 				var malFull=$(this).children().eq(1).text();
-				
-				malList.push({"malName":malName,"malFull":malFull});
+				var malEmpno=$(this).children().eq(1).children().val();
+				malList.push({"malName":malName,"malFull":malFull,"malEmpno":malEmpno});
 			}
 		})
 		
@@ -307,7 +309,7 @@ $(function(){
 		})
 		
 	})
-		
+	var malName;	
 		$('#loadApprovalLine').click(function(){
 			$('#loadApprovalLineModal').show();
 			$.ajax({
@@ -324,54 +326,9 @@ $(function(){
 						$('#loadApprovalModalContent a').css('color','#00001f');
 						$(this).css('color','#435ebe');
 						
-						var malName=$(this).text();
+						malName=$(this).text();
 						
-						$('#loadApprovalLineModalOk').click(function(){
-							$.ajax({
-								url:"<c:url value='/mal/load2'/>",
-								type:"post",
-								dataType:"json",
-								data:{"malName":malName},
-								success:function(res){
-									var temp=$('#add1').parent().parent().parent().children('tr:gt(3)');
-									
-									temp.each(function(idx,item){
-										if(!$(this).children().is('td')){
-											return false;
-										}
-										if($(this).children().is('td')){
-											$(this).remove();
-											
-										}
-									})
-									var idx1=1;
-									$.each(res,function(idx,item){
-										var str="";
-										str+='<tr>';
-										str+='<td style="width:20%;text-align:center">'+this.MALFULL+'</td>';
-										str+='<td style="width:30%;text-align:center">'+this.DEPTNAME+'</td>';
-										str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn4"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
-										str+='</tr>';
-										$('#add1').parent().attr('rowspan',++idx1);
-										$('#beforeTarget').before(str);
-										
-									})
-									
-									$('#loadApprovalLineModal').hide();
-									Toastify({
-										text:"등록되었습니다.",
-										duration: 2000,
-										close:false,
-										gravity:"top",
-										position:"center",
-										backgroundColor:"black",
-									}).showToast();
-								},
-								error:function(e){
-									alert("불러오기 2 ajax");
-								}
-							})
-						})
+						
 					})
 				},
 				error:function(e){
@@ -381,7 +338,68 @@ $(function(){
 			})
 		})
 	
-	
+		$('#loadApprovalLineModalOk').click(function(){
+			$.ajax({
+				url:"<c:url value='/mal/load2'/>",
+				type:"post",
+				dataType:"json",
+				data:{"malName":malName},
+				success:function(res){
+					var temp=$('#add1').parent().parent().parent().children('tr:gt(3)');
+					
+					temp.each(function(idx,item){
+						if(!$(this).children().is('td')){
+							return false;
+						}
+						if($(this).children().is('td')){
+							$(this).remove();
+						}
+					})
+					$('#add1').parent().attr('rowspan',1);
+					idx1=1;
+				
+					$.each(res,function(idx,item){
+						var malEmpno=this.MALEMPNO;
+						var malFull=this.MALFULL;
+						$.ajax({
+							url:'<c:url value="/mal/loadDept"/>',
+							type:"get",
+							dataType:"json",
+							data:{"malEmpno":malEmpno},
+							async:false,
+							success:function(res){
+								var str="";
+								str+='<tr>';
+								str+='<td style="width:20%;text-align:center">결재</td>';
+								str+='<td style="width:20%;text-align:center">'+malFull+'<input type="hidden" value='+malEmpno+'></td>';
+								str+='<td style="width:30%;text-align:center">'+res.DEPTNAME+'<input type="hidden" value='+res.DEPTNO+'></td>';
+								str+='<td style="width:15%;text-align:center"><a href="#" class="deleteBtn"><img src="https://img.icons8.com/material-outlined/24/000000/trash--v1.png"/></a></td>';
+								str+='</tr>';
+								$('#add1').parent().attr('rowspan',++idx1);
+								$('#beforeTarget').before(str);
+								
+							},
+							error:function(e){
+								alert("deptName ajax 에러 ");
+							}
+						})
+					})
+					
+					$('#loadApprovalLineModal').hide();
+					Toastify({
+						text:"등록되었습니다.",
+						duration: 2000,
+						close:false,
+						gravity:"top",
+						position:"center",
+						backgroundColor:"black",
+					}).showToast();
+				},
+				error:function(e){
+					alert("불러오기 2 ajax");
+				}
+			})
+						})
 	$.ajax({
 		url:"<c:url value='/emp/showOrganization'/>",
 		type:"get",
@@ -481,7 +499,6 @@ $(function(){
 					tree1.json(structure);
 					tree2.json(structure);
 					tree3.json(structure);
-					var idx1=1;
 					var empName;
 					var deptName;
 					var empNo;
@@ -767,7 +784,7 @@ $(function(){
 				
 				var deptName= $(this).children().eq(2).text();
 				var empNo= $(this).children().eq(1).children('input').val();
-				
+				var deptNo= $(this).children().eq(2).children('input').val();
 				
 				detailTemp+='<li style="height:50px;list-style:none;padding-left:5px;padding-top:15px;padding-bottom:15px;height:120px">';
 				detailTemp+='<div style="float:left;width:50px">';
@@ -776,8 +793,8 @@ $(function(){
 					<!-- 이부분은 empNo를 이용해서 이미지를 구현할지, 매 순간 이미지를 불러올지 고민 -->
 				detailTemp+='</div>';
 				detailTemp+='<div style="float:left; margin-left:10px;height:100%;">';
-				detailTemp+='<div style="font-size:15px;font-weight:bold;color:#00001f">'+$(this).children().eq(1).text()+'</div>';
-				detailTemp+='<div style="font-size:15px;color:#9f9f9f">'+deptName+'</div>';
+				detailTemp+='<div style="font-size:15px;font-weight:bold;color:#00001f">'+$(this).children().eq(1).text()+'<input type="hidden" name="empNo" value='+empNo+'></div>';
+				detailTemp+='<div style="font-size:15px;color:#9f9f9f">'+deptName+'<input type="hidden" name="deptNo" value='+deptNo+'></div>';
 				detailTemp+='<div style="font-size:15px;color:#9f9f9f">결재</div>';
 				detailTemp+='</div>';
 				detailTemp+='</li>';
@@ -827,7 +844,8 @@ $(function(){
 			<!-- 문서 상세에 표시하기  - 수신 -->
 			var empNo2= $(this).children().eq(1).children('input').val();
 			var empName2=$(this).children().eq(1).text();
-			detailTemp2+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName2+'</span>'
+			var deptNo2= $(this).children().eq(2).children('input').val();
+			detailTemp2+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName2+'<input type="hidden" name="empNo" value='+empNo2+'><input type="hidden" name="empNo" value='+deptNo2+'></span>'
 			
 		})
 		
@@ -836,14 +854,15 @@ $(function(){
 		$('#formDetail2').html(detailTemp2);
 		
 		var temp3=$('#add3').parent().parent().nextAll();
-		<!--수신 문서상세에 표시하기 -->
+		<!--열람 문서상세에 표시하기 -->
 		var detailTemp3="";
 		
 		temp3.each(function(idx,item){
-			<!-- 문서 상세에 표시하기  - 수신 -->
+			<!-- 참조 -->
 			var empNo3= $(this).children().eq(0).children('input').val();
 			var empName3=$(this).children().eq(0).text();
-			detailTemp3+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName3+'</span>'
+			var deptNo3= $(this).children().eq(1).children('input').val();
+			detailTemp3+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName3+'<input type="hidden" name="empNo" value='+empNo3+'><input type="hidden" name="empNo" value='+deptNo3+'></span>'
 			
 		})
 		
@@ -852,14 +871,15 @@ $(function(){
 		$('#formDetail3').html(detailTemp3);
 		
 		var temp4=$('#add4').parent().parent().nextAll();
-		<!--수신 문서상세에 표시하기 -->
+		<!--열람 문서상세에 표시하기 -->
 		var detailTemp4="";
 		
 		temp4.each(function(idx,item){
-			<!-- 문서 상세에 표시하기  - 수신 -->
+			<!-- 열람 -->
 			var empNo4= $(this).children().eq(0).children('input').val();
 			var empName4=$(this).children().eq(0).text();
-			detailTemp4+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName4+'</span>'
+			var deptNo4= $(this).children().eq(1).children('input').val();
+			detailTemp4+='<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">'+empName4+'<input type="hidden" name="empNo" value='+empNo4+'><input type="hidden" name="empNo" value='+deptNo4+'></span>'
 			
 		})
 	

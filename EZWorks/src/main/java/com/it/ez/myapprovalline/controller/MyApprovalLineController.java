@@ -1,5 +1,6 @@
 package com.it.ez.myapprovalline.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +46,11 @@ public class MyApprovalLineController {
 		vo.setMalName(malName);
 		vo.setEmpNo(1);
 		return malService.loadMals(vo);
+	}
+	
+	@ResponseBody
+	@GetMapping("/loadDept")
+	public Map<String,Object> loadDept(@RequestParam int malEmpno){
+		return malService.selectDept(malEmpno);
 	}
 }

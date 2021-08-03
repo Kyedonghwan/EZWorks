@@ -18,5 +18,10 @@ public class EmpServiceImpl implements EmpService{
 		
 		return empDao.selectOrganization();
 	}
+
+	@Override
+	public String selectName(int empNo) {
+		return empDao.selectName(empNo);
+	}
 	
 }

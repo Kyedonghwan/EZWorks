@@ -9,4 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EmpDAO {
 	List<Map<String,Object>> selectOrganization();
+	String selectName(int empNo);
 }

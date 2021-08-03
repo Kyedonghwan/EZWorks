@@ -7,7 +7,7 @@
 		<selectKey resultType="int" keyProperty="malNo" order="BEFORE">
 			select mal_seq.nextval from dual
 		</selectKey>
-		insert into myapprovalline values(#{malNo},#{empNo},#{malName},#{malFull})
+		insert into myapprovalline values(#{malNo},#{empNo},#{malName},#{malFull},#{malEmpno})
 	</insert>
 	
 	<select id="loadMal" parameterType="int" resultType="String">
@@ -19,8 +19,13 @@
 	</select>
 	
 	<select id="loadMals" parameterType="MyApprovalLineVo" resultType="map">
-		select a.mal_full as malFull,d.dept_name as deptName from myapprovalline a join emp b on a.emp_no=b.emp_no join dept d on b.dept_no=d.dept_no where a.mal_name=#{malName} and a.emp_no=#{empNo}
+		select a.mal_full as malFull,d.dept_name as deptName,a.mal_empno as malEmpno from myapprovalline a join emp b on a.emp_no=b.emp_no join dept d on b.dept_no=d.dept_no where a.mal_name=#{malName} and a.emp_no=#{empNo}
 	</select> 
+	
+	<select id="selectDept" parameterType="int" resultType="map">
+		select distinct d.dept_name as deptName, d.dept_no as deptNo from dept d join emp e on d.dept_no=e.dept_no where e.emp_no=#{malEmpno}
+	</select>
+	 
 </mapper>
 
 

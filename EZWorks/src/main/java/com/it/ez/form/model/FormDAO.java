@@ -12,4 +12,5 @@ public interface FormDAO {
 	int insertUsedForm(Map<String, Object> map);
 	List<Map<String,Object>> showUsedForm(int empNo);
 	int isDuplUsedForm(Map<String,Object> map);
+	
 }

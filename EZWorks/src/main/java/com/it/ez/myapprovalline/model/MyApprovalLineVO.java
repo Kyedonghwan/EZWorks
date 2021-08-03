@@ -14,4 +14,5 @@ public class MyApprovalLineVO {
 	private int empNo;
 	private String malName;
 	private String malFull;
+	private int malEmpno;
 }

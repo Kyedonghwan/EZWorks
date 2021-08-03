@@ -11,4 +11,5 @@ public interface MyApprovalLineDAO {
 	List<String> loadMal(int empNo);
 	int isDuplMalName(MyApprovalLineVO vo);
 	List<Map<String,Object>> loadMals(MyApprovalLineVO vo);
+	Map<String,Object> selectDept(int malEmpno);
 }

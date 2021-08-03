@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.approval.model.ApprovalDAO">
+	<insert id="insertApproval" parameterType="ApprovalVO">
+		<selectKey resultType="int" keyProperty="approvalNo" order="BEFORE">
+			select approval_seq.nextval from dual
+		</selectKey>
+		insert into approval(approval_no,approval_stringno,form_no,emp_no,dept_no,form3_title,form3_content,current_state,emergency,approval_draftingopinion,currentOrder) values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},#{deptNo},#{form3Title},#{form3Content},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder})
+	</insert>
+	
+	<insert id="insertApprovalLine" parameterType="ApprovalLineVO">
+		<selectKey resultType="int" keyProperty="alNo" order="BEFORE">
+			select al_seq.nextval from dual
+		</selectKey>
+		insert into approvalLine(al_no,emp_no,dept_no,approval_no,al_order,isReceptedApproval) values(#{alNo},#{empNo},#{deptNo},#{approvalNo},#{alOrder},#{isReceptedApproval})
+	</insert>
+	
+	<insert id="insertReference" parameterType="referenceVO">
+		<selectKey resultType="int" keyProperty="referenceNo" order="BEFORE">
+			select reference_seq.nextval from dual
+		</selectKey>
+		insert into reference values (#{referenceNo},#{empNo},#{approvalNo},#{deptNo})
+	</insert>
+	
+	<insert id="insertBrowse" parameterType="browseVO">
+		<selectKey resultType="int" keyProperty="browseNo" order="BEFORE">
+			select browse_seq.nextval from dual
+		</selectKey>
+		insert into browse values (#{browseNo},#{empNo},#{approvalNo})
+	</insert>
+	
+	<insert id="insertReception" parameterType="receptionVO">
+		<selectKey resultType="int" keyProperty="receptionNo" order="BEFORE">
+			select reception_seq.nextval from dual
+		</selectKey>
+		insert into reception values (#{receptionNo},#{empNo},#{approvalNo},#{isRecepted})
+	</insert>
+	
+	<select id="selectWaitApproval" parameterType="int" resultType="map">
+		select b.*,e.emp_name,f.form_name,f.form_no,p.pos_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no where a.emp_no=#{empNo} and a.al_order=b.currentOrder and b.current_state='진행중'
+	</select>
+	
+	<select id="selectStamp" parameterType="int" resultType="map">
+		select a.approval_no,a.al_opinion,a.al_order,a.al_regdate,a.current_state,d.dept_name,e.emp_name,p.pos_name,r.currentOrder from approvalline a join emp e on a.emp_no=e.emp_no join position p on p.pos_no=e.pos_no join approval r on r.approval_no=a.approval_no join dept d on d.dept_no=e.dept_no where a.approval_no=#{approvalNo}
+	</select>
+	
+	<select id="selectWaitApprovalVO" parameterType="int" resultType="map">
+		select b.*,e.emp_name,f.form_name,f.form_no,p.pos_name,d.dept_name from approval b join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no join dept d on b.dept_no=d.dept_no where b.approval_no=#{approvalNo}
+	</select>
+	
+	<select id="selectApprovalByNo" parameterType="int" resultType="approvalVo">
+		select * from approval where approval_no=#{approvalNo}
+	</select>
+	
+	<select id="selectReference" parameterType="int" resultType="map">
+		select e.emp_name,p.pos_name from approval a join reference r on a.approval_no=r.approval_no join emp e on r.emp_no=e.emp_no join position p on e.pos_no=p.pos_no where a.approval_no=#{approvalNo}
+	</select>
+	<select id="selectBrowse" parameterType="int" resultType="map">
+		select e.emp_name,p.pos_name from approval a join browse r on a.approval_no=r.approval_no join emp e on r.emp_no=e.emp_no join position p on e.pos_no=p.pos_no where a.approval_no=#{approvalNo}
+	</select>
+	<select id="selectReception" parameterType="int" resultType="map">
+		select e.emp_name,p.pos_name from approval a join reception r on a.approval_no=r.approval_no join emp e on r.emp_no=e.emp_no join position p on e.pos_no=p.pos_no where a.approval_no=#{approvalNo}
+	</select>
+	
+	<update id="updateApproval" parameterType="int">
+		update approval set currentOrder=currentOrder+1 where approval_no=#{approvalNo}
+	</update>	
+	
+	<update id="updateApprovalLine" parameterType="approvalLineVo">
+		update approvalline set al_opinion=#{alOpinion},al_regdate=sysdate,current_state='결재완료' where approval_no=#{approvalNo} and emp_no=#{empNo}
+	</update>
+	
+	<select id="isCompleteApproval" parameterType="int" resultType="int">
+		select count(*) from approval where currentOrder=(select max(al_order) from approvalline where approval_no=#{approval_no})
+	</select>
+	
+	<update id="updateCurrentStateComplete" parameterType="int">
+		update approval set current_state='결재완료' where approval_no=#{approvalNo}
+	</update> 
+	
+	<update id="updateCurrentStateDisagree" parameterType="int">
+		update approval set current_state='반려' where approval_no=#{approvalNo}
+	</update> 
+	
+	<update id="updateApprovalLineDisagree" parameterType="approvalLineVo">
+		update approvalline set current_state='반려' where approval_no=#{approvalNo} and emp_no=#{empNo}
+	</update>
+	
+	<select id="selectCompleteApproval" parameterType="int" resultType="map">
+		select b.*,e.emp_name,f.form_name,f.form_no,p.pos_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no where a.emp_no=#{empNo} and a.al_regdate is not null and not b.current_state='임시저장'
+	</select>
+	
+	<select id="selectApprovalLineOrder" parameterType="approvalLineVo" resultType="Integer">
+		select al_order from approvalline where approval_no=#{approvalNo} and emp_no=#{empNo} 
+	</select>
+	
+	<update id="updateApprovalCancel" parameterType="int">
+		update approval set currentOrder=currentOrder-1 where approval_no=#{approvalNo} and not current_state='임시저장'
+	</update> 
+	
+	<update id="updateApprovalLineCancel" parameterType="approvalLineVo">
+		update approvalline set al_regdate=null,al_opinion=null,current_state=null where approval_no=#{approvalNo} and emp_no=#{empNo}
+	</update>
+	
+	<select id="selectBrowseByEmpNo" parameterType="int" resultType="map">
+		select a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'열람' as kind from browse b join approval a on a.approval_no=b.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where b.emp_no=#{empNo} and a.current_state='결재완료' order by approval_regdate
+	</select>
+
+	<select id="selectReferenceByEmpNo" parameterType="int" resultType="map"> 
+		select a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'참조' as kind from reference r join approval a on a.approval_no=r.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where r.emp_no=#{empNo} and not a.current_state='임시저장' order by approval_regdate 
+	</select>
+	
+	<select id="selectUnionRef" parameterType="int" resultType="map">
+		select a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'열람' as kind from browse b join approval a on a.approval_no=b.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where b.emp_no=#{empNo} and a.current_state='결재완료' union all
+		select a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'참조' as kind from reference r join approval a on a.approval_no=r.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where r.emp_no=#{empNo} and not a.current_state='임시저장' order by approval_regdate 
+	</select>
+	
+	<select id="selectDraftAll" parameterType="int" resultType="map">
+		select a.approval_regdate,a.approval_no,f.form_no,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state from approval a join approvalline b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on a.form_no=f.form_no where a.emp_no=#{empNo} and a.currentOrder=b.al_order and not a.current_state='임시저장'
+	</select>
+	
+	<select id="selectDraftContinue" parameterType="int" resultType="map">
+		select a.approval_regdate,a.approval_no,f.form_no,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state from approval a join approvalline b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on a.form_no=f.form_no where a.emp_no=#{empNo} and a.currentOrder=b.al_order and a.current_state='진행중'
+	</select>
+	
+	<select id="selectDraftAgree" parameterType="int" resultType="map">
+		select a.approval_regdate,a.approval_no,f.form_no,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state from approval a join approvalline b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on a.form_no=f.form_no where a.emp_no=#{empNo} and a.currentOrder=b.al_order and a.current_state='결재완료'
+	</select>
+	
+	<select id="selectDraftDisagree" parameterType="int" resultType="map">
+		select a.approval_regdate,a.approval_no,f.form_no,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state from approval a join approvalline b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on a.form_no=f.form_no where a.emp_no=#{empNo} and a.currentOrder=b.al_order and a.current_state='반려'
+	</select>
+	
+	<select id="selectTempList" parameterType="int" resultType="map">
+		select b.*,e.emp_name,f.form_name,f.form_no,p.pos_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no where b.emp_no=#{empNo} and b.current_state='임시저장'
+	</select>
+	
+	<delete id="deleteReference" parameterType="int">
+		delete from reference where approval_no=#{approvalNo}
+	</delete>
+	
+	<delete id="deleteBrowse" parameterType="int">
+		delete from browse where approval_no=#{approvalNo}
+	</delete>
+	
+	<delete id="deleteReception" parameterType="int">
+		delete from reception where approval_no=#{approvalNo}
+	</delete>
+	
+	<delete id="deleteApprovalLine" parameterType="int">
+		delete from approvalline where approval_no=#{approvalNo}
+	</delete>
+	
+	<delete id="deleteApproval" parameterType="int">
+		delete from approval where approval_no=#{approvalNo}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+

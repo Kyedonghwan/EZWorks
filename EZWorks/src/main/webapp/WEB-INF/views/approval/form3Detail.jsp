@@ -3,6 +3,8 @@
 <%@ include file="../include/top.jsp" %>				
 <%@ include file="sideMenu.jsp" %>			
 <%@ include file="../include/middle.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
@@ -91,12 +93,19 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                 <div class="card-body">
                     <div class="table-responsive project-list">
   
-                    	<button type="button" class="btn btn-primary btn-sm approvalBtn">결재요청</button>
-						<button type="button" class="btn btn-primary btn-sm tempSaveBtn">임시저장</button>
-						<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
-						<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
-						<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
-						
+  						<c:if test="${myEmpNo!=null && approval.empNo==myEmpNo && approval.currentState=='진행중'}">
+                        		<button type="button" class="btn btn-primary btn-sm cancelDraftBtn">상신취소</button>
+                        	</c:if>
+                        	<c:if test="${approvalLineOrder!=null && approvalLineOrder==approval.currentOrder && approval.currentState=='진행중'}">
+		                    	<button type="button" class="btn btn-primary btn-sm agreeBtn">결재</button>
+								<button type="button" class="btn btn-primary btn-sm disagreeBtn">반려</button>
+								<button type="button" class="btn btn-primary btn-sm stopBtn">보류</button>
+							</c:if>
+							<c:if test="${approvalLineOrder!=null}">
+								<c:if test="${(approvalLineOrder+1)==approval.currentOrder && approval.currentState=='진행중'}">
+									<button type="button" class="btn btn-primary btn-sm cancelBtn">결재취소</button>
+								</c:if>
+							</c:if>
                         <div style="border:3px solid gray;margin-top:20px;padding:20px">
                         	<table>
                         		<tr>
@@ -122,10 +131,66 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										품 &nbsp;의 &nbsp;서
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: right;" colspan="4">
-														<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea"><span class="sign_tit_wrap"><span class="sign_tit"><strong>신청</strong></span></span><span class="sign_member_wrap" id="activity_15824"><span class="sign_member"><span class="sign_rank_wrap"><span class="sign_rank">대표이사</span></span><span class="sign_wrap"><span class="sign_name"> <strong> 김상후 </strong> </span></span><span class="sign_date_wrap"><span class="sign_date" id="date_15824"></span></span></span></span></span>
-														  
-														  
-														  <!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span unselectable="on" contenteditable="false" class="comp_wrap" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span><span contenteditable="false" class="comp_hover" data-content-protect-cover="true" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span></span><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><br>
+														<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea">
+															<span class="sign_tit_wrap">
+																<span class="sign_tit">
+																	<strong>신청</strong>
+																</span>
+															</span>
+															<span class="sign_member_wrap" id="activity_15824">
+																<span class="sign_member">
+																	<span class="sign_rank_wrap">
+																		<span class="sign_rank">${vo['POS_NAME']}</span>
+																	</span>
+																	<span class="sign_wrap">
+																		<span class="sign_stamp">
+																			<img src="https://tour.daouoffice.com/resources/images/stamp_approved.png">
+																		</span>
+																		<span class="sign_name"> <strong> ${vo['EMP_NAME']} </strong> 
+																		</span>
+																	</span>
+																	<span class="sign_date_wrap">
+																		<span class="sign_date" id="date_15824"><fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy/MM/dd"/></span>
+																	</span>
+																</span>
+															</span>
+													</span>
+													<span class="sign_type1_inline" data-group-seq="1" data-group-name="승인" data-group-max-count="10" data-group-type="type1" data-is-reception="">
+														<span class="sign_tit_wrap">
+															<span class="sign_tit">
+																<strong>승인</strong>
+															</span>
+														</span>
+														<c:forEach var="item" items="${stampList}">
+															<span class="sign_member_wrap">
+																<span class="sign_member">
+																	<span class="sign_rank_wrap">
+																		<span class="sign_rank">${item["POS_NAME"] }</span>
+																	</span>
+																	<span class="sign_wrap">
+																		<c:if test="${item['CURRENT_STATE']=='결재완료'}">
+																			<span class="sign_stamp">
+																			<img src="https://tour.daouoffice.com/resources/images/stamp_approved.png">
+																			</span>
+																		</c:if>
+																		<span class="sign_name">${item["EMP_NAME"] }</span>
+																	</span>
+																	<span class="sign_date_wrap">
+																		<span class="sign_date">
+																			<c:if test="${item['CURRENT_STATE']=='결재완료'}">
+																				<fmt:formatDate value="${item['AL_REGDATE']}" pattern="yyyy/MM/dd"/>
+																			</c:if>
+																			<c:if test="${item['CURRENT_STATE']=='반려'}">
+																				<fmt:formatDate value="${item['AL_REGDATE']}" pattern="MM/dd(반려)"/>
+																			</c:if>
+																		</span>
+																	</span>
+																</span>
+															</span>
+														</c:forEach>
+														
+													</span>
+													<span unselectable="on" contenteditable="false" class="comp_wrap" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span><span contenteditable="false" class="comp_hover" data-content-protect-cover="true" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span></span><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><br>
 													</td>
 												</tr>
 												<tr>
@@ -134,21 +199,21 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										기안부서
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="8" data-dsl="{{label:draftDept}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">EZ그룹</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="8" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
+														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="8" data-dsl="{{label:draftDept}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['DEPT_NAME']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="8" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
 														
 										기 안 일
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="10" data-dsl="{{label:draftDate}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${today}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="10" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
+														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="10" data-dsl="{{label:draftDate}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd "/></span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="10" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
 														
 										문서번호
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left; font-size: 12px;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="12" data-dsl="{{label:docNo}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${approvalNo }</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="12" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
+														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="12" data-dsl="{{label:docNo}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['APPROVAL_STRINGNO']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="12" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
 													</td>
 												</tr>
 												<tr>
@@ -157,7 +222,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										기 안 자
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="9" data-dsl="{{label:draftUser}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">김상후</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="9" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
+														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="9" data-dsl="{{label:draftUser}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['EMP_NAME']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="9" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
 														
@@ -190,17 +255,6 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 											</tbody>
 										</table>
 										 
-										 <!-- 마진 끝 --> 
-										 <!-- 합의 시작 --> 
-										 
-										 
-										 <!-- 합의 끝 --> 
-										 <!-- 마진 시작--> 
-										 
-										 
-										 <!-- 마진 끝--> 
-										 <!-- 제목 및 내용 시작 --> 
-										 
 										<table style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 1px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"><colgroup> 
 										   <col style="width: 90px;"> 
 										   <col style="width: 710px;"> 
@@ -213,12 +267,12 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										제 &nbsp;&nbsp;&nbsp; 목
 													</td>
 													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{text:subject}}" data-wrapper="" style="width: 100%; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value=""><input style='width:100%' id="approvalName1" class="ipt_editor" type="text"><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="6" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
+														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{text:subject}}" data-wrapper="" style="width: 100%; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="">${approval.form3Title }<span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="6" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
 													</td>
 												</tr>
 												<tr>
 													<td style="padding: 3px; height: 540px; vertical-align: top; border: 1px solid black; " colspan="2">
-														<textarea id="summernote" style="width:100%;height:100%" name="postingContent"></textarea>
+														${approval.form3Content}
 													</td>
 												</tr>
 											</tbody>
@@ -240,21 +294,19 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 									</td>
                         		</tr>
                         		<tr>
-                        			<td style="font-weight:bold">파일첨부
+                        			<td style="font-weight:bold">첨부 파일
                         			</td>
                         			<td>
-						                <!-- File uploader with multiple files upload -->
-						                <input type="file" class="multiple-files-filepond" name="file" multiple="true">
+						                
                         			</td>
                         		</tr>
                         		<tr>
-                        			<td style="font-weight:bold">관련문서
+                        			<td style="font-weight:bold">첨부 관련 문서
                         			</td>
                         			<td>
-                        				<button type="button" class="btn btn-primary btn-sm" id="searchApproval">문서검색</button>
+                        				
                         			</td>
                         		</tr>
-                        		
                         	</table>
                         </div>
                        
@@ -275,18 +327,36 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							  				<img style="width:100%;height:100%;border-radius:25px" src="https://tour.daouoffice.com/thumb/user/small/4301-212117">
 							  			</div>
 							  			<div style="float:left; margin-left:10px;height:100%;">
-							  				<div style="font-size:15px;font-weight:bold;color:#00001f">김상후 대표이사</div>
-							  				<div style="font-size:15px;color:#9f9f9f">EZ그룹</div>
-							  				<div style="font-size:15px;color:#9f9f9f">기안</div>
+							  				<div style="font-size:15px;font-weight:bold;color:#00001f">${vo['EMP_NAME']} ${vo['POS_NAME'] }</div>
+							  				<div style="font-size:15px;color:#9f9f9f">${vo['DEPT_NAME']}</div>
+							  				<div style="font-size:15px;color:#9f9f9f">기안 상신&nbsp;|&nbsp;<fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd(E) hh:MM"/></div>
+							  				<c:if test="${approval.approvalDraftingOpinion!=null}">
+							  					<p style="padding:4px 8px;background:#f4f4f4;color:black;font-weight:bold;margin-top:8px">${approval.approvalDraftingOpinion}</p>
+							  				</c:if>
 							  			</div>
 							  		</li>
+							  		<c:forEach var="item" items="${stampList}">
+							  			<li style="height:50px;list-style:none;padding-left:5px;padding-top:15px;padding-bottom:15px;height:120px;background-color:#f2f7ff">
+								  			<div style="float:left;width:50px">
+								  				<img style="width:100%;height:100%;border-radius:25px" src="https://tour.daouoffice.com/thumb/user/small/4301-212117">
+								  			</div>
+								  			<div style="float:left; margin-left:10px;height:100%;">
+								  				<div style="font-size:15px;font-weight:bold;color:#00001f">${item['EMP_NAME']} ${item['POS_NAME'] }</div>
+								  				<div style="font-size:15px;color:#9f9f9f">${item['DEPT_NAME']}</div>
+								  				<div style="font-size:15px;color:#9f9f9f"><c:if test="${approval.currentOrder==item['AL_ORDER']&& item['CURRENT_STATE']==null}">결재 대기</c:if><c:if test="${approval.currentOrder!=item['AL_ORDER']&& item['CURRENT_STATE']==null}">결재 예정</c:if><c:if test="${item['CURRENT_STATE']=='결재완료'}">결재 완료</c:if><c:if test="${item['CURRENT_STATE']=='반려'}">반려</c:if><c:if test="${item['AL_REGDATE']!=null }">&nbsp;|&nbsp;<fmt:formatDate value="${item['AL_REGDATE']}" pattern="yyyy-MM-dd(E) hh:MM"/></div></c:if>
+								  				<c:if test="${item['AL_OPINION']!=null}">
+								  					<p style="padding:4px 8px;background:#f4f4f4;color:black;font-weight:bold;margin-top:8px">${item['AL_OPINION']}</p>
+								  				</c:if>
+								  			</div>
+							  			</li>
+							  		</c:forEach>
 							  	</ul>
 							  </div>
 							  <div class="tab-pane fade" id="formInfoDetail" style="height:350px;width:100%">
 							  	<table style="height:100%;width:100%">
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">문서번호</th>
-							  			<td style="color:#00001f;font-weight:bold;font-size:14px" id="approvalStringNo">${approvalStringNo}</td>
+							  			<td style="color:#00001f;font-weight:bold;font-size:14px" id="approvalStringNo">${vo['APPROVE_STRINGNO']}</td>
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">비밀등급</th>
@@ -302,15 +372,29 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">문서참조</th>
-							  			<td id="formDetail3"></td>
+							  			<td id="formDetail3">
+							  				<c:forEach var="item" items="${reference }">
+							  					<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">${item["EMP_NAME"]} ${item["POS_NAME"]}</span>
+							  				</c:forEach>
+							  			</td>
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">문서열람</th>
-							  			<td id="formDetail4"></td>
+							  			<td id="formDetail4">
+							  				<c:forEach var="item" items="${browse }">
+							  					<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">${item["EMP_NAME"]} ${item["POS_NAME"]}</span>
+							  				</c:forEach>
+							  			</td>
+							  			
+			
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">문서수신</th>
-							  			<td id="formDetail2"></td>
+							  			<td id="formDetail2">
+							  				<c:forEach var="item" items="${reception}">
+							  					<span style="border-radius:5px;background-color:#f2f7ff;color:#00001f;font-weight:bold;margin-right:10px">${item["EMP_NAME"]} ${item["POS_NAME"]}</span>
+							  				</c:forEach>
+							  			</td>
 							  		</tr>
 							  	</table>
 							  </div>
@@ -318,11 +402,19 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                         </div>
                         
                         <div style="margin-top:20px;padding-top:0px">
-                        	<button type="button" class="btn btn-primary btn-sm approvalBtn">결재요청</button>
-							<button type="button" class="btn btn-primary btn-sm tempSaveBtn">임시저장</button>
-							<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
-							<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
-							<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
+                        	<c:if test="${myEmpNo!=null && approval.empNo==myEmpNo && approval.currentState=='진행중'}">
+                        		<button type="button" class="btn btn-primary btn-sm cancelDraftBtn">상신취소</button>
+                        	</c:if>
+                        	<c:if test="${approvalLineOrder!=null && approvalLineOrder==approval.currentOrder && approval.currentState=='진행중'}">
+		                    	<button type="button" class="btn btn-primary btn-sm agreeBtn">결재</button>
+								<button type="button" class="btn btn-primary btn-sm disagreeBtn">반려</button>
+								<button type="button" class="btn btn-primary btn-sm stopBtn">보류</button>
+							</c:if>
+							<c:if test="${approvalLineOrder!=null}">
+								<c:if test="${(approvalLineOrder+1)==approval.currentOrder && approval.currentState=='진행중'}">
+									<button type="button" class="btn btn-primary btn-sm cancelBtn">결재취소</button>
+								</c:if>
+							</c:if>
                         </div>
                     </div>
                 </div>
@@ -343,6 +435,8 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 			</div>
 		</div>
 	</div>
+	
+	
 <script src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
 <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
 <script src="<c:url value='/resources/vendors/fontawesome/all.min.js'/>"></script>
@@ -395,51 +489,23 @@ FilePond.create( document.querySelector('.multiple-files-filepond'), {
     storeAsFile: true
 });
 </script>
-
-
-<div class="modal" tabindex="-1" id="cancelModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">작성 취소</h5>
-        <button type="button" class="btn-close cancelModal-close" data-dismiss="modal" aria-label="Close">
-         X</button>
-      </div>
-      <div class="modal-body">
-        <h5>문서작성을 취소하시겠습니까?</h5>
-       
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary cancelModalOk">확인</button>
-        <button type="button" class="btn btn-secondary cancelModal-close" data-dismiss="modal">취소</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-$(function(){
-	$('.cancelModal-close').click(function(){
-		$('#cancelModal').hide();
-	});
-
-	$('.cancelBtn').click(function(){
-		$('#cancelModal').show();
-	}) 
-
-	$('.cancelModalOk').click(function(){
-		window.history.back();
-	});
-})
-</script>
-
-
 <%@include file="selectFormModal.jsp"%>
-<%@include file="approvalInfoModal.jsp"%>
-<%@include file="draftingOpinionModal.jsp"%>
-<%@include file="tempModal.jsp"%>
+
+<c:if test="${myEmpNo!=null && approval.empNo==myEmpNo && approval.currentState=='진행중'}">
+	<%@include file="cancelDraftModal.jsp"%>
+</c:if>
+
+<c:if test="${approvalLineOrder!=null && approvalLineOrder==approval.currentOrder && approval.currentState=='진행중'}">
+<%@include file="approvalDisagreeModal.jsp"%>
+<%@include file="approvalAgreeModal.jsp"%>
+</c:if>
+
+<c:if test="${approvalLineOrder!=null}">
+	<c:if test="${from=='complete' && (approvalLineOrder+1)==approval.currentOrder && approval.currentState=='진행중'}">
+		<%@include file="approvalCancelModal.jsp"%>						
+	</c:if>
+</c:if>
+
 </body>
 
 </html>	

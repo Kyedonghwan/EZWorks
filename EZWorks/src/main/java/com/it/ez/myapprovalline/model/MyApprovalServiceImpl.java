@@ -37,7 +37,12 @@ public class MyApprovalServiceImpl implements MyApprovalLineService{
 	public List<Map<String, Object>> loadMals(MyApprovalLineVO vo) {
 		return dao.loadMals(vo);
 	}
-
 	
+	
+
+	@Override
+	public Map<String, Object> selectDept(int malEmpno) {
+		return dao.selectDept(malEmpno);
+	}
 	
 }

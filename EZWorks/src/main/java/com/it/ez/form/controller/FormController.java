@@ -57,10 +57,12 @@ public class FormController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		String today = sdf.format(d);
 		sdf = new SimpleDateFormat("yyyyMMddssSSS");
-		String approvalNo = sdf.format(d);
-		approvalNo="EZ그룹 - "+approvalNo;
+		String approvalStringNo = sdf.format(d);
+		approvalStringNo="EZ그룹 - "+approvalStringNo;
 		model.addAttribute("today",today);
-		model.addAttribute("approvalNo",approvalNo);
+		model.addAttribute("approvalStringNo",approvalStringNo);
 		return "approval/form3";
 	}
+	
+	
 }
