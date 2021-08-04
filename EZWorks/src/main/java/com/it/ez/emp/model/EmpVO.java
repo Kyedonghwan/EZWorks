@@ -25,4 +25,5 @@ public class EmpVO {
 	private String empImg;
 	private int deptNo;
 	private int posNo;
+	private String posName;
 }

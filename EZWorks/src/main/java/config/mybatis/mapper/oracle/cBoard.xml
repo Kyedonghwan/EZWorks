@@ -13,15 +13,20 @@
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select c_board_seq.nextval from dual
 		</selectKey>
-		insert into c_board(board_No, board_Name, board_Master, intro, publicSet)
-		values(#{boardNo}, #{boardName}, #{boardMaster}, #{intro}, #{publicSet})
+		insert into c_board(community_No, board_No, board_Name, board_Master, board_type, intro, publicSet)
+		values(#{communityNo}, #{boardNo}, #{boardName}, #{boardMaster}, #{boardType}, #{intro}, #{publicSet})
 	</insert>
 	
 	<!-- 커뮤니티별 게시판 목록 보기용 -->
 	<select id="selectC_boardByNo" parameterType="int" resultType="C_boardVO">
-		select * from c_board
+		select A.* from 
+			(
+				select c.*, e.emp_Name as 운영자
+				from c_board c left join emp e 
+				on c.BOARD_MASTER=e.EMP_NO
+			)A
 		where community_No=#{communityNo}
-		order by board_No
+		order by a.board_No
 	</select>
 	
 	<update id="updateC_board" parameterType="C_boardVO">
@@ -39,10 +44,10 @@
 		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
 			select c_boardContent_seq.nextval from dual
 		</selectKey>
-		insert into c_boardClassic(content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+		insert into c_boardClassic(community_No, content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
 							Pos_No, Pos_Name, title, text,
 							group_No, images, fileName, fileSize, originalFileName)
-		values(#{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+		values(#{communityNo}, #{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
 			  	#{posNo}, #{posName}, #{title}, #{text}, #{contentNo}, 
 				#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, 
 				#{fileSize}, #{originalFileName})
@@ -64,11 +69,22 @@
 		order by regdate desc
 	</select>
 	
+	<select id="selectC_boardClassicCount" parameterType="int" resultType="int">
+		select count(*) from c_boardClassic
+		where community_No=${communityNo}
+		order by regdate desc
+	</select>
+	
 	<select id="selectC_boardFeedAll" resultType="C_boardFeedVO">
 		select * from c_boardFeedView
 		order by regdate desc
 	</select>
 	
+	<select id="selectC_boardFeedCount" parameterType="int" resultType="int">
+		select count(*) from c_boardFeed
+		where community_No=${communityNo}
+		order by regdate desc
+	</select>
 
 	<!-- 개별 커뮤니티 클래식 글 전체 보기용 -->
 	<select id="selectC_boardClassicMain" parameterType="int" resultType="C_boardClassicVO">

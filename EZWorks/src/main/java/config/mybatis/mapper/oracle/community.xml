@@ -11,29 +11,39 @@
 		values(#{communityNo}, #{communityName}, #{intro}, #{publicSet})
 	</insert>
 	
-	<select id="selectCommunity" resultType="CommunityVO">
+	<select id="selectCommunity" resultType="CommunityMemberVO">
 		select * from community
-		order by community_No desc
+		order by community_No
+	</select>
+	
+	<select id="selectCommunityMaster" parameterType="int" resultType="String">
+		select member_Name from communityMemberView
+		where Community_Level=3 and community_No=#{communityNo}
 	</select>
 	
 	<select id="selectCommunityByNo" parameterType="int" resultType="CommunityVO">
 		select * from community
 		where community_No=#{communityNo}
 	</select>
-	
-	<select id="selectCommunityMember" parameterType="int" resultType="CommunityLevelVO">
+		
+	<select id="selectCommunityByMember" parameterType="int" resultType="CommunityMemberVO">
+		select * from communityMemberView
+		where member_No=#{memberNo}
+	</select>
+
+	<select id="selectMember" parameterType="int" resultType="CommunityMemberVO">
 		select * from communityMemberView
 		where community_No=#{communityNo}
 	</select>
 	
-	<insert id="insertCommunityMember" parameterType="CommunityLevelVO">
-		insert into community_level(COMMUNITY_NO, COMMUNITY_MEMBER, COMMUNITY_LEVEL)
-		values(#{communityNo},#{EmpNo},#{communityLevel})
+	<insert id="insertCommunityMember" parameterType="CommunityMemberVO">
+		insert into COMMUNITY_MEMBER(COMMUNITY_NO,MEMBER_NO,COMMUNITY_LEVEL)
+		values(#{communityNo},#{MemberNo},#{communityLevel})
 	</insert>
 	
 	<update id="updateCommunityCount" parameterType="communityVO">
 		update community
-		set community_Count=#{communityCount}
+		set MEMBER_COUNT=#{memberCount}
 		where community_No=#{communityNo}		
 	</update>
 </mapper>

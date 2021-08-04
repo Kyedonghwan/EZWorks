@@ -1,11 +1,13 @@
 package com.it.ez.communityBoard.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.it.ez.community.common.CommunitySearchVO;
+import com.it.ez.community.model.CommunityVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -97,6 +99,15 @@ public class C_boardServiceImpl implements C_boardService{
 	@Override
 	public List<C_boardFeedVO> selectFeed(C_boardFeedVO feedVo) {
 		return c_boardDao.selectFeed(feedVo);
+	}
+
+	@Override
+	public int selectC_boardCount(int communityNo) {
+		int cnt1=c_boardDao.selectC_boardClassicCount(communityNo);
+		int cnt2=c_boardDao.selectC_boardFeedCount(communityNo);
+		int sum=cnt1+cnt2;
+		
+		return sum;
 	}
 	
 	

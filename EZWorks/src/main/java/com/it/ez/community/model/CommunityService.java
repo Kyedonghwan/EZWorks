@@ -7,8 +7,10 @@ import com.it.ez.communityBoard.model.C_boardVO;
 
 public interface CommunityService {
 	int insertCommunity(CommunityVO vo);
-	List<CommunityVO> selectCommunity();
+	List<CommunityMemberVO> selectCommunity();
 	CommunityVO selectCommunityByNo(int communityNo);
-	List<CommunityLevelVO>selectCommunityMember(int communityNo);
-	int insertCommunityMember(CommunityLevelVO levelVo);
+	List<CommunityMemberVO>selectCommunityByMember(int memberNo);
+	List<CommunityMemberVO>selectMember(int commnityNo);
+	int insertCommunityMember(CommunityMemberVO memVo);
+	String selectCommunityMaster(int communityNo);
 }

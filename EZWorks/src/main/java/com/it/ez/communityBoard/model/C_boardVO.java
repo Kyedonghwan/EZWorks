@@ -11,6 +11,7 @@ public class C_boardVO {
 	private int boardNo;
     private String boardName;
     private String boardMaster;
+    private int boardType;
     private String intro;
     private String publicSet;
     private int communityNo;

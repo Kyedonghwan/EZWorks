@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.it.ez.communityBoard.model.C_boardClassicVO;
-import com.it.ez.communityBoard.model.C_boardVO;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,7 +17,7 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public List<CommunityVO> selectCommunity() {
+	public List<CommunityMemberVO> selectCommunity() {
 		return communityDao.selectCommunity();
 	}
 
@@ -29,13 +27,29 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public List<CommunityLevelVO> selectCommunityMember(int communityNo) {
-		return communityDao.selectCommunityMember(communityNo);
+	public List<CommunityMemberVO> selectCommunityByMember(int memberNo) {
+		return communityDao.selectCommunityByMember(memberNo);
 	}
 
 	@Override
-	public int insertCommunityMember(CommunityLevelVO levelVo) {
-		return communityDao.insertCommunityMember(levelVo);
+	public List<CommunityMemberVO> selectMember(int commnityNo) {
+		return communityDao.selectMember(commnityNo);
 	}
+
+	@Override
+	public int insertCommunityMember(CommunityMemberVO memVo) {
+		int cnt=communityDao.insertCommunityMember(memVo);
+		if(cnt>0) {
+			CommunityVO vo=new CommunityVO();
+			int result=communityDao.updateCommunityCount(vo);
+		}
+		return cnt;
+	}
+
+	@Override
+	public String selectCommunityMaster(int communityNo) {
+		return communityDao.selectCommunityMaster(communityNo);
+	}
+
 
 }

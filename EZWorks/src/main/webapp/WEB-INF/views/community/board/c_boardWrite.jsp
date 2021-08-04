@@ -7,29 +7,35 @@
 		padding:0;
 	}
 </style>
+
+<!-- toastify-->
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
+
+<!-- filefond css-->
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">		
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 <script type="text/javascript">	
 $(function(){
 	$('#btnSubmit').click(function(){
 		var selectVal= $('#selectBoard option:selected').val();
-		$('input[name=boardNo]').val($('#selectBoard option:selected').val());
-		
-		if(selectVal==null || selectVal.isEmpty()){
+		$('input[name=boardNo]').val(selectVal);
+	
+		if(selectVal==0){
 			Toastify({
                 text: "게시판을 선택하세요",
-                duration: 2000,
+                duration: 5000,
                 close:false,
                 gravity:"top",
                 position: "center",
-                backgroundColor: "#4fbe87",
+                backgroundColor: "#b6baea",
             }).showToast();
-			event.preventDefault();
-			$('select[name=communityBoard]').focus();
+			return false;
+			$('#selectBoard').focus();
 		}else{
 			$('.frmWrite').submit();
 		}	
@@ -39,7 +45,6 @@ $(function(){
 
 <%@ include file="../../community/sidebar/sidebar2.jsp" %>	
 <%@ include file="../../include/middle.jsp" %>
-
 <!-- 소메뉴별 컨텐츠 구성 영역 -->
 <section class="row">
 	<div class="col-12 col-lg-12">
@@ -47,15 +52,18 @@ $(function(){
 			<h5 class="card-title">글쓰기</h5>
 		</div>
 		<div class="card-body">
-			<form class="frmWrite" method="post" action="<c:url value='/community/c_boardWrite?communityNo=${param.communityNo}'/>">
+			<form class="frmWrite" method="post" enctype="multipart/form-data"
+				action="<c:url value='/community/c_boardWrite?communityNo=${param.communityNo}'/>">
 			   <input type="hidden" name="boardNo">
+			   <input type="hidden" name="communityName" value="${vo.communityName}">
 			   <div class="form-group row align-items-center">
 			   		<div class="col-1">
                         <label class="col-form-label" for="communityBoard">TO.</label>
                     </div>
                     <div class="col-8">
 		              	<select class="form-select" id="selectBoard" name="selectBoard">
-		                    <optgroup label="작성할 게시판을 선택하세요">                 	
+		                    <option value=""></option>            	
+		                    <optgroup label="작성할 게시판을 선택하세요">
 		                    	<c:forEach var="vo2" items="${boardList}">
 		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>                 	
 		                    	</c:forEach>
@@ -102,12 +110,10 @@ $(function(){
 		</div>
 	</div>
 </section>         
-         
-<!-- toastify -->
-<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+
 <!-- image editor -->
 <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
@@ -115,9 +121,11 @@ $(function(){
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
 <!-- filepond validation -->
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+
 <!-- filepond -->
 <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 <script type="text/javascript">
@@ -195,7 +203,6 @@ $(document).ready(function() {
 </script>
 
 <script src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
-<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
 <script type="text/javascript">
     function saveContent(){
     	var summernoteContent = $('#summernote').summernote('code');
@@ -206,4 +213,5 @@ $(document).ready(function() {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
+
 <%@ include file="../../include/bottom.jsp" %>

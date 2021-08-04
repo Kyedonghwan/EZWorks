@@ -1,5 +1,7 @@
 package com.it.ez.community.model;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,11 +9,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CommunityLevelVO extends CommunityVO {
+public class CommunityMemberVO extends CommunityVO{
 	private int communityNo;
-	private int communityMember;
+	private int MemberNo;
 	private int communityLevel;
-	private String empName;
-	private String posName;
+	private Timestamp memberRegdate;
+	
+	//db에서 가져오는 가입 멤버용
 	private String empImg;
+	private String memberName;
 }

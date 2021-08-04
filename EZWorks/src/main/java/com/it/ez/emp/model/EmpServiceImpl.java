@@ -24,8 +24,12 @@ public class EmpServiceImpl implements EmpService{
 	
 	@Override
 	public List<Map<String, Object>> selectOrganization() {
-		
 		return empDao.selectOrganization();
+	}
+
+	@Override
+	public EmpVO selectEmpInfo(int empNo) {
+		return empDao.selectEmpInfo(empNo);
 	}
 	
 }

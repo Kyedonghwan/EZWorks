@@ -11,4 +11,5 @@ public interface EmpDAO {
 	public EmpVO selectEmpByEname(String empEname);
 	public EmpVO selectEmpByEmpNo(int empNo);
 	List<Map<String,Object>> selectOrganization();
+	EmpVO selectEmpInfo(int empNo);
 }

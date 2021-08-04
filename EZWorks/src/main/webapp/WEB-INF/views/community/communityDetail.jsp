@@ -30,6 +30,14 @@
 		margin-bottom:10px;
 	}
 </style>
+
+<!-- toastify-->
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
+
+<!-- Include Choices-->
+<link rel="stylesheet" href="<c:url value='/resources/vendors/choices.js/choices.min.css'/>">
+
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
 
@@ -87,29 +95,35 @@
 	                                    </div>
 	                               </div>
 	                               <div class="col-md-2" id="label">
-	                                   <label>마스터</label>
+                                   <label>마스터</label>
 	                               </div>
-	                               <div class="col-md-10 form-group">		    
-		                               <div class="me-1 mb-1 d-inline-block">
-                                         <button type="button" class="btn btn-sm btn-outline-primary"
-                                             data-bs-toggle="modal" data-bs-backdrop="false" 
-                                             data-bs-target="#backdrop" width:"50px">추가
-                                         </button>
-                                       </div>
-                                       <%@ include file="modal.jsp" %>
+	                               <div class="col-md-10">
+	                                  <div class="form-group">
+	                                      <select class="choices form-select multiple-remove" id="selectMaster"                                      
+	                                          multiple="multiple">
+	                                          <optgroup label="가입 멤버 총 ${vo.memberCount}명">
+	                                          	<c:forEach var="mem" items="${memList}">
+	                                              <option value="${mem.memberNo}">${mem.memberName}</option>
+	                                            </c:forEach>  
+	                                          </optgroup>
+	                                      </select>
+	                                  </div>
+	                              </div>
+                                <div class="col-md-2" id="label">
+                                <label>부마스터</label>
 	                               </div>
-	                               <div class="col-md-2" id="label">
-	                                   <label>부마스터</label>
-	                               </div>
-	                               <div class="col-md-10 form-group">		    
-		                               <div class="me-1 mb-1 d-inline-block">
-                                         <button type="button" class="btn btn-sm btn-outline-primary"
-                                             data-bs-toggle="modal" data-bs-backdrop="false" 
-                                             data-bs-target="#backdrop" width:"50px">추가
-                                         </button>
-                                       </div>
-                                       <%@ include file="modal.jsp" %>
-	                               </div>
+	                               <div class="col-md-10">
+	                                  <div class="form-group">
+	                                      <select class="choices form-select multiple-remove" id="selectMaster"                                      
+	                                          multiple="multiple">
+	                                          <optgroup label="가입 멤버 총 ${vo.memberCount}명">
+	                                          	<c:forEach var="mem" items="${memList}">
+	                                              <option value="${mem.memberNo}">${mem.memberName}</option>
+	                                            </c:forEach>  
+	                                          </optgroup>
+	                                      </select>
+	                                  </div>
+	                              </div>
 	                               <div class="col-md-2" id="label">
 	                                   <label>공개여부</label>
 	                               </div>
@@ -151,45 +165,45 @@
                          		<button id="btn1" class="btn btn-sm btn-outline-primary" onclick="boardAdd">추가</button>
                          </span><hr>
 						 <!-- Hoverable rows start -->
-			                    <div class="row" id="table-hover-row">
-			                                <!-- table hover -->
-			                                    <div class="table-responsive">
-			                                        <table class="table table-hover mb-0">
-			                                            <thead>
+	                     <div class="row" id="table-hover-row">
+	                                <!-- table hover -->
+	                                    <div class="table-responsive">
+	                                        <table class="table table-hover mb-0">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>
+		                                                   	 <input type="checkbox" id="ck1" class="form-check-input" >
+	                                                    </th>
+	                                                    <th>게시판</th>
+	                                                    <th>게시판 운영자</th>
+	                                                    <th>설정</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+		                                            <c:if test="${empty boardList}">
+		                                            	<tr>
+		                                            		<td colspan="4">등록된 게시판이 없습니다.</td>
+		                                            	</tr>
+		                                            </c:if>
+		                                            <c:if test="${!empty boardList}">
+			                                            <c:forEach var="vo1" items="${boardList}">
 			                                                <tr>
-			                                                    <th>
-				                                                   	 <input type="checkbox" id="ck1" class="form-check-input" >
-			                                                    </th>
-			                                                    <th>게시판</th>
-			                                                    <th>운영자</th>
-			                                                    <th>설정</th>
+			                                                    <td>
+			     													<input type="checkbox" id="ck2" class="form-check-input" >
+				         					                    </td>
+			                                                    <td>${vo1.boardName}</td>
+			                                                    <td>${vo1.boardMaster }</td>
+			                                                    <td>
+			                                                    	<button class="btn btn-sm btn-outline-primary" onclick="boardSet">설정</button>
+			         											</td>
 			                                                </tr>
-			                                            </thead>
-			                                            <tbody>
-				                                            <c:if test="${empty boardList}">
-				                                            	<tr>
-				                                            		<td colspan="4">등록된 게시판이 없습니다.</td>
-				                                            	</tr>
-				                                            </c:if>
-				                                            <c:if test="${!empty boardList}">
-					                                            <c:forEach var="vo1" items="${boardList}">
-					                                                <tr>
-					                                                    <td>
-					     													<input type="checkbox" id="ck2" class="form-check-input" >
-						         					                    </td>
-					                                                    <td>${vo1.boardName}</td>
-					                                                    <td>${vo1.boardMaster }</td>
-					                                                    <td>
-					                                                    	<button class="btn btn-sm btn-outline-primary" onclick="boardSet">설정</button>
-					         											</td>
-					                                                </tr>
-					                                            </c:forEach>
-				                                            </c:if>
-			                                            </tbody>
-			                                        </table>
-			                                    </div>
-			                                </div>
-			                            </div>
+			                                            </c:forEach>
+		                                            </c:if>
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
+	                                </div>
+	                            </div>
 	                        <div class="tab-pane fade" id="member" role="tabpanel"
 	                            aria-labelledby="member-tab">
 	                         	<div class="radioWrapper">
@@ -261,4 +275,8 @@
 	                </div>
 	            </div>
 		</section> 
+
+<!-- Include Choices JavaScript -->	
+<script src="<c:url value='/resources/vendors/choices.js/choices.min.js'/>"></script>
+		
  <%@ include file="../include/bottom.jsp" %> 

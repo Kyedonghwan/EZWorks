@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.it.ez.community.common.CommunitySearchVO;
+import com.it.ez.community.model.CommunityVO;
 
 public interface C_boardService {
 	int insertC_board(C_boardVO boardVo);
@@ -14,6 +15,7 @@ public interface C_boardService {
 	int insertBoardFeed(C_boardFeedVO feedVo);
 	List<C_boardClassicVO> selectC_boardClassicAll();
 	List<C_boardClassicVO> selectC_boardClassicMain(int communityNo);
+	int selectC_boardCount(int communityNo);
 	List<C_boardClassicVO> searchC_boardClassic(CommunitySearchVO searchVo);
 	List<C_boardFeedVO> selectC_boardFeedAll();
 	List<C_boardFeedVO> selectC_boardFeedMain(int communityNo);

@@ -15,11 +15,11 @@ public class C_boardFeedVO {
 	private int contentNo;
 	private int boardNo;
 	private String boardName;
-	private int EmpNo;
-	private String EmpName;
-	private String EmpImg;
-	private int PosNO;
-	private String PosName;
+	private int empNo;
+	private String empName;
+	private String empImg;
+	private int posNO;
+	private String posName;
     private String title;
     private String text;
     private Timestamp regdate;

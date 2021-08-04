@@ -26,6 +26,8 @@ public class CommunitySearchVO {
 	private int currentPage = 1;
 	
     private int boardNo=0; 
+
+    private int contentNo=0; 
     
     /**블럭당 보여질 페이지 수,  페이지 사이즈 */
     private int blockSize; // properties에서 설정
@@ -54,6 +56,7 @@ public class CommunitySearchVO {
     	this.lastRecordIndex = bean.lastRecordIndex;
     	this.recordCountPerPage = bean.recordCountPerPage;
     	this.boardNo = bean.boardNo;
+    	this.contentNo = bean.contentNo;
     }
 }
  

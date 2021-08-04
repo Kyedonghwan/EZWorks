@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.it.ez.archive.common.ConstUtil;
-import com.it.ez.archive.common.FileUploadUtil;
-
 @Component
 public class CommunityFileUploadUtil {
 	private static final Logger logger 
@@ -29,43 +25,37 @@ public class CommunityFileUploadUtil {
 public List<Map<String, Object>> fileUpload(HttpServletRequest request,
 		int pathFlag) 
 		throws IllegalStateException, IOException {
-	MultipartHttpServletRequest multireRequest 
-		= (MultipartHttpServletRequest)request;
+	MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
 	
 	//결과를 저장할 list
 	List<Map<String, Object>> list = new ArrayList<>();
+	List<MultipartFile> filepondList = multiRequest.getFiles("filepond");
+	System.out.println("filepondList.size="+filepondList.size());
 	
-	//
-	Map<String, MultipartFile> filesMap= multireRequest.getFileMap();
-	
-	Iterator<String> iter= filesMap.keySet().iterator(); //키 값을 받아온다
-	while(iter.hasNext()) {
-		String key = iter.next();
-		MultipartFile tempFile = filesMap.get(key);
-		//=> 업로드된 파일을 임시파일 형태로 제공
-		
-		if(!tempFile.isEmpty()) {
-			long fileSize= tempFile.getSize();
-			String originalFileName = tempFile.getOriginalFilename();
+	if(filepondList!=null && !filepondList.isEmpty()) {
+		for(MultipartFile mf : filepondList) {
+			String originFileName =mf.getOriginalFilename();
+			System.out.println("오리지날 파일 네임="+originFileName);
 			
 			//변경된 파일 이름
-			String fileName = getUniqueFileName(originalFileName);
+			String fileName=getUniqueFileName(originFileName);
+			long fileSize=mf.getSize();
 			
 			//업로드 경로
 			String uploadPath = getUploadPath(request, pathFlag);
 			
-			//업로드 처리하기 - 업로드 경로에 파일 저장
+			//업로드 처리하기 - 업로드 경로에 업로드 파일 저장
 			File file = new File(uploadPath, fileName);
-			tempFile.transferTo(file);
+			mf.transferTo(file);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("fileName", fileName);
 			map.put("fileSize", fileSize);
-			map.put("originalFileName", originalFileName);
+			map.put("originalFileName", originFileName);
 			
 			list.add(map);
 		}
-	}//while
+	}
 	
 	return list;
 }
