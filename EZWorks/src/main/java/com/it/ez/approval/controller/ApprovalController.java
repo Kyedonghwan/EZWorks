@@ -1,8 +1,11 @@
 package com.it.ez.approval.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.it.ez.approval.model.ApprovalFileVO;
 import com.it.ez.approval.model.ApprovalLineVO;
 import com.it.ez.approval.model.ApprovalService;
 import com.it.ez.approval.model.ApprovalVO;
 import com.it.ez.approval.model.BrowseVO;
 import com.it.ez.approval.model.ReceptionVO;
 import com.it.ez.approval.model.ReferenceVO;
+import com.it.ez.archive.common.FileUploadUtil;
+import com.it.ez.archive.model.ArchiveVO;
 import com.it.ez.emp.model.EmpService;
 
 import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
@@ -30,13 +37,17 @@ import lombok.RequiredArgsConstructor;
 public class ApprovalController {
 	
 	private final ApprovalService approvalService;
+	private final FileUploadUtil fileUploadUtil;
 	
 	@GetMapping("/main")
 	public void main(Model model){
 		List<Map<String,Object>> list1 = approvalService.selectWaitApproval(1);
+		List<Map<String,Object>> list2 = approvalService.selectDraftContinue(1);
+		List<Map<String,Object>> list3 = approvalService.selectDraftAgree(1);
 		
 		model.addAttribute("list1",list1); //결재 대기 리스트 추출
-		
+		model.addAttribute("list2",list2); //기안 진행 리스트 추출
+		model.addAttribute("list3",list3); //기안 완료 리스트 추출
 	}
 	
 	@GetMapping("/wait")
@@ -128,13 +139,56 @@ public class ApprovalController {
 	@Transactional
 	public String insert(@ModelAttribute ApprovalVO approvalVo,@RequestParam String alEmpNo,
 			@RequestParam String alDeptNo,@RequestParam String alOrderNo,@RequestParam String referenceEmpNo,
-			@RequestParam String referenceDeptNo,@RequestParam String browseEmpNo,@RequestParam String receptionEmpNo) {
+			@RequestParam String referenceDeptNo,@RequestParam String browseEmpNo,@RequestParam String receptionEmpNo,@RequestParam(defaultValue="0") int tempApprovalNo,HttpServletRequest request) {
+		
+
+		
+		if(tempApprovalNo!=0) {
+			
+			int cnt = approvalService.deleteApproval(tempApprovalNo);
+			//임시저장된 문서일 경우 기존 임시저장문서를 지움
+		}
+		
 		
 		approvalVo.setEmpNo(1);
 		approvalVo.setDeptNo(101);
+		
 		System.out.println(approvalVo);
 		approvalService.insertApproval(approvalVo);
+		
 		int approvalNo=approvalVo.getApprovalNo();
+		
+		String fileName="";
+		long fileSize=0;
+		String originalFileName="";
+		List<ApprovalFileVO> afList = new ArrayList<ApprovalFileVO>();
+		try {
+			List<Map<String,Object>> list = fileUploadUtil.fileUpload(request,"approvalFile");
+			
+			for(Map<String,Object>map:list) {
+				
+				fileName=(String)map.get("fileName");
+				fileSize=(long)map.get("fileSize");
+				originalFileName=(String)map.get("originalFileName");
+				
+				ApprovalFileVO vo =new ApprovalFileVO();
+				vo.setAfFilename(fileName);
+				vo.setAfOriginalfilename(originalFileName);
+				vo.setAfFilesize(fileSize);
+				vo.setApprovalNo(approvalNo);
+				afList.add(vo);
+			}
+			
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int cnt=0;
+		if(afList.size()>0) {
+			cnt=approvalService.insertApprovalFile(afList);
+		}
+		
 		if(alEmpNo!=null && !alEmpNo.isEmpty()) {
 			List<ApprovalLineVO> list = new ArrayList<ApprovalLineVO>();
 			

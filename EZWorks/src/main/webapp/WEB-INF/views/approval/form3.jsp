@@ -243,8 +243,29 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                         			<td style="font-weight:bold">파일첨부
                         			</td>
                         			<td>
-						                <!-- File uploader with multiple files upload -->
-						                <input type="file" class="multiple-files-filepond" name="file" multiple="true">
+						                <form method="post" name="approvalFrm" action="<c:url value='/approval/insert'/>" enctype="multipart/form-data">
+													<input type="hidden" name="formNo">
+											     	<input type="hidden" name="approvalStringNo">
+											     	<input type="hidden" name="form3Title">
+											     	<textarea style="display:none" name="form3Content"></textarea>
+											     	<input type="hidden" name="emergency">
+											     	<input type="hidden" name="currentState" value="진행중">
+											     	<input type="hidden" name="currentOrder" id="currentOrder">
+											     	<div id="isNotExisted">
+											     		<input name="alEmpNo" type="hidden" >
+												      	<input name="alDeptNo" type="hidden">
+												      	<input name="alOrderNo" type="hidden">
+												      	<input name="referenceEmpNo" type="hidden">
+												      	<input name="referenceDeptNo" type="hidden">
+												      	<input name="browseEmpNo" type="hidden">
+												      	<input name="receptionEmpNo" type="hidden">
+											   		</div>
+											   		<div id="isExisted">
+											   		</div>
+												   	<input type="hidden" name="tempApprovalNo" <c:if test="${ approval!=null && approval.currentState=='임시저장'}">value="${param.approvalNo}"</c:if>>
+												 	<textarea style="display:none" name='approvalDraftingOpinion'></textarea>
+												 	<input type="file" class="multiple-files-filepond" name="file" multiple="true">
+										</form>
                         			</td>
                         		</tr>
                         		<tr>

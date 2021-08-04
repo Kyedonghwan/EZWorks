@@ -18,27 +18,32 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Component
 public class FileUploadUtil {
-	public List<Map<String, Object>> fileUpload(HttpServletRequest request) throws IllegalStateException, IOException{
+	public List<Map<String, Object>> fileUpload(HttpServletRequest request,String select) throws IllegalStateException, IOException{
 		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		Map<String, MultipartFile> filesMap = multiRequest.getFileMap();
+		List<MultipartFile> mfList = multiRequest.getFiles("file");
 		
-		Iterator<String> iter = filesMap.keySet().iterator();
-		while(iter.hasNext()) {
-			String key  = iter.next();
-			MultipartFile tempfile= filesMap.get(key);
-			if(!tempfile.isEmpty()) {
-				long fileSize=tempfile.getSize();
-				String originalFileName = tempfile.getOriginalFilename();
+		
+		for(MultipartFile mf:mfList) {
+			System.out.println(mfList.size());
+			if(!mf.isEmpty()) {
+				System.out.println(mfList.size());
+				long fileSize=mf.getSize();
+				String originalFileName = mf.getOriginalFilename();
 				int idx=originalFileName.lastIndexOf(".");
 				String ext=originalFileName.substring(idx+1);
 				String fileName = getUniqueFileName(originalFileName);
-				String uploadPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH);
+				String uploadPath="";
+				if(select.equals("archive"))
+					uploadPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH);
 				//또는 String uploadPath=ConstUtil.FILE_UPLOAD_PATH_TEST;
+				else if(select.equals("approvalFile"))
+					uploadPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH_APPROVALFILE);
 				
+				System.out.println(uploadPath);
 				File file = new File(uploadPath,fileName);
-				tempfile.transferTo(file);
+				mf.transferTo(file);
 				
 				Map<String,Object> map = new HashMap<>();
 				map.put("fileName",fileName);

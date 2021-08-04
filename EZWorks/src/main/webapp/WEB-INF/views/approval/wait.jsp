@@ -53,8 +53,8 @@
                                  		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
                                  		<td>${map['FORM_NAME'] }</td>
                                  		<td><c:if test="${map['EMERGENCY']=='Y'}"><span class="state emergency">긴급</span></c:if></td>
-                                 		<td><a href="<c:url value='/approval/detail?approvalNo=${map["APPROVAL_NO"]}&formNo=${map["FORM_NO"]}'/>">${map['FORM3_TITLE']}</a></td>
-                                 		<td></td>
+                                 		<td><a href="<c:url value='/approval/detail?approvalNo=${map["APPROVAL_NO"]}&formNo=${map["FORM_NO"]}'/>">${map['FORM3_TITLE']}<img style="margin-left:10px" src="https://img.icons8.com/ios/14/000000/comments.png" title="댓글"/> ${map['ACCOUNT']}</a></td>
+                                 		<td><c:if test="${map['AFCOUNT']>0}"><img src="https://img.icons8.com/ios/14/000000/attach.png" title="첨부"/> ${map['AFCOUNT']}</c:if></td>
                                  		<td>${map['EMP_NAME']}</td>
                                  	</tr>
                                  </c:forEach>

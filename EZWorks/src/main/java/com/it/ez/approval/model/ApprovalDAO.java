@@ -47,4 +47,6 @@ public interface ApprovalDAO {
 	int deleteReception(int approvalNo);
 	int deleteApprovalLine(int approvalNo);
 	int deleteApproval(int approvalNo);
+	int deleteApprovalComment(int approvalNo);
+	int insertApprovalFile(ApprovalFileVO vo);
 }

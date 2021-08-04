@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 <div class="modal" tabindex="-1" id="draftingOpinionModal">
-	<form method="post" name="approvalFrm" action="<c:url value='/approval/insert'/>">
+	
 	  <div class="modal-dialog">
 	    <div class="modal-content" style="width:500px;height:500px">
 	      <div class="modal-header">
@@ -22,7 +22,7 @@
 	      			<th style="width:30%;color:#00001f">기안의견
 	      			</th>
 	      			<td style="width:70%">
-	      				<textarea class="form-control" style="width:90%;height:70%" rows="3" name='approvalDraftingOpinion'></textarea>
+	      				<textarea class="form-control" style="width:90%;height:70%" rows="3" name='approvalDraftingOpinionTemp'></textarea>
 	      			</td>
 	      		</tr>
 	      		<tr>
@@ -40,27 +40,8 @@
 	        <button type="button" class="btn btn-secondary draftingOpinionModal-close" data-bs-dismiss="modal">취소</button>
 	      </div>
 	      
-	      	<input type="hidden" name="formNo">
-	      	<input type="hidden" name="approvalStringNo">
-	      	<input type="hidden" name="form3Title">
-	      	<textarea style="display:none" name="form3Content"></textarea>
-	      	<input type="hidden" name="emergency">
-	      	<input type="hidden" name="currentState" value="진행중">
-	      	<input type="hidden" name="currentOrder" id="currentOrder">
-	      	<div id="isNotExisted">
-	      		<input name="alEmpNo" type="hidden" >
-		      	<input name="alDeptNo" type="hidden">
-		      	<input name="alOrderNo" type="hidden">
-		      	<input name="referenceEmpNo" type="hidden">
-		      	<input name="referenceDeptNo" type="hidden">
-		      	<input name="browseEmpNo" type="hidden">
-		      	<input name="receptionEmpNo" type="hidden">
-	    	</div>
-	    	<div id="isExisted">
-	    	</div>
+	      </div>
 	  </div>
-	  </div>
-	</form>  
 </div>
 
 <script>
@@ -77,12 +58,12 @@
 			if($('#approvalLineDetail').children().children('li').eq(1).length){
 				
 				$('#noApprovalLine').empty();
-				$('#currentState').val('진행중');
+				$('input[name=currentState]').val('진행중');
 				$('#currentOrder').val(1);
 				
 			}else{
 				$('#noApprovalLine').text('설정된 결재자가 없으므로 결재요청하면 바로 완료처리 됩니다.');
-				$('#currentState').val('결재완료');
+				$('input[name=currentState]').val('결재완료');
 				$('#currentOrder').val(0);
 			}
 			$('#approvalName2').html($('#approvalName1').val())
@@ -139,7 +120,7 @@
 				}
 				$('#isExisted').append('<input name="receptionEmpNo" type="hidden" value="'+$(this).children().eq(0).val()+'">');
 			})
-			
+			$('textarea[name=approvalDraftingOpinion]').val($('textarea[name=approvalDraftingOpinionTemp]').val());
 			$('form[name=approvalFrm]').submit();
 		});
 	})

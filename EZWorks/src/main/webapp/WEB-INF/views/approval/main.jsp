@@ -54,10 +54,8 @@
 							</div>
 						</div>
 						<div>
-							<img src="https://img.icons8.com/ios/14/000000/comments.png"/>
-							<span>0</span>
-							<img src="https://img.icons8.com/ios/14/000000/attach.png"/>
-							<span>2</span>
+							<img src="https://img.icons8.com/ios/14/000000/comments.png"/> <span>${map['ACCOUNT']}</span>
+							<img src="https://img.icons8.com/ios/14/000000/attach.png"/> <span>${map['AFCOUNT']}</span>
 						</div>
 					</div>
 					
@@ -77,50 +75,84 @@
                     <div class="table-responsive project-list">
   
                         <table class="table project-table table-centered table-nowrap">
+		                            <thead>
+		                                <tr>
+		                                    <th scope="col"><input class="form-check-input" type="checkbox" value=""></th>
+		                                    <th scope="col" style="width:10%">기안일</th>
+		                                    <th scope="col" style="width:10%">결재양식</th>
+		                                    <th scope="col" style="width:5%">긴급</th>
+		                                    <th scope="col" style="width:30%">제목</th>
+		                                    <th scope="col" style="width:5%">첨부</th>
+		                                    <th scope="col" style="width:10%">현재 결재자</th>
+		                                    <th scope="col" style="width:20%">문서번호</th>
+		                                    <th scope="col" style="width:10%">결재상태</th>
+		                                 </tr>
+		                                 
+		                            </thead>
+		                            <tbody id="tbody">
+		                            	<c:forEach var="map" items="${list2}">
+		                                 	<tr>
+		                                 		<td><c:if test="${map['CURRENT_STATE']=='결재완료'}"><input class="form-check-input" type="checkbox" value=""></c:if></td>
+		                                 		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
+		                                 		<td>${map['FORM_NAME']}</td>
+		                                 		<td><c:if test="${map['EMERGENCY']=='Y'}"><span class="state emergency">긴급</span></c:if></td>
+		                                 		<td><a href="<c:url value='/approval/detail?approvalNo=${map["APPROVAL_NO"]}&formNo=${map["FORM_NO"]}'/>">${map['FORM3_TITLE']}<img style="margin-left:10px" src="https://img.icons8.com/ios/14/000000/comments.png" title="댓글"/> ${map['ACCOUNT']}</a></td>
+		                                 		<td><c:if test="${map['AFCOUNT']>0}"><img src="https://img.icons8.com/ios/14/000000/attach.png" title="첨부"/> ${map['AFCOUNT']}</c:if></td>
+		                                 		<td>${map['EMP_NAME']}</td>
+		                                 		<td>${map['APPROVAL_STRINGNO']}</td>
+		                                 		<td><c:if test="${map['CURRENT_STATE']=='진행중'}"><span class="state ongoing" style="margin-right:5px">진행중</span></c:if><c:if test="${map['CURRENT_STATE']=='반려'}"><span class="state disagree" style="margin-right:5px">반려</span></c:if><c:if test="${map['CURRENT_STATE']=='결재완료'}"><span class="state complete" style="margin-right:5px">결재완료</span></c:if></td>
+		                                 	</tr>
+		                                 </c:forEach>
+		                            </tbody>
+		                        </table>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+	<div style="padding:12px 24px;border-top:1px solid #ddd;margin-top:30px">
+		<header style="padding:10px;0px">
+			<h6>기안 완료 문서</h6>
+		</header>
+		<div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive project-list">
+  
+                        <table class="table project-table table-centered table-nowrap">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width:12%">기안일</th>
-                                    <th scope="col" style="width:12%">결재양식</th>
-                                    <th scope="col" style="width:8%">긴급</th>
-                                    <th scope="col" style="width:50%">제목</th>
-                                    <th scope="col" style="width:9%">첨부</th>
-                                    <th scope="col" style="width:9%">결재상태</th>
-                                </tr>
+                                    <th scope="col"><input class="form-check-input" type="checkbox" value=""></th>
+                                    <th scope="col" style="width:10%">기안일</th>
+                                    <th scope="col" style="width:10%">결재양식</th>
+                                    <th scope="col" style="width:5%">긴급</th>
+                                    <th scope="col" style="width:30%">제목</th>
+                                    <th scope="col" style="width:5%">첨부</th>
+                                    <th scope="col" style="width:10%">현재 결재자</th>
+                                    <th scope="col" style="width:20%">문서번호</th>
+                                    <th scope="col" style="width:10%">결재상태</th>
+                                 </tr>
+                                 
                             </thead>
                             <tbody id="tbody">
-                            	<tr>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            			<span class="state ongoing" style="margin-right:5px">진행중</span>
-                            		</td>
-                            	</tr>
-                            	<tr>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            		</td>
-                            		<td>
-                            			<span class="state ongoing" style="margin-right:5px">진행중</span>
-                            		</td>
-                            	</tr>
+                            	<c:forEach var="map" items="${list3}">
+                                 	<tr>
+                                 		<td><c:if test="${map['CURRENT_STATE']=='결재완료'}"><input class="form-check-input" type="checkbox" value=""></c:if></td>
+                                 		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
+                                 		<td>${map['FORM_NAME']}</td>
+                                 		<td><c:if test="${map['EMERGENCY']=='Y'}"><span class="state emergency">긴급</span></c:if></td>
+                                 		<td><a href="<c:url value='/approval/detail?approvalNo=${map["APPROVAL_NO"]}&formNo=${map["FORM_NO"]}'/>">${map['FORM3_TITLE']}<img style="margin-left:10px" src="https://img.icons8.com/ios/14/000000/comments.png" title="댓글"/> ${map['ACCOUNT']}</a></td>
+                                 		<td><c:if test="${map['AFCOUNT']>0}"><img src="https://img.icons8.com/ios/14/000000/attach.png" title="첨부"/> ${map['AFCOUNT']}</c:if></td>
+                                 		<td>${map['EMP_NAME']}</td>
+                                 		<td>${map['APPROVAL_STRINGNO']}</td>
+                                 		<td><c:if test="${map['CURRENT_STATE']=='진행중'}"><span class="state ongoing" style="margin-right:5px">진행중</span></c:if><c:if test="${map['CURRENT_STATE']=='반려'}"><span class="state disagree" style="margin-right:5px">반려</span></c:if><c:if test="${map['CURRENT_STATE']=='결재완료'}"><span class="state complete" style="margin-right:5px">결재완료</span></c:if></td>
+                                 	</tr>
+                                 </c:forEach>
                             </tbody>
                         </table>
-                       
+                     
                     </div>
                 </div>
             </div>

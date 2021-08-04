@@ -37,4 +37,6 @@ public interface ApprovalService {
 	List<Map<String,Object>> selectTempList(int empNo);
 	
 	int deleteApproval(int approvalNo);
+
+	int insertApprovalFile(List<ApprovalFileVO> list);
 }

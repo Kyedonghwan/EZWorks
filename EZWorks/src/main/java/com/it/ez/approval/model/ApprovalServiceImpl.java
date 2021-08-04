@@ -188,7 +188,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 		cnt=approvalDao.deleteBrowse(approvalNo);
 		cnt=approvalDao.deleteReception(approvalNo);
 		cnt=approvalDao.deleteApprovalLine(approvalNo);
+		cnt=approvalDao.deleteApprovalComment(approvalNo);
 		cnt=approvalDao.deleteApproval(approvalNo);
+		return cnt;
+	}
+
+	@Override
+	@Transactional
+	public int insertApprovalFile(List<ApprovalFileVO> list) {
+		int cnt=0;
+		for(ApprovalFileVO vo:list) {
+			cnt = approvalDao.insertApprovalFile(vo);
+		}
 		return cnt;
 	}
 

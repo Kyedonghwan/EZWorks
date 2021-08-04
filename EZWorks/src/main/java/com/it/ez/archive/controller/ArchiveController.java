@@ -61,7 +61,7 @@ public class ArchiveController {
 		String ext="";
 		List<ArchiveVO> archiveList = new ArrayList<ArchiveVO>();
 		try {
-			List<Map<String,Object>> list = fileUploadUtil.fileUpload(request);
+			List<Map<String,Object>> list = fileUploadUtil.fileUpload(request,"archive");
 			
 			for(Map<String,Object>map:list) {
 				
