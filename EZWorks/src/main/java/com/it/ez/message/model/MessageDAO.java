@@ -17,6 +17,7 @@ public interface MessageDAO {
 	String selectPwd(int no);
 	int deleteMessage(int no);	
 	int updateMessage(MessageVO vo);
+	public void delete(String no);
 
 
 }

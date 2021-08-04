@@ -77,6 +77,60 @@
 		
 		
 	});
+	
+	$(function(){
+		var chkObj = document.getElementsByName("RowCheck");
+		var rowCnt = chkObj.length;
+		
+		$("input[name='allCheck']").click(function(){
+			var chk_listArr = $("input[name='RowCheck']");
+			for (var i=0; i<chk_listArr.length; i++){
+				chk_listArr[i].checked = this.checked;
+			}
+		});
+		$("input[name='RowCheck']").click(function(){
+			if($("input[name='RowCheck']:checked").length == rowCnt){
+				$("input[name='allCheck']")[0].checked = true;
+			}
+			else{
+				$("input[name='allCheck']")[0].checked = false;
+			}
+		});
+	});
+	function deleteValue(){
+		var url = "delete";    // Controller로 보내고자 하는 URL
+		var valueArr = new Array();
+	    var vo = $("input[name='RowCheck']");
+	    for(var i = 0; i < vo.length; i++){
+	        if(vo[i].checked){ //선택되어 있으면 배열에 값을 저장함
+	            valueArr.push(vo[i].value);
+	        }
+	    }
+	    if (valueArr.length == 0){
+	    	alert("선택된 글이 없습니다.");
+	    }
+	    else{
+			var chk = confirm("정말 삭제하시겠습니까?");				 
+			$.ajax({
+			    url : url,                    // 전송 URL
+			    type : 'POST',                // POST 방식
+			    traditional : true,
+			    data : {
+			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+			    },
+                success: function(jdata){
+                    if(jdata = 1) {
+                        alert("삭제 성공");
+                        location.replace("messageList") 
+                    }
+                    else{
+                        alert("삭제 실패");
+                    }
+                }
+			});
+		}
+	}
+
 </script>
 <form action="<c:url value='/message/messageList'/>" name="frmPage" method="post" style="padding:none;margin:none">
 	<input type="hidden" name="currentPage" value="<c:if test='${empty param.currentPage }'>1</c:if><c:if test='${!empty param.currentPage }'>${param.currentPage }</c:if>">
@@ -98,8 +152,8 @@
 	
 	<section style="padding:0px;padding-right:20px;padding-left:20px;">
 			<div style="display:inline-flex;">
-				<a href="<c:url value='/message/messageWrite'/>"
-				class="btn btn-outline-secondary btn-sm" style="font-size:0.7em;padding-top:7px">쪽지작성</a>
+				<input type="button" value="선택삭제" class="btn btn-outline-info" onclick="deleteValue();">
+				
 			</div>
 			<div style="margin: 0px; padding: 0px; float: right; right: 0px; display: inline-flex">
 				<select class="choices form-select" name="recordCountPerPage" style="font-size:0.7em;width:60px">
@@ -131,12 +185,14 @@
 		<table class="table mb-0 table-lg" style="width:100%;font-size:0.8em;text-align: center">
 			<colgroup>
 				<col style="width:10%;" />
-				<col style="width:50%;" />
+				<col style="width:10%;" />
+				<col style="width:40%;" />
 				<col style="width:20%;" />
 				<col style="width:20%;" />	
 			</colgroup>
 			<thead>
 				<tr>
+					<th scope="col"><input id="allCheck" type="checkbox" name="allCheck"/></th>
 					<th scope="col">번호</th>
 					<th scope="col">내용</th>
 					<th scope="col">작성자</th>
@@ -152,6 +208,7 @@
 		<c:if test="${!empty list }">			 	
 		  	<c:forEach var="vo" items="${list }">	 
 				<tr class="align_center">
+					<td class="text_ct"><input name="RowCheck" type="checkbox" value="${vo.no}"/></td>
 					<td>${vo.no}</td>
 					<td>
 						<a href

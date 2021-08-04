@@ -57,6 +57,11 @@
 		where no=#{no}
 	</delete>
 	
+	<delete id="delete" parameterType="string">
+		delete message
+		where no=#{no}
+	</delete>
+	
 	
 	<select id="getMessageList" resultType="com.it.ez.message.model.MessageDAO">
 

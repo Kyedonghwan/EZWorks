@@ -2,6 +2,8 @@ package com.it.ez.message.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -203,6 +205,17 @@ public class MessageController {
 		
 		return "common/message";
 	}
+	
+	@RequestMapping(value = "/delete")
+    public String ajaxTest(HttpServletRequest request) {
+            
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+        for(int i=0; i<size; i++) {
+        	messageService.delete(ajaxMsg[i]);
+        }
+        return "redirect:messageList";
+    }
 	
 
 }
