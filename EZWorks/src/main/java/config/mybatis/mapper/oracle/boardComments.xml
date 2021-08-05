@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.comments.model.PostingCommentsDAO">
+	<select id="allCommentsByPostingNo" resultType="PostingReplyViewVO" parameterType="int">
+		select * from posting_reply_view where posting_no=#{postingNo}
+	</select>
+	<insert id="addComments" parameterType="PostingReplyVO">
+		<selectKey resultType="int" keyProperty="replyNo" order="BEFORE">
+			select reply_seq.nextval from dual
+		</selectKey>
+		insert into posting_reply(REPLY_NO, EMP_NO, POSTING_NO, REPLY_TEXT)
+		VALUES(#{replyNo}, #{empNo}, #{postingNo}, #{replyText})
+	</insert>
+	<select id="selectReplyByNo" resultType="PostingReplyViewVO">
+		select * from posting_reply_view where reply_no = #{replyNo}
+	</select>
+	<select id="selectReplyCountByPostingNo" resultType="int">
+		select count(*) from posting_reply_view where posting_no=#{postingNo}
+	</select>
+	<delete id="">
+		
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -57,4 +57,9 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteFavBoards(int boardNo, int empNo) {
 		return boardDao.deleteFavBoards(boardNo, empNo);
 	}
+
+	@Override
+	public List<BoardVO> selectBoardByDeptNo(int deptNo) {
+		return boardDao.selectBoardByDeptNo(deptNo);
+	}
 }

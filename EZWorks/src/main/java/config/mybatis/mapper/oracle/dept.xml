@@ -6,6 +6,9 @@
 	<select id="selectDept" resultType="DeptVo">
 		select * from dept
 	</select>
+	<select id="selectDeptByDeptNo" resultType="DeptVO">
+		select * from dept where dept_no = #{deptNo}
+	</select>
 </mapper>
 
 
