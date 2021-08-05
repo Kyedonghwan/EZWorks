@@ -5,6 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.it.ez.approval.model.BrowseVO;
+import com.it.ez.approval.model.ReceptionVO;
+import com.it.ez.approval.model.ReferenceVO;
+
 @Mapper
 public interface ArchiveDAO {
 	int fileUpload(ArchiveVO vo);

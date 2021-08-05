@@ -15,4 +15,5 @@ public interface EmpService {
 
 	public int loginProc(int empNo, String pwd);
 	EmpVO selectEmpInfo(int empNo);
+	String selectName(int empNo);
 }

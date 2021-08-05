@@ -31,6 +31,8 @@
 	<update id="moveArchive" parameterType="map">
 		update archive set folderNo=#{folderNo} where no=#{no}
 	</update>
+	
+	
 </mapper>
 
 

@@ -14,4 +14,5 @@ public interface EmpDAO {
 	public int loginProc(int empNo, String pwd);
 	String selectPwd(int empNo);
 	EmpVO selectEmpInfo(int empNo);
+	String selectName(int empNo);
 }
