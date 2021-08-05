@@ -135,12 +135,18 @@ a#changeStatus {
 	border-radius: 3px;
 	font-weight: normal;
 	background: none !important;
-	border: 1px solid #00a1b9;
-	color: #00a1b9;
+	border: 1px solid #526e8a;
+	color: #526e8a;
 	box-sizing: border-box;
 	line-height: normal;
 	box-shadow: none;
 	line-height: 30px;
 	font-size: 14px;
 	font-weight: bold;
+}
+a.off {
+    opacity: 0.5;
+    cursor: default;
+    border-color: #aaa;
+    color: #888;
 }

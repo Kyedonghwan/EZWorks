@@ -4,12 +4,16 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import com.it.ez.attendance.model.AttendanceMainViewVO;
 
 @Component
 public class AttendanceMonthCalculator {
@@ -51,6 +55,20 @@ public class AttendanceMonthCalculator {
 		return date;
 	}
 	
+	public String getEndingyyyyMMdd(int year, int month) {
+		String startingDate = getStartingyyyyMMdd(year, month);
+		String splitDate[] = startingDate.split("-");
+		int startYear = Integer.parseInt(splitDate[0]);
+		int startMonth = Integer.parseInt(splitDate[1]);
+		int startDate = Integer.parseInt(splitDate[2]);
+		Calendar calendar = Calendar.getInstance(Locale.KOREA);
+		calendar.set(startYear, startMonth-1, startDate);
+		int totalWeeks = getTotalWeeks(year, month);
+		calendar.add(Calendar.DATE, (totalWeeks * 7));
+		String date = sdf.format(calendar.getTime());
+		return date;
+	}
+	
 	public List<List<Date>> getDaysList(int year, int month){
 		logger.info("year={}, month={}", year, month);
 		String date = getStartingyyyyMMdd(year, month);
@@ -61,7 +79,7 @@ public class AttendanceMonthCalculator {
 		logger.info("nMonth={}", nMonth);
 		int nDate = Integer.parseInt(splitDate[2]);
 		logger.info("nDate={}", nDate);
-		Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance(Locale.KOREA);
 		calendar.set(nYear, nMonth-1, nDate);
 		List<List<Date>> monthList = new ArrayList<>();
 		Date d = new Date();
@@ -79,5 +97,32 @@ public class AttendanceMonthCalculator {
 		}
 		return monthList;
 		
+	}
+	
+	public List<List<AttendanceMainViewVO>> getDaysListFullDetail(int year, int month, int empNo){
+		logger.info("dates with full details, parameters: year={}, month={}", year, month);
+		String date = getStartingyyyyMMdd(year, month);
+		
+		String splitDate[] = date.split("-");
+		int nYear = Integer.parseInt(splitDate[0]);
+		logger.info("nYear={}", nYear);
+		int nMonth = Integer.parseInt(splitDate[1]);
+		int nDate = Integer.parseInt(splitDate[2]);
+		
+		Calendar calendar = Calendar.getInstance(Locale.KOREA);
+		calendar.set(nYear, nMonth-1, nDate);
+		List<List<AttendanceMainViewVO>> monthListFullDetail= new ArrayList<>();
+		Date d = new Date();
+		int weeks = getTotalWeeks(year, month);
+		Map<String, Object> searchMap = new HashMap<>();
+		String startingDate = getStartingyyyyMMdd(year, month);
+		String endingDate = getEndingyyyyMMdd(year, month);
+		String temp[] = endingDate.split("-");
+		int tempDate = Integer.parseInt(temp[2]);
+		tempDate = tempDate + 1;
+		endingDate = temp[0]+"-"+temp[1]+"-"+tempDate;
+		searchMap.put("startingDate", startingDate);
+		searchMap.put("endingDate", endingDate);
+		searchMap.put("empNo", empNo);
 	}
 }

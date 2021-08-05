@@ -28,6 +28,6 @@
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0}
 .ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible}
 .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left}
-.ui-datepicker .ui-state-highlight, .ui-datepicker .ui-widget-header .ui-state-highlight {border: 1px solid #00b6c2; background: #00b6c2; color: #ffffff}
+.ui-datepicker .ui-state-highlight, .ui-datepicker .ui-widget-header .ui-state-highlight {border: 1px solid #dce7f1; background: #dce7f1; color: #526e8a}
 .ui-datepicker .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff; font-weight: bold; color: #212121}
 .ui-datepicker .ui-state-disabled {opacity: .35; filter:Alpha(Opacity=35); background-image: none}

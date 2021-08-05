@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <link rel="stylesheet" href="<c:url value='/resources/css/attendance/attendanceMenu.css'/>">
+<script type="text/javascript" src="<c:url value='/resources/js/moment.min.js'/>"></script>
 <style type="text/css">
 #statusList{
 	font-size: 14px;
@@ -31,10 +32,32 @@ div.dropdown-menu{
     box-sizing: border-box;
     border:1px solid black;
 }
+.function_btn_wrap {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+}
+
 </style>
+
 <script>
+	
 	$(function(){
-		time();
+		const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+		function changeDate() {
+			const moment_ = moment(); //시간받기위해서 new date
+			document.getElementById("timer").innerHTML = moment_.format('HH:mm:ss');
+			const date = moment_.format('YYYY-MM-DD');
+			const weekDayName = daysOfWeek[moment_.day()]
+			document.getElementById("date").innerHTML = date + "(" + weekDayName + ")";
+		}
+		function time() {
+			setInterval(changeDate, 1000); //1초 지난후 time()실행
+		}
+ 		time();
 		$('.chevron-right').click(function(){
 			if($(this).children('span').children('img').attr("class")=="fold"){
 				$(this).children('span').children('img').attr("src","<c:url value='/resources/images/accordion/chevron-down.svg'/>");
@@ -45,18 +68,10 @@ div.dropdown-menu{
 			}
 		});
 	});
+	
+	
 
-	function time(){
-		var time = new Date(); //시간받기위해서 new date
-		var year = time.getFullYear();
-		var month = ('0' + (time.getMonth() + 1)).slice(-2);
-		var day = ('0' + time.getDate()).slice(-2);
-		var week = new Array('일', '월', '화', '수', '목', '금', '토');
-		document.getElementById("timer").innerHTML = time.getHours() + ":"
-				+ (time.getMinutes()<10?'0':'')+time.getMinutes() + ":" + (time.getSeconds()<10?'0':'') + time.getSeconds();
-		document.getElementById("date").innerHTML = (year)+"-"+(month)+"-"+(day)+"("+(week[time.getDay()])+")";
-		setInterval("time()", 1000); //1초 지난후 time()실행
-	}
+		
 </script>
 <div id="wanttocal" style="margin:0px;padding:0px;height:100%;">
 <section style="height:64px;padding:24px 24px 16px;">
