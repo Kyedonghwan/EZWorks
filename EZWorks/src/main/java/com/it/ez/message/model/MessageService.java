@@ -11,4 +11,6 @@ public interface MessageService {
 	MessageVO selectByNo(int no);
 	boolean checkPwd(int no, String pwd);
 	int deleteMessage(int no);
+	int updateMessage(MessageVO vo);
+	public void delete(String no);
 }

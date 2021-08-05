@@ -50,5 +50,19 @@ public class MessageServiceImpl implements MessageService{
 	public int selectTotalRecord(SearchVO searchVo) {
 		return messageDao.selectTotalRecord(searchVo);
 	}
+
+
+	@Override
+	public int updateMessage(MessageVO vo) {
+		return messageDao.updateMessage(vo);
+	}
+
+
+	@Override
+	public void delete(String no) {
+		messageDao.delete(no);
+	}
+	
+	
 	
 }

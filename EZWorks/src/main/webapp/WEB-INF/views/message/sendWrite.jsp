@@ -69,13 +69,20 @@
  			<textarea id="content"  class="form-control" name="content" rows="10" cols="40"></textarea>
         </div>
         <div style="text-align: center">
-            <input type = "submit" class="btn btn-primary" value="쪽지등록"/>
+            <input type = "submit" class="btn btn-primary" value="답변작성"/>
             <input type = "Button" class="btn btn-success" value="쪽지목록"/>         
         </div>
     </fieldset>
 </form>
 </div>   
  
+ <nav><br></nav>
+	<hr>
+	<footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
 </body>
 </html>
 
