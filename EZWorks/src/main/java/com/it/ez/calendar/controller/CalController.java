@@ -30,8 +30,13 @@ public class CalController {
 	private final SchCateService schCateService;
 	
 	@RequestMapping("/calendarMain")
-	public void Calendar() {
+	public void Calendar(Model model) {
 		logger.info("일정보여주기");
+		
+		List<SchCateVO> list = schCateService.showAllCate(1);
+		model.addAttribute("list", list);
+		logger.info("카테고리 list={}",list.size());
+		
 	}
 	
 	@GetMapping("/calDetail")
@@ -89,15 +94,14 @@ public class CalController {
 		return "redirect:/calendar/calendarMain";
 	}
 	
-	
-	@ResponseBody
-	@RequestMapping("/writeSchModal")
-	public void insertModal(@ModelAttribute CalendarVO vo) {
+	@PostMapping("/writeModal")
+	public String insertModal(@ModelAttribute CalendarVO vo) {
 		logger.info("modal에서 일정등록 vo={}",vo);
 		
 		int cnt=calendarService.insertModal(vo);
 		logger.info("modal에서 일정등록 결과, cnt={}",cnt);
 		
+		return "redirect:/calendar/calendarMain";
 	}
 	
 	@ResponseBody

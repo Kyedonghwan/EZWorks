@@ -25,8 +25,8 @@
 		
 		calendar = new FullCalendar.Calendar(calendarEl,{
 			headerToolbar :{
-				right : 'today',
-				center : 'prev,title,next',
+				right : 'today,prev,next',
+				center : 'title',
 				left : 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
 			}
 			,locale : "ko"
@@ -51,7 +51,6 @@
 						var events=[];
 						
 						$.each(res, function(idx,item){
-							
 							if(item.schAll == "Y"){
 								events.push({
 									id:item.schNo,
@@ -70,7 +69,6 @@
 								});
 							}
 							
-							console.log(events);
 						});
 						
 						successCallback(events);

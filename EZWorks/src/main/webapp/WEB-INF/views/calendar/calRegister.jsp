@@ -3,7 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/top.jsp"%>
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap.css'/>">
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/fontawesome/all.min.css'/>">
 
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.css'/>">
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/bootstrap-icons/bootstrap-icons.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/app.css'/>">
+<link rel="shortcut icon"
+	href="<c:url value='/resources/images/favicon.svg" type="image/x-icon'/>">
 
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
@@ -97,16 +112,16 @@
             	location.href="<c:url value='/calendar/calendarMain'/>"
             });
             
-            $('#selectAttend').click(function(){
-            	$('#organizationModal').modal('show');
-            });
-            
             
             $('.addExtAttend').hide();
             $('#addExtAttend').click(function(){
             	$('.addExtAttend').show();
             	var joinVal = $('#join').val();
-            	$('#add').append("<span class='multiple-remove'>"+joinVal+"</span>&nbsp;&nbsp;");
+            	$('#add').append("<input type='text' class='joinVal' name='schExtAttend' value='"+joinVal+"'><span class='fa-fw select-all fas'></span>&nbsp;&nbsp;");
+            	$('.joinVal').click(function(){
+					$(this).remove();
+				});
+            	$('#join').val('');
             });
             
             $('#schAll').change(function(){
@@ -120,13 +135,23 @@
                 	$('#endTime').show();
                 }
             });
-            
     });
     
     
 </script>
 <style>
-
+.joinVal{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
+.tree{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
 p{
 	font-size: 0.5em;
 	display: inline-block;
@@ -240,6 +265,7 @@ p{
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">참석자</label> 
+			<span id="addAttend"></span>
 			<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
 			<span id="selectAttend">참석자선택</span>
 		</div>
@@ -273,10 +299,36 @@ p{
 		<div style="text-align: center" class="registerDiv">
 			<input type="submit" class="btn btn-primary ml-1" id="reg_ok" value="확인">
 			<input type="button" class="btn btn-light-primary" id="close" value="닫기">
+			
 		</div>
 	</form>
 </div>
+<%@include file="testModal.jsp" %>
+<script>
+	$(document).ready(function(){
+		$('#selectAttend').click(function(){
+			$('#testModal').modal('show');
+			
+			$('#tree2 a').click(function(){
+				console.log($('#tree2 a').text());
+				$('#addAttend').append("<input type='text' class='tree' name='schAttend' value='"+$(this).text()+"'>&nbsp;&nbsp; ");
+				$('.tree').click(function(){
+					$(this).remove();
+				});
+				event.stopImmediatepropagation();
+			});
+		});
+	});
 
+</script>
+
+<script
+	src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
+<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
+
+<script src="<c:url value='/resources/vendors/fontawesome/all.min.js'/>"></script>
+
+<script src="<c:url value='/resources/js/main.js'/>"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>

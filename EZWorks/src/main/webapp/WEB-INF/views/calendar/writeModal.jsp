@@ -66,23 +66,7 @@
             });
            
             $('#modal_ok').click(function(){
-            	$.ajax({
-            		url:"<c:url value='/calendar/writeSchModal'/>",
-            		type:"post",
-            		dataType:"json",
-            		data:{
-            			'schTitle':$('#title').val(),
-            			'schStart':$('#startDate').val(),
-            			'schStartTime':$('#startTime').val(),
-            			'schEnd':$('#endDate').val(),
-            			'schEndTime':$('#endTime').val(),
-            			'schPlace':$('#schPlace').val()
-            		},
-            		success:function(){
-            		},error:function(){
-            			alert("error!");
-            		}
-            	});
+            	 $('form[name=writeSch]').submit();
             });
     });
     
@@ -174,11 +158,12 @@
 }
 </style>
 <div class="modal" id="writeModal">
-	<form name="writeSch" method="post" action="<c:url value='/calendar/calendarMain'/>">
+	<form name="writeSch" action="<c:url value='/calendar/writeModal'/>" method="post">
 		<div class="modal-dialog">
 					<div class="modal-content" style="width:700px;height: 450px">
 						<div class="modal-header">
 							<h5 class="modal-title">일정등록</h5>
+							<button type="button" class="btn-close approvalInfoModalClose" data-bs-dismiss="modal" aria-label="Close" ></button>
 							<button type="button" class="close rounded-pill"
 								data-bs-dismiss="modal" aria-label="Close">
 								<i data-feather="x"></i>
@@ -222,8 +207,7 @@
 							</div>
 							<div>
 								<label class="writeLabel">장소</label>
-								<input type="text" id="place" name="schPlace" 
-				class="form-control round">
+								<input type="text" id="place" name="schPlace" class="form-control round">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -232,11 +216,9 @@
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block" id="detailSch">일정상세입력</span>
 							</button>
-							<button type="button" id="modal_ok" class="btn btn-primary ml-1"
-								data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">확인</span>
-							</button>
+							<input type="submit" id="modal_ok" class="btn btn-primary ml-1"
+								data-bs-dismiss="modal" value="확인">
+								<i class="bx bx-check d-block d-sm-none"></i> 
 							<button type="button" class="btn btn-light-primary"
 								data-bs-dismiss="modal">
 								<i class="bx bx-x d-block d-sm-none"></i> <span
@@ -251,7 +233,7 @@
 
 
 <!-- timepicker -->
-<<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script>
 $(function(){
 	$('#startTime').timepicker({

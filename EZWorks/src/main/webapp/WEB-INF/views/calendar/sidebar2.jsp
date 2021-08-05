@@ -30,13 +30,23 @@
 			success:function(res){
 				var list="";
 					$.each(res, function(idx,item){
-						list += "<li>"+"<input type='checkbox' class='form-check-input'checked id='cateChk'>"+"<label id='cateName'>"+
+						list += "<li>"+"<input type='checkbox' class='form-check-input cateChk' value='"+item.schCateNo+"'>"+"<label id='cateName'>"+
 						item.schCateName+"</label>"
-						+ "<input type='color' id='color' value='"+item.schColor+"'>"+"</li>";
+						+ "<input type='color' class='color' value='"+item.schColor+"'>"+"</li>";
 					});
-				
 				console.log(list);
 				$('.panel').append(list);
+				$('.cateChk').change(function(){
+					if($('.cateChk').is(':checked')){
+						alert("ttt");
+						console.log($(this).val());
+					}
+				});
+				/* var c = document.getElementById("color2"),
+				res = document.getElementById("colorResult");
+				c.addEventListener("input", function(){
+					res.innerHTML = c.value;
+				},true); */
 			},error:function(xhr, status, error){
 				alert("에러");	
 			}
@@ -50,7 +60,7 @@
 		$('#addMyCal').click(function(){
 			$('#insertMyCal').modal('show');
 		});
-
+		
 		
 	});
 </script>
@@ -70,21 +80,21 @@ ul, li {
 	clear: left;
 }
 
-#color {
+.color {
 	width: 15%;
 	height: 20px;
 	border: 0px;
 	border-radius: 10px;
 }
 
-#insertCateName{
-	width:90%;
-}
+
 
 
 </style>
 <div class="card-body" style="height: 600px;">
 	<div id="area">
+<%@ include file="cateModal.jsp" %>
+		<p id="colorResult"></p>
 		<input type="button" class="btn btn-outline-secondary" id="regBtn"
 			style="width: 200px; height: 50px" value="일정등록"><br> <BR>
 		<span id="more"><span class="fa-fw select-all fas"></span></span> <span
@@ -101,47 +111,7 @@ ul, li {
 		<hr>
 		<span class="fa-fw select-all fas"></span> <span>캘린더 환경설정</span>
 	</div>
-	<div class="modal fade text-left" id="insertMyCal" tabindex="-1"
-	role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true"
-	data-bs-backdrop="false">
-	<form name="insertMyCal" method="post"
-		action="<c:url value='/calendar/sidebar2'/>">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-			role="document">
-			<div class="modal-content"
-				style="width: 400px; height: 250px; box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);">
-				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel4">내 캘린더 추가</h4>
-					<button type="button" class="close" data-bs-dismiss="modal"
-						aria-label="Close">
-						<i data-feather="x"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<input type="text" name="empNo" id="showEmpNo" value="1"> 
-					<input
-						type="text" id="insertCateName" class="form-control round"
-						name="schCateName">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-light-secondary"
-						data-bs-dismiss="modal">
-						<i class="bx bx-x d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">취소</span>
-					</button>
-					<button type="submit" class="btn btn-primary ml-1"
-						data-bs-dismiss="modal" id="cateInsertOk">
-						<i class="bx bx-check d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">확인</span>
-					</button>
-				</div>
-			</div>
-		</div>
-	</form>
 </div>
-</div>
-
 <script
 	src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
 <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>

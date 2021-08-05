@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.schcate.model.SchCateService;
@@ -31,24 +30,34 @@ public class SchCateController {
 	public List<SchCateVO> listSchCate(){
 		
 		List<SchCateVO> list = schCateService.showAllCate(1);
-		logger.info("list.size()={}",list.size());
+		logger.info("sidebar2 list.size()={}",list.size());
 		
 		return list;
 	}
 	
-	@GetMapping(value={"/calendar/calRegister","/calendar/writeModal"})
+	@GetMapping("/calendar/calRegister")
 	public void listCate(Model model) {
 		List<SchCateVO> list = schCateService.showAllCate(1);
 		model.addAttribute("list", list);
 	}
 	
-	@RequestMapping("/calendar/sidebar2")
+	@PostMapping("/calendar/cateModal")
 	public String insertCate(@ModelAttribute SchCateVO vo) {
 		logger.info("내 캘린더 추가 vo={}",vo);
+		
 		int cnt=schCateService.insertCate(vo);
 		logger.info("내 캘린더 추가, cnt={}",cnt);
 		
-		return "calendar/sidebar2";
+		return "redirect:/calendar/calendarMain";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addColor")
+	public void addColor() {
+		logger.info("일정 카테고리 색 변경");
+		
+		int result=schCateService.updateColor(36);
+		logger.debug("색 변경 결과, result={}",result);
 	}
 
 }

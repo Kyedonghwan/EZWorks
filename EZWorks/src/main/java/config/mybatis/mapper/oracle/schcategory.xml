@@ -18,4 +18,10 @@
 	<select id="showCateName" parameterType="String" resultType="schCateVo">
 		select sch_cateName from SCHCATEGORY where SCH_CATENO=#{#schCate}
 	</select>
+	
+	<update id="updateColor" parameterType="int">
+		update schcategory
+		set sch_color=#{schColor}
+		where sch_cateno=#{schCateNo}
+	</update>
 </mapper>

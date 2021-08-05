@@ -168,8 +168,8 @@ p{
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">내용</label>
-			<textarea class="form-control" id="exampleFormControlTextarea1"
-				rows="10" name="schContent" value="${vo.schContent }">
+			<textarea disabled class="form-control" id="exampleFormControlTextarea1"
+				rows="10" name="schContent" style="background-color: white" >${vo.schContent }
 			</textarea>
 		</div>
 		<div class="registerDiv">
@@ -191,4 +191,4 @@ p{
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
-	<%@ include file="../include/bottom.jsp"%>
+<%@ include file="../include/bottom.jsp"%>
