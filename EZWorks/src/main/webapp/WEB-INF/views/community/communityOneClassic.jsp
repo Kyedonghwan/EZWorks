@@ -154,8 +154,8 @@
 								</c:if>
 							</c:forEach>
 							<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
-								<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> <img
-									src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+								<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> 
+									<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
 								</a>
 							</c:if>
 							<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.lastPage }'>disabled</c:if>"><a class="page-link" href="#">Next</a></li>
@@ -164,31 +164,31 @@
 				</div>
 				
 				<div class="divSearch" style="display:flex;justify-content: center!important;">
-			   	<form name="frmSearch" method="post" action='<c:url value="/board/selectedBoard"/>'>
+			   	<form name="frmSearch" method="post" action='<c:url value="/community/communityOneClassic?boardNo=${cboardVo.boardNo}&communityNo=${cboardVo.communityNo}"/>'>
 			   		<div class="input-group input-group-sm mb-1">
 			        <select name="searchCondition" class="form-select input-group-text" style="width:80px">
-			            <option value="posting_title" 
+			            <option value="title" 
 			            	<c:if test="${searchVo.searchCondition == 'title' }">            	
 			            		selected="selected"
 			            	</c:if>
 			            >제목</option>
-			            <option value="posting_content"
+			            <option value="text"
 			            	<c:if test="${searchVo.searchCondition == 'text' }">            	
 			            		selected="selected"
 			            	</c:if>
 			            >내용</option>
-			            <option value="emp_name" 
-			            	<c:if test="${searchVo.searchCondition == 'empName' }">            	
+			            <option value="emp_Name" 
+			            	<c:if test="${searchVo.searchCondition == 'emp_Name' }">            	
 			            		selected="selected"
 			            	</c:if>
 			            >작성자</option>
 			        </select>   
 			        <input type="text" name="searchKeyword" title="검색어 입력" class="form-control" value="${searchVo.searchKeyword }" style="width:200px "> 
-			        <input type="hidden" name="boardNo" value="${boardVo.boardNo }">
+			        <input type="hidden" name="boardNo" value="${cboardVo.boardNo}">
 					<input type="submit" class= "btn btn-primary" value="검색">
 					</div>
 			    </form>
-				</div>
+			  </div>
 	       </div>
 	   </div>
 </section>				

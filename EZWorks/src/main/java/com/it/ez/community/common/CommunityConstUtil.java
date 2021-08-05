@@ -14,11 +14,11 @@ public interface CommunityConstUtil {
 	//String FILE_UPLOAD_TYPE="deploy";
 	
 	//커뮤니티 게시판 파일 저장 경로
-	String C_BOARD_FILE_UPLOAD_PATH="community/c_board_upload";
+	String C_BOARD_FILE_UPLOAD_PATH="c_board_upload";
 	String C_BOARD_FILE_UPLOAD_PATH_TEST="G:\\아이티윌 자바 120기\\lecture\\4) Project\\210705_3차 프로젝트\\git\\EZWorks\\EZWorks\\src\\main\\webapp\\WEB-INF\\views\\community\\c_board_upload";
 	
 	//커뮤니티 댓글 파일 저장 경로
-	String C_COMMENT_FILE_UPLOAD_PATH="community/c_board_upload";
+	String C_COMMENT_FILE_UPLOAD_PATH="c_board_upload";
 	String C_COMMENT_FILE_UPLOAD_PATH_TEST="G:\\아이티윌 자바 120기\\lecture\\4) Project\\210705_3차 프로젝트\\git\\EZWorks\\EZWorks\\src\\main\\webapp\\WEB-INF\\views\\community\\c_board_upload";
 	
 	//커뮤니티 게시판 이미지 저장 경로

@@ -66,15 +66,15 @@ public String getUploadPath(HttpServletRequest request, int pathFlag) {
 	String path="";
 	if(CommunityConstUtil.FILE_UPLOAD_TYPE.equals("c_board")) {
 		if(pathFlag==CommunityConstUtil.UPLOAD_FILE_FLAG) {
-			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;				
+			path = request.getSession().getServletContext().getRealPath(CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH);				
 		}else if(pathFlag==CommunityConstUtil.UPLOAD_IMAGE_FLAG) {
-			path = CommunityConstUtil.C_BOARD_IMAGE_FILE_UPLOAD_PATH_TEST;
+			path = request.getSession().getServletContext().getRealPath(CommunityConstUtil.C_BOARD_IMAGE_FILE_UPLOAD_PATH);
 		}
 	}else { //deploy
 		if(pathFlag==CommunityConstUtil.UPLOAD_FILE_FLAG) {
-			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;
+			path = request.getSession().getServletContext().getRealPath(CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH);				
 		}else if(pathFlag==CommunityConstUtil.UPLOAD_IMAGE_FLAG) {
-			path = CommunityConstUtil.C_BOARD_FILE_UPLOAD_PATH_TEST;				
+			path = request.getSession().getServletContext().getRealPath(CommunityConstUtil.C_BOARD_IMAGE_FILE_UPLOAD_PATH);			
 		}
 		
 		//실제 물리적인 경로 구하기
