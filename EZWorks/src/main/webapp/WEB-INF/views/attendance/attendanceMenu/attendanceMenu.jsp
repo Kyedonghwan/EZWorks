@@ -151,6 +151,32 @@ div.dropdown-menu{
 <section class="menus">
 	<div style="padding-right:10px;padding-left:10px">
 		<ul style="list-style:none;padding:0px;margin:0px;">
+			<c:if test="${!empty favList }">
+			<li class="sidebar-item active has-sub">
+				<p style="padding:0px 20px 0px 20px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
+					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 0px;">
+           			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
+           			<a href="#" class="sidebar-link chevron-right" style="font-weight:bold"><span>즐겨찾기</span></a>
+				</p>
+                <!-- c:if절, boardType => enterprise -->
+                <ul class="submenu active" style="list-style:none">
+                	<c:forEach var="vo" items="${favList }">
+                			<li class="submenu-item" style="height:25px;">
+                				<c:if test="${vo.boardIsLine==1 }">
+                				<div style="display:inline-block;height:23.63px;width:100%;overflow:hidden;background-image:url('<c:url value='/resources/images/board/dotted-line.png'/>');background-size:contain;">
+                				<span class="separator">${vo.boardName }&nbsp</span>
+                				</div>
+                				</c:if>
+                				<c:if test="${vo.boardIsLine==0 }">
+                				<a href="<c:url value='/board/selectedBoard?boardNo=${vo.boardNo }'/>">${vo.boardName }</a>
+                				</c:if>
+                			</li>
+                	</c:forEach>
+               </ul>
+           </li>
+           <br>
+			</c:if>
+		
 			<li class="sidebar-item active has-sub">
 				
 				<p style="padding:0px 20px 0px 20px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">

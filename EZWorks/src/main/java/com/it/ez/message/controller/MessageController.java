@@ -2,6 +2,8 @@ package com.it.ez.message.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ez.message.common.ConstUtil;
 import com.it.ez.message.common.PaginationInfo;
@@ -157,5 +160,62 @@ public class MessageController {
 		
 		return "common/message";
 	}
+	
+	@GetMapping("/messageEdit")
+	public String edit(@RequestParam(defaultValue = "0") int no, Model model) {
+		//1
+		logger.info("edit 화면 보여주기, 파라미터 no={}",no);
+		if(no==0) {
+			model.addAttribute("msg", "잘못된 url입니다.");
+			model.addAttribute("url", "message/messageList");
+			
+			return "common/message";
+		}
+		
+		//2
+		MessageVO vo = messageService.selectByNo(no);
+		logger.info("edit 화면 결과, vo={}",vo);
+		
+		//3
+		model.addAttribute("vo", vo);
+		
+		return "message/messageEdit";
+	}
+	
+	@PostMapping("/messageEdit")
+	public String edit_post(@ModelAttribute MessageVO vo, Model model) {
+		//1
+		logger.info("수정 처리, 파라미터 vo={}", vo);
+		
+		//2
+		String msg="쪽지 수정 실패", url="/message/messageEdit?no="+vo.getNo();
+		if(messageService.checkPwd(vo.getNo(), vo.getPwd())) {
+			int cnt = messageService.updateMessage(vo);
+			if(cnt>0) {
+				msg="쪽지 수정되었습니다.";
+				url="/message/messagedetail?no="+vo.getNo();
+			}
+		}else {
+			msg="비밀번호가 일치하지 않습니다.";
+		}
+		
+		//3
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
+	@RequestMapping(value = "/delete")
+    public String ajaxTest(HttpServletRequest request) {
+            
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+        for(int i=0; i<size; i++) {
+        	messageService.delete(ajaxMsg[i]);
+        }
+        return "redirect:messageList";
+    }
+	
 
 }

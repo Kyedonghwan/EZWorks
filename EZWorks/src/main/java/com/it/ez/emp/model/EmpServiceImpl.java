@@ -43,11 +43,9 @@ public class EmpServiceImpl implements EmpService{
 		
 		return result;		
 	}
-	
 	public EmpVO selectEmpInfo(int empNo) {
 		return empDao.selectEmpInfo(empNo);
 	public String selectName(int empNo) {
 		return empDao.selectName(empNo);
 	}
-	
 }
