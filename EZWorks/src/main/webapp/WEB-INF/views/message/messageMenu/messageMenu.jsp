@@ -48,9 +48,9 @@
 			</a>
 			
 			<nav><br></nav>
-			<a href="javascript:openWindowPop('../chat/chat', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;
-				javascript:openWindowPop('../chat', 'popup');" class="btn btn-outline-info" style="width:100%;font-size:0.85em;">
-				채팅
+			<a href="javascript:openWindowPop('../chat/room', 'popup');" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;
+				javascript:openWindowPop('../chat/room', 'popup2');" class="btn btn-outline-secondary" style="width:100%;font-size:0.85em;">
+				그룹채팅방
 			</a>
 			
 	</div>
