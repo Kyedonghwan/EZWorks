@@ -65,7 +65,7 @@
 		                            <tbody id="tbody">
 		                            	<c:forEach var="map" items="${union}">
 		                                 	<tr>
-		                                 		<td><input class="form-check-input" type="checkbox" value="" ></td>
+		                                 		<td><c:if test="${map['CURRENT_STATE']=='결재완료'}"><input class="form-check-input" type="checkbox" value=""></c:if></td>
 		                                 		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
 		                                 		<td>${map['FORM_NAME']}</td>
 		                                 		<td>${map['KIND']}</td>

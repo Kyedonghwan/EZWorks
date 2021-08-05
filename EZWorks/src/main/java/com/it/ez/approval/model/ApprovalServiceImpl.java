@@ -1,10 +1,15 @@
 package com.it.ez.approval.model;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.it.ez.archive.common.ConstUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -204,7 +209,33 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	
+	@Override
+	public int deleteApprovalFile(int approvalNo,HttpServletRequest request) {
+		String uploadPath=request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH_APPROVALFILE);
+		for(ApprovalFileVO vo:approvalDao.selectApprovalFile(approvalNo)) {
+			File file = new File(uploadPath,vo.getAfFilename());
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		int cnt=approvalDao.deleteApprovalFile(approvalNo);
+		return cnt;
+	}
 
+	@Override
+	public List<ApprovalFileVO> selectApprovalFile(int approvalNo) {
+		return approvalDao.selectApprovalFile(approvalNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectDraftAgreeByDept(int deptNo) {
+		return approvalDao.selectDraftAgreeByDept(deptNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReferenceByDeptNo(int deptNo) {
+		return approvalDao.selectReferenceByDeptNo(deptNo);
+	}
 	
 	
 }

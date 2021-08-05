@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +54,7 @@ public class FormController {
 	}
 	
 	@GetMapping("/3")
-	public String form3(Model model) {
+	public String form3(Model model,HttpSession session) {
 		Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		String today = sdf.format(d);
@@ -61,8 +63,25 @@ public class FormController {
 		approvalStringNo="EZ그룹 - "+approvalStringNo;
 		model.addAttribute("today",today);
 		model.addAttribute("approvalStringNo",approvalStringNo);
+		model.addAttribute("deptName",(String)session.getAttribute("deptName"));
+		model.addAttribute("posName",(String)session.getAttribute("posName"));
 		return "approval/form3";
 	}
 	
+	@GetMapping("/20")
+	public String form20(Model model,HttpSession session) {
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+		String today = sdf.format(d);
+		sdf = new SimpleDateFormat("yyyyMMddssSSS");
+		String approvalStringNo = sdf.format(d);
+		approvalStringNo="EZ그룹 - "+approvalStringNo;
+		model.addAttribute("today",today);
+		model.addAttribute("approvalStringNo",approvalStringNo);
+		model.addAttribute("deptName",(String)session.getAttribute("deptName"));
+		model.addAttribute("empName",(String)session.getAttribute("empName"));
+		model.addAttribute("posName",(String)session.getAttribute("posName"));
+		return "approval/form20";
+	}
 	
 }

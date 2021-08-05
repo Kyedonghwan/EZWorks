@@ -7,7 +7,7 @@
 		<selectKey resultType="int" keyProperty="approvalNo" order="BEFORE">
 			select approval_seq.nextval from dual
 		</selectKey>
-		insert into approval(approval_no,approval_stringno,form_no,emp_no,dept_no,form3_title,form3_content,current_state,emergency,approval_draftingopinion,currentOrder) values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},#{deptNo},#{form3Title},#{form3Content},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder})
+		insert into approval values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},sysdate,#{deptNo},#{form3Title},#{form3Content},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder},#{form20Div},#{form20Startdate},#{form20A},#{form20B},#{form20C},#{form20D},#{form20E},#{form20Description})
 	</insert>
 	
 	<insert id="insertApprovalLine" parameterType="ApprovalLineVO">
@@ -47,7 +47,7 @@
 	</select>
 	
 	<select id="selectWaitApprovalVO" parameterType="int" resultType="map">
-		select b.*,e.emp_name,f.form_name,f.form_no,p.pos_name,d.dept_name from approval b join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no join dept d on b.dept_no=d.dept_no where b.approval_no=#{approvalNo}
+		select (select count(*) from approvalfile where approval_no=b.approval_no) as afCount,b.*,e.emp_name,f.form_name,f.form_no,p.pos_name,d.dept_name from approval b join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no join dept d on b.dept_no=d.dept_no where b.approval_no=#{approvalNo}
 	</select>
 	
 	<select id="selectApprovalByNo" parameterType="int" resultType="approvalVo">
@@ -170,6 +170,21 @@
 		insert into approvalFile values(#{afNo},#{afFilename},#{afOriginalfilename},#{afFilesize},#{approvalNo})
 	</insert>
 	
+	<select id="selectApprovalFile" parameterType="int" resultType="approvalFileVo">
+		select * from approvalfile where approval_no=#{approvalNo}
+	</select>
+	
+	<delete id="deleteApprovalFile" parameterType="int">
+		delete from approvalFile where approval_no=#{approvalNo}
+	</delete>
+	
+	<select id="selectDraftAgreeByDept" parameterType="int" resultType="map">
+		select (select count(*) from approvalcomment where approval_no=a.approval_no) as acCount,(select count(*) from approvalfile where approval_no=a.approval_no) as afCount,a.approval_regdate,a.approval_no,f.form_no,f.form_name,a.emergency,a.form3_title,e.emp_name,d.dept_name,a.approval_stringno,a.current_state from approval a join form f on a.form_no=f.form_no join emp e on a.emp_no=e.emp_no join dept d on e.dept_no=d.dept_no where a.current_state='결재완료' and d.dept_no=#{deptNo}
+	</select>
+	
+	<select id="selectReferenceByDeptNo" parameterType="int" resultType="map"> 
+		select (select count(*) from approvalcomment where approval_no=a.approval_no) as acCount,(select count(*) from approvalfile where approval_no=a.approval_no) as afCount,a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'참조' as kind from reference r join approval a on a.approval_no=r.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where r.dept_no=#{deptNo} and r.emp_no=0 and not a.current_state='임시저장' order by approval_regdate 
+	</select>
 </mapper>
 
 

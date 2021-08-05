@@ -49,4 +49,9 @@ public interface ApprovalDAO {
 	int deleteApproval(int approvalNo);
 	int deleteApprovalComment(int approvalNo);
 	int insertApprovalFile(ApprovalFileVO vo);
+	List<ApprovalFileVO> selectApprovalFile(int approvalNo);
+	int deleteApprovalFile(int approvalNo);
+	
+	List<Map<String,Object>> selectDraftAgreeByDept(int deptNo);
+	List<Map<String,Object>> selectReferenceByDeptNo(int deptNo);
 }

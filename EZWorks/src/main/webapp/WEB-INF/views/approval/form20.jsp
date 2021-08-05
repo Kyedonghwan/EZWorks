@@ -8,6 +8,7 @@
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/summernote/summernote-lite.min.css'/>">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 
 <style>
@@ -80,7 +81,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 	<section style="height:64px;padding:24px 24px 16px">
 		<h5>
 			<a>
-				<input type="hidden" id="currentFormNo" value="3">일반품의서
+				<input type="hidden" id="currentFormNo" value="20">연장근무신청서
 			</a>			
 		</h5>
 		
@@ -103,148 +104,90 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                         			<td colspan="2">
                         			
                         			
-                        				<span style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><span style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> 
-										 <!-- 문서 헤더 시작--> 
-										 
-										<table style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 1px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"><colgroup> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 180px;"> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 120px;"> 
-										   <col style="width: 90px;"> 
-										   <col style=""> 
-										  </colgroup> 
-										  
-											<tbody>
-												<tr>
-													<td style="padding: 3px; border: 1px solid black; height: 90px !important; font-size: 27px; font-weight: bold; text-align: center; vertical-align: middle; " colspan="2">
-														
-										품 &nbsp;의 &nbsp;서
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: right;" colspan="4">
-														<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea"><span class="sign_tit_wrap"><span class="sign_tit"><strong>신청</strong></span></span><span class="sign_member_wrap" id="activity_15824"><span class="sign_member"><span class="sign_rank_wrap"><span class="sign_rank">${posName }</span></span><span class="sign_wrap"><span class="sign_name"> <strong> ${empName } </strong> </span></span><span class="sign_date_wrap"><span class="sign_date" id="date_15824"></span></span></span></span></span>
+                        				<div class="approval_import ie9-scroll-fix">
+										    <!-- 문서 내용 표시 테스트 -->
+										    <form id="document_content" class="form_doc_editor editor_view" onsubmit="return false;"><table class="__se_tbl" style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 0px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;">
+										 <!-- Header --> 
+										 <tbody> 
+										  <tr> 
+										   <td style="width:300px; padding: 3px !important; border: 0px solid black; height: 90px !important; font-size: 22px; font-weight: bold; text-align: center; vertical-align: middle;" colspan="2" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l">연장근무신청서</td> 
+										  </tr> 
+										  <tr> 
+										   <td style="width:300px; border: 0; padding: 0 !important" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l"> 
+										    <table class="__se_tbl" style="background: white; margin: 0px; border: 1px solid black; border-image: none; color: black; font-family: malgun gothic,dotum,arial,tahoma; font-size: 12px; border-collapse: collapse !important;">
+										     <!-- User --> 
+										     <tbody> 
+										      <tr> 
+										       <td style="width: 100px; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: rgb(221, 221, 221); padding: 3px !important;">기안자</td> 
+										       <td style="width: 200px; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left; padding: 3px !important;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftUser}}" name="draftUser" id="draftUser" value="${empName}" data-id="draftUser" data-name="draftUser" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="김상후" placeholder=""></td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">기안부서</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftDept}}" name="draftDept" id="draftDept" value="${deptName}" data-id="draftDept" data-name="draftDept" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="다우그룹" placeholder=""></td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">기안일</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftDate}}" name="draftDate" id="draftDate" value="${today }" data-id="draftDate" data-name="draftDate" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="2021-08-05(목)" placeholder=""> </td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">문서번호</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:docNo}}" name="docNo" value="${approvalStringNo }" data-id="docNo" data-name="docNo" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="" placeholder=""> </td> 
+										      </tr> 
+										     </tbody> 
+										    </table> </td> 
+										   <td style="width: 500px; text-align: right; padding: 0px!important; border: 0!important; vertical-align: top !important" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l"> 
+										    <!-- 결재선 기본값으로 신청 1명, 승인 7명으로 설정--> 
+										    	<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea"><span class="sign_tit_wrap"><span class="sign_tit"><strong>신청</strong></span></span><span class="sign_member_wrap" id="activity_15824"><span class="sign_member"><span class="sign_rank_wrap"><span class="sign_rank">${posName }</span></span><span class="sign_wrap"><span class="sign_name"> <strong> ${empName } </strong> </span></span><span class="sign_date_wrap"><span class="sign_date" id="date_15824"></span></span></span></span></span>
 														  
 														  
 														  <!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span unselectable="on" contenteditable="false" class="comp_wrap" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span><span contenteditable="false" class="comp_hover" data-content-protect-cover="true" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span></span><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><br>
 													
-										   </td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기안부서
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="8" data-dsl="{{label:draftDept}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${deptName }</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="8" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기 안 일
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="10" data-dsl="{{label:draftDate}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${today}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="10" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										문서번호
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left; font-size: 12px;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="12" data-dsl="{{label:docNo}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${approvalNo }</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="12" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기 안 자
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="9" data-dsl="{{label:draftUser}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">김상후</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="9" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										보존년한
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="11" data-dsl="{{label:preserveDuration}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">5</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="11" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										비밀등급
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="13" data-dsl="{{label:securityLevel}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">상</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="13" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 문서 헤더 끝--> 
-										 <!-- 마진 시작--> 
-										 
-										<table style="width: 800px; border-collapse: collapse; border-spacing: 0px; border: 1px solid black;">
-											<tbody>
-												<tr>
-													<td style="padding: 0px !important; height: 10px; vertical-align: middle; border: 1px solid black; font-size: 9px;">
-														<p style="font-family: &quot;맑은 고딕&quot;; font-size: 7pt; line-height: 14px; margin-top: 0px; margin-bottom: 0px;"><br></p>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 마진 끝 --> 
-										 <!-- 합의 시작 --> 
-										 
-										 
-										 <!-- 합의 끝 --> 
-										 <!-- 마진 시작--> 
-										 
-										 
-										 <!-- 마진 끝--> 
-										 <!-- 제목 및 내용 시작 --> 
-										 
-										<table style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 1px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"><colgroup> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 710px;"> 
-										  </colgroup> 
-										  
-											<tbody>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										제 &nbsp;&nbsp;&nbsp; 목
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{text:subject}}" data-wrapper="" style="width: 100%; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value=""><input style='width:100%' id="approvalName1" class="ipt_editor" type="text"><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="6" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 540px; vertical-align: top; border: 1px solid black; " colspan="2">
-														<textarea id="summernote" style="width:100%;height:100%" name="postingContent"></textarea>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 제목 및 내용 끝 --> 
-										 <!-- 푸터--> 
-										 
-										<table style="width: 800px; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;">
-											<tbody>
-												<tr>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 푸터 끝--></span><p style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: 20px; margin-top: 0px; margin-bottom: 0px;"><br></p></span>
-									
-									
-									</td>
+										   </td> 
+										  </tr> 
+										 </tbody> 
+										</table> 
+										<br> 
+										<span id="timelineApprovalFormSection"> 
+										 <table id="timelineApprovalForm" class="__se_tbl" style="width: 800px; margin-top : 0px; margin-bottom:20px; border-collapse: collapse !important; color: black; background: white; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"> 
+										  <tbody> 
+										   <tr> 
+										    <td colspan="4" style="width:800px; background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">신청&nbsp;현황</td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>근무구분</td> 
+										    <td id="name" colspan="3" style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;"> <span>
+										    <input type="radio" class="editor_opt" data-dsl="{{radio_연장_야간_휴일}}" name="editorForm_4" value="연장" data-autotype="false" data-require="false" id="editorForm_4_연장" data-label="연장" checked="checked">
+										    <label class="editor_label" data-type="removeSpan">연장</label>
+										    <input type="radio" class="editor_opt" data-dsl="{{radio_연장_야간_휴일}}" name="editorForm_4" value="야간" data-autotype="false" data-require="false" id="editorForm_4_야간" data-label="야간"><label class="editor_label" data-type="removeSpan">야간</label><input type="radio" class="editor_opt" data-dsl="{{radio_연장_야간_휴일}}" name="editorForm_4" value="휴일" data-autotype="false" data-require="false" id="editorForm_4_휴일" data-label="휴일"><label class="editor_label" data-type="removeSpan">휴일</label></span> <span style="font-size: 12px;">* * 자정 이후 근무시작인 경우 날짜를 다음날로 지정해주세요.</span></td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>근무일시</td> 
+										    
+										   <td colspan="3" style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;"> <input type="text" readonly="" class="ipt_editor ipt_editor_date" data-dsl="{{calendar:startDate}}" id="startdate"> <span id="startTime"> <span data-type="time" data-value=""><select data-dsl="{{select}}" id="startHourSelect" name="editorForm_6" data-select-type="hour" class="editor_slt"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>시 <select data-dsl="{{select}}" id="startMinuteSelect" name="editorForm_7" data-select-type="minute" class="editor_slt"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>분 </span> </span> ~&nbsp; <span id="endTime"> <span data-type="time" data-value=""><select data-dsl="{{select}}" id="endHourSelect" name="editorForm_8" data-select-type="hour" class="editor_slt"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>시 <select data-dsl="{{select}}" id="endMinuteSelect" name="editorForm_9" data-select-type="minute" class="editor_slt"><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>분 </span> </span> </td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"><b style="color: rgb(255, 0, 0);">*</b>근무시간</td> 
+										    <td colspan="3" style="padding: 3px; border: 1px solid black; width: 700px; height: 22px; text-align: left; color: rgb(0, 0, 0); font-size: 12px; vertical-align: middle; background: rgb(255, 255, 255);"> <span id="totalTime" style="font-family: malgun gothic, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </td> 
+										   </tr> 
+										   <tr> 
+										    <td colspan="4" style="width:800px; padding: 20px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left; background: rgb(255, 255, 255);"> <p> * 주간 근무시간 - 근무일이 포함된 한 주 </p> <p> 정상근무시간 + 연장근무 승인 요청에 대한 결재가 완료된 총 시간입니다. </p> <p> 근태관리에서 시간 수정이 가능하므로 주간 근무시간은 상이해질 수 있습니다. </p> </td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 80px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>신청&nbsp;사유 </td> 
+										    <td colspan="3" style="padding: 3px; border: 1px solid black; width: 450px; height: 100px; text-align: left; color: rgb(0, 0, 0); font-size: 12px;  vertical-align: top; background: rgb(255, 255, 255);"> <textarea class="txta_editor" style="width:100%;height:100%" data-dsl="{{textarea:description}}" name="description" id="description" value="" data-id="description" data-name="description" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="" placeholder=""></textarea> </td> 
+										   </tr> 
+										    
+										  </tbody> 
+										 </table> </span> 
+										</form>
+										</div>
                         		</tr>
                         		<tr>
                         			<td style="font-weight:bold">파일첨부
                         			</td>
                         			<td>
 						                <form method="post" name="approvalFrm" action="<c:url value='/approval/insert'/>" enctype="multipart/form-data">
+													<input type="hidden" value="연장근무신청서" id="approvalName1">
 													<input type="hidden" name="formNo">
 											     	<input type="hidden" name="approvalStringNo">
 											     	<input type="hidden" name="form3Title">
@@ -252,6 +195,14 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 											     	<input type="hidden" name="emergency">
 											     	<input type="hidden" name="currentState" value="진행중">
 											     	<input type="hidden" name="currentOrder" id="currentOrder">
+											     	<input name="form20Div" type="hidden">
+											      	<input name="form20Startdate" type="hidden">
+											      	<input name="form20A" type="hidden">
+											      	<input name="form20B" type="hidden">
+											      	<input name="form20C" type="hidden">
+											      	<input name="form20D" type="hidden">
+											      	<input name="form20E" type="hidden">
+											      	<input name="form20Description" type="hidden">
 											     	<div id="isNotExisted">
 											     		<input name="alEmpNo" type="hidden" >
 												      	<input name="alDeptNo" type="hidden">
@@ -260,6 +211,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 												      	<input name="referenceDeptNo" type="hidden">
 												      	<input name="browseEmpNo" type="hidden">
 												      	<input name="receptionEmpNo" type="hidden">
+												      	
 											   		</div>
 											   		<div id="isExisted">
 											   		</div>
@@ -298,7 +250,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							  			</div>
 							  			<div style="float:left; margin-left:10px;height:100%;">
 							  				<div style="font-size:15px;font-weight:bold;color:#00001f">${empName} ${posName }</div>
-							  				<div style="font-size:15px;color:#9f9f9f">${deptName}</div>
+							  				<div style="font-size:15px;color:#9f9f9f">${deptName }</div>
 							  				<div style="font-size:15px;color:#9f9f9f">기안</div>
 							  			</div>
 							  		</li>
@@ -443,6 +395,56 @@ FilePond.create( document.querySelector('.multiple-files-filepond'), {
 
 <script>
 $(function(){
+	
+	$('select').change(function(){
+		if($('#startdate').val().length<1){
+			Toastify({
+				text:"근무 시작 날짜를 선택하세요.",
+				duration: 2000,
+				close:false,
+				gravity:"top",
+				position:"center",
+				backgroundColor:"black",
+			}).showToast();
+			$('#startdate').focus();
+			return false;
+		}
+		
+		var startTime=$('#startHourSelect').val() +":"+$('#startMinuteSelect').val();
+		var endTime=$('#endHourSelect').val() +":"+$('#endMinuteSelect').val();
+		var startDate=$('#startdate').val()+" "+startTime;
+		var a = moment($('#startdate').val());
+		var b;
+		
+		var endDate
+		if(startTime<endTime){
+			b=a.clone();
+		}else{
+			b = a.clone().add(1,'day');
+		}
+		var endDate=b.format('YYYY-MM-DD')+" "+endTime;
+		
+		var t1=moment(startDate,'YYYY-MM-DD HH:mm');
+		var t2=moment(endDate,'YYYY-MM-DD HH:mm');
+		
+		$('#totalTime').html(moment.duration(t2.diff(t1)).hours()+"시간 "+moment.duration(t2.diff(t1)).minutes()+"분");
+	})
+	
+	$.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        prevText: '이전 달',
+        nextText: '다음 달',
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        showMonthAfterYear: true,
+        yearSuffix: '년'
+    });
+	
+	$( "#startdate" ).datepicker();
+	
 	$('.cancelModal-close').click(function(){
 		$('#cancelModal').hide();
 	});
@@ -456,12 +458,13 @@ $(function(){
 	});
 })
 </script>
-
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <%@include file="selectFormModal.jsp"%>
 <%@include file="approvalInfoModal.jsp"%>
 <%@include file="draftingOpinionModal.jsp"%>
 <%@include file="tempModal.jsp"%>
+
 </body>
 
 </html>	

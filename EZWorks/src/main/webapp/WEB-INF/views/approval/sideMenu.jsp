@@ -87,25 +87,20 @@
                     <li class="submenu-item ">
                         <a href="<c:url value='/approval/reference'/>">참조/열람 문서함</a>
                     </li>
-                    <li class="submenu-item ">
-                        <a href="component-button.html">수신 문서함</a>
-                    </li>
                 </ul>
              </li>
              <br>
              <li class="sidebar-item active has-sub">
                 <a href="#" class='sidebar-link'>
                     <span style="font-weight:bold">부서 문서함</span>
+                    
                 </a>
                 <ul class="submenu active" style="list-style:none">
                     <li class="submenu-item ">
-                        <a href="component-alert.html">기안 완료함</a>
+                        <a href="<c:url value='/approval/draftByDept'/>">기안 완료함</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="component-badge.html">부서 참조함</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-button.html">부서 수신함</a>
+                        <a href="<c:url value='/approval/referenceByDept'/>">부서 참조함</a>
                     </li>
                 </ul>
              </li>
@@ -139,9 +134,3 @@
 		$.showUsedForm();
 	});
 </script>
-
-<!-- 
-<li class="submenu-item ">
-                        <a href="component-breadcrumb.html" style="color:grey" disable="disabled">사내 소식</a>
-                    </li>
- -->

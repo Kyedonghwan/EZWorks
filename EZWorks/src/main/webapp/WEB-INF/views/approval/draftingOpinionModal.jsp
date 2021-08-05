@@ -83,7 +83,19 @@
 			$('input[name=formNo]').val($('#currentFormNo').val())
 			$('input[name=approvalStringNo]').val($('#approvalStringNo').text());
 			$('input[name=form3Title]').val($('#approvalName1').val());
-			$('textarea[name=form3Content]').text($('.note-editable').html())
+			$('textarea[name=form3Content]').text($('.note-editable').html());
+			$('input[type=radio]').each(function(){
+				if($(this).is(':checked')){
+					$('input[name=form20Div]').val($(this).val());
+				}
+			})
+			$('input[name=form20Startdate]').val($('#startdate').val());
+			$('input[name=form20A]').val($('#startHourSelect').val());
+			$('input[name=form20B]').val($('#startMinuteSelect').val());
+			$('input[name=form20C]').val($('#endHourSelect').val());
+			$('input[name=form20D]').val($('#endMinuteSelect').val());
+			$('input[name=form20E]').val($('#totalTime').text());
+			$('input[name=form20Description]').val($('#description').val());
 			
 			<!-- 결재선 저장 -->
 			$('#approvalLineDetail').children().children('li:gt(0)').each(function(idx,item){
@@ -123,6 +135,7 @@
 			$('textarea[name=approvalDraftingOpinion]').val($('textarea[name=approvalDraftingOpinionTemp]').val());
 			$('form[name=approvalFrm]').submit();
 		});
+		
 	})
 	
 	

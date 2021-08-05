@@ -13,4 +13,5 @@ public class ApprovalFileVO {
 	private String afOriginalfilename;
 	private long afFilesize;
 	private int approvalNo;
+	private String ext;
 }

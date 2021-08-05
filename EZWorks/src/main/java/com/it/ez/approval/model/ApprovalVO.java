@@ -22,4 +22,13 @@ public class ApprovalVO {
 	private String emergency;
 	private String approvalDraftingOpinion;
 	private int currentOrder;
+	private String form20Div;
+	private String form20Startdate;
+	private String form20A;
+	private String form20B;
+	private String form20C;
+	private String form20D;
+	private String form20E;
+	private String form20Description;
+
 }

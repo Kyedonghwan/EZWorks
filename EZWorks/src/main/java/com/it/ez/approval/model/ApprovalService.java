@@ -3,6 +3,8 @@ package com.it.ez.approval.model;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface ApprovalService {
 	int insertApproval(ApprovalVO approvalVo);
 	int insertApprovalLine(List<ApprovalLineVO> list);
@@ -39,4 +41,8 @@ public interface ApprovalService {
 	int deleteApproval(int approvalNo);
 
 	int insertApprovalFile(List<ApprovalFileVO> list);
+	List<ApprovalFileVO> selectApprovalFile(int approvalNo);
+	int deleteApprovalFile(int approvalNo,HttpServletRequest request);
+	List<Map<String,Object>> selectDraftAgreeByDept(int deptNo);
+	List<Map<String,Object>> selectReferenceByDeptNo(int deptNo);
 }

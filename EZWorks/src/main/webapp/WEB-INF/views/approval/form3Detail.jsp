@@ -84,7 +84,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 	<section style="height:64px;padding:24px 24px 16px">
 		<h5>
 			<a>
-				<input type="hidden" id="currentFormNo" value="3"><c:if test="${approval.currentState!='임시저장'}">일반품의서</c:if><c:if test="${approval.currentState=='임시저장'}">임시 저장 문서: ${approval.form3Title} (<fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd hh시MM분 저장됨"/>)</c:if>
+				<input type="hidden" id="currentFormNo" value="3"><c:if test="${approval.currentState!='임시저장'}">${approval.form3Title }</c:if><c:if test="${approval.currentState=='임시저장'}">임시 저장 문서: ${approval.form3Title} (<fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd hh시MM분 저장됨"/>)</c:if><span style="font-size:15px;color:#999"> in 일반 품의서</span>
 			</a>			
 		</h5>
 		
@@ -314,9 +314,9 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 									</td>
                         		</tr>
 	                        		<tr>
-	                        			<td style="font-weight:bold">첨부 파일
+	                        			<td style="font-weight:bold;width:20%">첨부 파일
 	                        			</td>
-	                        			<td>
+	                        			<td style="width:80%">
 	                        				<c:if test="${approval.currentState=='임시저장'}">
 	                        					<form method="post" name="approvalFrm" enctype="multipart/form-data" action="<c:url value='/approval/insert'/>">
 													<input type="hidden" name="formNo">
@@ -343,8 +343,34 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 											 	</form>
 							                	
 							                </c:if>
+							                <c:if test="${approval.currentState!='임시저장'}">
+							                	<div style="padding:4px 8px;color:black;" id="attachFile">
+							                		
+							                	</div>
+							                </c:if>
 	                        			</td>
 	                        		</tr>
+	                        		<c:set var="idx" value="0"/>
+	                        		<c:forEach var="item" items="${fileList}">
+	                        		
+	                        		<tr>
+	                        			<td style="width:20%">
+	                        			</td>
+	                        			<td style="width:80%">
+	                        				<p style="background:#f4f4f4;" >
+	                        				<c:if test="${item.ext == 'pdf'}"><img src="https://img.icons8.com/color/24/000000/pdf.png"/></c:if>
+	                        				<c:if test="${item.ext == 'png'}"><img src="https://img.icons8.com/office/24/000000/png.png"/></c:if>
+	                        				<c:if test="${item.ext == 'jpg'}"><img src="https://img.icons8.com/office/24/000000/jpg.png"/></c:if>
+	                        				<c:if test="${item.ext != 'jpg' && item.ext != 'png' && item.ext != 'pdf' }"><img src="https://img.icons8.com/office/24/000000/file.png"/></c:if>
+	                        				<a href="#" style="background:#f4f4f4;color:black;" class="downloadBtn"> ${item.afOriginalfilename} </a><span style='color:#999' class="afFileSize">${item.afFilesize}</span></p>
+	                        				<form name="downloadFrm${idx}" method="post" action="<c:url value='/approval/download'/>">
+	                        					<input type="hidden" name="afFilename" value="${item.afFilename}">
+	                        					<input type="hidden" name="afOriginalfilename" value="${item.afOriginalfilename}">
+	                        				</form>
+	                        			</td>
+	                        		</tr>
+	                        		<c:set var="idx" value="${idx + 1}"/>
+	                        		</c:forEach>
 	                        		<tr>
 	                        			<td style="font-weight:bold">첨부 관련 문서
 	                        			</td>
@@ -446,7 +472,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">기안부서</th>
-							  			<td style="color:#00001f;font-weight:bold;font-size:14px">EZ그룹</td>
+							  			<td style="color:#00001f;font-weight:bold;font-size:14px">${vo['DEPTNAME']}</td>
 							  		</tr>
 							  		<tr>
 							  			<th style="width:7%;text-align:center;font-size:14px">문서참조</th>
@@ -540,6 +566,11 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
         height: 540,
     });
     
+    $(document).on('click','.downloadBtn',function(){
+    	console.log("@");
+    	$(this).parent().next().submit();
+    })
+    
     function timeForToday(value) {
         const today = new Date();
         const timeValue = new Date(value);
@@ -565,6 +596,9 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
     
     $.showCommentList = function(){
     	var approvalNo=${param.approvalNo};
+    	
+    
+    	
 		$.ajax({
 			url:"<c:url value='/approvalComment/showAll'/>",
 			type:"get",
@@ -591,7 +625,39 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 		})
 	}
     
+
+	$.byte=function(fileSize, fixed) {
+	    var str
+	
+	    //MB 단위 이상일때 MB 단위로 환산
+	    if (fileSize >= 1024 * 1024) {
+	        fileSize = fileSize / (1024 * 1024);
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' MB';
+	    }
+	    //KB 단위 이상일때 KB 단위로 환산
+	    else if (fileSize >= 1024) {
+	        fileSize = fileSize / 1024;
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' KB';
+	    }
+	    //KB 단위보다 작을때 byte 단위로 환산
+	    else {
+	        fileSize = (fixed === undefined) ? fileSize : fileSize.toFixed(fixed);
+	        str = fileSize + ' Byte';
+	    }
+	    return str;
+	}
+    
+    
     $(function(){
+    	$('#attachFile').html("<img src='https://img.icons8.com/ios/14/000000/attach.png' title='첨부'/> 첨부파일 ${vo['AFCOUNT']}개 <span style='color:#607080'>("+$.byte(${totalFileSize},1)+")</span>");
+    	$('.afFileSize').each(function(idx,item){
+    		
+    		var afFileSize=$(this).text();
+    		$(this).text("("+$.byte(afFileSize,1)+")");
+    	})
+    	
     	$.showCommentList();
     	$('#wc').click(function(){
     		var acContent=$('input[name=acContent]').val();

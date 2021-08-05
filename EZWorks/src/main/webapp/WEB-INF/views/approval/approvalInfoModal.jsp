@@ -639,21 +639,45 @@ $(function(){
 						temp=$(this).parent().children('summary').text().split('(')[1];
 						deptNo3=temp.substring(0,temp.length-1);
 					})
+					
+					$('#approvalInfoEmpTree2 Summary').click(function(){
+						temp=$(this).text().split('(')[0];
+						deptName3=temp.substring(0,temp.length-1);
+						temp=$(this).text().split('(')[1];
+						deptNo3=temp.substring(0,temp.length-1);
+						empNo3=0;
+						empName3="그룹전체";
+					})
 					$('#add3').click(function(){
 						var bool=false;
 							if(empName3!=null){
 								$(this).parent().parent().parent().children('tr').each(function(){
-									if($(this).children('td').eq(1).text()==empName3){
-										Toastify({
-											text:"중복된 대상입니다.",
-											duration: 2000,
-											close:false,
-											gravity:"top",
-											position:"center",
-											backgroundColor:"black",
-										}).showToast();
-										bool=true;
-										return false;
+									if($(this).children('td').eq(0).text()==empName3){
+										if($(this).children('td').eq(0).text()!='그룹전체'){
+											Toastify({
+												text:"중복된 대상입니다.",
+												duration: 2000,
+												close:false,
+												gravity:"top",
+												position:"center",
+												backgroundColor:"black",
+											}).showToast();
+											bool=true;
+											return false;
+										}else{
+											if($(this).children('td').eq(1).text()==deptName3){
+												Toastify({
+													text:"중복된 대상입니다.",
+													duration: 2000,
+													close:false,
+													gravity:"top",
+													position:"center",
+													backgroundColor:"black",
+												}).showToast();
+												bool=true;
+												return false;
+											}
+										}
 									}
 								})
 								if(bool) return false;
@@ -708,7 +732,7 @@ $(function(){
 						var bool=false;
 							if(empName4!=null){
 								$(this).parent().parent().parent().children('tr').each(function(){
-									if($(this).children('td').eq(1).text()==empName4){
+									if($(this).children('td').eq(0).text()==empName4){
 										Toastify({
 											text:"중복된 대상입니다.",
 											duration: 2000,

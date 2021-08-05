@@ -77,7 +77,6 @@
                         <table class="table project-table table-centered table-nowrap">
 		                            <thead>
 		                                <tr>
-		                                    <th scope="col"><input class="form-check-input" type="checkbox" value=""></th>
 		                                    <th scope="col" style="width:10%">기안일</th>
 		                                    <th scope="col" style="width:10%">결재양식</th>
 		                                    <th scope="col" style="width:5%">긴급</th>
@@ -92,7 +91,6 @@
 		                            <tbody id="tbody">
 		                            	<c:forEach var="map" items="${list2}">
 		                                 	<tr>
-		                                 		<td><c:if test="${map['CURRENT_STATE']=='결재완료'}"><input class="form-check-input" type="checkbox" value=""></c:if></td>
 		                                 		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
 		                                 		<td>${map['FORM_NAME']}</td>
 		                                 		<td><c:if test="${map['EMERGENCY']=='Y'}"><span class="state emergency">긴급</span></c:if></td>
@@ -124,7 +122,6 @@
                         <table class="table project-table table-centered table-nowrap">
                             <thead>
                                 <tr>
-                                    <th scope="col"><input class="form-check-input" type="checkbox" value=""></th>
                                     <th scope="col" style="width:10%">기안일</th>
                                     <th scope="col" style="width:10%">결재양식</th>
                                     <th scope="col" style="width:5%">긴급</th>
@@ -134,12 +131,10 @@
                                     <th scope="col" style="width:20%">문서번호</th>
                                     <th scope="col" style="width:10%">결재상태</th>
                                  </tr>
-                                 
                             </thead>
                             <tbody id="tbody">
                             	<c:forEach var="map" items="${list3}">
                                  	<tr>
-                                 		<td><c:if test="${map['CURRENT_STATE']=='결재완료'}"><input class="form-check-input" type="checkbox" value=""></c:if></td>
                                  		<td><fmt:formatDate value='${map["APPROVAL_REGDATE"]}' pattern="yyyy-MM-dd"/></td>
                                  		<td>${map['FORM_NAME']}</td>
                                  		<td><c:if test="${map['EMERGENCY']=='Y'}"><span class="state emergency">긴급</span></c:if></td>
