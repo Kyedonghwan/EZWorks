@@ -68,6 +68,9 @@ input {
 						<th><span class="title">사진</span></th>
 						<td>
 							<span class="img_profile" style="overflow:hidden">
+								<img class="imgst"
+									src="<c:url value='/addr_upload/${vo.photoName}'/>"
+									alt="" id="thumbnail_image" data-filename="" data-filepath="">			
 							</span>
 						</td>
 					</tr>
@@ -82,7 +85,7 @@ input {
 					<tr>
 						<th><span>회사</span>
 						</th>
-						<td><span>${vo.company_name}</span></td>
+						<td><span>${vo.companyName}</span></td>
 					</tr>
 					<tr>
 						<th><span>부서</span>
@@ -111,12 +114,16 @@ input {
 						<th>
 	                        <span>회사전화</span>
 	                    </th>
-						<td><span>${vo.corp_phone}</span></td>
+						<td><span>${vo.corpPhone}</span></td>
 					</tr>
 					<tr>
 						<th><span>주소</span></th>
 						<td>
-							<span id="addressDetail"><span class="postcode" id="postcode">${empvo.postcode}</span>&nbsp;<span class="address" id="address">${empvo.address}</span>&nbsp;<span class="detail_address" id="detail_address">${empvo.addressDetail}</span>&nbsp;<span class="extra_address" id="extra_address">${empvo.extra_address}</span></span>
+							<span id="addressDetail">
+							<span class="zipcode" id="zipcode">${vo.zipcode}</span>&nbsp;
+							<span class="address" id="address">${vo.address}</span>&nbsp;
+							<span class="addressDetail" id="addressDetail">${vo.addressDetail}</span>&nbsp;
+							</span>
 						</td>
 					</tr>
 					
@@ -127,7 +134,7 @@ input {
 			<div id="submitBtn">
 			<a href="<c:url value='/addrbook/addrEdit?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">수정</a>
 			<a href="<c:url value='/addrbook/addrbook'/>" class="btn btn-outline-secondary" >목록으로</a>	
-			<a href="<c:url value='/addrbook/delete?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">
+			<a href="<c:url value='/addrbook/addrDelete?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">
         		삭제</a> 
 			
 			</div>
