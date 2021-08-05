@@ -10,50 +10,48 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/addressapi.js"></script>
 <script type="text/javascript">
-function execPostCode() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	function execPostCode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-           // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-           var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+				// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+				var extraRoadAddr = ''; // 도로명 조합형 주소 변수
 
-           // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-           // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-           if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-               extraRoadAddr += data.bname;
-           }
-           // 건물명이 있고, 공동주택일 경우 추가한다.
-           if(data.buildingName !== '' && data.apartment === 'Y'){
-              extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-           }
-           // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-           if(extraRoadAddr !== ''){
-               extraRoadAddr = ' (' + extraRoadAddr + ')';
-           }
-           // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-           if(fullRoadAddr !== ''){
-               fullRoadAddr += extraRoadAddr;
-           }
+				// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+				// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+				if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+					extraRoadAddr += data.bname;
+				}
+				// 건물명이 있고, 공동주택일 경우 추가한다.
+				if (data.buildingName !== '' && data.apartment === 'Y') {
+					extraRoadAddr += (extraRoadAddr !== '' ? ', '
+							+ data.buildingName : data.buildingName);
+				}
+				// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+				if (extraRoadAddr !== '') {
+					extraRoadAddr = ' (' + extraRoadAddr + ')';
+				}
+				// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+				if (fullRoadAddr !== '') {
+					fullRoadAddr += extraRoadAddr;
+				}
 
-           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-           console.log(data.zonecode);
-           console.log(fullRoadAddr);
-           
-           
-           $("[name=zipcode]").val(data.zonecode);
-           $("[name=address]").val(fullRoadAddr);
-           
-           /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
-           document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
-           document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
-       }
-    }).open();
-}
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				console.log(data.zonecode);
+				console.log(fullRoadAddr);
 
+				$("[name=zipcode]").val(data.zonecode);
+				$("[name=address]").val(fullRoadAddr);
 
+				/* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
+				document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
+				document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
+			}
+		}).open();
+	}
 </script>
 <style type="text/css">
 body {
@@ -104,10 +102,10 @@ td {
 	width: 100px;
 	height: 100px;
 }
+
 span.requirement {
 	color: red;
 }
-
 </style>
 <body>
 	<%@ include file="../include/top.jsp"%>
@@ -118,7 +116,8 @@ span.requirement {
 	<br>
 	<div class="content_page">
 		<form id="contactCreateId" name="formContactCreate" method="post"
-			action="<c:url value='/addrbook/addrWrite'/>">
+			action="<c:url value='/addrbook/addrWrite'/>"
+			enctype="multipart/form-data">
 			<fieldset>
 				<table class="form_type">
 					<colgroup>
@@ -130,16 +129,18 @@ span.requirement {
 						<tr>
 							<th><span class="title">사진</span></th>
 							<td><span class="img_profile" style="overflow: hidden">
-									<span class="wrap_btn wrap_file_upload"> <span
-										class="btn_file_form fileinput-button"
-										style="text-align: center;"> <span class="button text"><span
-												class="buttonText">사진 올리기</span></span> <input type="file"
-											name="file" title="파일 첨부" multiple="" accept="undefined"></span>
-										<div class="progress" style="display: none; margin-top: 5px"></div></span>
 									<img class="imgst"
 									src="<%=request.getContextPath()%>/resources/images/faces/photo_profile_large.jpg"
 									alt="" id="thumbnail_image" data-filename="" data-filepath="">
-							</span> <span class="btn_fn7" id="del_photo" data-role="button">삭제</span>
+									<br> <span class="wrap_btn wrap_file_upload"> <span
+										class="btn_file_form fileinput-button"
+										style="text-align: center;"> <span class="button text">
+												<span class="buttonText"></span>
+										</span> <input type="file" id="photoName" name="file" title="파일 첨부"></span>
+										<div class="progress" style="display: none; margin-top: 5px"></div></span>
+
+							</span> 
+							<!--  <span class="btn_fn7" id="del_photo" data-role="button">삭제</span>-->
 								<div class="wrap_desc">
 									<span class="desc">※ 사진은 자동으로 150x150 사이즈로 적용 됩니다.</span>
 								</div></td>
@@ -147,24 +148,28 @@ span.requirement {
 						<tr>
 							<th><span class="title">이름</span> <span class="requirement">*</span>
 							</th>
-							<td><span class="txt_edit"> <input name="name" style="width: 60%;display: inline;"
-									value="" class="form-control" type="text">
+							<td><span class="txt_edit"> <input name="name"
+									style="width: 60%; display: inline;" value=""
+									class="form-control" type="text">
 							</span></td>
 						</tr>
 						<tr>
 							<th><span class="title">회사</span></th>
 							<td><span class="txt_edit"><input name="companyName"
-									class="form-control" style="width: 60%;display: inline;" type="text"></span></td>
+									class="form-control" style="width: 60%; display: inline;"
+									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">부서</span></th>
-							<td><span class="txt_edit"><input name="deptName" style="width: 60%;display: inline;"
-									class="form-control" type="text"></span></td>
+							<td><span class="txt_edit"><input name="deptName"
+									style="width: 60%; display: inline;" class="form-control"
+									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">직위</span></th>
-							<td><span class="txt_edit"><input name="posName" style="width: 60%;display: inline;"
-									class="form-control" type="text"></span></td>
+							<td><span class="txt_edit"><input name="posName"
+									style="width: 60%; display: inline;" class="form-control"
+									type="text"></span></td>
 						</tr>
 						<!-- 	<tr class="line">
 					<th><span class="title">그룹</span></th>
@@ -177,19 +182,23 @@ span.requirement {
 					</td>
 				</tr> -->
 						<tr>
-							<th><span class="title">이메일</span> <span class="requirement">*</span> </th>
+							<th><span class="title">이메일</span> <span class="requirement">*</span>
+							</th>
 							<td><span class="txt_edit"><input name="email"
-									class="form-control" style="width: 60%;display: inline;" type="text"></span></td>
+									class="form-control" style="width: 60%; display: inline;"
+									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">휴대폰</span> <span class="requirement">*</span></th>
 							<td><span class="txt_edit"><input name="hp"
-									class="form-control" style="width: 60%;display: inline;" type="text"></span></td>
+									class="form-control" style="width: 60%; display: inline;"
+									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">회사전화</span></th>
 							<td><span class="txt_edit"><input name="corpPhone"
-									class="form-control" style="width: 60%;display: inline;" type="text"></span></td>
+									class="form-control" style="width: 60%; display: inline;"
+									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">주소</span></th>
@@ -209,12 +218,12 @@ span.requirement {
 											readonly="readonly" />
 									</div>
 									<div class="form-group">
-										<input class="form-control" placeholder="상세주소" name="addressDetail"
-											id="addressDetail" type="text" />
+										<input class="form-control" placeholder="상세주소"
+											name="addressDetail" id="addressDetail" type="text" />
 									</div>
-							</span> </td>
+							</span></td>
 						</tr>
-						
+
 						<tr>
 							<th><span class="title">메모</span></th>
 							<td><span class="textarea"> <textarea name="memo"

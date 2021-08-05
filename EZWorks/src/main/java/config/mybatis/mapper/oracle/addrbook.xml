@@ -7,9 +7,9 @@
 		<selectKey resultType="int" keyProperty="bookNo" order="BEFORE">
 			select addr_seq.nextval from dual
 		</selectKey>
-		insert into addrbook(bookNo, deptName, posName, name, companyName,
+		insert into addrbook(bookNo, deptName, posName, name, companyName,photoName,orPhotoName,fileSize,
 						corpPhone, zipcode,  address, addressDetail, hp, email, memo )
-		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, #{companyName, jdbcType=VARCHAR},
+		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, #{companyName, jdbcType=VARCHAR}, #{photoName, jdbcType=VARCHAR},#{orPhotoName, jdbcType=VARCHAR},#{fileSize},
 			#{corpPhone, jdbcType=VARCHAR},#{zipcode, jdbcType=VARCHAR},#{address, jdbcType=VARCHAR},#{addressDetail, jdbcType=VARCHAR}, #{hp, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR},#{memo, jdbcType=VARCHAR})
 	</insert>
 	
@@ -46,7 +46,10 @@
 	<select id="selectByNo" parameterType="int" resultType="addrBookVo">
 	 	select * from addrbook where bookNo=${bookNo}
 	 </select>
-
+	
+	<delete id="deleteBook" >
+		delete from addrbook where bookNo=${bookNo}
+	</delete>
 </mapper>
 
 

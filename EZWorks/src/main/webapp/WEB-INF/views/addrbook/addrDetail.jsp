@@ -68,6 +68,9 @@ input {
 						<th><span class="title">사진</span></th>
 						<td>
 							<span class="img_profile" style="overflow:hidden">
+								<img class="imgst"
+									src="<c:url value='/addr_upload/${vo.photoName}'/>"
+									alt="" id="thumbnail_image" data-filename="" data-filepath="">			
 							</span>
 						</td>
 					</tr>
@@ -131,7 +134,7 @@ input {
 			<div id="submitBtn">
 			<a href="<c:url value='/addrbook/addrEdit?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">수정</a>
 			<a href="<c:url value='/addrbook/addrbook'/>" class="btn btn-outline-secondary" >목록으로</a>	
-			<a href="<c:url value='/addrbook/delete?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">
+			<a href="<c:url value='/addrbook/addrDelete?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">
         		삭제</a> 
 			
 			</div>

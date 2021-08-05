@@ -12,7 +12,7 @@ public interface AddrBookDAO {
 	int selectTotalRecord(AddrBookVO searchVo);
 	int updateBook(AddrBookVO vo);
 	AddrBookVO selectByNo(int bookNo);
-		
+	int deleteBook(int bookNo);	
 
 	
 }

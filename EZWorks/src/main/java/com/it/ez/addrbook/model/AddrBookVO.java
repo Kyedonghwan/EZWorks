@@ -22,7 +22,9 @@ public class AddrBookVO extends AddrSearchVO{
 		private String hp;  		// 휴대폰
 		private String email;  			// 이메일
 		private String photoRoute;  	// 사진경로
-		private String photoName;  	// 사진명(실제 파일명)
+		private String photoName;  	// 사진명
+		private String orPhotoName; // original photo name
+		private long fileSize;
 		private String companyName;  	// 회사명
 		private String memo;  
 }

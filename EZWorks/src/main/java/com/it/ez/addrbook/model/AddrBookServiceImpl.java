@@ -31,5 +31,10 @@ public class AddrBookServiceImpl implements AddrBookService {
 	public AddrBookVO selectByNo(int bookNo) {
 		return dao.selectByNo(bookNo);
 	}
+	@Override
+	public int deleteBook(int bookNo) {
+		return dao.deleteBook(bookNo);
+	}
+
 
 }
