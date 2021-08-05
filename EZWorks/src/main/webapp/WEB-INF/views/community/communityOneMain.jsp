@@ -51,8 +51,8 @@
 		                                       <p class=" mb-0">${vo.text}</p>
 		                                       <div class="avatar avatar-md">
 													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
-													<span class="mb-0" id="sp2">${vo.empName}  
-													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/> </span>
+													<span class="mb-0" id="sp2">${vo.empName} ${vo.posName}  
+													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 											   </div>
 		                                   </td>
 		                               </tr>
@@ -67,7 +67,7 @@
 		                                       <div class="avatar avatar-md">
 													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
 													<span class="mb-0" id="sp2">${vo.empName}  
-													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/> </span>
+													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 											   </div>
 		                                   </td>
 		                               </tr>

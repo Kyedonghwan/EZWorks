@@ -34,10 +34,65 @@ $(function(){
                 position: "center",
                 backgroundColor: "#b6baea",
             }).showToast();
-			return false;
+			event.preventDefault();
 			$('#selectBoard').focus();
+		}else if($('#title').val()==""){
+			Toastify({
+                text: "제목을 입력하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('#title').focus();
+		}else if($('textarea[name=text]').val()==""){
+			Toastify({
+                text: "내용을 입력하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('#summernote').focus();
 		}else{
-			$('.frmWrite').submit();
+			$('.frmWrite').submit();			
+		}	
+	});
+	
+	$('#selectBoard').on('change', function(){
+	 	var type=$('#selectBoard option:selected').attr("value2");
+	 	var selectVal= $('#selectBoard option:selected').val();
+	 	
+	 	if(type==2){
+			Swal.fire({
+				  title: '초기화 하시겠습니까?',
+				  html: "게시판 타입이 변경되면,<br>기존에 입력했던 내용은 모두 삭제됩니다.",
+				  icon: 'info',
+				  showCancelButton: true,
+				  confirmButtonColor: '#435ebe',
+				  cancelButtonColor: '#6c757d',
+				  confirmButtonText: '확인',
+				  cancelButtonText: '취소'
+				}).then((result) => {
+				  if (result.value) {
+					  location.href="<c:url value='/commmunity/communityOneFeed?boardNo="+selectVal+"&communityNo=${param.communityNo}'/>";
+		              //"확인" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+				  }else{
+					  return false;
+					  $('#selectBoard').focus();
+				  }
+			})
+			
+			/* var movePage = confirm('게시판 타입이 변경되면, 기존에 입력했던 내용은 모두 삭제됩니다.\r\n초기화 하시겠습니까?');
+			if(movePage==true){
+				location.href="<c:url value='/commmunity/communityOneFeed'/>";
+			}else{
+				return false;
+			} */
 		}	
 	});
 });
@@ -54,7 +109,7 @@ $(function(){
 		<div class="card-body">
 			<form class="frmWrite" method="post" enctype="multipart/form-data"
 				action="<c:url value='/community/c_boardWrite?communityNo=${param.communityNo}'/>">
-			   <input type="hidden" name="boardNo">
+			   <input type="hidden" name="boardNo"> 
 			   <input type="hidden" name="communityName" value="${vo.communityName}">
 			   <div class="form-group row align-items-center">
 			   		<div class="col-1">
@@ -62,11 +117,14 @@ $(function(){
                     </div>
                     <div class="col-8">
 		              	<select class="form-select" id="selectBoard" name="selectBoard">
-		                    <option value=""></option>            	
+		                    <!-- <option value=""></option> -->            	
+		                    <option value=""></option>
 		                    <optgroup label="작성할 게시판을 선택하세요">
-		                    	<c:forEach var="vo2" items="${boardList}">
-		                   			<option value="${vo2.boardNo}">${vo2.boardName}</option>                 	
+		                    <c:if test="${!empty boardList}">
+		                    	<c:forEach var="vo2" items="${boardList}">              	
+		                   			<option value="${vo2.boardNo}" value2="${vo2.boardType}">${vo2.boardName}</option>
 		                    	</c:forEach>
+		                    </c:if>
 		                   	</optgroup>
 		               	</select>
 	            	</div>
@@ -110,6 +168,9 @@ $(function(){
 		</div>
 	</div>
 </section>         
+
+<!-- sweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>

@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CommunitySearchVO {
+public class CommunitySearchVO{
 	/** 검색조건 */
 	private String searchCondition = "";
 	
@@ -32,7 +32,7 @@ public class CommunitySearchVO {
     /**블럭당 보여질 페이지 수,  페이지 사이즈 */
     private int blockSize; // properties에서 설정
     
-    /** 시작 인덱스 0,5,10,15,...*/
+    /** 시작 인덱스 0,20,40,60,...*/
     private int firstRecordIndex = 1;
     
     /** 끝 인덱스 */

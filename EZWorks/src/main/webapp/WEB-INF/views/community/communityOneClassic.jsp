@@ -18,6 +18,33 @@
 	#sp2{
 		padding-top:7px;
 	}
+	div#boardTitle{
+		display: flex;
+		align-items: center;
+	}
+	#boardInfo_Wrap{
+		min-width: 500px;
+		border:1px solid #dcdcdc;
+		background-color: #f9f9f9;
+		position: relative;
+		border-radius: 4px;
+		margin: 10px 24px;
+		margin-top: 0px;
+		padding: 14px 10px 14px;
+	}
+	.detail_info{
+		margin: 0;
+		list-style: none;
+    	padding: 0 8px 0;
+	}
+	.simple_info {
+	    display: flex;
+	    align-items: center;
+	    margin: 0;
+	}
+	#toolbar{
+		margin: 4px 0 0;
+	}
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
@@ -33,46 +60,88 @@
 <section class="row">
       <div class="col-12 col-lg-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">커뮤니티 글</h5>
+                <div class="card-header" id="boardTitle">
+	               <h5 class="card-title">${cboardVo.boardName}</h5>&nbsp
+	               <span style="font-size:0.9em">${cboardVo.communityName}&nbsp(총 ${cboardVo.writingCount}건)</span>
+                </div>
+                <div class="card-body" id="boardInfo_Wrap">
+                	<ul class="simple_info">
+                		<li>
+                			<strong>게시판 주소 : </strong>
+                			<span><a href="<c:url value='/community/communityOneClassic?boardNo=${cboardVo.boardNo}&communityNo=${cboardVo.communityNo}'/>">
+                				community/communityOneClassic/${cboardVo.boardName}</a></span>&nbsp
+                			<span class="buttons">
+                				<a href="#" class="btn btn-sm btn-outline-secondary" style="margin-top:10px">공개 현황</a>
+                			</span>
+                		</li>                	
+                	</ul>
+                	<ul class="detail_info">
+                		<li>
+                			<strong>운영자 : </strong>
+                			<span>${cboardVo.masterName}</span>
+                		</li>
+                		<li style="none">${cboardVo.intro}</li>
+                	</ul>
                 </div>
                 <div class="card-body">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-                            <div class="table-responsive">
-		                       <table class="table table-hover table-lg">
-		                        <tbody>
-		                        <c:forEach var="vo" items="${classicList}">
-		                               <tr>
-		                                   <td class="col-auto">
-		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
-		                                       <p class=" mb-0" id="mainTitle">${vo.title}</p>	                                      
-		                                       <p class=" mb-0">${vo.text}</p>
-		                                       <div class="avatar avatar-md">
-													<img src="<c:url value='/resources/images/faces/1.jpg'/>">&nbsp
-													<span class="mb-0" id="sp2">${vo.empName}  
-													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/> </span>
-											   </div>
-		                                   </td>
-		                               </tr>
-		                        	</c:forEach>
-		                        </tbody>
-		                       </table>
-		                   </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel"
-                            aria-labelledby="profile-tab">
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel"
-                            aria-labelledby="contact-tab">
-                            <p class="mt-2">
-                            
-                            </p>
-                        </div>
+	                <div class="tool_bar">
+	                	<div class="buttons">
+		                	 <a id="toolbar" href="<c:url value='/community/c_boardWrite?communityNo=${cboardVo.communityNo}'/>" 
+		                	 	class="btn btn-sm btn-outline-secondary">새글쓰기</a>
+		                	 <a id="toolbar" href="#" class="btn btn-sm btn-outline-secondary">삭제</a>
+	                	</div>
+	                </div><hr style="margin-bottom:0">
+                    <div class="tab-content" id="myTabContent">  
+                    <!-- table hover -->
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" style="border-top">
+	                        <colgroup>
+								<col style="width:50px">
+								<col style="width:80px">
+								<col style="width:auto">
+								<col style="width:100px">
+								<col style="width:80px">
+								<col style="width:50px">
+							</colgroup>
+                            <thead>
+                                <tr>
+                                    <th>
+                                   		<input type="checkbox" id="ck1" class="form-check-input" >
+                                    </th>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성일</th>
+                                    <th>조회</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:if test="${empty classicList}">
+                                	<tr>
+                                   		<td colspan="6" style="text-align: center">작성된 글이 없습니다.</td>
+                                   	</tr>
+                                </c:if>
+                                <c:if test="${!empty classicList}">
+                                	<c:forEach var="vo" items="${classicList}">
+		                                <tr>
+		                                	<td>
+												<input type="checkbox" id="ck2" class="form-check-input" >
+								            </td>
+		                                    <td>${vo.currentStats}</td>
+		                                    <td class="text-bold-500">${vo.title}</td>
+		                                    <td class="text-bold-500">${vo.empName}</td>
+		                                    <td><fmt:formatNumber value="${vo.regdate}" pattern="yyyy-MM-dd"/></td>
+		                                    <td>${vo.readCounts}</td>
+		                                </tr>
+                                	</c:forEach>
+                                </c:if> 
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-         </div> 
-	</section>				
-<%@ include file="../include/bottom.jsp" %>
+	             </div>
+	          </div>
+	       </div>
+	   </div>
+</section>				
+		
+<%@ include file="../include/bottom.jsp" %> 

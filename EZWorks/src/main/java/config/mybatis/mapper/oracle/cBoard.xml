@@ -18,15 +18,20 @@
 	</insert>
 	
 	<!-- 커뮤니티별 게시판 목록 보기용 -->
-	<select id="selectC_boardByNo" parameterType="int" resultType="C_boardVO">
+	<select id="selectC_boardList" parameterType="int" resultType="C_boardVO">
 		select A.* from 
 			(
-				select c.*, e.emp_Name as 운영자
+				select c.*, e.emp_Name as MasterName
 				from c_board c left join emp e 
 				on c.BOARD_MASTER=e.EMP_NO
 			)A
 		where community_No=#{communityNo}
 		order by a.board_No
+	</select>
+	
+	<select id="selectC_boardByNo" parameterType="int" resultType="C_boardVO">
+		select * from c_boardView
+		where board_No=#{boardNo}
 	</select>
 	
 	<update id="updateC_board" parameterType="C_boardVO">
@@ -66,7 +71,7 @@
 	<!-- 커뮤니티 메인 화면 글 전체 보기용 -->
 	<select id="selectC_boardClassicAll" resultType="C_boardClassicVO">
 		select * from c_boardClassicView
-		order by regdate desc
+		order by content_No desc
 	</select>
 	
 	<select id="selectC_boardClassicCount" parameterType="int" resultType="int">
@@ -77,7 +82,7 @@
 	
 	<select id="selectC_boardFeedAll" resultType="C_boardFeedVO">
 		select * from c_boardFeedView
-		order by regdate desc
+		order by content_No desc
 	</select>
 	
 	<select id="selectC_boardFeedCount" parameterType="int" resultType="int">
@@ -90,37 +95,40 @@
 	<select id="selectC_boardClassicMain" parameterType="int" resultType="C_boardClassicVO">
 		select * from c_boardClassicView
 		where community_No=#{communityNo}
-		order by regdate desc
+		order by content_No desc
 	</select>
 
 	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
 	<select id="selectC_boardFeedMain" parameterType="int" resultType="C_boardFeedVO">
 		select * from c_boardFeedView
 		where community_No=#{communityNo}
-		order by regdate desc
+		order by content_No desc
 	</select>
 	
 	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
 	<select id="selectFeed" parameterType="C_boardFeedVO" resultType="C_boardFeedVO">
 		select * from c_boardFeedView
 		where community_No=#{communityNo} and board_No=#{boardNo}
-		order by regdate desc
+		order by content_No desc
 	</select>
 	
 	<!-- 커뮤니티 클래식 게시판 페이징 처리용 -->
 	<select id="searchC_boardClassic" parameterType="CommunitySearchVO" resultType="C_boardClassicVO">
-		select * 
-		from
+		select * from
 		(
-			select rownum as RNUM, A.* 
-			from
+			select rownum as RNUM, A.* from
 			(
-				select rownum as currentStats, c.* 
-				from (select * from c_BoardClassic where board_No=#{boardNo} order by content_No) C
-				<include refid="searchWhere"></include>
-				order by group_No desc, sortno
+				select rownum as currentStats, b.* from 
+				(
+                     select c.*, b.BOARD_NAME, b.BOARD_MASTER 
+                     from c_BoardClassic c left join c_Board b 
+                     on c.BOARD_NO = b.BOARD_NO
+                     where C.BOARD_NO=#{boardNo} order by content_No
+                 )B
+                <include refid="searchWhere"></include>
+				order by group_No, sortno
 			)A
-		)
+		)	
 		<![CDATA[
 		where RNUM > #{firstRecordIndex} 
 		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
@@ -128,7 +136,7 @@
 	</select>
 	
 	<select id="selectTotalRecord" parameterType="CommunitySearchVo" resultType="int">
-		select count(*) from (select * from c_boardClassic where content_No=#{contentNo}) 
+		select count(*) from (select * from c_boardClassic where board_No=#{boardNo})  
         <include refid="searchWhere"></include>
 	</select>
 	
@@ -137,13 +145,7 @@
 		set readcounts=readcounts+1
 		where content_No=#{contentNo}
 	 </update>
-	 
-	 <update id="updateFeedReadCount" parameterType="int">
-	 	update c_boardFeed
-		set readcounts=readcounts+1
-		where content_No=#{contentNo}
-	 </update>
-	
+
 	<delete id="deleteC_boardClassic" parameterType="int">
 		delete from C_boardClassic where content_No=#{contentNo}
 	</delete>

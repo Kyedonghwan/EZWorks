@@ -15,6 +15,7 @@ public class C_boardClassicVO {
 	private int contentNo;
 	private int boardNo;
 	private String boardName;
+	private String boardMaster;
 	private int empNo;
 	private String empName;
 	private String empImg;

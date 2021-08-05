@@ -8,13 +8,16 @@ import com.it.ez.community.model.CommunityVO;
 
 public interface C_boardService {
 	int insertC_board(C_boardVO boardVo);
-	List<C_boardVO> selectC_boardByNo(int communityNo);
+	List<C_boardVO> selectC_boardList(int communityNo);
+	C_boardVO selectC_boardByNo(int boardNo);
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
 	int insertBoardClassic(C_boardClassicVO classicVo);
 	int insertBoardFeed(C_boardFeedVO feedVo);
 	List<C_boardClassicVO> selectC_boardClassicAll();
 	List<C_boardClassicVO> selectC_boardClassicMain(int communityNo);
+	int selectC_boardClassicCount(int communityNo);
+	int selectC_boardFeedCount(int communityNo);
 	int selectC_boardCount(int communityNo);
 	List<C_boardClassicVO> searchC_boardClassic(CommunitySearchVO searchVo);
 	List<C_boardFeedVO> selectC_boardFeedAll();
@@ -22,7 +25,6 @@ public interface C_boardService {
 	List<C_boardFeedVO> selectFeed(C_boardFeedVO feedVo);
 	int selectTotalRecord(CommunitySearchVO searchVo);
 	int updateClassicReadCount(int contentNo);
-	int updateFeedReadCount(int contentNo);
 	int deleteC_boardClassic(int contentNo);
 	int deleteC_boardFeed(int contentNo);
 }

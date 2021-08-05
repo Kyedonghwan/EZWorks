@@ -9,7 +9,8 @@ import com.it.ez.community.common.CommunitySearchVO;
 @Mapper
 public interface C_boardDAO {
 	int insertC_board(C_boardVO boardVo);
-	List<C_boardVO> selectC_boardByNo(int communityNo);
+	List<C_boardVO> selectC_boardList(int communityNo);
+	C_boardVO selectC_boardByNo(int boardNo);
 	int updateC_board(C_boardVO boardVo);
 	int deleteC_board(int boardNo);
 	int insertBoardClassic(C_boardClassicVO classicVo);
@@ -24,7 +25,6 @@ public interface C_boardDAO {
 	List<C_boardFeedVO> selectFeed(C_boardFeedVO feedVo);
 	int selectTotalRecord(CommunitySearchVO searchVo);
 	int updateClassicReadCount(int contentNo);
-	int updateFeedReadCount(int contentNo);
 	int deleteC_boardClassic(int contentNo);
 	int deleteC_boardFeed(int contentNo);
 }

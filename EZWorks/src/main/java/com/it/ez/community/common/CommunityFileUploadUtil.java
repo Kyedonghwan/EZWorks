@@ -89,17 +89,19 @@ public String getUploadPath(HttpServletRequest request, int pathFlag) {
 public String getUniqueFileName(String fileName) {
 	//업로드한 파일명이 중복될 경우 파일명 변경하기 (현재시간(밀리초까지)추가
 	//ab.txt => ab_20210630155820123.txt
-	
-	//순수파일명만 구하기
-	int idx = fileName.lastIndexOf(".");
-	String fName=fileName.substring(0, idx); //ab
-	
-	//확장자 구하기
-	String ext = fileName.substring(idx); //.txt
-	
-	String result = fName + "_" + getTimeStamp() + ext;
-	logger.info("변경된 파일명 : {}", result);
-	
+	String result="";
+	if(fileName!=null && !fileName.isEmpty()) {		
+		//순수파일명만 구하기
+		int idx = fileName.lastIndexOf(".");
+		String fName=fileName.substring(0, idx); //ab
+		
+		//확장자 구하기
+		String ext = fileName.substring(idx); //.txt
+		
+		result = fName + "_" + getTimeStamp() + ext;
+		logger.info("변경된 파일명 : {}", result);
+		
+	}
 	return result;
 }
 
