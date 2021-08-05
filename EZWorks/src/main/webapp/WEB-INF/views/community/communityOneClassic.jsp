@@ -96,23 +96,23 @@
                     <div class="table-responsive">
                         <table class="table table-hover mb-0" style="border-top">
 	                        <colgroup>
-								<col style="width:50px">
-								<col style="width:80px">
-								<col style="width:auto">
-								<col style="width:100px">
-								<col style="width:80px">
-								<col style="width:50px">
+								<col style="width:5%">
+								<col style="width:10%">
+								<col style="width:50%">
+								<col style="width:10%">
+								<col style="width:20%">
+								<col style="width:5%">
 							</colgroup>
                             <thead>
                                 <tr>
                                     <th>
                                    		<input type="checkbox" id="ck1" class="form-check-input" >
                                     </th>
-                                    <th>번호</th>
+                                    <th style="text-align: center">번호</th>
                                     <th>제목</th>
-                                    <th>작성자</th>
-                                    <th>작성일</th>
-                                    <th>조회</th>
+                                    <th style="text-align: center">작성자</th>
+                                    <th style="text-align: center">작성일</th>
+                                    <th style="text-align: center">조회</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,11 +127,11 @@
 		                                	<td>
 												<input type="checkbox" id="ck2" class="form-check-input" >
 								            </td>
-		                                    <td>${vo.currentStats}</td>
+		                                    <td style="text-align:center">${vo.currentStats}</td>
 		                                    <td class="text-bold-500">${vo.title}</td>
-		                                    <td class="text-bold-500">${vo.empName}</td>
-		                                    <td><fmt:formatNumber value="${vo.regdate}" pattern="yyyy-MM-dd"/></td>
-		                                    <td>${vo.readCounts}</td>
+		                                    <td class="text-bold-500" style="text-align: center">${vo.empName}</td>
+		                                    <td style="text-align: center"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></td>
+		                                    <td style="text-align: center">${vo.readCounts}</td>
 		                                </tr>
                                 	</c:forEach>
                                 </c:if> 
