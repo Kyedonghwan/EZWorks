@@ -299,8 +299,7 @@ public class CommunityController {
 		C_boardVO cboardVo = c_boardService.selectC_boardByNo(classicVo.getBoardNo());
 		List<C_boardClassicVO> classicList=c_boardService.searchC_boardClassic(searchVo);
 		int writingCount=c_boardService.selectC_boardClassicCount(classicVo.getCommunityNo());
-		cboardVo.setWritingCount(writingCount);
-		logger.info("classicList={}", classicList);		
+		cboardVo.setWritingCount(writingCount);	
 		logger.info("글 전체 조회 결과, classicList.size={}, cboardVo={}", classicList.size(), cboardVo);
 
 		//사이드바 화면 보기
