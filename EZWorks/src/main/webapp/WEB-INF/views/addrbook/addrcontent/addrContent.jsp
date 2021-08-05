@@ -296,16 +296,16 @@ td {
 													value="1061" data-row="0"></td>
 												<td class="align_l name sorting_1"><span
 													class="photo small"><img
-														src="<%=request.getContextPath()%>/resources/images/faces/1.jpg"
+														src="<c:url value='/addr_upload/${vo.photoName}'/>"
 														title="test" alt="test"></span> <a href
 						="<c:url value='/addrbook/addrDetail?bookNo=${vo.bookNo}'/>"><span
 														class="name contact_detail" data-id="1061">${vo.name}</span></a></td>
 												<td class="align_l hp"><span class="hp">${vo.hp}</span></td>
 												<td class="align_l department">${vo.deptName}</td>
-												<td class="align_l company"><span class="company">(주)ez그룹</span></td>
+												<td class="align_l company"><span class="company">${vo.companyName}</span></td>
 												<td class="align_l tel"></td>
-												<td class="align_l company_address"></td>
-												<td class="align_l memo"></td>
+												<td class="align_l companyAddress">${vo.address}</td>
+												<td class="align_l memo">${vo.memo}</td>
 												<td class="align_l group"><span class="group"
 													title="전사주소록2">전사주소록</span></td>
 											</tr>
