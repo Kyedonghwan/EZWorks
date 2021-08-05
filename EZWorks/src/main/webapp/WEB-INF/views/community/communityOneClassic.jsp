@@ -128,7 +128,7 @@
 												<input type="checkbox" id="ck2" class="form-check-input" >
 								            </td>
 		                                    <td style="text-align:center">${vo.currentStats}</td>
-		                                    <td class="text-bold-500">${vo.title}</td>
+		                                    <td class="text-bold-500"><a href="<c:url value='/community/board/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></td>
 		                                    <td class="text-bold-500" style="text-align: center">${vo.empName}</td>
 		                                    <td style="text-align: center"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></td>
 		                                    <td style="text-align: center">${vo.readCounts}</td>
@@ -140,6 +140,55 @@
                     </div>
 	             </div>
 	          </div>
+				 <div class="paging">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination pagination-primary pagination-sm justify-content-center">
+							<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>disabled</c:if>">
+							<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">Previous</a></li>
+							<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
+								<c:if test="${i==pagingInfo.currentPage }">
+									<li class="page-item active"><a class="page-link" href="#">${i }</a></li>
+								</c:if>
+								<c:if test="${i!=pagingInfo.currentPage }">
+									<li class="page-item"><a class="page-link" href="#" onclick="pageProc(${i})">${i }</a></li>
+								</c:if>
+							</c:forEach>
+							<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
+								<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> <img
+									src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+								</a>
+							</c:if>
+							<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.lastPage }'>disabled</c:if>"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</nav>
+				</div>
+				
+				<div class="divSearch" style="display:flex;justify-content: center!important;">
+			   	<form name="frmSearch" method="post" action='<c:url value="/board/selectedBoard"/>'>
+			   		<div class="input-group input-group-sm mb-1">
+			        <select name="searchCondition" class="form-select input-group-text" style="width:80px">
+			            <option value="posting_title" 
+			            	<c:if test="${searchVo.searchCondition == 'title' }">            	
+			            		selected="selected"
+			            	</c:if>
+			            >제목</option>
+			            <option value="posting_content"
+			            	<c:if test="${searchVo.searchCondition == 'text' }">            	
+			            		selected="selected"
+			            	</c:if>
+			            >내용</option>
+			            <option value="emp_name" 
+			            	<c:if test="${searchVo.searchCondition == 'empName' }">            	
+			            		selected="selected"
+			            	</c:if>
+			            >작성자</option>
+			        </select>   
+			        <input type="text" name="searchKeyword" title="검색어 입력" class="form-control" value="${searchVo.searchKeyword }" style="width:200px "> 
+			        <input type="hidden" name="boardNo" value="${boardVo.boardNo }">
+					<input type="submit" class= "btn btn-primary" value="검색">
+					</div>
+			    </form>
+				</div>
 	       </div>
 	   </div>
 </section>				
