@@ -9,14 +9,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class C_boardContentVO {
+public class C_boardClassicVO {
+	private int communityNo;
+	private String communityName;
 	private int contentNo;
 	private int boardNo;
-    private String name;
+	private String boardName;
+	private String boardMaster;
+	private int empNo;
+	private String empName;
+	private String empImg;
+	private int posNo;
+	private String posName;
     private String title;
     private String text;
     private Timestamp regdate;
     private int readCounts;
+    private int currentStats;
     
     // 파일 업로드 추가
     private int groupNo;

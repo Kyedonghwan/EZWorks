@@ -12,5 +12,7 @@ public interface EmpService {
 	List<Map<String,Object>> selectOrganization();
 	public EmpVO selectEmpByEname(String empEname);
 	public EmpVO selectEmpByEmpNo(int empNo);
+
 	public int loginProc(int empNo, String pwd);
+	EmpVO selectEmpInfo(int empNo);
 }

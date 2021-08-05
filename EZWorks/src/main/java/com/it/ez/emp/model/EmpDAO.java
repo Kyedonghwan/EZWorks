@@ -13,4 +13,5 @@ public interface EmpDAO {
 	List<Map<String,Object>> selectOrganization();
 	public int loginProc(int empNo, String pwd);
 	String selectPwd(int empNo);
+	EmpVO selectEmpInfo(int empNo);
 }

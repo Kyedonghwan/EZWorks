@@ -42,20 +42,36 @@
                             <div class="table-responsive">
 		                       <table class="table table-hover table-lg">
 		                        <tbody>
-		                        <c:forEach var="map" items="${viewList}">
+		                        <c:forEach var="vo" items="${classicList}">
 		                               <tr>
 		                                   <td class="col-auto">
-		                                       <p class=" mb-0">${map['COMMUNITYNAME']} > ${map['BOARDNAME']}</p>
-		                                       <p class=" mb-0" id="mainTitle">${map['TITLE']}</p>	                                      
-		                                       <p class=" mb-0">${map['TEXT']}</p>
+		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
+		                                       <p class=" mb-0" id="mainTitle">
+		                                       <a href="<c:url value='/community/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+		                                       <p class=" mb-0">${vo.text}</p>
 		                                       <div class="avatar avatar-md">
-													<img src="<c:url value='/resources/images/faces/1.jpg'/>">&nbsp
-													<span class="mb-0" id="sp2">${map['NAME']}  
-													<fmt:formatDate value="${map['REGDATE']}" pattern="yyyy-MM-dd"/> </span>
+													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
+													<span class="mb-0" id="sp2">${vo.empName} ${vo.posName}  
+													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 											   </div>
 		                                   </td>
 		                               </tr>
-		                        	</c:forEach>
+		                       </c:forEach>
+		                        <c:forEach var="vo" items="${feedList}">
+		                               <tr>
+		                                   <td class="col-auto">
+		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
+		                                       <p class=" mb-0" id="mainTitle">
+		                                       <a href="<c:url value='/community/c_boardFeedDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+		                                       <p class=" mb-0">${vo.text}</p>
+		                                       <div class="avatar avatar-md">
+													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
+													<span class="mb-0" id="sp2">${vo.empName}  
+													<fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
+											   </div>
+		                                   </td>
+		                               </tr>
+		                       </c:forEach>
 		                        </tbody>
 		                       </table>
 		                   </div>
