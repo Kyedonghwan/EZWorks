@@ -56,7 +56,6 @@ $(document).ready(function () {
         interval: 30,
         minTime: '00:00',
         maxTime: '23:30',
-        defaultTime: '00',
         startTime: '00:00',
         dynamic: true,
         dropdown: true,
@@ -68,7 +67,6 @@ $(document).ready(function () {
         interval: 30,
         minTime: '00:00',
         maxTime: '23:30',
-        defaultTime: '00',
         startTime: '00:00',
         dynamic: true,
         dropdown: true,
@@ -86,10 +84,50 @@ $(document).ready(function () {
     $('#close').click(function(){
     	location.href="<c:url value='/calendar/calendarMain'/>";
     });
+    
+    
+    $('#schAll').change(function(){
+        if($('#schAll').is(':checked')){
+        	$('#inschAll').val('Y');
+        	$('#startTime').hide();
+        	$('#endTime').hide();
+        }else{
+        	$('#inschAll').val('N');
+        	$('#startTime').show();
+        	$('#endTime').show();
+        }
+    });
+    
+    $('#addExtAttend').click(function(){
+    	$('.addExtAttend').show();
+    	var joinVal = $('#join').val();
+    	$('#add').append("<input type='text' class='joinVal' name='schExtAttend' value='"+joinVal+"'><span class='fa-fw select-all fas'></span>&nbsp;&nbsp;");
+    	$('.joinVal').click(function(){
+			$(this).remove();
+		});
+    	$('#join').val('');
+    });
+    
+    $('.joinVal').click(function(){
+		$(this).remove();
+	});
+    
+    
 });
 </script>
 <style>
-
+.joinVal{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
+.tree{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
 p{
 	font-size: 0.5em;
 	display: inline-block;
@@ -168,7 +206,7 @@ p{
 </div>
 <div class="card-body" style="height: 100%;border-left: 1px solid #BDBDBD">
 	<form name="regFrm" action="<c:url value='/calendar/calEdit'/>" method="post">
-		<input type="hidden" value="${param.schNo}" name="schNo">
+		<input type="text" value="${param.schNo}" name="schNo">
 		<div class="registerDiv">
 			<input type="text" id="title" class="form-control round" 
 				name="schTitle" value="${vo.schTitle }"><span id="append" style="color: red;display:inline-block;font-size: 1.6em;">*</span>
@@ -181,24 +219,18 @@ p{
 			<label for="to">~</label> 
 			<input type="text" id="endDate" name="schEnd" 
 				class="form-control round" value="${vo.schEnd }">
-			<input type="text" id="endTime" name="schEndTime" 
+			<input type="text"  id="endTime" name="schEndTime" 
 				class="form-control round" value="${vo.schEndTime }">
 				&nbsp;&nbsp;
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
+                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6" id="schAll">
                         <label style="font-size: 1em">종일</label>
+                        <input type="text" name="schAll" id="cfSchAll" value="${vo.schAll }">
+                        <input type=text" name="schAll" id="inschAll">
                     </div>
 		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">전사일정</label> 
-			 <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">전사일정</label>
-              </div>
-		</div>
-		<div class="registerDiv">
+		<div class="registerDiv" id="myCalSelect">
 			<label class="writeLabel">내 캘린더</label> 
 			<select class="form-select" name="schCate"
 				id="basicSelect">
@@ -209,14 +241,25 @@ p{
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">참석자</label> 
+			<c:forTokens var="attend" items="${vo.schAttend }" delims=",">
+				<input type="text" class='tree' name="schAttend" value="${attend }">
+			</c:forTokens>
+			<span id="addAttend"></span>
 			<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
-			<span>참석자선택</span>
+			<span id="selectAttend">참석자선택</span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">외부참석자</label> 
 			<input type="text" id="join" name="schExtAttend" 
-				class="form-control round" value=""${vo.schExtAttend }> 
-			<input type="button" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+				class="form-control round"> 
+			<input type="button" class="btn btn-outline-primary" id="addExtAttend" style="width:50px;height:30px; padding:3px 6px" value="추가">
+		</div>
+		<div class="addExtAttend">
+			<label class="writeLabel"></label> 
+			<c:forTokens var="extAttend" items="${vo.schExtAttend }" delims=",">
+				<input type="Text" class="tree" name="schExtAttend" value="${extAttend }">
+			</c:forTokens>
+			<span id="add"></span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">장소</label> 
@@ -226,8 +269,7 @@ p{
 		<div class="registerDiv">
 			<label class="writeLabel">내용</label>
 			<textarea class="form-control" id="exampleFormControlTextarea1"
-				rows="10" name="schContent" value="${vo.schContent }">
-			</textarea>
+				rows="10" name="schContent">${vo.schContent }</textarea>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">예약하기</label>
@@ -241,7 +283,27 @@ p{
 		</div>
 	</form>
 </div>
-
+<%@include file="testModal.jsp" %>
+<script>
+	$(document).ready(function(){
+		$('#selectAttend').click(function(){
+			$('#testModal').modal('show');
+			
+			$('#tree2 a').click(function(){
+				console.log($('#tree2 a').text());
+				$('#addAttend').append("<input type='text' class='tree' name='schAttend' value='"+$(this).text()+"'>&nbsp;&nbsp; ");
+				$('.tree').click(function(){
+					$(this).remove();
+				});
+				event.stopImmediatepropagation();
+			});
+		});
+		
+		$('.tree').click(function(){
+			$(this).remove();
+		});
+	});
+</script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
