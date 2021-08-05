@@ -26,7 +26,7 @@ hs_err_pid*
 EZWorks/.project
 
 HELP.md
-###target/
+target/
 .mvn/wrapper/maven-wrapper.jar
 
 **/src/main/**/target/
