@@ -94,8 +94,9 @@
 	     </div>
 	  </div>
     </p>
+    <hr>
   </div>
-  <footer id="main_footer" style="text-align: center">
+  	<footer id="main_footer" style="text-align: center">
 		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
 		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
 		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>

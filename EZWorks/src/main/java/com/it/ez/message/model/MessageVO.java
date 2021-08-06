@@ -15,4 +15,5 @@ public class MessageVO {
 	private String pwd;
 	private String content;
 	private Timestamp regdate;
+
 }

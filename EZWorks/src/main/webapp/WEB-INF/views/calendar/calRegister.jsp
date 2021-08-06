@@ -3,7 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/top.jsp"%>
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap.css'/>">
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/fontawesome/all.min.css'/>">
 
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.css'/>">
+<link rel="stylesheet"
+	href="<c:url value='/resources/vendors/bootstrap-icons/bootstrap-icons.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/app.css'/>">
+<link rel="shortcut icon"
+	href="<c:url value='/resources/images/favicon.svg" type="image/x-icon'/>">
 
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
@@ -14,6 +29,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+    	 
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
             $( "#startDate" ).datepicker({
                  changeMonth: true, 
@@ -96,12 +112,46 @@
             	location.href="<c:url value='/calendar/calendarMain'/>"
             });
             
+            
+            $('.addExtAttend').hide();
+            $('#addExtAttend').click(function(){
+            	$('.addExtAttend').show();
+            	var joinVal = $('#join').val();
+            	$('#add').append("<input type='text' class='joinVal' name='schExtAttend' value='"+joinVal+"'><span class='fa-fw select-all fas'></span>&nbsp;&nbsp;");
+            	$('.joinVal').click(function(){
+					$(this).remove();
+				});
+            	$('#join').val('');
+            });
+            
+            $('#schAll').change(function(){
+                if($('#schAll').is(':checked')){
+                	$('#cfSchAll').val('Y');
+                	$('#startTime').hide();
+                	$('#endTime').hide();
+                }else{
+                	$('#cfSchAll').val('N');
+                	$('#startTime').show();
+                	$('#endTime').show();
+                }
+            });
     });
     
     
 </script>
 <style>
-
+.joinVal{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
+.tree{
+	background-color: #D9E5FF;
+	border-radius: 10px;
+	width: 5%;
+	padding: 3px 3px 3px 3px;
+}
 p{
 	font-size: 0.5em;
 	display: inline-block;
@@ -112,7 +162,7 @@ p{
 }
 
 .writeLabel {
-	width: 20%;
+	width: 10%;
 	float: left;
 	text-align: left;
 	padding: 5px 10px 0 10px;
@@ -175,7 +225,7 @@ p{
 
 
 <%@ include file="sidebar2.jsp" %>
-
+<%@ include file="../include/organization.jsp" %>
 <%@ include file="../include/middle.jsp"%>
 <div class="card-header" style="border-left: 1px solid #BDBDBD">
 	<h4>일정등록</h4>
@@ -200,21 +250,13 @@ p{
 				&nbsp;&nbsp;
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">종일</label>
+                        	name="customCheck" style="margin-right: 0px" id="schAll">
+                        <label style="font-size: 1em" >종일</label><input type="hidden" name="schAll" id="cfSchAll">
                     </div>
 		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">전사일정</label> 
-			 <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
-                        	name="customCheck" style="margin-right: 0px" id="customColorCheck6">
-                        <label style="font-size: 1em">전사일정</label>
-              </div>
-		</div>
-		<div class="registerDiv">
+		<div class="registerDiv" id="myCalSelect">
 			<label class="writeLabel">내 캘린더</label> 
-			<select class="form-select" name="schCate"
+			<select class="form-select"  name="schCate"
 				id="basicSelect">
 			<c:forEach var="vo" items="${list }">
 				<option value="${vo.schCateNo }">${vo.schCateName }</option>
@@ -223,14 +265,19 @@ p{
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">참석자</label> 
+			<span id="addAttend"></span>
 			<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
-			<span>참석자선택</span>
+			<span id="selectAttend">참석자선택</span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">외부참석자</label> 
 			<input type="text" id="join" name="schExtAttend" 
 				class="form-control round"> 
-			<input type="button" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+			<input type="button" id="addExtAttend" class="btn btn-outline-primary" style="width:50px;height:30px; padding:3px 6px" value="추가">
+		</div>
+		<div class="addExtAttend">
+			<label class="writeLabel"></label> 
+			<span id="add"></span>
 		</div>
 		<div class="registerDiv">
 			<label class="writeLabel">장소</label> 
@@ -252,10 +299,36 @@ p{
 		<div style="text-align: center" class="registerDiv">
 			<input type="submit" class="btn btn-primary ml-1" id="reg_ok" value="확인">
 			<input type="button" class="btn btn-light-primary" id="close" value="닫기">
+			
 		</div>
 	</form>
 </div>
+<%@include file="testModal.jsp" %>
+<script>
+	$(document).ready(function(){
+		$('#selectAttend').click(function(){
+			$('#testModal').modal('show');
+			
+			$('#tree2 a').click(function(){
+				console.log($('#tree2 a').text());
+				$('#addAttend').append("<input type='text' class='tree' name='schAttend' value='"+$(this).text()+"'>&nbsp;&nbsp; ");
+				$('.tree').click(function(){
+					$(this).remove();
+				});
+				event.stopImmediatepropagation();
+			});
+		});
+	});
 
+</script>
+
+<script
+	src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
+<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
+
+<script src="<c:url value='/resources/vendors/fontawesome/all.min.js'/>"></script>
+
+<script src="<c:url value='/resources/js/main.js'/>"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>

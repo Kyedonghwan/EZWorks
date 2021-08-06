@@ -5,8 +5,8 @@
 	#btnLight{
 		margin-left:8px;
 	}
-	.btn btn-light{
-		padding:0;
+	#btnChevron{
+		padding-top: 10px;
 	}
 	#btnMenu{
 		width:160px;
@@ -23,17 +23,15 @@
 		text-align: left;
 	}
 	.sp2{
-		display: inline-flex;
-		align-items: center;
-		flex-wrap: nowrap;
+		display: flex;
+   	 	align-items: center;
 	}
 	img#gear{
 		float:right;
-		margin-top:2.5px;
 	}
-	.dropdown-menu.show {
-	    /* width: min-content; */
-	    min-width: auto;
+	#menu {
+	  	min-width: auto;
+   		padding-right: 20px;
 	}
 </style>	    
 	<div class="card-header">
@@ -41,52 +39,43 @@
 	</div>
 	<div class="card-body" style="height:725px">
 		 <div class="btn-group dropdown me-1 mb-1" id="btnLight">
-            <button type="button" class="btn btn-light">
+            <button type="button" class="btn btn-light" id="btnChevron">
             	<i class="bi bi-chevron-left"></i>
             </button>
             <button type="button"
                 class="btn btn-light dropdown-toggle dropdown-toggle-split"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-reference="parent" id="btnMenu">
-                <span>${vo.communityName}
-                <img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></span>
+                <span style="font-weight:bold">${vo.communityName}</span>
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" id="menu">
 				<c:forEach var="vo" items="${list}">
                   <span class="sp2">
-                   <a class="dropdown-item" href="<c:url value='/community/communityOne?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
-	               <a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
-				   <img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
+	                   <a class="dropdown-item" href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
+		               <a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">
+					   <img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a>
+				  </span>
 				</c:forEach>
             </div>
         </div><br>
 	   <div class="buttons" id="btnWrite">
-          <a href="<c:url value='/community/c_boardWrite?communityNo=${vo.communityNo}'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
+          <a href="<c:url value='/community/c_boardWrite?communityNo=${param.communityNo}'/>" class="btn btn-outline-primary" style="width:200px">글쓰기</a>
        </div>
        <div class="board">
        <c:forEach var="vo2" items="${boardList}">
-       	  <span class="sp1"><a class="dropdown-item" href="#">${vo2.boardName}
+       	  <span class="sp1"><a class="dropdown-item"
+       	  	href="<c:url value='/community/communityBoard?communityNo=${vo2.communityNo}&boardNo=${vo2.boardNo}&boardType=${vo2.boardType}'/>">${vo2.boardName}
          	<img id="gear" src="<c:url value='/resources/images/accordion/gear.svg'/>" align="absmiddle"></a></span>
        </c:forEach>
-          <span class="sp1"><a class="dropdown-item" href="<c:url value='/community/c_boardNew?communityNo=${vo.communityNo }'/>">+ 게시판 추가</a></span>
+          <span class="sp1"><a class="dropdown-item" href="<c:url value='/community/c_boardNew?communityNo=${param.communityNo }'/>">+ 게시판 추가</a></span>
        </div><br>  
         <div class="member">
-          <p style="font-size:0.9em">가입 멤버 5</p>
+        <p style="font-size:0.9em">가입 멤버 총 ${vo.memberCount}명</p>
+        <c:forEach var="mem" items="${memList}">
          	 <div class="avatar avatar-md">
 	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/1.jpg'/>"> 홍길동 과장</a></span></div>
-	          <div class="avatar avatar-md">
-	          <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/2.jpg'/>"> 김길동 부장</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/3.jpg'/>"> 박길동 상무</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/4.jpg'/>"> 최길동 대리</a></span></div>
-	       	  <div class="avatar avatar-md">
-	       	  <span class="sp1"><a class="dropdown-item" href="#">
-	       	  	<img src="<c:url value='/resources/images/faces/5.jpg'/>"> 이길동 대표</a></span></div>		
-          <span class="sp1"><a class="dropdown-item" href="#">+ 초대하기</a></span>
+	       	  	<img src="<c:url value='/resources/images/faces/${mem.empImg}'/>"> ${mem.memberName}</a>
+	       	  </span></div>
+        </c:forEach>
        </div>           
 	</div>				

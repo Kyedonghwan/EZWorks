@@ -18,7 +18,13 @@
 		select emp_pwd from emp
 		where emp_no=#{empNo}
 	</select>
-	
+		
+	<select id="selectEmpInfo" parameterType="int" resultType="empVO">
+		select * from empView where emp_No=#{empNo}
+	</select>
+	<select id="selectName" resultType="String" parameterType="int">
+		select emp_name from emp where emp_no=#{empNo}
+	</select>
 </mapper>
 
 

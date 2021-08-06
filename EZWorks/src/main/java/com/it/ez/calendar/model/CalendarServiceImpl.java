@@ -27,11 +27,6 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public int insertColor() {
-		return calendarDao.insertColor();
-	}
-
-	@Override
 	public int updateCal(CalendarVO vo) {
 		return calendarDao.updateCal(vo);
 	}
@@ -44,5 +39,10 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public int delCal(int schNo) {
 		return calendarDao.delCal(schNo);
+	}
+
+	@Override
+	public int insertColor(int schNo) {
+		return calendarDao.insertColor(schNo);
 	}
 }

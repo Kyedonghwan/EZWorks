@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Component
 public class BoardFileUploadUtil {
@@ -26,20 +25,23 @@ public class BoardFileUploadUtil {
 		=LoggerFactory.getLogger(BoardFileUploadUtil.class);
 	
 	public List<Map<String, Object>> fileUpload(HttpServletRequest request,
-			int pathFlag) 
+			int pathFlag, String inputTagFileName) 
 			throws IllegalStateException, IOException {
 		MultipartHttpServletRequest multiRequest 
 			= (MultipartHttpServletRequest)request;
 		
 		//결과를 저장할 list
 		List<Map<String, Object>> list = new ArrayList<>();
-		List<MultipartFile> filepondList = multiRequest.getFiles("filepond");
+		List<MultipartFile> filepondList = multiRequest.getFiles(inputTagFileName);
 		System.out.println("filepondList.size"+filepondList.size());
-		if(filepondList!=null&&!filepondList.isEmpty()) {
+		if(filepondList!=null&&!filepondList.isEmpty()&&filepondList.size()!=0) {
 			for(MultipartFile mf : filepondList) {
 				String originFileName =mf.getOriginalFilename();
 				System.out.println("오리지날 파일 네임"+originFileName);
 				//변경된 파일 이름
+				if(originFileName.isEmpty()||originFileName==null) {
+					break;
+				}
 				String fileName=getUniqueFileName(originFileName);
 				long fileSize=mf.getSize();
 				//업로드 경로

@@ -15,5 +15,20 @@ public class SchCateServiceImpl implements SchCateService{
 	public List<SchCateVO> showAllCate(int empNo) {
 		return schCateDao.showAllCate(empNo);
 	}
+
+	@Override
+	public int insertCate(SchCateVO vo) {
+		return schCateDao.insertCate(vo);
+	}
+
+	@Override
+	public SchCateVO showCateName(String schCateNo) {
+		return schCateDao.showCateName(schCateNo);
+	}
+
+	@Override
+	public int updateColor(int schCateNo) {
+		return schCateDao.updateColor(schCateNo);
+	}
 	
 }
