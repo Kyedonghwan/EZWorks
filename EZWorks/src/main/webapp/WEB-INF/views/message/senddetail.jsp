@@ -76,6 +76,8 @@
 </form>
 	<nav><br></nav>
 	<div style="text-align: center">
+	<a href='<c:url value='/message/messageEdit?no=${param.no}'/>'>
+				<button type="button" class="btn btn-outline-warning">수정</button></a>
 	<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendList'/>'">쪽지목록</button>		
 </div>
 <nav><br></nav>

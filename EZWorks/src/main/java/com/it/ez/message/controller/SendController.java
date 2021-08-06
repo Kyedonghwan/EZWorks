@@ -96,6 +96,49 @@ public class SendController {
 		return "message/sendList";
 	}
 	
+	@GetMapping("/messageEdit")
+	public String edit(@RequestParam(defaultValue = "0") int no, Model model) {
+		//1
+		logger.info("edit 화면 보여주기, 파라미터 no={}",no);
+		if(no==0) {
+			model.addAttribute("msg", "잘못된 url입니다.");
+			model.addAttribute("url", "message/sendList");
+			
+			return "common/message";
+		}
+		
+		//2
+		SendVO vo = sendService.selectByNo(no);
+		logger.info("edit 화면 결과, vo={}",vo);
+		
+		//3
+		model.addAttribute("vo2", vo);
+		
+		return "message/messageEdit";
+	}
+	
+	@PostMapping("/messageEdit")
+	public String edit_post(@ModelAttribute SendVO vo, Model model) {
+		//1
+		logger.info("수정 처리, 파라미터 vo={}", vo);
+		
+		//2
+		String msg="쪽지 수정 실패", url="/message/messageEdit?no="+vo.getNo();
+		int cnt = sendService.updateMessage(vo);
+		if(cnt>0) {
+				msg="쪽지 수정되었습니다.";
+				url="/message/senddetail?no="+vo.getNo();
+		}else {
+			msg="쪽지 수정 실패";
+		}
+		
+		//3
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
 	
 	@GetMapping("/senddetail")
 	public String detail(@RequestParam(defaultValue = "0") int no, Model model) {

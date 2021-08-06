@@ -52,11 +52,6 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
-	@Override
-	public int updateMessage(MessageVO vo) {
-		return messageDao.updateMessage(vo);
-	}
-
 
 	@Override
 	public void delete(String no) {

@@ -32,6 +32,12 @@ public class SendServiceImpl implements SendService{
 	public SendVO selectByNo(int no) {
 		return sendDao.selectByNo(no);
 	}
+	
+
+	@Override
+	public int updateMessage(SendVO vo) {
+		return sendDao.updateMessage(vo);
+	}
 
 	
 	

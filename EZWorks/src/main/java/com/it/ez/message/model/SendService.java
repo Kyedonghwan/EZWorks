@@ -9,4 +9,5 @@ public interface SendService {
 	public List<MessageVO> selectAll(SearchVO searchVo);
 	int selectTotalRecord(SearchVO searchVo);
 	SendVO selectByNo(int no);
+	int updateMessage(SendVO vo);
 }

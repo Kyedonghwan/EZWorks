@@ -59,9 +59,7 @@
   </div>
 </form>
 	<div style="text-align: center">
-		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendWrite'/>'">답변</button>		
-		<a href='<c:url value='/message/messageEdit?no=${param.no}'/>'>
-				<button type="button" class="btn btn-outline-warning">수정</button></a>			
+		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/sendWrite'/>'">답변</button>					
 		<button type="button" class="btn btn-outline-primary" onclick="location.href='<c:url value='/message/messagedelete?no=${param.no}'/>'">쪽지삭제</button>
 		<button type="button" class="btn btn-outline-success" onclick="location.href='<c:url value='/message/messageList'/>'">쪽지목록</button>		
 	</div>

@@ -12,7 +12,6 @@ import lombok.ToString;
 public class SendVO {
 	private int no;
 	private String name;
-	private String pwd;
 	private String content;
 	private Timestamp regdate;
 }

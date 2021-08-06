@@ -38,6 +38,12 @@
         <include refid="searchWhere"></include>
 	</select>
 	
+	<update id="updateMessage" parameterType="sendVo">
+	 	update send 
+	 	set content=#{content}
+		where no=#{no}
+	 </update>
+	
 	<select id="selectByNo" parameterType="int" resultType="sendVo">
 		select * from send where no=#{no}
 	</select>

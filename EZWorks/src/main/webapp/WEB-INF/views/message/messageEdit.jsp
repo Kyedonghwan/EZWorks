@@ -46,27 +46,28 @@
        <div class="form-group">
             <label for="name">작성자</label>
             <br><br>
-            <input type="text" class="form-control" id="name" name="name" value="${vo.name}"/>
+            <input type="text" class="form-control" readonly="readonly" id="name" name="name" placeholder="${vo2.name}"/>
         </div >
-        <div class="form-group">
-            <label for="pwd">비밀번호</label>
-            <br><br>
-            <input type="password" class="form-control" id="pwd" name="pwd"/>
-        </div>
         <div class="form-group">  
         	<label for="content">내용</label>      
         	<br><br>
- 			<textarea id="content"  class="form-control" name="content" rows="12" cols="40">${vo.content}</textarea>
+ 			<textarea id="content"  class="form-control" name="content" rows="12" cols="40">${vo2.content}</textarea>
         </div>
         <div style="text-align: center">
             <input type = "submit" class="btn btn-primary" value="쪽지수정"/>
             <input type = "Button" class="btn btn-success" value="쪽지목록" 
             	onclick
-            ="location.href	='<c:url value='/message/messageList'/>'" />         
+            ="location.href	='<c:url value='/message/sendList'/>'" />         
         </div>
 	</fieldset>
 </form>    
+<nav><br></nav>
+	<hr>
+	<footer id="main_footer" style="text-align: center">
+		<address>Copyright &copy; <a href=https://kkimsangheon.github.io >이지웍스</a> All Rights Reserved.</address>
+		<address>Blog : <a href=https://kkimsangheon.github.io ></a>https://blog.naver.com/hyunki89</address>
+		<address>Github : <a href=https://github.com/KKimSangHeon >https://github.com/eykgond/EZWorks</a></address>
+    </footer>
 </div>
-
 </body>
 </html>
