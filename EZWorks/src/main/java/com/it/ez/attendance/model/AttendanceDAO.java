@@ -10,5 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AttendanceDAO {
 	public List<AttendanceVO> selectByDate(Map<String, Object> map);
 	public int insertAttendance(AttendanceVO vo);
-	
+	public int isAttended(String startingDate, String endingDate, int empNo);
+	public int isEnded(String startingDate, String endingDate, int empNo);
 }

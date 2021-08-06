@@ -19,8 +19,8 @@
 	<select id="selectReplyCountByPostingNo" resultType="int">
 		select count(*) from posting_reply_view where posting_no=#{postingNo}
 	</select>
-	<delete id="">
-		
+	<delete id="deleteReplies">
+		delete from posting_reply where posting_no = #{postingNo}
 	</delete>
 </mapper>
 

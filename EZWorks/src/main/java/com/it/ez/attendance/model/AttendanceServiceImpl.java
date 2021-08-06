@@ -81,4 +81,14 @@ public class AttendanceServiceImpl implements AttendanceService{
 		}
 		return monthListFullDetail;
 	}
+
+	@Override
+	public int isAttended(String startingDate, String endingDate, int empNo) {
+		return attendanceDao.isAttended(startingDate, endingDate, empNo);
+	}
+
+	@Override
+	public int isEnded(String startingDate, String endingDate, int empNo) {
+		return attendanceDao.isEnded(startingDate, endingDate, empNo);
+	}
 }

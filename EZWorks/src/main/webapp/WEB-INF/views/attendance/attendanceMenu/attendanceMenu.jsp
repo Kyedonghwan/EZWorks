@@ -108,8 +108,8 @@ div.dropdown-menu{
     <div class="vertical_bar"></div>
     
 	<div class="function_btn_wrap">
-		<a class="btn btn-outline-primary" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
-		<a class="btn btn-outline-primary" id="workOut"><span class="txt">퇴근하기</span></a>
+		<a class="btn btn-outline-primary <c:if test="${isAttended>0 }">off</c:if>" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
+		<a class="btn btn-outline-primary <c:if test="${isEnded>0 }">off</c:if>" id="workOut"><span class="txt">퇴근하기</span></a>
 	</div>
 		<div class="dropdown works_state">
 			<a class="btn btn-outline-primary" id="changeStatus"

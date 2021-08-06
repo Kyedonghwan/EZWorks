@@ -34,7 +34,10 @@
 var daysNamesMin = ['일', '월', '화', '수', '목', '금', '토'];
 const basicTimeFormat = 'HH:mm:ss';
 $(function(){
-	
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
 	var basedate = new Date();
 	var baseyear = basedate.getFullYear();
 	var basemonth = ('0' + (basedate.getMonth() + 1)).slice(-2);
@@ -108,13 +111,13 @@ $(function(){
     	console.info($('#baseDate').html());
     	loadNewMonth(year, month);
     });
-    $(document).on("click", ".tb_attend_list", function(){
+    /* $(document).on("click", ".tb_attend_list", function(){
     	const moment_workDetail = moment();
     	const year = moment_workDetail.format('YYYY');
     	const month = moment_workDetail.format('MM');
     	const date = moment_workDetail.format('DD');
     	loadWeekDetail(year, month, date);
-    });
+    }); */
     $(document).on("click", "#currentMonth", function(){
     	const moment_today = moment();
     	const date = moment_today.format('YYYY-MM-DD');
@@ -127,7 +130,10 @@ $(function(){
     $(document).on("click", "#workIn", function(){
     	workIn();
     });
-    $(document).on("click", "#tooltip_location", function(){
+    $(document).on("click", "#workOut", function(){
+    	workOut();
+    });
+    /* $(document).on("click", "#tooltip_location", function(){
     	$('#tooltip_info').css({"display":"inline"});
     });
     $(document).click(function(e){ //문서 body를 클릭했을때
@@ -140,7 +146,8 @@ $(function(){
 			}
 		}//내가 클릭한 요소(target)를 기준으로 상위요소에 .share-pop이 없으면 (갯수가 0이라면)
  		
-	});
+	}); */
+    dayWorkTime();
 });
 function showDatepicker(){
 	$('#calendarDatepicker').datepicker("show");
@@ -155,7 +162,7 @@ function loadDayDetail(year, month, date){
 		,success:function(dayDetail){}
 	});
 }
-function loadWeekDetail(year, month, date){
+/* function loadWeekDetail(year, month, date){
 	$.ajax({
 		url:'<c:url value="/attendance/week_detail"/>'
 		,type:"get"
@@ -178,7 +185,7 @@ function loadWeekDetail(year, month, date){
 			}
 		}
 	});
-}
+} */
 function showMenu(){
 	var dayArea = $(this).closest('div').children('#day_area');
 	var icon = $(this).children('i');
@@ -296,13 +303,16 @@ function loadNewMonth(year, month){
 					str += "</div>";
 					str += "<div class='tb_content attend'>";
 					str += "<span class='txt'>";
+					let DayAttendTimeStart = null;
 					if(attendanceDetailByDay!=null){
 						for(var k = 0; k<attendanceDetailByDay.length; k++){
 							if(attendanceDetailByDay[k].attendanceStatus=='출근'){
-								var DayAttendTime = moment(new Date(attendanceDetailByDay[k].attendanceRecordedTime));
-								var printHour = DayAttendTime.format(basicTimeFormat);
-								str += printHour;
-								str += "<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
+								DayAttendTimeStart = moment(new Date(attendanceDetailByDay[k].attendanceRecordedTime));
+								var printHourStart = DayAttendTimeStart.format(basicTimeFormat);
+								str += "<span id='attend_start' data-bs-toggle='tooltip' data-bs-placement='top' title='IP : " + attendanceDetailByDay[k].ipAddress +"'>";
+								str += printHourStart;
+								str += "</span>";
+								str += "&nbsp&nbsp<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
 								str += attendanceDetailByDay[k].ipAddress;
 								str += "<br> <i class='tail_top'></i></span></span>";
 							}
@@ -312,14 +322,17 @@ function loadNewMonth(year, month){
 					str += "</div>";
 					str += "<div class='tb_content leave'>";
 					str += "<span class='txt'>";
+					let DayEndedTimeEnd = null;
 					if(attendanceDetailByDay!=null){
-						for(var k = 0; k<attendanceDetailByDay.length; k++){
-							if(attendanceDetailByDay[k].attendanceStatus=='퇴근'){
-								var DayEndedTime = moment(new Date(attendanceDetailByDay[k].attendanceRecordedTime));
-								var printHour = DayAttendTime.format(basicTimeFormat);
-								str += printHour;
-								str += "<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
-								str += attendanceDetailByDay[k].ipAddress;
+						for(var l = 0; l<attendanceDetailByDay.length; l++){
+							if(attendanceDetailByDay[l].attendanceStatus=='퇴근'){
+								DayEndedTimeEnd = moment(new Date(attendanceDetailByDay[l].attendanceRecordedTime));
+								var printHourEnd = DayEndedTimeEnd.format(basicTimeFormat);
+								str += "<span id='attend_end' data-bs-toggle='tooltip' data-bs-placement='top' title='IP : " + attendanceDetailByDay[l].ipAddress +"'>";
+								str += printHourEnd;
+								str += "</span>";
+								str += "&nbsp&nbsp<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
+								str += attendanceDetailByDay[l].ipAddress;
 								str += "<br> <i class='tail_top'></i></span></span>";
 							}
 						}
@@ -327,7 +340,9 @@ function loadNewMonth(year, month){
 					str += "</span>";
 					str += "</div>";
 					str += "<div class='tb_content total_time'>";
-					str += "<span class='txt'></span>";
+					str += "<span class='txt'>";
+					str += realdayWorkTime(DayAttendTimeStart, DayEndedTimeEnd);
+					str += "</span>";
 					str += "</div>";
 					str += "<div class='tb_content status'>";
 					str += "</div>";
@@ -339,9 +354,15 @@ function loadNewMonth(year, month){
 				str += "</div>";
 				str += "</div>";
 				str += "</div>";
+				
 			}//바깥 for
 			
 			$('#daysListCarrier').html(str);
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		        return new bootstrap.Tooltip(tooltipTriggerEl)
+		    });
+			//dayWorkTime();
 		}
 	});
 }
@@ -378,7 +399,78 @@ function workIn(){
 		});
 	}
 }
-
+function workOut(){
+	const workOut_moment = moment();
+	const workOutHour = workOut_moment.format("HH:mm:ss");
+	const button = document.getElementById('workOut');
+	const attendanceStatus = '퇴근';
+	const attendanceRecordedTime = workOut_moment.format('YYYY-MM-DD HH:mm:ss');
+	if(button.classList.contains('off')){
+		return false;
+	}else{
+		alert('여기로 넘어옴');
+		$('#workOutTime').html(workOutHour);
+		document.getElementById('workOut').classList.add("off");
+		/* ajax 추가 */
+		$.ajax({
+			url:'<c:url value="/attendance/insert_workOut"/>'
+			,type:"post"
+			,data:{
+				"attendanceStatus": attendanceStatus,
+				"record": attendanceRecordedTime
+			}
+			,dataType:"json"
+			,success:function(attendanceVo){ 
+				alert('됨');
+				console.info(attendanceVo);
+			},
+			error:function(xhr, status, error){
+				alert("error 발생! " + error);
+			}	
+		});
+	}
+}
+function dayWorkTime(){
+	$('.tb_attend_list').each(function(index, item){
+		var start = $(item).find('.attend').find('#attend_start').text();
+		var end = $(item).find('.leave').find('#attend_end').text();
+		console.info(start);
+		console.info(end);
+		start = '2021/7/31 ' + start;
+		end = '2021/7/31 ' + end;
+		var moment_start = moment.duration(start);
+		var moment_end = moment.duration(end);
+		
+		var moment_startHour = moment(start, 'HH:mm:ss');
+		var moment_endHour = moment(end, 'HH:mm:ss');
+		if(start!='2021/07/31'&&end!='2021/07/31'){
+			var moment_workTime = moment.duration(moment(end,'YYYY/MM/DD HH:mm:ss').diff(start, 'YYYY/MM/DD HH:mm:ss'));
+			var hours = parseInt(moment_workTime.asHours());
+			var minutes = parseInt(moment_workTime.asMinutes())%60;
+			var seconds = parseInt(moment_workTime.asSeconds())%60;
+			console.info("총시간"+hours+"분"+minutes+"초"+seconds);
+			('0'+month).slice(-2)
+			$(item).find('.total_time').find('.txt').text(('0'+hours).slice(-2)+':'+('0'+minutes).slice(-2)+':'+('0'+seconds).slice(-2));
+		}
+	});
+}
+function realdayWorkTime(start, end){
+	var moment_start = moment.duration(start);
+	var moment_end = moment.duration(end);
+	if(!isEmpty(start)&&!isEmpty(end)){
+		var moment_workTime = moment.duration(moment(end,'YYYY/MM/DD HH:mm:ss').diff(start, 'YYYY/MM/DD HH:mm:ss'));
+		var hours = parseInt(moment_workTime.asHours());
+		var minutes = parseInt(moment_workTime.asMinutes())%60;
+		var seconds = parseInt(moment_workTime.asSeconds())%60;
+		console.info("총시간"+hours+"분"+minutes+"초"+seconds);
+		return ('0'+hours).slice(-2)+':'+('0'+minutes).slice(-2)+':'+('0'+seconds).slice(-2);
+	}else{
+		return '';
+	}
+}
+function isEmpty(value){
+    return (typeof value === "undefined" || value === null);
+}
 </script>
 	<section style="padding:0px">
 		<div style="width:auto;height:64px;margin:0;padding:0;padding:24px 24px 16px;margin-right:250px;float:left">
@@ -527,7 +619,8 @@ function workIn(){
 								        <c:if test="${!empty day.attendanceVosInADay }">
 								        	<c:forEach var='vo' items='${day.attendanceVosInADay }'>
 								        		<c:if test="${vo.attendanceStatus=='출근'}">
-								        			<fmt:formatDate value="${vo.attendanceRecordedTime }" pattern='HH:mm:ss'/> 
+								        			<span id="attend_start"  data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="IP : ${vo.ipAddress}"><fmt:formatDate value="${vo.attendanceRecordedTime }" pattern='HH:mm:ss'/></span>
 								        			<span id="tooltip_location"><i class="fas fa-map-marker-alt"></i>
 								        				<span class="tool_tip top" id="tooltip_info" style="display: none;">
 															<strong>IP :</strong> ${vo.ipAddress} <br> <i class="tail_top"></i>
@@ -543,7 +636,13 @@ function workIn(){
 								        <c:if test="${!empty day.attendanceVosInADay }">
 								        	<c:forEach var='vo' items='${day.attendanceVosInADay }'>
 								        		<c:if test="${vo.attendanceStatus=='퇴근'}">
-								        			<fmt:formatDate value="${vo.attendanceRecordedTime }" pattern='HH:mm:ss'/>  
+								        			<span id="attend_end" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="IP : ${vo.ipAddress}"><fmt:formatDate value="${vo.attendanceRecordedTime }" pattern='HH:mm:ss'/></span>
+								        			<span id="tooltip_location"><i class="fas fa-map-marker-alt"></i>
+								        				<span class="tool_tip top" id="tooltip_info" style="display: none;">
+															<strong>IP :</strong> ${vo.ipAddress} <br> <i class="tail_top"></i>
+														</span> 
+													</span>
 								        		</c:if>
 								        	</c:forEach>
 								        </c:if>
@@ -566,8 +665,8 @@ function workIn(){
 					</div>
 				</div>
 			</c:forEach>
-			
-		    <div class="tb_attend_detail2">
+
+			<!-- <div class="tb_attend_detail2">
 		    	<div id="time_zone" class="tb_div tb_head">
 		
 					<div class="tb_cell"> <span class="time">00</span> </div>
@@ -598,7 +697,7 @@ function workIn(){
 		
 				<div class="wrap_timeline tb_body">
 				    
-				        <!-- 클래스명 설명
+				        클래스명 설명
 				        .part_default : 일반 근무 시간
 				        .part_approval : 승인 근무 시간
 				        .part_overtime : 초과 근무 시간
@@ -606,7 +705,7 @@ function workIn(){
 				        .part_overtime.wait : 초과근무 승인대기
 				        .start : 시작
 				        .close : 종료
-				        .initial : 최초 출근 시(출근 30분 후 클래스 제거), 출/퇴근이 60분 이내에 이루어졌을 경우 적용 -->
+				        .initial : 최초 출근 시(출근 30분 후 클래스 제거), 출/퇴근이 60분 이내에 이루어졌을 경우 적용
 				   
 				    <div id="data_zone" class="tb_div time_data">
 				        <div id="clockinout_progress" class="tb_row total_time"></div>
@@ -782,154 +881,170 @@ function workIn(){
 					<div class="tb_cell workinghours">
 						<div class="tb_div">
 										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min break">
-										</div><div class="min break">
-										</div><div class="min break">
-										</div><div class="min break">
-										</div><div class="min break">
-										</div><div class="min break">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell workinghours">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min coretime_s" title="의무 근로 종료 시간">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div><div class="tb_cell">
-										<div class="tb_div">
-										
-										<div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div><div class="min">
-										</div></div>
-										</div></div>
-										</div>
-				
-				
-				<div class="time_tb" id="timeline_list">
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+						</div>
+					</div>
+					<div class="tb_cell workinghours">
+						<div class="tb_div">
+							
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+							<div class="min break"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min coretime_s" title="의무 근로 종료 시간"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+							
+							<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
+					<div class="tb_cell">
+						<div class="tb_div">
+							
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+							<div class="min"></div>
+						</div>
+					</div>
 				</div>
 				
-				</div>
-		
-		 
 			</div>
+				
+				
+			<div class="time_tb" id="timeline_list">
+			</div>
+				
+		</div> -->
+
+
+		</div>
 		</div>
 	</section>
 	

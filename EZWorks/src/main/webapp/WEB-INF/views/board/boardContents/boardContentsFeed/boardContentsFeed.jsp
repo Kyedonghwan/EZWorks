@@ -3,13 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-	<beans:property name="messageConverters">
-		<beans:list>
-			<beans:bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-		</beans:list>
-	</beans:property>
-</beans:bean>
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 <style type="text/css">
 	.nav-link{
@@ -186,30 +179,32 @@
     			processData: false
     		}); */
     	});
-    	$('.postlist li div#likeBtn').each(function(idx, item){
-    		$(item).children('a').click(function(){
-    			if($(item).children('a').children('img').attr("class")=="like"){
-					$(item).children('a').children('img').attr("src", "<c:url value='/resources/images/board/unlike.svg'/>");
-					$(item).children('a').children('img').attr("class", "unlike");
+    	$('.postlist li').each(function(idx, item){
+    		$(item).find('#like-icon').click(function(){
+    			if($(item).find('#like-icon').children('img').attr("class")=="like"){
+					$(item).find('#like-icon').children('img').attr("src", "<c:url value='/resources/images/board/unlike.svg'/>");
+					$(item).find('#like-icon').children('img').attr("class", "unlike");
 					$.ajax({
 						url:'<c:url value="/board/deleteLike"/>'
 						,type:"get"
-						,data:"empNo="+$(item).children('input[name=empNo]').val()+"&postingNo="+$(item).children('input[name=postingNo]').val()
+						,data:"empNo="+$(item).find('#likeBtn').children('input[name=empNo]').val()+"&postingNo="+$(item).find('#likeBtn').children('input[name=postingNo]').val()
 						,dataType:"json"
 						,success:function(res){
-							$('#likes').html(res);
+							//$(item).parent().next().next().next().find('#totalReplyCount').text(res);
+							$(item).find('#likes').html(res);
 						}
 					});
-				}else if($(item).children('a').children('img').attr("class")=="unlike"){
-					$(item).children('a').children('img').attr("src", "<c:url value='/resources/images/board/like.svg'/>");
-					$(item).children('a').children('img').attr("class", "like");
+				}else if($(item).find('#like-icon').children('img').attr("class")=="unlike"){
+					$(item).find('#like-icon').children('img').attr("src", "<c:url value='/resources/images/board/like.svg'/>");
+					$(item).find('#like-icon').children('img').attr("class", "like");
 					$.ajax({
 						url:'<c:url value="/board/addLike"/>'
 						,type:"get"
-						,data:"empNo="+$(item).children('input[name=empNo]').val()+"&postingNo="+$(item).children('input[name=postingNo]').val()
+						,data:"empNo="+$(item).find('#likeBtn').children('input[name=empNo]').val()+"&postingNo="+$(item).find('#likeBtn').children('input[name=postingNo]').val()
 						,dataType:"json"
 						,success:function(res){
-							$('#likes').html(res);
+							//$(item).parent().next().next().next().find('#totalReplyCount').text(res);
+							$(item).find('#likes').html(res);
 						}
 					});
 				}
@@ -636,7 +631,7 @@
 									</div>
 								</c:if>
 							</div>
-							<div style="margin-bottom: 5px">
+							<div id="divForicons"style="margin-bottom: 5px">
 								<div name="comments-icons"
 									style="border-bottom: 1px solid #dfe3e7;">
 									<a><span class="fa-fw select-all fas"></span> 댓글 <span

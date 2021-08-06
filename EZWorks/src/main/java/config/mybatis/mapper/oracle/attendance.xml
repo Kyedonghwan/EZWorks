@@ -13,6 +13,12 @@
 		insert into attendance(attendance_no, emp_no, attendance_status, attendance_recorded_time, ip_address)
 		values(#{attendanceNo}, #{empNo}, #{attendanceStatus}, #{attendanceRecordedTime}, #{ipAddress})
 	</insert>
+	<select id="isAttended" parameterType="map" resultType="int">
+		select count(*) from attendance where emp_no = #{empNo} and attendance_status='출근' and attendance_recorded_time between #{startingDate} and #{endingDate}
+	</select>
+	<select id="isEnded" parameterType="map" resultType="int">
+		select count(*) from attendance where emp_no = #{empNo} and attendance_status='퇴근' and attendance_recorded_time between #{startingDate} and #{endingDate}
+	</select>
 </mapper>
 
 
