@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style type="text/css">
- .tool_tip {
+.tool_tip {
     display: none;
     position: absolute;
     top: 1px;
@@ -32,6 +32,7 @@
 
 <script type="text/javascript">
 var daysNamesMin = ['일', '월', '화', '수', '목', '금', '토'];
+const basicTimeFormat = 'HH:mm:ss';
 $(function(){
 	
 	var basedate = new Date();
@@ -133,7 +134,8 @@ $(function(){
  		if(e.target.className=="tooltip_info"){
  			return false
 		}else{
-			if($('#tooltip_info').css("display")=="inline"){
+			if($('#tooltip_info').css('display')=='inline'){
+			alert("다른곳");
 				$('#tooltip_info').css({"display":"none"});
 			}
 		}//내가 클릭한 요소(target)를 기준으로 상위요소에 .share-pop이 없으면 (갯수가 0이라면)
@@ -233,6 +235,7 @@ function loadNewMonth(year, month){
 				str += "<div class='tb_attend_body' id='day_list'>";
 				var days = daysListWithDetail[i];
 				for(var j=0; j<days.length;j++){
+					var attendanceDetailByDay = days[j].attendanceVosInADay;
 					console.info(days[j]);
 					var week = new Date(days[j].forCalendar);
 					var date = week.getDate();
@@ -282,7 +285,7 @@ function loadNewMonth(year, month){
 						str+="day_sun";
 					}
 					str += "'>";
-					str += "<input type='text' value='" + week + "' name='dateSpec'>";
+					str += "<input type='hidden' value='" + week + "' name='dateSpec'>";
 					str += "<div class='tb_content date_l'>";
 					str += "<span class='txt'>"+date+"</span>";
 					str += "</div>";
@@ -293,10 +296,34 @@ function loadNewMonth(year, month){
 					str += "</div>";
 					str += "<div class='tb_content attend'>";
 					str += "<span class='txt'>";
+					if(attendanceDetailByDay!=null){
+						for(var k = 0; k<attendanceDetailByDay.length; k++){
+							if(attendanceDetailByDay[k].attendanceStatus=='출근'){
+								var DayAttendTime = moment(new Date(attendanceDetailByDay[k].attendanceRecordedTime));
+								var printHour = DayAttendTime.format(basicTimeFormat);
+								str += printHour;
+								str += "<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
+								str += attendanceDetailByDay[k].ipAddress;
+								str += "<br> <i class='tail_top'></i></span></span>";
+							}
+						}
+					}
 					str += "</span>";
 					str += "</div>";
 					str += "<div class='tb_content leave'>";
 					str += "<span class='txt'>";
+					if(attendanceDetailByDay!=null){
+						for(var k = 0; k<attendanceDetailByDay.length; k++){
+							if(attendanceDetailByDay[k].attendanceStatus=='퇴근'){
+								var DayEndedTime = moment(new Date(attendanceDetailByDay[k].attendanceRecordedTime));
+								var printHour = DayAttendTime.format(basicTimeFormat);
+								str += printHour;
+								str += "<span id='tooltip_location'><i class='fas fa-map-marker-alt'></i><span class='tool_tip top' id='tooltip_info' style='display: none;'><strong>IP :</strong>"
+								str += attendanceDetailByDay[k].ipAddress;
+								str += "<br> <i class='tail_top'></i></span></span>";
+							}
+						}
+					}
 					str += "</span>";
 					str += "</div>";
 					str += "<div class='tb_content total_time'>";
@@ -523,7 +550,9 @@ function workIn(){
 								        </span>
 								    </div>
 								    <div class="tb_content total_time">
-								        <span class="txt"></span>
+								        <span class="txt">
+								        	
+								        </span>
 								    </div>
 								    <div class="tb_content status">
 								        
