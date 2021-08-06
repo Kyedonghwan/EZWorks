@@ -35,6 +35,12 @@ public class AttendanceMonthCalculator {
 	 * } }
 	 */
 	
+	/**
+	 * 각 달마다 반복되는 주차의 수
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public int getTotalWeeks(int year, int month) {
 		Calendar calendar = Calendar.getInstance(Locale.KOREA);
 		calendar.set(year, month-1, 1);
@@ -45,6 +51,12 @@ public class AttendanceMonthCalculator {
 		return weeks;
 	}
 	
+	/**
+	 * 각 달마다 시작날짜
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public String getStartingyyyyMMdd(int year, int month) {
 		Calendar calendar = Calendar.getInstance(Locale.KOREA);
 		calendar.set(year, month-1, 1);
@@ -55,6 +67,12 @@ public class AttendanceMonthCalculator {
 		return date;
 	}
 	
+	/**
+	 * 각 달마다 마지막 날짜
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public String getEndingyyyyMMdd(int year, int month) {
 		String startingDate = getStartingyyyyMMdd(year, month);
 		String splitDate[] = startingDate.split("-");
@@ -69,6 +87,12 @@ public class AttendanceMonthCalculator {
 		return date;
 	}
 	
+	/**
+	 * 달마다 모든 날짜의 list. List<Date>은 7일간의 데이터가 담겨있고 List<List<Date>>은 7일간데이터 담긴 list를 주차 수만큼의 list
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public List<List<Date>> getDaysList(int year, int month){
 		logger.info("year={}, month={}", year, month);
 		String date = getStartingyyyyMMdd(year, month);
@@ -99,30 +123,11 @@ public class AttendanceMonthCalculator {
 		
 	}
 	
-	public List<List<AttendanceMainViewVO>> getDaysListFullDetail(int year, int month, int empNo){
-		logger.info("dates with full details, parameters: year={}, month={}", year, month);
-		String date = getStartingyyyyMMdd(year, month);
+	/**
+	 * 이번주 잔여 시간 계산
+	 */
+	public getThisWeektotalHours(int year, int month, int date) {
 		
-		String splitDate[] = date.split("-");
-		int nYear = Integer.parseInt(splitDate[0]);
-		logger.info("nYear={}", nYear);
-		int nMonth = Integer.parseInt(splitDate[1]);
-		int nDate = Integer.parseInt(splitDate[2]);
 		
-		Calendar calendar = Calendar.getInstance(Locale.KOREA);
-		calendar.set(nYear, nMonth-1, nDate);
-		List<List<AttendanceMainViewVO>> monthListFullDetail= new ArrayList<>();
-		Date d = new Date();
-		int weeks = getTotalWeeks(year, month);
-		Map<String, Object> searchMap = new HashMap<>();
-		String startingDate = getStartingyyyyMMdd(year, month);
-		String endingDate = getEndingyyyyMMdd(year, month);
-		String temp[] = endingDate.split("-");
-		int tempDate = Integer.parseInt(temp[2]);
-		tempDate = tempDate + 1;
-		endingDate = temp[0]+"-"+temp[1]+"-"+tempDate;
-		searchMap.put("startingDate", startingDate);
-		searchMap.put("endingDate", endingDate);
-		searchMap.put("empNo", empNo);
 	}
 }
