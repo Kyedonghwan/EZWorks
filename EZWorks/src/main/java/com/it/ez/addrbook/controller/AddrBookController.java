@@ -86,16 +86,8 @@ public class AddrBookController {
 		int cnt = addrService.insertBook(vo);
 		logger.info("주소록 등록 cnt={}", cnt);
 
-		String msg = "주소록 등록 실패", url = "/addrbook/addrWrite";
-		if (cnt > 0) {
-			msg = "주소록 등록 성공";
-			url = "/addrbook/addrbook";
-		}
 
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-
-		return "common/message";
+		return "redirect:/addrbook/addrbook";
 }
 
 @RequestMapping("/addrbook/testcho")
@@ -399,8 +391,8 @@ public void testedit() {
 
 @RequestMapping("/addrbook/addrbook")
 public String addrList(@ModelAttribute AddrBookVO searchVo, Model model) {
-	logger.info("list, 파라미터 searchVo={}", searchVo);
-
+	logger.info("list, 파라미터 searchVo.getChosung()={}", searchVo.getChosung());
+	
 	// 페이징 처리 관련
 	// [1] PaginationInfo
 	AddrPaginationInfo pagingInfo = new AddrPaginationInfo();

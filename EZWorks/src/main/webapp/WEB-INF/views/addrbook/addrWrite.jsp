@@ -10,6 +10,25 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/addressapi.js"></script>
 <script type="text/javascript">
+$(function(){
+	$('input[name=saveDone]').submit(function(){
+		alert('df');
+		if($('input[name=name]').val().length<1){
+			Toastify({
+	               text:"이름을 입력하세요.",
+	               duration: 2000,
+	               close:false,
+	               gravity:"top",
+	               position:"center",
+	               backgroundColor:"black",
+	            }).showToast();
+			return false;
+		}
+		
+	})
+});
+
+
 	function execPostCode() {
 		new daum.Postcode({
 			oncomplete : function(data) {
@@ -52,6 +71,24 @@
 			}
 		}).open();
 	}
+	function readURL(input) {
+		 if (input.files && input.files[0]) {
+		  var reader = new FileReader();
+		  
+		  reader.onload = function (e) {
+		   $('#image_section').attr('src', e.target.result);  
+		  }
+		  
+		  reader.readAsDataURL(input.files[0]);
+		  }
+		}
+		 
+		// 이벤트를 바인딩해서 input에 파일이 올라올때 위의 함수를 this context로 실행합니다.
+		$("#photoName").change(function(){
+		   readURL(this);
+		});
+
+
 </script>
 <style type="text/css">
 body {
@@ -130,8 +167,8 @@ span.requirement {
 							<th><span class="title">사진</span></th>
 							<td><span class="img_profile" style="overflow: hidden">
 									<img class="imgst"
-									src="<%=request.getContextPath()%>/resources/images/faces/photo_profile_large.jpg"
-									alt="" id="thumbnail_image" data-filename="" data-filepath="">
+									src="#"
+									alt="your image" id="image_section" data-filename="" data-filepath="">
 									<br> <span class="wrap_btn wrap_file_upload"> <span
 										class="btn_file_form fileinput-button"
 										style="text-align: center;"> <span class="button text">
@@ -316,7 +353,7 @@ span.requirement {
 				</table>
 			</fieldset>
 			<div class="page_action_wrap">
-				<input type="submit" id="saveDone" data-bypass=""
+				<input type="submit" id="saveDone" name="saveDone"data-bypass=""
 					class="btn btn-outline-secondary" data-role="button" value="저장" />
 				<a id="saveContinueDone" data-bypass=""
 					class="btn btn-outline-secondary" data-role="button"><span

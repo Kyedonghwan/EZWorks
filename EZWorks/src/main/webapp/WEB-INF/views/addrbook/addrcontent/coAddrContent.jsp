@@ -211,7 +211,7 @@ td{
 						</ul>
 					</section>
 					<!-- 주소록 리스트 시작-->
-					<form name="formContacts">
+					<form action="<c:url value='/addrbook/coAddrbook'/>"  name="formContacts" method="post" action>
 						<div>
 							<div>
 								<!-- ㄱㄴㄷㄹ 툴바 -->

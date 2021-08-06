@@ -25,6 +25,14 @@ function pageProc(curPage){
 
 
 
+//주소록 초성 검색
+function lookConsonant(chosung) {
+	$('input[name=chosung]').val(chosung);
+	$('form[name=frmPage]').submit();
+	
+	
+}
+
 </script>
 <style>
 #quickbar {
@@ -184,47 +192,46 @@ td {
 					</ul>
 				</section>
 				<!-- 주소록 리스트 시작-->
-				<form name="formContacts">
+			
 					<div>
 						<div>
 							<!-- ㄱㄴㄷㄹ 툴바 -->
 							<div id="toolBar">
 								<ul>
+									<li><span class="lastName" 
+										onclick="lookConsonant(0);">전체</span></li>
+									<li><span class="lastName" 
+										onclick="lookConsonant(1);">ㄱ</span></li>
+									<li><span class="lastName" 
+										onclick="lookConsonant(2);">ㄴ</span></li>
+									<li><span class="lastName" 
+										onclick="lookConsonant(3);">ㄷ</span></li>
+									<li><span class="lastName" 
+										onclick="lookConsonant(4);">ㄹ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('전체', '', '');">전체</span></li>
+										onclick="lookConsonant(5);">ㅁ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㄱ', '가', '나');">ㄱ</span></li>
+										onclick="lookConsonant(6);">ㅂ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㄴ', '나', '다');">ㄴ</span></li>
+										onclick="lookConsonant(7);">ㅅ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㄷ', '다', '라');">ㄷ</span></li>
+										onclick="lookConsonant(8);">ㅇ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㄹ', '라', '마');">ㄹ</span></li>
+										onclick="lookConsonant(9);">ㅈ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㅁ', '마', '바');">ㅁ</span></li>
+										onclick="lookConsonant(10);">ㅊ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㅂ', '바', '사');">ㅂ</span></li>
+										onclick="lookConsonant(11);">ㅋ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㅅ', '사', '아');">ㅅ</span></li>
+										onclick="lookConsonant(12);">ㅌ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㅇ', '아', '자');">ㅇ</span></li>
+										onclick="lookConsonant(13);">ㅍ</span></li>
+									<li><span class="lastName" 
+										onclick="lookConsonant(14);">ㅎ</span></li>
 									<li><span class="lastName"
-										onclick="lookConsonant('ㅈ', '자', '차');">ㅈ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('ㅊ', '차', '카');">ㅊ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('ㅋ', '카', '타');">ㅋ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('ㅌ', '타', '파');">ㅌ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('ㅍ', '파', '하');">ㅍ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('ㅎ', '하', '');">ㅎ</span></li>
-									<li><span class="lastName"
-										onclick="lookConsonant('a-z', 'a', 'Z');">a-z</span></li>
+										onclick="lookConsonant(15);">a-z</span></li>
 								</ul>
-								<input type="hidden" name="range" /> <input type="hidden"
-									name="range1" /> <input type="hidden" name="range2" />
+							
 							</div>
 							<!-- ㄱㄴㄷㄹ 툴바 끝 -->
 
@@ -318,13 +325,47 @@ td {
 						</div>
 						<!-- 테이블끝 -->
 					</div>
-				</form>
+				
 			</div>
 
 			<!-- 컨텐츠 끝 -->
 		</div>
 	</div>
+<!-- 검색어 -->
 
+<form action="<c:url value='/addrbook/addrbook'/>" 
+	name="frmPage" method="post">
+	<input type="hidden" name="currentPage" value="${pagingInfo.currentPage}"><br>
+	<input type="hidden" name="searchCondition" value="${param.searchCondition}"><br>
+	<input type="hidden" name="searchKeyword" value="${param.searchKeyword }"><br>
+    <input type="hidden" name="chosung" value="${param.chosung}" />	
+</form>
+
+<div class="divSearch">
+<c:if test="${!empty param.searchKeyword }">
+	<p>검색어 : ${param.searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
+</c:if>
+
+   	<form name="frmSearch" method="post" 
+   		action='<c:url value="/addrbook/addrbook"/>'>
+        <select name="searchCondition">
+            <option value="name" 
+            	<c:if test="${param.searchCondition == 'name' }">            	
+            		selected="selected"
+            	</c:if>
+            >이름</option>
+            <option value="companyName"
+            	<c:if test="${param.searchCondition == 'companyName' }">            	
+            		selected="selected"
+            	</c:if>
+            >회사</option>
+        </select>   
+        <input type="text" name="searchKeyword" title="검색어 입력"
+        	value="${param.searchKeyword }">   
+		<input type="submit" value="검색">
+    </form>
+    </div>
+<!-- 검색어 끝 -->
 	<!-- 페이지 처리 -->
 	<div style="margin-top: 40px">
 		<nav aria-label="Page navigation example">

@@ -20,7 +20,6 @@ public class CoEmpVO extends AddrSearchVO{
 	 private int deptNo; 
 	 private int posNo;
 	 private String posName;
-	 
 	 private String deptName;
 	 
 	   
