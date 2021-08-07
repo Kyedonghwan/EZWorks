@@ -10,4 +10,5 @@ public interface ArchiveService {
 	int updateDownCount(int no);
 	ArchiveVO selectArchive(int no);
 	int moveArchive(Map<String,Object> map);
+	
 }

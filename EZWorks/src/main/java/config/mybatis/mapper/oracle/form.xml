@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.form.model.FormDAO">
+	<select id="selectFormFolder" resultType="String">
+		select distinct(form_folder) from form
+	</select>
+	<select id="selectForm" resultType="FormVO">
+		select * from form
+	</select>
+	<insert id="insertUsedForm" parameterType="Map">
+		insert into usedform values(#{formNo},#{empNo})
+	</insert>
+	<select id="showUsedForm" resultType="map" parameterType="int">
+		select a.*,b.form_name from usedform a join form b on a.form_no=b.form_no where emp_no=#{empNo}
+	</select>
+	<select id="isDuplUsedForm" resultType="int" parameterType="Map">
+		select count(*) from usedform where form_no=#{formNo} and emp_no=#{empNo}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+
 <script type="text/javascript">
 $(function (){
 	$("#quickRegistToggler").click(function (){
@@ -21,6 +23,32 @@ $(function (){
 function pageProc(curPage){
 	$('input[name=currentPage]').val(curPage);
 	$('form[name=frmPage]').submit();	
+}
+
+// 주소록 초성 검색
+function lookConsonant(range, range1, range2) {
+	
+	document.formContacts.range.value = range;
+	document.formContacts.range1.value = range1;
+	document.formContacts.range2.value = range2;
+	
+	sendForm();
+	
+}// end of function lookConsonant(range1, range2) {}-----------------------
+
+
+$(document).ready(function(){
+	// 초성 검색 값 유지
+	$("span.lastName").each(function(){
+		var lastName = $(this).text();
+		
+		if(lastName == "${range}") {
+			$(this).addClass("selectName");
+			return;
+		} else {
+			$(this).removeClass("selectName");
+		}// end of if(lastName == "${range}") {}-------------------
+	});// end of $("span.lastName").each(function(){})--------------------
 }
 
 </script>
@@ -132,6 +160,8 @@ td{
     border-radius: 32px;
    }
 </style>
+
+
 <body>
 
 				<div class="card-header">
@@ -181,7 +211,7 @@ td{
 						</ul>
 					</section>
 					<!-- 주소록 리스트 시작-->
-					<form name="formContacts">
+					<form action="<c:url value='/addrbook/coAddrbook'/>"  name="formContacts" method="post" action>
 						<div>
 							<div>
 								<!-- ㄱㄴㄷㄹ 툴바 -->
@@ -240,7 +270,7 @@ td{
 		<td class="align_l name sorting_1">
 		<span class="photo small"><img src="<%=request.getContextPath()%>/resources/images/faces/1.jpg" title="test" alt="test"></span>
 		<a><span class="name contact_detail" data-id="1061">${vo.empName}</span></a></td>
-		<td class="align_l hp"><span class="hp">${vo.hp}</span></td>
+		<td class="align_l hp"><span class="hp">${vo.empTel}</span></td>
 		<td class="align_l department">${vo.deptName}</td>
 		<td class="align_l company"><span class="company">(주)ez그룹</span></td><td class="align_l tel"></td><td class="align_l company_address"></td>
 		<td class="align_l memo"></td><td class="align_l group"><span class="group" title="전사주소록2">전사주소록</span></td>
@@ -260,32 +290,29 @@ td{
 											</div>
 										</div>
 						
-									<div class="divPage">
-	<!-- 페이지 번호 추가 -->		
-	<!-- 이전 블럭으로 이동 -->
-	<c:if test="${pagingInfo.firstPage>1 }">
-		<a href="#" onclick="pageProc(${pagingInfo.firstPage-1})">
-			<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
-		</a>
-	</c:if>
-						
-	<!-- [1][2][3][4][5][6][7][8][9][10] -->
-	<c:forEach var="i" begin="${pagingInfo.firstPage }" 
-		end="${pagingInfo.lastPage }">
-		<c:if test="${i==pagingInfo.currentPage }">
-			<span style="color:blue;font-weight: bold">${i}</span>
-		</c:if>
-		<c:if test="${i!=pagingInfo.currentPage }">
-			<a href="#" onclick="pageProc(${i})">[${i}]</a>
-		</c:if>
-	</c:forEach>
-	<!-- 다음 블럭으로 이동 -->
-	<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
-		<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})">
-			<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
-		</a>
-	</c:if>
-	<!--  페이지 번호 끝 -->
-</div>		
+<div style="margin-top:40px">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination pagination-primary pagination-sm justify-content-center">
+				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>disabled</c:if>">
+				<a class="page-link" href="#" onclick="pageProc(${pagingInfo.firstPage-1})">Previous</a></li>
+				<c:forEach var="i" begin="${pagingInfo.firstPage }" end="${pagingInfo.lastPage }">
+					<c:if test="${i==pagingInfo.currentPage }">
+						<li class="page-item active"><a class="page-link" href="#">${i }</a></li>
+					</c:if>
+					<c:if test="${i!=pagingInfo.currentPage }">
+						<li class="page-item"><a class="page-link" href="#" onclick="pageProc(${i})">${i }</a></li>
+					</c:if>
+				</c:forEach>
+				<c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">
+					<a href="#" onclick="pageProc(${pagingInfo.lastPage+1})"> <img
+						src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+					</a>
+				</c:if>
+				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.lastPage }'>disabled</c:if>"><a class="page-link" href="#">Next</a></li>
+			</ul>
+		</nav>
+	</div>
+	
+		
 </body>
 </html>

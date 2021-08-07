@@ -23,7 +23,7 @@
 		</selectKey>
 		insert into posting(POSTING_NO, POSTING_TITLE, BOARD_NO, EMP_NO, POSTING_CONTENT, POSTING_ISPUBLIC, 
 			POSTING_ISNOTICE, POSTING_ISTEMP)
-		values(#{postingNo}, #{postingTitle}, #{boardNo}, #{empNo}, #{postingContent},
+		values(#{postingNo}, #{postingTitle, jdbcType=VARCHAR}, #{boardNo}, #{empNo}, #{postingContent},
 		#{postingIsPublic}, #{postingIsNotice}, #{postingIsTemp})
 	</insert>
 	<insert id="insertPostingFiles" parameterType="PostingFilesVO">
@@ -54,7 +54,7 @@
         <include refid="searchWhere"></include>
 	</select>
 	<select id="selectPostingFeed" resultType="BoardFeedPostingVO">
-		select * from POSTING_VIEW_FEED where board_no=#{boardNo}
+		select * from POSTING_VIEW_FEED where board_no=#{boardNo} order by posting_regdate desc 
 	</select>
 	<select id="selectByPostingNo" resultType="PostingVo">
 		select * from posting where posting_no=#{postingNo}
@@ -84,6 +84,33 @@
 	<select id="getCurrentStatusVal" resultType="int">
 		select currentstatusval from (select rownum as currentStatusVal, C.posting_no from (select * from posting_view_classic where board_no=#{boardNo} order by posting_no)C) where posting_no=#{postingNo}
 	</select>
+	<select id="selectFilesOfPosting" resultType="PostingFilesVO">
+		select * from posting_files where posting_no=#{posting_no}
+	</select>
+	<insert id="addLike">
+		insert into EMP_LIKES_POSTING(emp_no, posting_no)
+		values(#{empNo}, #{postingNo})
+	</insert>
+	<delete id="deleteLike">
+		delete from EMP_LIKES_POSTING where emp_no=#{empNo} and posting_no=#{postingNo}
+	</delete>
+	<select id="countLikes" resultType="int">
+		select count(*) from EMP_LIKES_POSTING where posting_no=#{postingNo}
+	</select>
+	<select id="hasLiked" resultType="int">
+		select count(*) from EMP_LIKES_POSTING where posting_no=#{postingNo} and emp_no=#{empNo}
+	</select>
+	<delete id="deleteFileList">
+		delete from posting_files where posting_no=#{postingNo}
+	</delete>
+	<delete id="deletePosting">
+		delete from posting where posting_no=#{postingNo}
+	</delete>
+	<update id="updateViewCount">
+		update posting
+		set posting_viewcount = posting_viewcount + 1
+		where posting_no=#{postingNo}
+	</update>
 </mapper>
 
 

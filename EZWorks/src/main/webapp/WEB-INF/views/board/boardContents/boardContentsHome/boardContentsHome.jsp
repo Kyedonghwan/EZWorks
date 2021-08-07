@@ -131,6 +131,8 @@
 												<span style="font-size: 0.7em">
 												<fmt:formatDate value="${posts.postingRegdate }" pattern="yyyy-MM-dd"/>
 												</span>
+												<span></span>
+												<span></span>
 											</div>
 									</div>
 								</li>

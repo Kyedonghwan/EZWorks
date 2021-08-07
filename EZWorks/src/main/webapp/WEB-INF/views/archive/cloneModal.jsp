@@ -264,7 +264,7 @@ $(function(){
 	    <div class="modal-content" style="width:500px;height:450px">
 	      <div class="modal-header">
 	        <h5 class="modal-title">대상폴더 선택</h5>
-	        <button type="button" class="btn-close uploadModal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	        <button type="button" class="btn-close uploadModal-close" data-bs-dismiss="modal" aria-label="Close">X</button>
 	      </div>
 	      <div class="modal-body">
 	        <div id="cloneModalContent" class="overflow-auto" style="height:275px">

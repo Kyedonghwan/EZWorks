@@ -28,6 +28,7 @@ EZWorks/.project
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
+
 **/src/main/**/target/
 **/src/test/**/target/
 
@@ -59,11 +60,8 @@ build/
 
 ### VS Code ###
 .vscode/
-/EZWorks/
-EZWorks/src/main/resources/application.properties
 *.properties
 EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
-EZWorks/src/main/resources/application.properties
+
+### board_upload ###
+**/board_upload/*

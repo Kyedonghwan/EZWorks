@@ -16,7 +16,7 @@
 	}
 	
 	#contents{
-		border-left: 1px solid #dfe3e7;/
+		border-left: 1px solid #dfe3e7;
 		border-right: 1px solid #dfe3e7;
 	}
 	span.recent-header{
@@ -33,6 +33,7 @@
 	
 	#fav-toggle{
 		color:yellow;
+		border:1px solid black;
 	}
 </style>
 <script type="text/javascript">
@@ -57,7 +58,33 @@
 			$('form[name=frmPage]').submit();
 		});
 		
-		
+		$('#fav').click(function(){
+			if($(this).children('img').attr("class")=="fav"){
+				$(this).children('img').attr("src", "<c:url value='/resources/images/board/unfavstar.svg'/>");
+				$(this).children('img').attr("class", "unfav");
+				$.ajax({
+					url:'<c:url value="/board/deleteFavBoards"/>'
+					,type:"get"
+					,data:"empNo="+$('input[name=empNo]').val()+"&boardNo="+$('input[name=boardNo]').val()
+					,dataType:"json"
+					,success:function(res){
+						$('#likes').html(res);
+					}
+				});
+			}else if($(this).children('img').attr("class")=="unfav"){
+				$(this).children('img').attr("src", "<c:url value='/resources/images/board/favstar.svg'/>");
+				$(this).children('img').attr("class", "like");
+				$.ajax({
+					url:'<c:url value="/board/insertFavBoards"/>'
+					,type:"get"
+					,data:"empNo="+$('input[name=empNo]').val()+"&boardNo="+$('input[name=boardNo]').val()
+					,dataType:"json"
+					,success:function(res){
+						$('#likes').html(res);
+					}
+				});
+			}
+		});
 	});
 </script>
 <form action="<c:url value='/board/selectedBoard'/>" name="frmPage" method="post" style="padding:none;margin:none">
@@ -72,7 +99,8 @@
 
 		<div style="width:auto;height:64px;margin:0;padding:0;padding:24px 24px 16px;margin-right:250px;float:left">
 			<h5>
-				<a>${boardVo.boardName }</a> <a href="#"><span id="fav-toggle" class="fa-fw select-all fas" style="height:15px"></span></a>
+				<a>${boardVo.boardName }</a> <a id="fav" href="#"><img style="height:20px;padding-bottom:5px"alt="" src="<c:url value='/resources/images/board/unfavstar.svg'/>"></a>
+				<input type="hidden" name="empNo" value="${loginEmpNo }">
 			</h5>
 		</div>
 		

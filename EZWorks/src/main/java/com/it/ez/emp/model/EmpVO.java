@@ -23,7 +23,7 @@ public class EmpVO {
 	private Timestamp empHiredate;
 	private Timestamp empOutdate;
 	private String empImg;
-	private String empBookmark;
 	private int deptNo;
 	private int posNo;
+	private String posName;
 }

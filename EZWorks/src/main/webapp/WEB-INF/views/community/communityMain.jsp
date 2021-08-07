@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	
 <%@ include file="../include/top.jsp"%>
 <style type="text/css">
@@ -20,14 +21,39 @@
 	#cName{
 		width:110px;
 	}
+	.th1, .tr1{
+		text-align: center;
+	}
+	#btnEnroll{
+		/* width: 40px;
+	    height: 20px; */
+	    font-size: 0.9em;
+	    padding: 0;
+	}
+	
 </style>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
-<script type="text/javascript">
-	$(function(){
+<script type="text/javascript">	
+$(function(){
+	alert($('#td1').html());
+	
+	$('#btnEnroll2').click(function(){
 		
 	});
+});
 </script>
+<!-- <script type="text/javascript">	
+$(function(){
+	alert("안녕");
+	
+	$('#btnEnroll2').click(function(){
+		var communityNo=$('#td1').html();
+		location.href='<c:url value="/community/communityEnroll?communityNo='+${communityNo}+'"/>';
+		$('#enrollTitle').text().attr("가입", "가입대기");
+	});
 
+});
+</script>
+ -->
 <%@ include file="../community/sidebar/sidebar1.jsp" %>
 <%@ include file="../include/middle.jsp" %>
 									
@@ -45,8 +71,8 @@
                                 role="tab" aria-controls="home" aria-selected="true">최근글</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile"
-                                role="tab" aria-controls="profile" aria-selected="false">가입 커뮤니티</a>
+                            <a class="nav-link" id="enroll-tab" data-bs-toggle="tab" href="#enroll"
+                                role="tab" aria-controls="enroll" aria-selected="false">가입 커뮤니티</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact"
@@ -59,71 +85,150 @@
                             <div class="table-responsive">
 		                       <table class="table table-hover table-lg">
 		                        <tbody>
+		                        <c:forEach var="vo" items="${classicList}">
 	                               <tr>
 	                                   <td class="col-auto">
-	                                       <p class=" mb-0">YOLO EZ > 암벽클라이밍 동호회</p>
-	                                       <p class=" mb-0" id="mainTitle">인사드리겠습니다 ^^</p>	                                      
-	                                       <p class=" mb-0">안녕하세요! 홍길동입니다! ㅎㅎ 힘든 암벽하고, 맛있는 음식 먹으러가요!</p>
+	                                       <p class=" mb-0">${vo.communityName } > ${vo.boardName}</p>
+	                                       <p class=" mb-0" id="mainTitle">
+	                                       	<a href="<c:url value='/community/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+	                                       <p class=" mb-0">${vo.text }</p>
 	                                       <div class="avatar avatar-md">
-												<img src="<c:url value='/resources/images/faces/1.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp홍길동 과장 2018-02-21(수) 14:52</span>
+												<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
+												<span class="mb-0" id="sp2">&nbsp&nbsp${vo.empName} ${vo.posName}
+												<fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 										   </div>
 	                                   </td>
 	                               </tr>
+		                        </c:forEach>
+		                        <c:forEach var="vo" items="${feedList}">
 	                               <tr>
 	                                   <td class="col-auto">
-	                                       <p class=" mb-0">YOLO EZ > Wish list 적고 가세요!</p>
-	                                       <p class=" mb-0" id="mainTitle">안녕하세요! 발도장 찍고갑니다</p>	                                      
+	                                       <p class=" mb-0">${vo.communityName } > ${vo.boardName}</p>
+	                                       <p class=" mb-0" id="mainTitle">
+	                                       <a href="<c:url value='/community/c_boardFeedDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+	                                       <p class=" mb-0">${vo.text }</p>
 	                                       <div class="avatar avatar-md">
-												<img src="<c:url value='/resources/images/faces/1.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp홍길동 과장 2018-02-21(수) 14:51</span>
+												<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
+												<span class="mb-0" id="sp2">&nbsp&nbsp${vo.empName} ${vo.posName}  
+												<fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd (E) HH:mm"/> </span>
 										   </div>
 	                                   </td>
 	                               </tr>
-	                               <tr>
-	                                   <td class="col-auto">
-	                                       <p class=" mb-0">YOLO EZ > 암벽클라이밍 동호회</p>
-	                                       <p class=" mb-0" id="mainTitle">암벽은 처음이라 ^^</p>	                                      
-	                                       <p class=" mb-0">안녕하세요! 김길동 부장입니다! 제가 암벽을 잘 따라갈지 너무 걱정이네요 ㅎ 그래도 열심해 해볼게요~</p>
-	                                       <div class="avatar avatar-md">
-												<img src="<c:url value='/resources/images/faces/2.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp김길동 부장 2018-02-21(수) 14:10</span>
-										   </div>
-	                                   </td>
-	                               </tr>
-	                               <tr>
-	                                   <td class="col-auto">
-	                                       <p class=" mb-0">YOLO EZ > Wish list 적고 가세요!</p>
-	                                       <p class=" mb-0" id="mainTitle">해외로도 나가나요? 오사카도 좋은데~</p>	                                      
-	                                       <div class="avatar avatar-md">
-												<img src="<c:url value='/resources/images/faces/2.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp김길동 부장 2018-02-21(수) 14:35</span>
-										   </div>
-	                                   </td>
-	                               </tr>
-	                               <tr>
-	                                   <td class="col-auto">
-	                                       <p class=" mb-0">YOLO EZ > 암벽클라이밍 동호회</p>
-	                                       <p class=" mb-0" id="mainTitle">안녕하세요~</p>	                                      
-	                                       <p class=" mb-0">안녕하세요~~ 박길동 상무입니다 ^^ 제가 등산은 좀 해봤는데, 암벽은 한번도 안해봐서 서툴지만 잘 부탁드려요! 허허 ^^</p>
-	                                       <div class="avatar avatar-md">
-												<img src="<c:url value='/resources/images/faces/3.jpg'/>">
-												<span class="mb-0" id="sp2">&nbsp&nbsp박길동 상무 2018-02-21(수) 13:58</span>
-										   </div>
-	                                   </td>
-	                               </tr>
-		                         </tbody>
-		                       </table>
+		                        </c:forEach>
+		                       </tbody>
+		                     </table>
 		                   </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel"
-                            aria-labelledby="profile-tab">
-                        </div>
+                        <div class="tab-pane fade" id="enroll" role="tabpanel"
+                            aria-labelledby="enroll-tab"><br>
+	                         <!-- Hoverable rows start -->
+		                     <div class="row" id="table-hover-row">
+	                            <!-- table hover -->
+	                                <div class="table-responsive">
+	                                    <table class="table table-hover mb-0">
+	                                        <thead>
+	                                            <tr class="th1">
+	                                            	<th>No.</th>
+	                                                <th>커뮤니티</th>
+	                                                <th>회원수</th>
+	                                                <th>전체글</th>
+	                                                <th>마스터</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                         <c:if test="${empty communityList}">
+	                                         	<tr>
+	                                         		<td colspan="5" style="text-align: center">가입한 커뮤니티가 없습니다.</td>
+	                                         	</tr>
+	                                         </c:if>
+	                                         <c:if test="${!empty communityList}">
+		                                          <c:forEach var="vo2" items="${communityList}">
+		                                              <tr class="tr1">
+			                                              <td>${vo2.communityNo}</td>
+			                                              <td style="text-align:left; padding-left:30px">
+			                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo2.communityNo}'/>">
+			                                              		${vo2.communityName}</a></td>
+			                                              <td>${vo2.memberCount}</td>
+			                                              <td>${vo2.writingCount}</td>
+			                                              <td>${vo2.communityMaster}</td>
+			                                          </tr>
+		                                          </c:forEach>
+	                                         </c:if>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>    
+                        	</div>
                         <div class="tab-pane fade" id="contact" role="tabpanel"
-                            aria-labelledby="contact-tab">
-                            <p class="mt-2">
-                            
-                            </p>
+                            aria-labelledby="contact-tab"><br>
+                           <!-- Hoverable rows start -->
+	                     <div class="row" id="table-hover-row">
+                            <!-- table hover -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr class="th1">
+                                            	<th>No.</th>
+                                                <th>커뮤니티</th>
+                                                <th>회원수</th>
+                                                <th>마스터</th>
+                                                <th>가입</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                         <c:if test="${empty list}">
+                                         	<tr>
+                                         		<td colspan="4" style="text-align: center">가입한 커뮤니티가 없습니다.</td>
+                                         	</tr>
+                                         </c:if>
+                                         <c:if test="${!empty list}">
+	                                       <c:forEach var="vo" items="${list}">
+	                                       	 <tr class="tr1">
+                                              <td class="td1">${vo.communityNo}</td>
+                                              <td style="text-align:left; padding-left:30px">
+                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">
+                                              		${vo.communityName}</a></td>
+                                              <td>${vo.memberCount}</td>
+                                              <td>${vo.communityMaster}</td>
+	                                       	  <td>
+				                               	<!-- button trigger for  Vertically Centered modal -->
+		                                        <button type="button" class="btn btn-outline-primary block"
+		                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnEnroll">가입</button>
+		                                        <!-- Vertically Centered modal Modal -->
+		                                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+		                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		                                            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+		                                                role="document">
+		                                                <div class="modal-content">
+		                                                    <div class="modal-header">
+		                                                        <h5 class="modal-title" id="enrollTitle">가입</h5>
+		                                                        <button type="button" class="close" data-bs-dismiss="modal"
+		                                                            aria-label="Close"></button>
+		                                                    </div>
+		                                                    <div class="modal-body">
+		                                                        <p style="padding-top:15px">커뮤니티에 가입 하시겠습니까?</p>
+		                                                    </div>
+		                                                    <div class="modal-footer">
+		                                                        <button type="button" class="btn btn-primary ml-1"
+		                                                            data-bs-dismiss="modal" id="btnEnroll2">
+		                                                            <span class="d-none d-sm-block">가입</span>
+		                                                        </button>
+		                                                        <button type="button" class="btn btn-light-secondary"
+		                                                            data-bs-dismiss="modal">
+		                                                            <span class="d-none d-sm-block">취소</span>
+		                                                        </button>
+		                                                     </div>
+		                                                 </div>
+		                                             </div>
+		                                          </div>
+                                	   		     </td> 
+	                                          </tr>
+										   </c:forEach>
+										</c:if>  
+									 </tbody>
+                                   </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -151,72 +256,21 @@
                                </tr>
                            </thead>
                            <tbody>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">1. EZ Works 마케팅</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 김윤경</p>
-                                       <p class=" mb-0">개설일자 : 2015-10-07(수)</p>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">2. A-팀 프로젝트</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 구자현</p>
-                                       <p class=" mb-0">개설일자 : 2016-02-03(수)</p>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">2. A-팀 프로젝트</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 구자현</p>
-                                       <p class=" mb-0">개설일자 : 2016-02-03(수)</p>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">2. A-팀 프로젝트</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 구자현</p>
-                                       <p class=" mb-0">개설일자 : 2016-02-03(수)</p>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">2. A-팀 프로젝트</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 구자현</p>
-                                       <p class=" mb-0">개설일자 : 2016-02-03(수)</p>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td class="col-3">
-                                       <div class="d-flex align-items-center">
-                                           <p class="font-bold ms-3 mb-0" id="cName">2. A-팀 프로젝트</p>
-                                       </div>
-                                   </td>
-                                   <td class="col-auto">
-                                       <p class=" mb-0">마스터 : 구자현</p>
-                                       <p class=" mb-0">개설일자 : 2016-02-03(수)</p>
-                                   </td>
-                               </tr>
+	                           <c:if test="${!empty list}">                           
+		                           <c:forEach var="vo" items="${list}">
+		                               <tr>
+		                                   <td class="col-3">
+		                                       <div class="d-flex align-items-center" style="text-align:left">
+		                                           <p class="font-bold ms-3 mb-0" id="cName">${vo.communityNo}.&nbsp <a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a></p>
+		                                       </div>
+		                                   </td>
+		                                   <td class="col-auto" style="text-align:left">
+		                                       <p class=" mb-0">마스터 : ${vo.communityMaster}</p>
+		                                       <p class=" mb-0">개설일자 : <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E)"/> </p>
+		                                   </td>
+		                               </tr>
+		                           </c:forEach>
+	                           </c:if>
                            </tbody>
                        </table>
                    </div>

@@ -6,18 +6,20 @@ import lombok.ToString;
 public class AddrSearchVO {
 
 	/** 검색조건 */
-//	private String searchCondition = "";
+	private String searchCondition = "";
 	
 	/** 검색키워드 */
-//	private String searchKeyword = "";
+	private String searchKeyword = "";
     
 	/** 검색 사용여부 */
-//	private String searchUseYn = "";
-//
+	private String searchUseYn = "";
+
 	/** 현재 페이지 */
 	private int currentPage = 1;
 	
-    
+	/**초성 검색*/
+    private int chosung = 0;
+	
     /**블럭당 보여질 페이지 수,  페이지 사이즈 */
     private int blockSize; // properties에서 설정
     
@@ -36,41 +38,50 @@ public class AddrSearchVO {
      */
     public void setSearchVO(AddrSearchVO bean){
     	this.currentPage = bean.currentPage;
-    //	this.searchCondition = bean.getSearchCondition();
-    //	this.searchKeyword = bean.getSearchKeyword();
-    //	this.searchUseYn = bean.getSearchUseYn();
+    	this.searchCondition = bean.getSearchCondition();
+    	this.searchKeyword = bean.getSearchKeyword();
+    	this.searchUseYn = bean.getSearchUseYn();
     	this.blockSize = bean.blockSize;
     	this.firstRecordIndex = bean.firstRecordIndex;
     	this.lastRecordIndex = bean.lastRecordIndex;
     	this.recordCountPerPage = bean.recordCountPerPage;
+    	this.chosung=bean.chosung;
     }
 
- //   public String getSearchCondition() {
- //   	return searchCondition;
- //   }
+    public String getSearchCondition() {
+   	return searchCondition;
+    }
 
-  //  public void setSearchCondition(String searchCondition) {
-  //  	this.searchCondition = searchCondition;
-  //  }
+    public void setSearchCondition(String searchCondition) {
+    	this.searchCondition = searchCondition;
+    }
 
- //   public String getSearchKeyword() {
-  //  	return searchKeyword;
-  //  }
+    public String getSearchKeyword() {
+    	return searchKeyword;
+    }
 
- //   public void setSearchKeyword(String searchKeyword) {
-  //  	this.searchKeyword = searchKeyword;
- //   }
+    public void setSearchKeyword(String searchKeyword) {
+    	this.searchKeyword = searchKeyword;
+    }
 
- //   public String getSearchUseYn() {
- //   	return searchUseYn;
- //   }
+    public String getSearchUseYn() {
+    	return searchUseYn;
+    }
 
- //   public void setSearchUseYn(String searchUseYn) {
- //   	this.searchUseYn = searchUseYn;
- //   }
+    public void setSearchUseYn(String searchUseYn) {
+    	this.searchUseYn = searchUseYn;
+    }
 
     public int getCurrentPage() {
     	return currentPage;
+    }
+    
+    public int getChosung() {
+    	return chosung;
+    }
+    
+    public void setChosung(int chosung) {
+    	this.chosung=chosung;
     }
 
     public void setCurrentPage(int currentPage) {
