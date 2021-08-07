@@ -12,11 +12,35 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-
  <script type="text/javascript">
     $(document).ready(function () {
+    	  $('#startTime').timepicker({
+      	    timeFormat: 'HH:mm',
+      	    interval: 30,
+      	    minTime: '00:00',
+      	    maxTime: '23:30',
+      	    defaultTime: '00',
+      	    startTime: '00:00',
+      	    dynamic: true,
+      	    dropdown: true,
+      	    scrollbar: true
+      	});
+      	
+      	$('#endTime').timepicker({
+      	    timeFormat: 'HH:mm',
+      	    interval: 30,
+      	    minTime: '00:00',
+      	    maxTime: '23:30',
+      	    defaultTime: '00',
+      	    startTime: '00:00',
+      	    dynamic: true,
+      	    dropdown: true,
+      	    scrollbar: true
+      	});  
+    	
+    	
     	$.datepicker.setDefaults($.datepicker.regional['ko']); 
-            $( "#startDate" ).datepicker({
+    	$( "#startDate" ).datepicker({
                  changeMonth: true, 
                  changeYear: true,
                  nextText: '다음 달',
@@ -52,6 +76,8 @@
                  }    
  
             });
+            
+          
             
             $('#modal_ok').click(function(){
            	 $('form[name=writeReserv]').submit();
@@ -194,31 +220,4 @@
 				</div>
 	</form>
 </div>
-<script src="<c:url value='/resources/timepicker/jquery.timepicker.min.js'/>"></script>
-<script type="text/javascript">
-$(document).ready(function (){
-	$('#startTime').timepicker({
-	    timeFormat: 'HH:mm',
-	    interval: 30,
-	    minTime: '00:00',
-	    maxTime: '23:30',
-	    defaultTime: '00',
-	    startTime: '00:00',
-	    dynamic: true,
-	    dropdown: true,
-	    scrollbar: true
-	});
-	
-	$('#endTime').timepicker({
-	    timeFormat: 'HH:mm',
-	    interval: 30,
-	    minTime: '00:00',
-	    maxTime: '23:30',
-	    defaultTime: '00',
-	    startTime: '00:00',
-	    dynamic: true,
-	    dropdown: true,
-	    scrollbar: true
-	});  
-});
-</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>

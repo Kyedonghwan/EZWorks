@@ -25,22 +25,28 @@
 		      right: 'today'
 		    },dateClick: function() {
 		        $('#reservModal').modal('show');
-		    }, events: [
-		        {
-		            title  : 'event1',
-		            start  : '2021-08-01'
-		          },
-		          {
-		            title  : 'event2',
-		            start  : '2021-08-05',
-		            end    : '2021-08-07'
-		          },
-		          {
-		            title  : 'event3',
-		            start  : '2021-08-09T12:30:00',
-		            allDay : false // will make the time show
-		          }
-		        ]
+		    }, events: function(info, successCallback, failureCallback){
+				$.ajax({
+					type:"get",
+					url:"<c:url value='/reservation/listReservation'/>",
+					dataType:"json",
+					data:"cateNo="+$('#cateNo').val(),
+					success:function(res){
+						var events=[];
+						$.each(res, function(idx,item){
+								events.push({
+									id:item.no,
+									title:item.subscriber,
+									start:item.startDate+"T"+item.startTime,
+									end:item.endDate+"T"+item.endTime
+								});
+						});
+						successCallback(events);
+					},error:function(){
+						alert("error");
+					}
+				});
+				}
 		  });
 		  calendar.render();
 	});

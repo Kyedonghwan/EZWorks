@@ -69,12 +69,12 @@ public class ReservController {
 	
 	@ResponseBody
 	@GetMapping("/listReservation")
-	public void listReservation(@RequestParam String cateNo, Model model) {
+	public List<ReservationVO> listReservation(@RequestParam String cateNo) {
 		logger.info("예약 리스트 보여주기, 파라미터, cateNo={}",cateNo);
 		List<ReservationVO> list = reservService.showReservList(cateNo);
 		logger.info("예약 리스트 보여주기, list.size()={}",list.size());
 		
-		model.addAttribute("list", list);
+		return list;
 	}
 
 }
