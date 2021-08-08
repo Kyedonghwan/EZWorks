@@ -132,6 +132,18 @@
 				}
 				$('#isExisted').append('<input name="receptionEmpNo" type="hidden" value="'+$(this).children().eq(0).val()+'">');
 			})
+			
+			<!-- 관련문서 저장 -->
+			
+			$('.raRow').each(function(idx,item){
+				if(idx==0){
+					$('input[name=raapprovalNo]').remove();
+					$('input[name=raapprovalName]').remove();
+				}
+				$('#isExisted').append('<input name="raapprovalNo" type="hidden" value="'+$(this).children().children('input').val()+'">');
+				$('#isExisted').append('<input name="raapprovalName" type="hidden" value="'+$(this).children().children('span').text()+'">');
+			})
+			
 			$('textarea[name=approvalDraftingOpinion]').val($('textarea[name=approvalDraftingOpinionTemp]').val());
 			$('form[name=approvalFrm]').submit();
 		});

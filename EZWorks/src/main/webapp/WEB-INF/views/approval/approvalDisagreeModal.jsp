@@ -83,6 +83,14 @@
 				$('#disagreeModal input[name=nextApproval]').val('N');
 			}
 			
+			$('.sign_date').each(function(){
+				if($(this).text().length<1){
+					var todayDisagree= moment().format('MM/DD');
+					$(this).text(todayDisagree+"(반려)");
+					$('input[name=completeContent]').val($('#range').html());
+					return false;
+				}
+			});
 			
 			$('form[name=disagreeApprovalFrm]').submit();
 		});

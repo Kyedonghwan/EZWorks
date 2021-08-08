@@ -45,4 +45,10 @@ public interface ApprovalService {
 	int deleteApprovalFile(int approvalNo,HttpServletRequest request);
 	List<Map<String,Object>> selectDraftAgreeByDept(int deptNo);
 	List<Map<String,Object>> selectReferenceByDeptNo(int deptNo);
+	Map<String, Object> selectNextApproval(Map<String,Object> map);
+	int updateCompleteContent(ApprovalVO vo);
+	String selectCompleteContent(int approvalNo);
+	
+	int insertRA(List<RelateApprovalVO> list);
+	List<RelateApprovalVO> selectRAList(int approvalNo);
 }

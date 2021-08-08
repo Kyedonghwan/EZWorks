@@ -64,6 +64,7 @@ public class FormController {
 		model.addAttribute("today",today);
 		model.addAttribute("approvalStringNo",approvalStringNo);
 		model.addAttribute("deptName",(String)session.getAttribute("deptName"));
+		model.addAttribute("empName",(String)session.getAttribute("empName"));
 		model.addAttribute("posName",(String)session.getAttribute("posName"));
 		return "approval/form3";
 	}

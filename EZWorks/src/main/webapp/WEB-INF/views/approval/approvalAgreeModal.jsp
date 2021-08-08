@@ -42,7 +42,7 @@
 	      
 	      	<input type="hidden" name="approvalNo" value="${param.approvalNo}">
 	      	<input type="hidden" name="nextApproval">
-	      	
+	      	<input type="hidden" name="completeContent">
 	  </div>
 	</form>  
 </div>
@@ -60,7 +60,6 @@
 		$('.agreeBtn').click(function(){
 			
 			$('#agreeModal').show();
-			console.log("@");
 		}) 
 		
 		$('#agreeModalOk').click(function(){
@@ -71,7 +70,14 @@
 			}else{
 				$('#agreeModal input[name=nextApproval]').val('N');
 			}
-			
+			$('.sign_wrap').each(function(){
+				if(!$(this).children().eq(0).hasClass('sign_stamp')){
+					$(this).prepend('<span class="sign_stamp"><img src="https://tour.daouoffice.com/resources/images/stamp_approved.png"></span>');
+					var todayAgree= moment().format('YYYY/MM/DD');
+					$(this).next().children().text(todayAgree);
+					$('input[name=completeContent]').val($('#range').html());
+				}
+			});
 			
 			$('form[name=agreeApprovalFrm]').submit();
 		});

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ import com.it.ez.approval.model.ApprovalVO;
 import com.it.ez.approval.model.BrowseVO;
 import com.it.ez.approval.model.ReceptionVO;
 import com.it.ez.approval.model.ReferenceVO;
+import com.it.ez.approval.model.RelateApprovalVO;
 import com.it.ez.archive.common.ConstUtil;
 import com.it.ez.archive.common.FileUploadUtil;
 import com.it.ez.archive.model.ArchiveVO;
@@ -98,12 +100,16 @@ public class ApprovalController {
 		
 		model.addAttribute("fileList",approvalService.selectApprovalFile(approvalNo));
 		
+		model.addAttribute("raList",approvalService.selectRAList(approvalNo));
+		
 		ApprovalLineVO alvo= new ApprovalLineVO();
 		alvo.setEmpNo(empNo);
 		alvo.setApprovalNo(approvalNo);
 		model.addAttribute("approvalLineOrder",approvalService.selectApprovalLineOrder(alvo));
 		if(formNo==3) {
 			return "approval/form3Detail";
+		}else if(formNo==20) {
+			return "approval/form20Detail";
 		}
 		return "";
 	}
@@ -122,38 +128,118 @@ public class ApprovalController {
 	
 	@Transactional
 	@PostMapping("/agree")
-	public String agree(@ModelAttribute ApprovalLineVO vo,@RequestParam String nextApproval,HttpSession session) {
+	public String agree(@ModelAttribute ApprovalLineVO vo,@RequestParam String nextApproval,@RequestParam String completeContent,HttpSession session) {
 		int empNo=(int)session.getAttribute("empNo");
-		vo.setEmpNo(empNo);
-		int cnt=0;
-		if(approvalService.isCompleteApproval(vo.getApprovalNo())>0) {
-			cnt=approvalService.updateCurrentStateComplete(vo.getApprovalNo());
-		}
-		cnt = approvalService.updateApproval(vo.getApprovalNo());
-		cnt = approvalService.updateApprovalLine(vo);
+		
 		if(nextApproval.equals("N")) {
+			vo.setEmpNo(empNo);
+			
+			int cnt=0;
+			if(approvalService.isCompleteApproval(vo.getApprovalNo())>0) {
+				cnt=approvalService.updateCurrentStateComplete(vo.getApprovalNo());
+			}
+			cnt = approvalService.updateApproval(vo.getApprovalNo());
+			cnt = approvalService.updateApprovalLine(vo);
+			
+			ApprovalVO vo2 = new ApprovalVO();
+			vo2.setCompleteContent(completeContent);
+			vo2.setApprovalNo(vo.getApprovalNo());
+			cnt=approvalService.updateCompleteContent(vo2);
 			return "redirect:/approval/wait";
 		}else {
-			return "";
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("empNo", empNo);
+			map.put("approvalNo",vo.getApprovalNo());
+			if(approvalService.selectNextApproval(map)!=null) {
+				int nextApprovalNo=Integer.parseInt(String.valueOf(approvalService.selectNextApproval(map).get("APPROVAL_NO")));
+				int nextFormNo=Integer.parseInt(String.valueOf(approvalService.selectNextApproval(map).get("FORM_NO")));
+				vo.setEmpNo(empNo);
+				
+				int cnt=0;
+				if(approvalService.isCompleteApproval(vo.getApprovalNo())>0) {
+					cnt=approvalService.updateCurrentStateComplete(vo.getApprovalNo());
+				}
+				cnt = approvalService.updateApproval(vo.getApprovalNo());
+				cnt = approvalService.updateApprovalLine(vo);
+				
+				ApprovalVO vo2 = new ApprovalVO();
+				vo2.setCompleteContent(completeContent);
+				vo2.setApprovalNo(vo.getApprovalNo());
+				cnt=approvalService.updateCompleteContent(vo2);
+				return "redirect:/approval/detail?approvalNo="+nextApprovalNo+"&formNo="+nextFormNo;
+			}else {
+				vo.setEmpNo(empNo);
+				
+				int cnt=0;
+				if(approvalService.isCompleteApproval(vo.getApprovalNo())>0) {
+					cnt=approvalService.updateCurrentStateComplete(vo.getApprovalNo());
+				}
+				cnt = approvalService.updateApproval(vo.getApprovalNo());
+				cnt = approvalService.updateApprovalLine(vo);
+				
+				ApprovalVO vo2 = new ApprovalVO();
+				vo2.setCompleteContent(completeContent);
+				vo2.setApprovalNo(vo.getApprovalNo());
+				cnt=approvalService.updateCompleteContent(vo2);
+				return "redirect:/approval/wait";
+			}
+			
 		}
 		
 	}
 	
 	@Transactional
 	@PostMapping("/disagree")
-	public String disagree(@ModelAttribute ApprovalLineVO vo,@RequestParam String nextApproval,HttpSession session) {
+	public String disagree(@ModelAttribute ApprovalLineVO vo,@RequestParam String nextApproval,@RequestParam String completeContent,HttpSession session) {
 		int empNo=(int)session.getAttribute("empNo");
-		vo.setEmpNo(empNo);
 		
-		int cnt=approvalService.updateCurrentStateDisagree(vo.getApprovalNo());
-		cnt = approvalService.updateApproval(vo.getApprovalNo());
-		cnt = approvalService.updateApprovalLine(vo);
-		cnt=approvalService.updateApprovalLineDisagree(vo);
 		
 		if(nextApproval.equals("N")) {
+			vo.setEmpNo(empNo);
+			
+			int cnt=approvalService.updateCurrentStateDisagree(vo.getApprovalNo());
+			cnt = approvalService.updateApproval(vo.getApprovalNo());
+			cnt = approvalService.updateApprovalLine(vo);
+			cnt=approvalService.updateApprovalLineDisagree(vo);
+			
+			ApprovalVO vo2 = new ApprovalVO();
+			vo2.setCompleteContent(completeContent);
+			vo2.setApprovalNo(vo.getApprovalNo());
+			cnt=approvalService.updateCompleteContent(vo2);
 			return "redirect:/approval/wait";
 		}else {
-			return "";
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("empNo", empNo);
+			map.put("approvalNo",vo.getApprovalNo());
+			if(approvalService.selectNextApproval(map)!=null) {
+				int nextApprovalNo=Integer.parseInt(String.valueOf(approvalService.selectNextApproval(map).get("APPROVAL_NO")));
+				int nextFormNo=Integer.parseInt(String.valueOf(approvalService.selectNextApproval(map).get("FORM_NO")));
+				vo.setEmpNo(empNo);
+				
+				int cnt=approvalService.updateCurrentStateDisagree(vo.getApprovalNo());
+				cnt = approvalService.updateApproval(vo.getApprovalNo());
+				cnt = approvalService.updateApprovalLine(vo);
+				cnt=approvalService.updateApprovalLineDisagree(vo);
+				
+				ApprovalVO vo2 = new ApprovalVO();
+				vo2.setCompleteContent(completeContent);
+				vo2.setApprovalNo(vo.getApprovalNo());
+				cnt=approvalService.updateCompleteContent(vo2);
+				return "redirect:/approval/detail?approvalNo="+nextApprovalNo+"&formNo="+nextFormNo;
+			}else {
+				vo.setEmpNo(empNo);
+				
+				int cnt=approvalService.updateCurrentStateDisagree(vo.getApprovalNo());
+				cnt = approvalService.updateApproval(vo.getApprovalNo());
+				cnt = approvalService.updateApprovalLine(vo);
+				cnt=approvalService.updateApprovalLineDisagree(vo);
+				
+				ApprovalVO vo2 = new ApprovalVO();
+				vo2.setCompleteContent(completeContent);
+				vo2.setApprovalNo(vo.getApprovalNo());
+				cnt=approvalService.updateCompleteContent(vo2);
+				return "redirect:/approval/wait";
+			}
 		}
 		
 	}
@@ -171,7 +257,9 @@ public class ApprovalController {
 	@Transactional
 	public String insert(@ModelAttribute ApprovalVO approvalVo,@RequestParam String alEmpNo,
 			@RequestParam String alDeptNo,@RequestParam String alOrderNo,@RequestParam String referenceEmpNo,HttpSession session,
-			@RequestParam String referenceDeptNo,@RequestParam String browseEmpNo,@RequestParam String receptionEmpNo,@RequestParam(defaultValue="0") int tempApprovalNo,HttpServletRequest request) {
+			@RequestParam String referenceDeptNo,@RequestParam String browseEmpNo,@RequestParam String receptionEmpNo,@RequestParam(defaultValue="0") int tempApprovalNo,HttpServletRequest request,@RequestParam String raapprovalNo,@RequestParam String raapprovalName) {
+		
+		System.out.println(approvalVo);
 		int empNo=(int)session.getAttribute("empNo");
 		int deptNo=(int)session.getAttribute("deptNo");
 		if(tempApprovalNo!=0) {
@@ -210,7 +298,7 @@ public class ApprovalController {
 				vo.setApprovalNo(approvalNo);
 				vo.setExt(ext);			
 				afList.add(vo);
-			}
+			}  
 			
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -220,6 +308,24 @@ public class ApprovalController {
 		int cnt=0;
 		if(afList.size()>0) {
 			cnt=approvalService.insertApprovalFile(afList);
+		}
+		
+		
+		if(raapprovalNo!=null && !raapprovalNo.isEmpty()) {
+			String[] raapprovalNoArr = raapprovalNo.split(",");
+			String[] raapprovalNameArr = raapprovalName.split(",");
+			int size=raapprovalNameArr.length;
+			List<RelateApprovalVO> list = new ArrayList<RelateApprovalVO>();
+			
+			for(int i=0;i<size;i++) {
+				RelateApprovalVO raVo = new RelateApprovalVO();
+				raVo.setApprovalNo(approvalNo);
+				raVo.setRaapprovalName(raapprovalNameArr[i]);
+				raVo.setRaapprovalNo(Integer.parseInt(raapprovalNoArr[i]));
+				list.add(raVo);
+			}
+			
+			approvalService.insertRA(list);
 		}
 		
 		if(alEmpNo!=null && !alEmpNo.isEmpty()) {
@@ -362,5 +468,52 @@ public class ApprovalController {
 		model.addAttribute("list",approvalService.selectReferenceByDeptNo(deptNo));
 		model.addAttribute((String)session.getAttribute("deptName"));
 		return "approval/referenceByDept";
+	}
+	
+	@GetMapping("/raPreview")
+	public String raPreview(Model model,@RequestParam int approvalNo) {
+		model.addAttribute("preview",approvalService.selectCompleteContent(approvalNo));
+		return "approval/preview";
+	}
+	
+	@PostMapping("/preview")
+	public String preview(Model model,@RequestParam String previewContent) {
+		model.addAttribute("preview",previewContent);
+		return "approval/preview";
+	}
+	
+	@GetMapping("/raDraft")
+	@ResponseBody
+	public List<Map<String, Object>> raDraft(HttpSession session){
+		int empNo=(int)session.getAttribute("empNo");
+		return approvalService.selectDraftAll(empNo);
+	}
+	
+	@GetMapping("/rac")
+	@ResponseBody
+	public List<Map<String, Object>> raComplete(HttpSession session){
+		int empNo=(int)session.getAttribute("empNo");
+		return approvalService.selectCompleteApproval(empNo);
+	}
+	
+	@GetMapping("/raReference")
+	@ResponseBody
+	public List<Map<String, Object>> raReference(HttpSession session){
+		int empNo=(int)session.getAttribute("empNo");
+		return approvalService.selectReferenceByEmpNo(empNo);
+	}
+	
+	@GetMapping("/raDeptComplete")
+	@ResponseBody
+	public List<Map<String, Object>> raDeptComplete(HttpSession session){
+		int deptNo=(int)session.getAttribute("deptNo");
+		return approvalService.selectDraftAgreeByDept(deptNo);
+	}
+	
+	@GetMapping("/raDeptReference")
+	@ResponseBody
+	public List<Map<String, Object>> raDeptReference(HttpSession session){
+		int deptNo=(int)session.getAttribute("deptNo");
+		return approvalService.selectReferenceByDeptNo(deptNo);
 	}
 }
