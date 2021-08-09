@@ -1,0 +1,152 @@
+@charset "UTF-8";
+a {
+	color: black;
+	font-size: 0.85em;
+}
+
+span.separator {
+	color: #949599;
+	font-size: 0.85em;
+	background-color: white;
+}
+
+section.menus img {
+	opacity: 0;
+	transition: opacity 0.3s
+}
+
+section.menus:hover img {
+	opacity: 1;
+}
+
+#date {
+	font-size: 0.7em;
+	color: #888888;
+	margin-bottom: 0px;
+}
+
+#timer {
+	font-size: 2.5em;
+	text-align: center;
+}
+
+.log_view {
+	font-size: 14px;
+	list-style: none;
+	margin-bottom: 1rem;
+	margin-top: 0;
+	padding-left: 0;
+	box-sizing: border-box;
+	display: block;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	border-collapse: collapse;
+}
+
+dl {
+	line-height: 150%;
+	margin: 0px;
+	padding: 0px;
+	display: block;
+	margin-block-start: 0.8em;
+	margin-block-end: 0.8em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	text-align: -webkit-match-parent;
+}
+
+dt {
+	font-weight: bold;
+	float: left;
+	font-size: 13px;
+	color: #333;
+	margin: 0;
+	padding: 0;
+	display: block;
+	line-height: 150%;
+}
+
+dd {
+	display: block;
+	margin-inline-start: 40px;
+	text-align: right;
+	color: #666;
+	margin: 0px;
+	padding: 0px;
+}
+
+.vertical_bar {
+	margin-top: 20px !important;
+	padding: 10px 0 !important;
+	border-top: 1px dashed #c9c9c9;
+	display: block;
+}
+
+#workIn {
+	margin-left: 0;
+	margin-top: 0;
+	float: left;
+	width: calc(50% - 4px);
+	height: 42px;
+	border-radius: 3px;
+	background: none !important;
+	position: relative;
+	display: block;
+	text-align: center;
+	line-height: 30px;
+	border-color: #607080;
+	color: #607080;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#workIn:hover {
+	background-color: #607080;
+}
+
+#workOut {
+	margin-left: 0;
+	margin-top: 0;
+	float: right;
+	width: calc(50% - 4px);
+	height: 42px;
+	border-radius: 3px;
+	background: none !important;
+	position: relative;
+	display: block;
+	text-align: center;
+	line-height: 30px;
+	border-color: #607080;
+	color: #607080;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.submenu-item:hover {
+	background-color: #f9f9f9;
+}
+
+a#changeStatus {
+	margin-top: 9px;
+	width: 100%;
+	height: 42px;
+	border-radius: 3px;
+	font-weight: normal;
+	background: none !important;
+	border: 1px solid #526e8a;
+	color: #526e8a;
+	box-sizing: border-box;
+	line-height: normal;
+	box-shadow: none;
+	line-height: 30px;
+	font-size: 14px;
+	font-weight: bold;
+}
+a.off {
+    opacity: 0.5;
+    cursor: default;
+    border-color: #aaa;
+    color: #888;
+}

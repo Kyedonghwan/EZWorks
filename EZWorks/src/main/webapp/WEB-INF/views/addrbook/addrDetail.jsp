@@ -37,6 +37,9 @@ a#returnList {
 	float:left;
 	margin: 0 150px;
 }
+input {
+	height: 30px;
+}
 </style>
 
 <script type="text/javascript">
@@ -65,6 +68,9 @@ a#returnList {
 						<th><span class="title">사진</span></th>
 						<td>
 							<span class="img_profile" style="overflow:hidden">
+								<img class="imgst"
+									src="<c:url value='/addr_upload/${vo.photoName}'/>"
+									alt="" id="thumbnail_image" data-filename="" data-filepath="">			
 							</span>
 						</td>
 					</tr>
@@ -73,45 +79,51 @@ a#returnList {
 							<span class="requirement">*</span>
 						</th>
 						<td>
-							<span>백상현${empvo.empName}</span>
+							<span>${vo.name}</span>
 						</td>
 					</tr>
 					<tr>
 						<th><span>회사</span>
 						</th>
-						<td><span>(주)ez그룹</span></td>
+						<td><span>${vo.companyName}</span></td>
 					</tr>
 					<tr>
 						<th><span>부서</span>
 						</th>
-						<td><span>${empvo.deptName}</span></td>
+						<td><span>${vo.deptName}</span></td>
 					</tr>
 					<tr>
 						<th><span>직위</span>
 						</th>
-						<td><span>${empvo.posName}</span></td>
+						<td><span>${vo.posName}</span></td>
 					</tr>
 					<tr>
 						<th><span>이메일</span>
+							<span class="requirement">*</span>
 						</th>
-						<td><span>${empvo.email}</span></td>
+						<td><span>${vo.email}</span></td>
 					</tr>
 					<tr>
 						<th>
 	                        <span>휴대폰</span>
+	                        <span class="requirement">*</span>
 	                    </th>
-						<td><span>01025322532${empvo.hp}</span></td>
+						<td><span>${vo.hp}</span></td>
 					</tr>
 					<tr>
 						<th>
 	                        <span>회사전화</span>
 	                    </th>
-						<td><span>${empvo.corp_phone}</span></td>
+						<td><span>${vo.corpPhone}</span></td>
 					</tr>
 					<tr>
 						<th><span>주소</span></th>
 						<td>
-							<span id="addressDetail"><span class="postcode" id="postcode">${empvo.postcode}</span>&nbsp;<span class="address" id="address">${empvo.address}</span>&nbsp;<span class="detail_address" id="detail_address">${empvo.addressDetail}</span>&nbsp;<span class="extra_address" id="extra_address">${empvo.extra_address}</span></span>
+							<span id="addressDetail">
+							<span class="zipcode" id="zipcode">${vo.zipcode}</span>&nbsp;
+							<span class="address" id="address">${vo.address}</span>&nbsp;
+							<span class="addressDetail" id="addressDetail">${vo.addressDetail}</span>&nbsp;
+							</span>
 						</td>
 					</tr>
 					
@@ -120,8 +132,10 @@ a#returnList {
 				</table>
 			</fieldset>
 			<div id="submitBtn">
-			<input type="submit" id="editBtn" data-bypass="" class="btn btn-outline-secondary" data-role="button" value="수정" />
-			<input type="button" id="cancleBtn" data-bypass="" class="btn btn-outline-secondary" data-role="button" value="취소" />
+			<a href="<c:url value='/addrbook/addrEdit?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">수정</a>
+			<a href="<c:url value='/addrbook/addrbook'/>" class="btn btn-outline-secondary" >목록으로</a>	
+			<a href="<c:url value='/addrbook/addrDelete?bookNo=${param.bookNo}'/>" class="btn btn-outline-secondary">
+        		삭제</a> 
 			
 			</div>
 		</form>

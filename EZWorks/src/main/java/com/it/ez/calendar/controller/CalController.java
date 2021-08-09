@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.calendar.model.CalendarService;
 import com.it.ez.calendar.model.CalendarVO;
+import com.it.ez.schcate.model.SchCateService;
+import com.it.ez.schcate.model.SchCateVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,73 +27,90 @@ public class CalController {
 	private static final Logger logger = LoggerFactory.getLogger(CalController.class);
 	
 	private final CalendarService calendarService;
-	
+	private final SchCateService schCateService;
 	
 	@RequestMapping("/calendarMain")
-	public void Calendar() {
-		logger.info("Ä¶¸°´õ È­¸é º¸¿©ÁÖ±â");
+	public void Calendar(Model model) {
+		logger.info("ì¼ì •ë³´ì—¬ì£¼ê¸°");
+		
+		List<SchCateVO> list = schCateService.showAllCate(1);
+		model.addAttribute("list", list);
+		logger.info("ì¹´í…Œê³ ë¦¬ list={}",list.size());
+		
 	}
 	
 	@GetMapping("/calDetail")
 	public void detailView(@RequestParam(defaultValue = "0")int schNo, Model model) {
-		logger.info("»ó¼¼ È­¸é º¸¿©ÁÖ±â, ÆÄ¶ó¹ÌÅÍ schNo={}",schNo);
+		logger.info("ì¼ì •ìƒì„¸ë³´ê¸° schNo={}",schNo);
 		
 		CalendarVO vo=calendarService.selectBySchNo(schNo);
-		logger.info("»ó¼¼È­¸é-Á¶È¸,°á°ú vo={}", vo);
+		logger.info("ì¼ì • ìƒì„¸ë³´ê¸° ì²˜ë¦¬, vo={}", vo);
+		
+		SchCateVO vo2 = schCateService.showCateName(vo.getSchCate());
+		logger.info("vo2={}",vo2);
+		logger.info("ë¶„ë¥˜ ì´ë¦„, cateName={},schCate={}",vo2.getSchCateName(),vo.getSchCate());
 		model.addAttribute("vo", vo);
+		model.addAttribute("vo2", vo2);
 	}
 	
 	@RequestMapping("/calRegister")
 	public String insertSch(@ModelAttribute CalendarVO vo) {
-		logger.info("ÀÏÁ¤ ÀÔ·Â½Ã ÆÄ¶ó¹ÌÅÍ, vo={}",vo);
+		logger.info("ì¼ì •ë“±ë¡í•´ì£¼ê¸°, vo={}",vo);
 		
 		int cnt=calendarService.insertSch(vo);
-		logger.info("ÀÏÁ¤ ÀÔ·Â Ã³¸® °á°ú, cnt={}",cnt);
-		/*
-		 * if(cnt>0) { int color=calendarService.insertColor();
-		 * logger.info("»ö ÀÔ·Â Ã³¸® °á°ú, color={}",color); }
-		 */
-		
+		logger.info("ì¼ì •ë“±ë¡, cnt={},schNo={}",cnt,vo.getSchNo());
+		if(cnt>0) {
+			int color=calendarService.insertColor(vo.getSchNo());
+			logger.info("ìƒ‰ë„£ê¸°,color={}",color);
+		}
 		return "redirect:/calendar/calendarMain";
 	}
 	
+	
 	@GetMapping("/calEdit")
 	public void editView(@RequestParam(defaultValue = "0")int schNo, Model model) {
-		logger.info("¼öÁ¤ È­¸é º¸¿©ÁÖ±â, ÆÄ¶ó¹ÌÅÍ schNo={}",schNo);
+		logger.info("ì¼ì • ìˆ˜ì • ì²˜ë¦¬, schNo={}",schNo);
+		
+		
+		List<SchCateVO> list = schCateService.showAllCate(1);
+		model.addAttribute("list", list);
 		
 		CalendarVO vo=calendarService.selectBySchNo(schNo);
-		logger.info("¼öÁ¤È­¸é-Á¶È¸,°á°ú vo={}", vo);
+		logger.info("ì¼ì • ìˆ˜ì • ë³´ì—¬ì£¼ê¸°, vo={}", vo);
 		model.addAttribute("vo", vo);
 	}
 	
 	@PostMapping("/calEdit")
 	public String editSch(@ModelAttribute CalendarVO vo) {
-		logger.info("ÀÏÁ¤ ¼öÁ¤½Ã ÆÄ¶ó¹ÌÅÍ, vo={}",vo);
+		logger.info("ì¼ì • ìˆ˜ì • ì²˜ë¦¬, vo={}",vo);
 		
 		int cnt=calendarService.updateCal(vo);
-		logger.info("ÀÏÁ¤ ¼öÁ¤ Ã³¸® °á°ú, cnt={}",cnt);
+		logger.info("ì¼ì • ìˆ˜ì • ê²°ê³¼, cnt={}",cnt);
+		if(cnt>0) {
+			int color=calendarService.insertColor(vo.getSchNo());
+			logger.info("ìƒ‰ë„£ê¸°,color={}",color);
+		}
 		
 		return "redirect:/calendar/calendarMain";
 	}
 	
-	
-	@ResponseBody
-	@RequestMapping("/writeSchModal")
-	public void insertModal(@ModelAttribute CalendarVO vo) {
-		logger.info("modal¿¡¼­ ÀÏÁ¤ÀÔ·Â, ÆÄ¶ó¹ÌÅÍ vo={}",vo);
-
-		int cnt=calendarService.insertModal(vo);
-		logger.info("modalÀÏÁ¤ÀÔ·Â °á°ú, cnt={}",cnt);
+	@PostMapping("/writeModal")
+	public String insertModal(@ModelAttribute CalendarVO vo) {
+		logger.info("modalì—ì„œ ì¼ì •ë“±ë¡ vo={}",vo);
 		
+		int cnt=calendarService.insertModal(vo);
+		logger.info("modalì—ì„œ ì¼ì •ë“±ë¡ ê²°ê³¼, cnt={}",cnt);
+		
+		return "redirect:/calendar/calendarMain";
 	}
 	
 	@ResponseBody
 	@GetMapping("/showCal")
 	public List<CalendarVO> showCal() {
-		logger.info("ÀÏÁ¤ Á¤Ã¼ º¸¿©ÁÖ±â");
+		logger.info("ì¼ì •ë³´ì—¬ì£¼ê¸°");
 		
 		List<CalendarVO> list = calendarService.selectAll();
-		logger.info("ÀÏÁ¤º¸¿©ÁÖ±â list.size()={}",list.size());
+		logger.info("ì¼ì •ë³´ì—¬ì£¼ê¸° ë©”ì¸list.size()={}",list.size());
 		
 		return list;
 	}
@@ -99,9 +118,9 @@ public class CalController {
 	@ResponseBody
 	@RequestMapping("/deleteCal")
 	public void delCal(@RequestParam(defaultValue = "0")int schNo) {
-		logger.info("ÀÏÁ¤ »èÁ¦ÇÏ±â");
+		logger.info("ì‚­ì œì²˜ë¦¬ schNo={}",schNo);
 		
 		int result=calendarService.delCal(schNo);
-		logger.info("ÀÏÁ¤ »èÁ¦ °á°ú, result={}",result);
+		logger.info("ì‚­ì œì²˜ë¦¬ ê²°ê³¼, result={}",result);
 	}
 }

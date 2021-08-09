@@ -10,8 +10,8 @@ public interface CalendarDAO {
 	public List<CalendarVO> selectAll();
 	int insertSch(CalendarVO vo);
 	int insertModal(CalendarVO vo);
-	int insertColor();
 	int updateCal(CalendarVO vo);
 	CalendarVO selectBySchNo(int schNo);
 	int delCal(int schNo);
+	int insertColor(int schNo);
 }

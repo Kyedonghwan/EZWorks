@@ -3,40 +3,113 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.it.ez.addrbook.model.AddrBookDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
+		</if>
+	</sql>
+	
+	<sql id="chosungWhere">
+		<if test="chosung!=null and chosung!=''">
+			<if test="chosung==0">
+				where name between NCHR(45207) and NCHR(55203)
+			</if>
+			<if test="chosung==1">
+				where name <![CDATA[<=]]> NCHR(45207)
+			</if>
+			<if test="chosung==2">
+				where name between NCHR(45208) and NCHR(45795)
+			</if>
+			<if test="chosung==3">
+				where name between NCHR(45796) and NCHR(46971)
+			</if>
+			<if test="chosung==4">
+				where name between NCHR(46972) and NCHR(47559)
+			</if>
+			<if test="chosung==5">
+				where name between NCHR(47560) and NCHR(48147)
+			</if>
+			<if test="chosung==6">
+				where name between NCHR(48148) and NCHR(49323)
+			</if>
+			<if test="chosung==7">
+				where name between NCHR(49324) and NCHR(50499)
+			</if>
+			<if test="chosung==8">
+				where name between NCHR(50499) and NCHR(51087)
+			</if>
+			<if test="chosung==9">
+				where name between NCHR(51088) and NCHR(52263)
+			</if>
+			<if test="chosung==10">
+				where name between NCHR(52264) and NCHR(52851)
+			</if>
+			<if test="chosung==11">
+				where name between NCHR(52852) and NCHR(53439)
+			</if>
+			<if test="chosung==12">
+				where name between NCHR(53440) and NCHR(54207)
+			</if>
+			<if test="chosung==13">
+				where name between NCHR(54208) and NCHR(54615)
+			</if>
+			<if test="chosung==14">
+				where name between NCHR(54616) and NCHR(55203)
+			</if>
+			
+		</if>
+	</sql>
+	
 	<insert id="insertBook" parameterType="AddrBookVO">
 		<selectKey resultType="int" keyProperty="bookNo" order="BEFORE">
 			select addr_seq.nextval from dual
 		</selectKey>
-		insert into addrbook(bookNo, deptName, posName, name, 
-						corp_phone,  address, addressDetail, hp, email, memo )
-		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, 
-			#{corp_phone, jdbcType=VARCHAR},#{address, jdbcType=VARCHAR},#{addressDetail, jdbcType=VARCHAR}, #{hp, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR},#{memo, jdbcType=VARCHAR})
+		insert into addrbook(bookNo, deptName, posName, name, companyName,photoName,orPhotoName,fileSize,
+						corpPhone, zipcode,  address, addressDetail, hp, email, memo )
+		values(#{bookNo},  #{deptName, jdbcType=VARCHAR}, #{posName, jdbcType=VARCHAR}, #{name}, #{companyName, jdbcType=VARCHAR}, #{photoName, jdbcType=VARCHAR},#{orPhotoName, jdbcType=VARCHAR},#{fileSize},
+			#{corpPhone, jdbcType=VARCHAR},#{zipcode, jdbcType=VARCHAR},#{address, jdbcType=VARCHAR},#{addressDetail, jdbcType=VARCHAR}, #{hp, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR},#{memo, jdbcType=VARCHAR})
 	</insert>
 	
-	<select id="selectAll" parameterType="addrBookVo" resultType="addrBookVO">
-		select *
-		from
-		(
-			select rownum as RNUM,A.*
-			from 
+		<select id="selectAll" parameterType="addrBookVo" resultType="addrBookVO">
+			select *
+			from
 			(
-				select * from addrbook
-				order by bookNo desc
-			)A
-		)
-		<![CDATA[
-		where RNUM > #{firstRecordIndex}
-		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
-		]]>
-	</select>
+				select rownum as RNUM,A.*
+				from 
+				(
+					select * from addrbook
+					 <include refid="searchWhere"></include>
+					 <include refid="chosungWhere"></include>
+					order by bookNo desc
+				)A
+			)
+			<![CDATA[
+			where RNUM > #{firstRecordIndex}
+			and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
+			]]>
+			  
+		</select>
 	
 	<select id ="selectTotalRecord" parameterType="addrBookVo"
 		resultType="int">
 		select count(*) from addrbook
 	</select>
 	
+	<update id="updateBook" parameterType="addrBookVo">
+		update addrbook
+		set name=#{name}, companyName=#{companyName, jdbcType=VARCHAR}, deptName=#{deptName, jdbcType=VARCHAR}, posName=#{posName, jdbcType=VARCHAR},
+			email=#{email},	hp=#{hp}, corpPhone=#{corpPhone, jdbcType=VARCHAR}, zipcode=#{zipcode, jdbcType=VARCHAR}, memo=#{memo, jdbcType=VARCHAR},
+			address=#{address, jdbcType=VARCHAR},addressDetail=#{addressDetail, jdbcType=VARCHAR}
+		where bookNo=#{bookNo}
+	</update>
 	
-
+	<select id="selectByNo" parameterType="int" resultType="addrBookVo">
+	 	select * from addrbook where bookNo=${bookNo}
+	 </select>
+	
+	<delete id="deleteBook" >
+		delete from addrbook where bookNo=${bookNo}
+	</delete>
 </mapper>
 
 

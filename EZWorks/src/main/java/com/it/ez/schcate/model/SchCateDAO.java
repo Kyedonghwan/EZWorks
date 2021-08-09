@@ -7,4 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SchCateDAO {
 	List<SchCateVO> showAllCate(int empNo);
+	int insertCate(SchCateVO vo);
+	SchCateVO showCateName(String schCateNo);
+	int updateColor(int schCateNo);
 }

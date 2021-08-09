@@ -20,6 +20,7 @@
 	 section.menus:hover img{
 	 	opacity: 1;
 	 }
+
 </style>
 <script>
 	$(function(){
@@ -34,7 +35,7 @@
 		});
 	})
 </script>
-<div style="margin:0px;padding:0px;border-right:1px solid #dfe3e7;min-height:100vh;height:100%">
+<div id="wanttocal" style="margin:0px;padding:0px;height:100%;">
 <section style="height:64px;padding:24px 24px 16px;">
 	<h5>
 		<a href="<c:url value='/board/boardMain'/>">게시판</a>
@@ -60,7 +61,7 @@
                 <!-- c:if절, boardType => enterprise -->
                 <ul class="submenu active" style="list-style:none">
                 	<c:forEach var="vo" items="${favList }">
-                			<li class="submenu-item" style="height:25px;">
+                			<li class="submenu-item" id="favBoardList" style="height:25px;">
                 				<c:if test="${vo.boardIsLine==1 }">
                 				<div style="display:inline-block;height:23.63px;width:100%;overflow:hidden;background-image:url('<c:url value='/resources/images/board/dotted-line.png'/>');background-size:contain;">
                 				<span class="separator">${vo.boardName }&nbsp</span>
@@ -113,11 +114,12 @@
 					<p style="padding:0px 20px 0px 32px;position:relative;margin-bottom:0px" class="sidebar-link chevron-right">
 					<span class="sidebar-link chevron-right" style="position:absolute;top: 0px;left: 12px;">
            			<img src="<c:url value='/resources/images/accordion/chevron-down.svg'/>" class="unfold"></span>
-           			<a href="#" class="sidebar-link chevron-right"><span>영업팀<!-- require parameter(from emp) --></span></a>
+           			<a href="#" class="sidebar-link chevron-right"><span>${deptVo.deptName}<!-- require parameter(from emp) --></span></a>
 					</p>
 						<ul class="submenu active" style="list-style:none;padding:0px;margin:0px;padding-left:0px">
 							<!-- forEach -->
 							<c:forEach var="vo" items="${boardList }">
+								<c:if test="${vo.deptNo == deptVo.deptNo }">
 								<c:if test="${vo.boardType == '부서게시판' }">
 									<c:if test="${vo.boardIsFolder==0 and vo.boardGroupNo==0 }">
 									<li class="submenu-item"style="padding-left:44px">
@@ -141,6 +143,7 @@
 										</c:forEach>
 										</ul>
 									</li>
+									</c:if>
 									</c:if>
 								</c:if>
 							</c:forEach>
