@@ -7,7 +7,7 @@
 		<selectKey resultType="int" keyProperty="approvalNo" order="BEFORE">
 			select approval_seq.nextval from dual
 		</selectKey>
-		insert into approval values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},sysdate,#{deptNo},#{form3Title},#{form3Content},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder},#{form20Div},#{form20Startdate},#{form20A},#{form20B},#{form20C},#{form20D},#{form20E},#{form20Description})
+		insert into approval values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},sysdate,#{deptNo},#{form3Title,jdbcType=VARCHAR},#{form3Content,jdbcType=VARCHAR},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder},#{form20Div,jdbcType=VARCHAR},#{form20Startdate,jdbcType=VARCHAR},#{form20A,jdbcType=VARCHAR},#{form20B,jdbcType=VARCHAR},#{form20C,jdbcType=VARCHAR},#{form20D,jdbcType=VARCHAR},#{form20E,jdbcType=VARCHAR},#{form20Description,jdbcType=VARCHAR},null)
 	</insert>
 	
 	<insert id="insertApprovalLine" parameterType="ApprovalLineVO">
@@ -39,7 +39,7 @@
 	</insert>
 	
 	<select id="selectWaitApproval" parameterType="int" resultType="map">
-		select (select count(*) from approvalcomment where approval_no=b.approval_no) as acCount,(select count(*) from approvalfile where approval_no=b.approval_no) as afCount,b.*,e.emp_name,f.form_name,f.form_no,p.pos_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no where a.emp_no=#{empNo} and a.al_order=b.currentOrder and b.current_state='진행중'
+		select (select count(*) from approvalcomment where approval_no=b.approval_no) as acCount,(select count(*) from approvalfile where approval_no=b.approval_no) as afCount,b.*,e.emp_name,f.form_name,f.form_no,p.pos_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no join form f on b.form_no=f.form_no join position p on e.pos_no=p.pos_no where a.emp_no=#{empNo} and a.al_order=b.currentOrder and b.current_state='진행중' order by emergency desc, approval_regdate desc
 	</select>
 	
 	<select id="selectStamp" parameterType="int" resultType="map">
@@ -167,7 +167,7 @@
 		<selectKey resultType="int" keyProperty="afNo" order="BEFORE">
 			select af_seq.nextval from dual
 		</selectKey>
-		insert into approvalFile values(#{afNo},#{afFilename},#{afOriginalfilename},#{afFilesize},#{approvalNo})
+		insert into approvalFile values(#{afNo},#{afFilename},#{afOriginalfilename},#{afFilesize},#{approvalNo},#{ext})
 	</insert>
 	
 	<select id="selectApprovalFile" parameterType="int" resultType="approvalFileVo">
@@ -184,6 +184,33 @@
 	
 	<select id="selectReferenceByDeptNo" parameterType="int" resultType="map"> 
 		select (select count(*) from approvalcomment where approval_no=a.approval_no) as acCount,(select count(*) from approvalfile where approval_no=a.approval_no) as afCount,a.approval_no,f.form_no,a.approval_regdate,f.form_name,a.emergency,a.form3_title,e.emp_name,a.approval_stringno,a.current_state,'참조' as kind from reference r join approval a on a.approval_no=r.approval_no join form f on a.form_no=f.form_no join emp e on e.emp_no=a.emp_no where r.dept_no=#{deptNo} and r.emp_no=0 and not a.current_state='임시저장' order by approval_regdate 
+	</select>
+	
+	<select id="selectCurrentRownum" parameterType="hashMap" resultType="int">
+		select rn from (select a.*,rownum as rn from (select b.*,e.emp_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no where a.emp_no=#{empNo} and a.al_order=b.currentOrder and b.current_state='진행중' order by emergency desc, approval_regdate desc) a) where approval_no=#{approvalNo}
+	</select>
+	
+	<select id="selectNextApproval" parameterType="hashMap" resultType="map">
+		select * from (select rownum as rn,a.approval_no,a.form_no from (select b.*,e.emp_name from approvalline a join approval b on a.approval_no=b.approval_no join emp e on b.emp_no=e.emp_no where a.emp_no=#{empNo} and a.al_order=b.currentOrder and b.current_state='진행중' order by emergency desc, approval_regdate desc) a ) where rn=#{rn}+1
+	</select>
+	
+	<update id="updateCompleteContent" parameterType="approvalVo" >
+		update approval set complete_content=#{completeContent} where approval_no=#{approvalNo}
+	</update>
+	
+	<select id="selectCompleteContent" parameterType="int" resultType="String">
+		select complete_content from approval where approval_no=#{approvalNo}
+	</select>
+	
+	<insert id="insertRA" parameterType="relateApprovalVo">
+		<selectKey resultType="int" order="BEFORE" keyProperty="raNo">
+			select ra_seq.nextval from dual
+		</selectKey>
+		insert into relateapproval values(#{raNo},#{approvalNo},#{raapprovalNo},#{raapprovalName})
+	</insert>
+	
+	<select id="selectRAList" parameterType="int" resultType="relateApprovalVo">
+		select * from relateApproval where approval_no=#{apprvalNo}
 	</select>
 </mapper>
 

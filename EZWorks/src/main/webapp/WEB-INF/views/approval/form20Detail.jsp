@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
 <%@ include file="../include/top.jsp" %>				
 <%@ include file="sideMenu.jsp" %>			
 <%@ include file="../include/middle.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/summernote/summernote-lite.min.css'/>">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 
 <style>
@@ -77,14 +77,13 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 .sign_arbitrary {background: url(../images/arbitrary.gif) no-repeat; height: 40px; width: 79px; padding: 0;}
 	
 </style>
-
 <div class="container">
    
     <!-- end row -->
 	<section style="height:64px;padding:24px 24px 16px">
 		<h5>
 			<a>
-				<input type="hidden" id="currentFormNo" value="3"><c:if test="${approval.currentState!='임시저장'}">${approval.form3Title }</c:if><c:if test="${approval.currentState=='임시저장'}">임시 저장 문서: ${approval.form3Title} (<fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd hh시MM분 저장됨"/>)</c:if><span style="font-size:15px;color:#999"> in 일반 품의서</span>
+				<input type="hidden" id="currentFormNo" value="3"><c:if test="${approval.currentState!='임시저장'}">${approval.form3Title }</c:if><c:if test="${approval.currentState=='임시저장'}">임시 저장 문서: ${approval.form3Title} (<fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd hh시MM분 저장됨"/>)</c:if><span style="font-size:15px;color:#999"> in 연장근무신청서</span>
 			</a>			
 		</h5>
 		
@@ -98,7 +97,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                 <div class="card-body">
                     <div class="table-responsive project-list">
   
- 							<c:if test="${myEmpNo!=null && approval.empNo==myEmpNo && approval.currentState=='진행중'}">
+                    	<c:if test="${myEmpNo!=null && approval.empNo==myEmpNo && approval.currentState=='진행중'}">
                        		<button type="button" class="btn btn-primary btn-sm cancelDraftBtn">상신취소</button>
                        		</c:if>
                        	<c:if test="${approvalLineOrder!=null && approvalLineOrder==approval.currentOrder && approval.currentState=='진행중'}">
@@ -117,37 +116,47 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
 							<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
 						</c:if>
-						<c:if test="${approval.currentState!='임시저장'}">
-							<button type="button" class="btn btn-primary btn-sm excelBtn" >엑셀 다운로드</button>
-						</c:if>
 						<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
-						
                         <div style="border:3px solid gray;margin-top:20px;padding:20px">
                         	<table id="range">
                         		<tr>
                         			<td colspan="2">
                         			
-                        				
-                        				<span style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><span style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> 
-										 <!-- 문서 헤더 시작--> 
-										<div id="excelDiv"> 
-										<table style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 1px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"><colgroup> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 180px;"> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 120px;"> 
-										   <col style="width: 90px;"> 
-										   <col style=""> 
-										  </colgroup> 
-										  
-											<tbody>
-												<tr>
-													<td style="padding: 3px; border: 1px solid black; height: 90px !important; font-size: 27px; font-weight: bold; text-align: center; vertical-align: middle; " colspan="2">
-														
-										품 &nbsp;의 &nbsp;서
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: right;" colspan="4">
-														<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea">
+                        			
+                        				<div class="approval_import ie9-scroll-fix">
+										    <!-- 문서 내용 표시 테스트 -->
+										    <form id="document_content" class="form_doc_editor editor_view" onsubmit="return false;"><table class="__se_tbl" style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 0px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;">
+										 <!-- Header --> 
+										 <tbody> 
+										  <tr> 
+										   <td style="width:300px; padding: 3px !important; border: 0px solid black; height: 90px !important; font-size: 22px; font-weight: bold; text-align: center; vertical-align: middle;" colspan="2" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l">연장근무신청서</td> 
+										  </tr> 
+										  <tr> 
+										   <td style="width:300px; border: 0; padding: 0 !important" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l"> 
+										    <table class="__se_tbl" style="background: white; margin: 0px; border: 1px solid black; border-image: none; color: black; font-family: malgun gothic,dotum,arial,tahoma; font-size: 12px; border-collapse: collapse !important;">
+										     <!-- User --> 
+										     <tbody> 
+										      <tr> 
+										       <td style="width: 100px; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: rgb(221, 221, 221); padding: 3px !important;">기안자</td> 
+										       <td style="width: 200px; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left; padding: 3px !important;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftUser}}" name="draftUser" id="draftUser" value="${vo['EMP_NAME']}" data-id="draftUser" data-name="draftUser" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="김상후" placeholder=""></td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">기안부서</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftDept}}" name="draftDept" id="draftDept" value="${vo['DEPT_NAME']}" data-id="draftDept" data-name="draftDept" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="다우그룹" placeholder=""></td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">기안일</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:draftDate}}" name="draftDate" id="draftDate" value="<c:if test="${approval.currentState!='임시저장'}"><fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd "/></c:if>" data-id="draftDate" data-name="draftDate" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="2021-08-05(목)" placeholder=""> </td> 
+										      </tr> 
+										      <tr> 
+										       <td style="width:100px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold; background: #ddd;">문서번호</td> 
+										       <td style="width:200px;padding: 3px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left;"> <input type="text" readonly="" style="vertical-align:middle;width:100%;text-align: center;border:0px;box-shadow: inset 0px 0px 0px rgba(150,150,150,0.2)" data-dsl="{{label:docNo}}" name="docNo" value="${vo['APPROVAL_STRINGNO']}" data-id="docNo" data-name="docNo" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="" placeholder=""> </td> 
+										      </tr> 
+										     </tbody> 
+										    </table> </td> 
+										   
+													<td style="width: 500px; text-align: right; padding: 0px!important; border: 0!important; vertical-align: top !important" class="dext_table_border_t dext_table_border_r dext_table_border_b dext_table_border_l"> 
+										   				<span class="sign_type1_inline" data-group-seq="0" data-group-name="신청" data-group-max-count="1" data-group-type="type1" data-is-reception="" id="drafterArea">
 															<span class="sign_tit_wrap">
 																<span class="sign_tit">
 																	<strong>신청</strong>
@@ -192,7 +201,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 																	<span class="sign_wrap">
 																		<c:if test="${item['CURRENT_STATE']=='결재완료'}">
 																			<span class="sign_stamp">
-																				<img src="https://tour.daouoffice.com/resources/images/stamp_approved.png">
+																			<img src="https://tour.daouoffice.com/resources/images/stamp_approved.png">
 																			</span>
 																		</c:if>
 																		<span class="sign_name">${item["EMP_NAME"] }</span>
@@ -217,115 +226,55 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 													
 													<span unselectable="on" contenteditable="false" class="comp_wrap" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span><span contenteditable="false" class="comp_hover" data-content-protect-cover="true" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span></span><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><!-- 에디터 &nbsp; 버그. 개행과 공백을 최소화 시키자. --><br>
 													</td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기안부서
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="8" data-dsl="{{label:draftDept}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['DEPT_NAME']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="8" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기 안 일
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="10" data-dsl="{{label:draftDate}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">
-														<c:if test="${approval.currentState!='임시저장'}"><fmt:formatDate value="${vo['APPROVAL_REGDATE']}" pattern="yyyy-MM-dd "/></c:if></span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="10" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										문서번호
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left; font-size: 12px;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="12" data-dsl="{{label:docNo}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['APPROVAL_STRINGNO']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="12" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										기 안 자
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="9" data-dsl="{{label:draftUser}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${vo['EMP_NAME']}</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="9" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										보존년한
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="11" data-dsl="{{label:preserveDuration}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">5</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="11" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										비밀등급
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="13" data-dsl="{{label:securityLevel}}" data-wrapper="" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value="" data-autotype=""><span class="comp_item" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">상</span><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="13" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 문서 헤더 끝--> 
-										 <!-- 마진 시작--> 
-										 
-										<table style="width: 800px; border-collapse: collapse; border-spacing: 0px; border: 1px solid black;">
-											<tbody>
-												<tr>
-													<td style="padding: 0px !important; height: 10px; vertical-align: middle; border: 1px solid black; font-size: 9px;">
-														<p style="font-family: &quot;맑은 고딕&quot;; font-size: 7pt; line-height: 14px; margin-top: 0px; margin-bottom: 0px;"><br></p>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										 
-										<table style="width: 800px; border-collapse: collapse !important; color: black; background: white; border: 1px solid black; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"><colgroup> 
-										   <col style="width: 90px;"> 
-										   <col style="width: 710px;"> 
-										  </colgroup> 
-										  
-											<tbody>
-												<tr>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
-														
-										제 &nbsp;&nbsp;&nbsp; 목
-													</td>
-													<td style="padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;">
-														<span unselectable="on" contenteditable="false" class="comp_wrap" data-cid="6" data-dsl="{{text:subject}}" data-wrapper="" style="width: 100%; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;" data-value=""><c:if test="${approval.currentState!='임시저장'}"> ${approval.form3Title }</c:if><c:if test="${approval.currentState=='임시저장' }"><input style='width:100%' id="approvalName1" class="ipt_editor" type="text" value='${approval.form3Title}'></c:if><span contenteditable="false" class="comp_active" style="display: none; font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <span class="Active_dot1" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot2" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> <span class="Active_dot3" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span><span class="Active_dot4" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"></span> </span> <span contenteditable="false" class="comp_hover" data-content-protect-cover="true" data-origin="6" style="font-family: &quot;malgun gothic&quot;, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;"> <a contenteditable="false" class="ic_prototype ic_prototype_trash" data-content-protect-cover="true" data-component-delete-button="true"></a> </span> </span><br>
-													</td>
-												</tr>
-												<tr>
-													<td style="padding: 3px; height: 540px; vertical-align: top; border: 1px solid black; " colspan="2">
-														<c:if test="${approval.currentState!='임시저장'}">${approval.form3Content}</c:if>
-														<c:if test="${approval.currentState=='임시저장'}"><textarea id="summernote" style="width:100%;height:100%" name="postingContent"></textarea></c:if>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										</div> 
-										 <!-- 제목 및 내용 끝 --> 
-										 <!-- 푸터--> 
-										 
-										<table style="width: 800px; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;">
-											<tbody>
-												<tr>
-												</tr>
-											</tbody>
-										</table>
-										 
-										 <!-- 푸터 끝--></span><p style="font-family: &quot;맑은 고딕&quot;; font-size: 10pt; line-height: 20px; margin-top: 0px; margin-bottom: 0px;"><br></p></span>
-									
-										
-									</td>
+										  </tr> 
+										 </tbody> 
+										</table> 
+										<br> 
+										<span id="timelineApprovalFormSection"> 
+										 <table id="timelineApprovalForm" class="__se_tbl" style="width: 800px; margin-top : 0px; margin-bottom:20px; border-collapse: collapse !important; color: black; background: white; font-size: 12px; font-family: malgun gothic,dotum,arial,tahoma;"> 
+										  <tbody> 
+										   <tr> 
+										    <td colspan="4" style="width:800px; background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">신청&nbsp;현황</td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>근무구분</td> 
+										    <td id="name" colspan="3" style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;"> 
+										    <span>${approval.form20Div }</span>
+										    <span style="font-size: 12px;">* * 자정 이후 근무시작인 경우 날짜를 다음날로 지정해주세요.</span></td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>근무일시</td> 
+										    
+										   <td colspan="3" style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; height: 25px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;"> <input type="text" readonly="" disabled value="${approval.form20Startdate }" class="ipt_editor ipt_editor_date" data-dsl="{{calendar:startDate}}" id="startdate">
+										    <span id="startTime"> <span data-type="time" data-value="">${approval.form20A }시 ${approval.form20B }분 
+										   </span> </span> ~&nbsp; 
+										   <span id="endTime"> <span data-type="time" data-value="">${approval.form20C }시 ${approval.form20D }분 
+										   </span> </span> </td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"><b style="color: rgb(255, 0, 0);">*</b>근무시간</td> 
+										    <td colspan="3" style="padding: 3px; border: 1px solid black; width: 700px; height: 22px; text-align: left; color: rgb(0, 0, 0); font-size: 12px; vertical-align: middle; background: rgb(255, 255, 255);"> <span id="totalTime" style="font-family: malgun gothic, dotum, arial, tahoma; font-size: 9pt; line-height: normal; margin-top: 0px; margin-bottom: 0px;">${approval.form20E }</span> </td> 
+										   </tr> 
+										   <tr> 
+										    <td colspan="4" style="width:800px; padding: 20px !important; height: 22px; vertical-align: middle; border: 1px solid black; text-align: left; background: rgb(255, 255, 255);"> <p> * 주간 근무시간 - 근무일이 포함된 한 주 </p> <p> 정상근무시간 + 연장근무 승인 요청에 대한 결재가 완료된 총 시간입니다. </p> <p> 근태관리에서 시간 수정이 가능하므로 주간 근무시간은 상이해질 수 있습니다. </p> </td> 
+										   </tr> 
+										   <tr> 
+										    <td style="width:200px;background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; height: 80px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;"> <b style="color: rgb(255, 0, 0);">*</b>신청&nbsp;사유 </td> 
+										    <td colspan="3" style="padding: 3px; border: 1px solid black; width: 450px; height: 100px; text-align: left; color: rgb(0, 0, 0); font-size: 12px;  vertical-align: top; background: rgb(255, 255, 255);"> <textarea class="txta_editor" style="width:100%;height:100%" data-dsl="{{textarea:description}}" name="description" id="description" value="${apprvoal.description }" disabled data-id="description" data-name="description" data-require="false" data-maxlength="" data-width="" data-defaultstr="" data-editable="true" data-value="" placeholder=""></textarea> </td> 
+										   </tr> 
+										    
+										  </tbody> 
+										 </table> </span> 
+										</form>
+										</div>
                         		</tr>
-	                        		<tr>
-	                        			<td style="font-weight:bold;width:20%">첨부 파일
-	                        			</td>
-	                        			<td style="width:80%">
-	                        				<c:if test="${approval.currentState=='임시저장'}">
-	                        					<form method="post" name="approvalFrm" enctype="multipart/form-data" action="<c:url value='/approval/insert'/>">
+                        		<tr>
+                        			<td style="font-weight:bold">파일첨부
+                        			</td>
+                        			<td>
+                        				<c:if test="${approval.currentState=='임시저장'}">
+	                        				 <form method="post" name="approvalFrm" action="<c:url value='/approval/insert'/>" enctype="multipart/form-data">
+													<input type="hidden" value="연장근무신청서" id="approvalName1">
 													<input type="hidden" name="formNo">
 											     	<input type="hidden" name="approvalStringNo">
 											     	<input type="hidden" name="form3Title">
@@ -333,6 +282,14 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 											     	<input type="hidden" name="emergency">
 											     	<input type="hidden" name="currentState" value="진행중">
 											     	<input type="hidden" name="currentOrder" id="currentOrder">
+											     	<input name="form20Div" type="hidden">
+											      	<input name="form20Startdate" type="hidden">
+											      	<input name="form20A" type="hidden">
+											      	<input name="form20B" type="hidden">
+											      	<input name="form20C" type="hidden">
+											      	<input name="form20D" type="hidden">
+											      	<input name="form20E" type="hidden">
+											      	<input name="form20Description" type="hidden">
 											     	<div id="isNotExisted">
 											     		<input name="alEmpNo" type="hidden" >
 												      	<input name="alDeptNo" type="hidden">
@@ -341,13 +298,14 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 												      	<input name="referenceDeptNo" type="hidden">
 												      	<input name="browseEmpNo" type="hidden">
 												      	<input name="receptionEmpNo" type="hidden">
+												      	
 											   		</div>
 											   		<div id="isExisted">
 											   		</div>
 												   	<input type="hidden" name="tempApprovalNo" <c:if test="${ approval!=null && approval.currentState=='임시저장'}">value="${param.approvalNo}"</c:if>>
 												 	<textarea style="display:none" name='approvalDraftingOpinion'></textarea>
 												 	<input type="file" class="multiple-files-filepond" name="file" multiple="true">
-											 	</form>
+										</form>	
 							                	
 							                </c:if>
 							                <c:if test="${approval.currentState!='임시저장'}">
@@ -355,11 +313,11 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							                		
 							                	</div>
 							                </c:if>
-	                        			</td>
-	                        		</tr>
-	                        		<c:set var="idx" value="0"/>
+						               
+                        			</td>
+                        		</tr>
+                        		<c:set var="idx" value="0"/>
 	                        		<c:forEach var="item" items="${fileList}">
-	                        		
 	                        		<tr>
 	                        			<td style="width:20%">
 	                        			</td>
@@ -378,29 +336,29 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 	                        		</tr>
 	                        		<c:set var="idx" value="${idx + 1}"/>
 	                        		</c:forEach>
-	                        		<tr>
-	                        			<td style="font-weight:bold">첨부 관련 문서
-	                        			</td>
-	                        			<td>
-	                        				<c:if test="${approval.currentState=='임시저장'}">
-	                        					<button type="button" class="btn btn-primary btn-sm" id="searchApproval">문서검색</button>
-	                        				</c:if>
-	                        			</td>
-	                        		</tr>
-	                        		<c:if test="${approval.currentState!='임시저장'}">
-		                        		<c:forEach var="raVo" items="${raList }">
-		                        			<tr>
-		                        				<td style="width:20%"></td>
-		                        				<td style="width:80%" class="raRow">
-		                        					<p style="background:#f4f4f4;">
-		                        					<img src="https://img.icons8.com/office/24/000000/file.png"> 
-		                        					<span style="color:black">${raVo.raapprovalName}</span>
-		                        					<input type="hidden" value="${raVo.raapprovalNo}">&nbsp;
-		                        					<button type="button" class="btn btn-primary btn-sm previewRABtn">미리보기</button>
-		                        				</td>
-		                        			</tr>
-		                        		</c:forEach>
-	                        		</c:if>
+                        		<tr>
+                        			<td style="font-weight:bold">관련문서
+                        			</td>
+                        			<td>
+                        				<c:if test="${approval.currentState=='임시저장'}">
+                        					<button type="button" class="btn btn-primary btn-sm" id="searchApproval">문서검색</button>
+                        				</c:if>
+	                        		</td>
+                        		</tr>
+                        		<c:if test="${approval.currentState!='임시저장'}">
+	                        		<c:forEach var="raVo" items="${raList }">
+	                        			<tr>
+	                        				<td style="width:20%"></td>
+	                        				<td style="width:80%" class="raRow">
+	                        					<p style="background:#f4f4f4;">
+	                        					<img src="https://img.icons8.com/office/24/000000/file.png"> 
+	                        					<span style="color:black">${raVo.raapprovalName}</span>
+	                        					<input type="hidden" value="${raVo.raapprovalNo}">&nbsp;
+	                        					<button type="button" class="btn btn-primary btn-sm previewRABtn">미리보기</button>
+	                        				</td>
+	                        			</tr>
+	                        		</c:forEach>
+                        		</c:if>
                         	</table>
                         	<c:if test="${approval.currentState!='임시저장'}">
 	                        	<div class="tab-pane fade show active" id="commentList" style="margin-top:30px;border-top:1px solid #999">
@@ -543,11 +501,9 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 							<c:if test="${approval.currentState=='임시저장'}">
 	                        	<button type="button" class="btn btn-primary btn-sm approvalBtn">결재요청</button>
 								<button type="button" class="btn btn-primary btn-sm tempSaveBtn">임시저장</button>
+								<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
 								<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
 								<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
-							</c:if>
-							<c:if test="${approval.currentState!='임시저장'}">
-								<button type="button" class="btn btn-primary btn-sm excelBtn">엑셀 다운로드</button>
 							</c:if>
 							<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
                         </div>
@@ -556,6 +512,7 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
             </div>
         </div>
     </div>
+
     
 </div>
 
@@ -569,7 +526,6 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 			</div>
 		</div>
 	</div>
-	
 	
 <script src="<c:url value='/resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js'/>"></script>
 <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script>
@@ -590,14 +546,13 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 		var approvalNo = $(this).prev().val();
 		window.open("<c:url value="/approval/raPreview?approvalNo="/>"+approvalNo,"_blank","width=850,height=1000");
 	})
-
+	
     $('#summernote').summernote({
         tabsize: 2,
         height: 540,
     });
     
     $(document).on('click','.downloadBtn',function(){
-    	console.log("@");
     	$(this).parent().next().submit();
     })
     
@@ -679,10 +634,8 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 	    return str;
 	}
     
-	
-	
+    
     $(function(){
-    	
     	$('.previewBtn').click(function(){
     		$('input[name=previewContent]').val($('#range').html());
     		window.open("","preview","width=650,height=1000");
@@ -690,12 +643,6 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
     		/* window.open("<c:url value="/approval/preview?approvalNo="/>${param.approvalNo}","_blank","width=850,height=1000"); */
     	})
     	
-    	
-		$('.excelBtn').click(function(){
-			if($('#excelDiv')){ _excelDown("${approval.form3Title}.xls", "${approval.form3Title}", $('#excelDiv').outerHTML)};
-
-		});
-		
     	$('#attachFile').html("<img src='https://img.icons8.com/ios/14/000000/attach.png' title='첨부'/> 첨부파일 ${vo['AFCOUNT']}개 <span style='color:#607080'>("+$.byte(${totalFileSize},1)+")</span>");
     	$('.afFileSize').each(function(idx,item){
     		
@@ -788,8 +735,6 @@ FilePond.create( document.querySelector('.multiple-files-filepond'), {
 	      </div>
 	      <div class="modal-body">
 	        <h5>문서작성을 취소하시겠습니까?</h5>
-	       
-	        
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary cancelModalOk">확인</button>
@@ -801,35 +746,25 @@ FilePond.create( document.querySelector('.multiple-files-filepond'), {
 	
 	
 	<script>
-	
-	
-	
-	
 	$(function(){
-		
 		$('.cancelModal-close').click(function(){
 			$('#cancelModal').hide();
 		});
 	
 		$('.cancelBtn').click(function(){
 			$('#cancelModal').show();
-		}); 
+		}) 
 	
 		$('.cancelModalOk').click(function(){
 			window.history.back();
 		});
-		
-		
-		
-		
-		
-		
 	})
 	
 	</script>
 	<%@include file="approvalInfoModal.jsp"%>
 	<%@include file="draftingOpinionModal.jsp"%>
 	<%@include file="tempModal.jsp"%>
+	
 </c:if>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 </body>

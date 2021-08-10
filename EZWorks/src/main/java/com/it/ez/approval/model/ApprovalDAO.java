@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ApprovalDAO {
+	
 	int insertApproval(ApprovalVO approvalVo);
 	int insertApprovalLine(ApprovalLineVO alVo);
 	int insertReference(ReferenceVO vo);
@@ -54,4 +55,12 @@ public interface ApprovalDAO {
 	
 	List<Map<String,Object>> selectDraftAgreeByDept(int deptNo);
 	List<Map<String,Object>> selectReferenceByDeptNo(int deptNo);
+	
+	int selectCurrentRownum(Map<String, Object> map);
+	Map<String, Object> selectNextApproval(Map<String,Object> map);
+	int updateCompleteContent(ApprovalVO vo);
+	String selectCompleteContent(int approvalNo);
+	
+	int insertRA(RelateApprovalVO raVo);
+	List<RelateApprovalVO> selectRAList(int approvalNo);
 }

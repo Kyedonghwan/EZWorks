@@ -236,6 +236,37 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Map<String, Object>> selectReferenceByDeptNo(int deptNo) {
 		return approvalDao.selectReferenceByDeptNo(deptNo);
 	}
+
+	@Override
+	public Map<String, Object> selectNextApproval(Map<String, Object> map) {
+		map.put("rn", approvalDao.selectCurrentRownum(map));
+		return approvalDao.selectNextApproval(map);
+	}
+
+	@Override
+	public int updateCompleteContent(ApprovalVO vo) {
+		return approvalDao.updateCompleteContent(vo);
+	}
+
+	@Override
+	public String selectCompleteContent(int approvalNo) {
+		return approvalDao.selectCompleteContent(approvalNo);
+	}
+
+	@Override
+	@Transactional
+	public int insertRA(List<RelateApprovalVO> list) {
+		int cnt=0;
+		for(RelateApprovalVO raVo:list) {
+			cnt = approvalDao.insertRA(raVo);
+		}
+		return cnt;
+	}
+
+	@Override
+	public List<RelateApprovalVO> selectRAList(int approvalNo) {
+		return approvalDao.selectRAList(approvalNo);
+	}
 	
 	
 }

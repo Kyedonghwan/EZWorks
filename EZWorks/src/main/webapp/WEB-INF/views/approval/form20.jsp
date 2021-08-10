@@ -94,7 +94,6 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
   
                     	<button type="button" class="btn btn-primary btn-sm approvalBtn">결재요청</button>
 						<button type="button" class="btn btn-primary btn-sm tempSaveBtn">임시저장</button>
-						<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
 						<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
 						<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
 						
@@ -183,9 +182,9 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										</div>
                         		</tr>
                         		<tr>
-                        			<td style="font-weight:bold">파일첨부
+                        			<td style="font-weight:bold;width:20%">파일첨부
                         			</td>
-                        			<td>
+                        			<td style="width:80%">
 						                <form method="post" name="approvalFrm" action="<c:url value='/approval/insert'/>" enctype="multipart/form-data">
 													<input type="hidden" value="연장근무신청서" id="approvalName1">
 													<input type="hidden" name="formNo">
@@ -211,7 +210,8 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 												      	<input name="referenceDeptNo" type="hidden">
 												      	<input name="browseEmpNo" type="hidden">
 												      	<input name="receptionEmpNo" type="hidden">
-												      	
+												      	<input name="raapprovalNo" type="hidden">
+												      	<input name="raapprovalName" type="hidden">
 											   		</div>
 											   		<div id="isExisted">
 											   		</div>
@@ -221,14 +221,13 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
 										</form>
                         			</td>
                         		</tr>
-                        		<tr>
-                        			<td style="font-weight:bold">관련문서
+                        		<tr id="attachRA">
+                        			<td style="font-weight:bold;width:20%">관련문서
                         			</td>
-                        			<td>
+                        			<td style="width:80%">
                         				<button type="button" class="btn btn-primary btn-sm" id="searchApproval">문서검색</button>
                         			</td>
                         		</tr>
-                        		
                         	</table>
                         </div>
                        
@@ -294,7 +293,6 @@ span.sign_type2 span.sign_member span.rank {margin: 0 0 0 4px}
                         <div style="margin-top:20px;padding-top:0px">
                         	<button type="button" class="btn btn-primary btn-sm approvalBtn">결재요청</button>
 							<button type="button" class="btn btn-primary btn-sm tempSaveBtn">임시저장</button>
-							<button type="button" class="btn btn-primary btn-sm previewBtn">미리보기</button>
 							<button type="button" class="btn btn-primary btn-sm cancelBtn">취소</button>
 							<button type="button" class="btn btn-primary btn-sm approvalInfoBtn">결재정보</button>
                         </div>
@@ -396,6 +394,13 @@ FilePond.create( document.querySelector('.multiple-files-filepond'), {
 <script>
 $(function(){
 	
+	$('.previewBtn').click(function(){
+		$('input[name=previewContent]').val($('#range').html());
+		window.open("","preview","width=650,height=1000");
+		$('#previewFrm').submit();
+		
+	})
+	
 	$('select').change(function(){
 		if($('#startdate').val().length<1){
 			Toastify({
@@ -459,12 +464,12 @@ $(function(){
 })
 </script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <%@include file="selectFormModal.jsp"%>
 <%@include file="approvalInfoModal.jsp"%>
 <%@include file="draftingOpinionModal.jsp"%>
 <%@include file="tempModal.jsp"%>
-
+<%@include file="relateApprovalModal.jsp"%>
 </body>
 
 </html>	

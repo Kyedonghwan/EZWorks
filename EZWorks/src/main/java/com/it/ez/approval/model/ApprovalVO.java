@@ -30,5 +30,6 @@ public class ApprovalVO {
 	private String form20D;
 	private String form20E;
 	private String form20Description;
+	private String completeContent;
 
 }
