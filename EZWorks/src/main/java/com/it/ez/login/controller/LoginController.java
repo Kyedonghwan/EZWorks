@@ -84,8 +84,10 @@ public class LoginController {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("empVo");
+		session.invalidate();
 		
-		return "redirect:/";
+		return "redirect:/mainLogin";
 	}
 }
+
+

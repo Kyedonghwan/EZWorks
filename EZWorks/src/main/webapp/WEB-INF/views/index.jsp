@@ -260,7 +260,7 @@ function workOut(){
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end"
 								aria-labelledby="dropdownMenuButton">
-								<li><a class="dropdown-item" href="#"><i
+								<li><a class="dropdown-item" href="<c:url value='/logout'/>"><i
 										class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
 							</ul>
 						</div>

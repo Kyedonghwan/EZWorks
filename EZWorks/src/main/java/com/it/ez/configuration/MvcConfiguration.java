@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,7 +16,7 @@ import com.it.ez.controller.LoginInterceptor;
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer{
 
-	private static final List<String> URL_PATTERNS = Arrays.asList("/addrbook/addrbook");  //인터셉터가 동작 해야 될 요청 주소 mapping 목록
+	private static final List<String> URL_PATTERNS = Arrays.asList("/addrbook/*", "/board/*", "/approval/*", "/archive/*", "/attendance/*", "/calendar/*", "/community/*", "/form/*", "/message/*", "/mal/*", "/reservation/*", "/schcate/*");  //인터셉터가 동작 해야 될 요청 주소 mapping 목록
 	
 	//인터셉터 주소 세팅
 	@Override
