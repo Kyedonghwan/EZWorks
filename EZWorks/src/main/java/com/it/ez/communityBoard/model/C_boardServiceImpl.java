@@ -117,6 +117,16 @@ public class C_boardServiceImpl implements C_boardService{
 	public int selectC_boardFeedCount(int communityNo) {
 		return c_boardDao.selectC_boardFeedCount(communityNo);
 	}
+
+	@Override
+	public int insertReply(C_boardReplyVO replyVo) {
+		return c_boardDao.insertReply(replyVo);
+	}
+
+	@Override
+	public List<C_boardReplyVO> selectC_boardReply(C_boardReplyVO replyVo) {
+		return c_boardDao.selectC_boardReply(replyVo);
+	}
 	
 	
 }
