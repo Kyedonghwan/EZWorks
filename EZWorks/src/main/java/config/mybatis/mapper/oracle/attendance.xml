@@ -19,6 +19,12 @@
 	<select id="isEnded" parameterType="map" resultType="int">
 		select count(*) from attendance where emp_no = #{empNo} and attendance_status='퇴근' and attendance_recorded_time between #{startingDate} and #{endingDate}
 	</select>
+	<select id="todayAttendTime" resultType="attendanceVo">
+		select * from attendance where emp_no = #{empNo} and attendance_status = '출근' and attendance_recorded_time between #{startingDate} and #{endingDate}
+	</select>
+	<select id="todayEndTime" resultType="attendanceVo">
+		select * from attendance where emp_no = #{empNo} and attendance_status = '퇴근' and attendance_recorded_time between #{startingDate} and #{endingDate}
+	</select>
 </mapper>
 
 

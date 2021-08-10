@@ -71,7 +71,7 @@ public class AttendanceMonthCalculator {
 	 * 각 달마다 마지막 날짜
 	 * @param year
 	 * @param month
-	 * @return
+	 * @return {@link String} date
 	 */
 	public String getEndingyyyyMMdd(int year, int month) {
 		String startingDate = getStartingyyyyMMdd(year, month);
@@ -91,7 +91,7 @@ public class AttendanceMonthCalculator {
 	 * 달마다 모든 날짜의 list. List<Date>은 7일간의 데이터가 담겨있고 List<List<Date>>은 7일간데이터 담긴 list를 주차 수만큼의 list
 	 * @param year
 	 * @param month
-	 * @return
+	 * @return 
 	 */
 	public List<List<Date>> getDaysList(int year, int month){
 		logger.info("year={}, month={}", year, month);
@@ -126,7 +126,7 @@ public class AttendanceMonthCalculator {
 	/**
 	 * 이번주 잔여 시간 계산
 	 */
-	public getThisWeektotalHours(int year, int month, int date) {
+	public String getThisWeektotalHours(Date start, Date end) {
 		
 		
 	}

@@ -50,10 +50,12 @@ public class LoginController {
 			EmpVO vo=empService.selectEmpByEmpNo(empNo);
 			logger.info("로그인 처리, 사원조회 결과 vo={}", vo);
 			
+			
 			//session 
 			HttpSession session=request.getSession();
 			session.setAttribute("empNo", empNo); //사원번호(아이디)
 			session.setAttribute("empName", vo.getEmpName()); //사원 이름
+			session.setAttribute("empVo", vo);
 			
 //			//쿠키
 //			Cookie ck = new Cookie("ck_empno", empNo);

@@ -12,4 +12,6 @@ public interface AttendanceDAO {
 	public int insertAttendance(AttendanceVO vo);
 	public int isAttended(String startingDate, String endingDate, int empNo);
 	public int isEnded(String startingDate, String endingDate, int empNo);
+	public AttendanceVO todayAttendTime(String startingDate, String endingDate, int empNo);
+	public AttendanceVO todayEndTime(String startingDate, String endingDate, int empNo);
 }

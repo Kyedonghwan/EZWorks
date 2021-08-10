@@ -68,6 +68,10 @@ public class AttendanceController {
 		logger.info("isAttended={}", isAttended);
 		model.addAttribute("isAttended", isAttended);
 		int isEnded = attendanceService.isEnded(startingDate, endingDate, empNo);
+		AttendanceVO attendedTime = attendanceService.todayAttendTime(startingDate, endingDate, empNo);
+		AttendanceVO endedTime = attendanceService.todayEndTime(startingDate, endingDate, empNo);
+		model.addAttribute("attendedTime", attendedTime);
+		model.addAttribute("endedTime", endedTime);
 		model.addAttribute("isEnded", isEnded);
 
 		List<List<Date>> daysList = attendanceMonthCalculator.getDaysList(year, month);
@@ -75,23 +79,6 @@ public class AttendanceController {
 		model.addAttribute("daysList", daysList);
 		model.addAttribute("daysListWithDetail", daysListWithDetail);
 
-		/*
-		 * for(int i=0;i<daysListWithDetail.size();i++) { List<AttendanceMainViewVO>
-		 * temp = daysListWithDetail.get(i); for(int j=0;j<temp.size();j++) {
-		 * AttendanceMainViewVO tempVo = temp.get(j); List<AttendanceVO> tempoVo =
-		 * tempVo.getAttendanceVosInADay(); Date start = null; Date end = null;
-		 * for(AttendanceVO tttt: tempoVo) { if(tttt.getAttendanceStatus().equals("퇴근"))
-		 * { end = tttt.getAttendanceRecordedTime(); }else
-		 * if(tttt.getAttendanceStatus().equals("출근")) { start =
-		 * tttt.getAttendanceRecordedTime(); } long diff =
-		 * end.getTime()-start.getTime(); int diffHour = (int) (diff/3600000); int
-		 * diffMinute = (int) ((diff - diffHour)/60000); int diffSecond = (int)
-		 * ((diff-diffHour-diffMinute)/1000);
-		 * 
-		 * }
-		 * 
-		 * } }
-		 */
 		logger.info("daysList.size={}", daysList.size());
 		logger.info("daysList={}", daysList);
 		

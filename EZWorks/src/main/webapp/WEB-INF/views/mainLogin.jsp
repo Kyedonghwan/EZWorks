@@ -21,7 +21,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="index.html"><img src="<c:url value='resources/images/logo/ezworks3.png'/>" alt="Logo"></a>
+                        <a href="#"><img src="<c:url value='/resources/images/logo/MainLogo.png'/>" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Log in.</h1>
                     <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>

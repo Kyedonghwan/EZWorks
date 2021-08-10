@@ -412,8 +412,6 @@
 	    border-top: 1px solid #00a1b9;
 	    border-right: 0;
 	    border-left: 0;
-	}
-	.tb_attend_body .tb_attend_list.tb_attend_select {
 	    margin-top: -1px;
 	    box-sizing: border-box;
 	}
@@ -422,4 +420,75 @@
 	}
 	.btn_tool:hover{
 		cursor:pointer;
+	}
+	.tb_attend_detail2 .part_default {
+	    background: #44D1A5;
+	    border: none;
+	}
+	.tb_attend_detail2 .progress {
+	    position: absolute;
+	    padding-left: 6px;
+	    height: 21px;
+	    box-sizing: border-box;
+	    z-index: 1;
+	}
+	.tool_bar.tool_absolute.wrap_tb_box {
+	    margin-top: 4px;
+	}
+	.wrap_tb_box {
+	    margin: 25px 0 0;
+	}
+	.go_skin_ehr .wrap_statistics, .go_skin_ehr .wrap_tb_box {
+	    min-width: 940px;
+	}
+	ul, ul li {
+	    padding: 0;
+	    list-style: none;
+	}
+	.marker2 ul li {
+	    float: left;
+	    padding: 8px 0 4px 4px;
+	    min-width: 44px;
+	    margin-left: 1px;
+	    font-size: 14px;
+	}
+	.marker2 ul li span {
+	    display: inline-block;
+	    width: 6px;
+	    height: 6px;
+	    background: #3d3d3d;
+	    margin-right: 6px;
+	    margin-top: 8px;
+	    vertical-align: top;
+	    border-radius: 3px;
+	}
+	.marker2 ul li.late {
+	    color: #f14f4f;
+	}
+	.marker2 ul li.modify span {
+	    background: #319df3;
+	}
+	.marker2 ul li.modify {
+	    color: #319df3;
+	}
+	.marker2 ul li.late span {
+	    background: #f14f4f;
+	}
+	.tool_tip {
+	    display: none;
+	    position: absolute;
+	    top: 1px;
+	    left: 26px;
+	    font-size: 12px;
+	    cursor: text;
+	    background: #444;
+	    color: #ddd;
+	    border-radius: 3px;
+	    padding: 5px 8px 5px 5px;
+	    font-weight: normal;
+	    text-indent: 0;
+	    z-index: 50;
+	    text-align: left;
+	    line-height: 1.5;
+	    white-space: nowrap;
 	}

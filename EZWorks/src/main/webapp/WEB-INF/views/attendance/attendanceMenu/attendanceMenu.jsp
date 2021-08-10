@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <link rel="stylesheet" href="<c:url value='/resources/css/attendance/attendanceMenu.css'/>">
 <script type="text/javascript" src="<c:url value='/resources/js/moment.min.js'/>"></script>
@@ -87,13 +88,14 @@ div.dropdown-menu{
 			<li>
 				<dl>
 					<dt>출근시간</dt>
-					<dd id="workInTime">12:30:38</dd>
+					<dd id="workInTime"><c:if test="${!empty attendedTime}"><fmt:formatDate value="${attendedTime.attendanceRecordedTime }" pattern="HH:mm:ss"/>  </c:if><c:if test="${empty attendedTime }">미등록</c:if></dd>
+					
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>퇴근시간</dt>
-					<dd id="workOutTime">12:32:23</dd>
+					<dd id="workOutTime"><c:if test="${!empty endedTime}"><fmt:formatDate value="${endedTime.attendanceRecordedTime }" pattern="HH:mm:ss"/></c:if><c:if test="${empty endedTime }">미등록</c:if></dd>
 				</dl>
 			</li>
 			<li>
@@ -108,8 +110,8 @@ div.dropdown-menu{
     <div class="vertical_bar"></div>
     
 	<div class="function_btn_wrap">
-		<a class="btn btn-outline-primary <c:if test="${isAttended>0 }">off</c:if>" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
-		<a class="btn btn-outline-primary <c:if test="${isEnded>0 }">off</c:if>" id="workOut"><span class="txt">퇴근하기</span></a>
+		<a class="btn btn-outline-primary <c:if test="${!empty attendedTime}">off</c:if>" id="workIn"><span class="txt">출근하기</span></a><!--btn이 두개일 경우 멀티 클래스 적용 btn_function_s-->
+		<a class="btn btn-outline-primary <c:if test="${!empty endedTime }">off</c:if>" id="workOut"><span class="txt">퇴근하기</span></a>
 	</div>
 		<div class="dropdown works_state">
 			<a class="btn btn-outline-primary" id="changeStatus"

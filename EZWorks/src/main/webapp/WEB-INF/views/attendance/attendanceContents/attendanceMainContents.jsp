@@ -4,30 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="https://kit.fontawesome.com/ccfc8e2515.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/attendance/attendanceMainContents.css'/>">
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-<!-- <link rel="stylesheet" href="/resources/demos/style.css">
- --><link rel="stylesheet" href="<c:url value='/resources/css/attendance/datepicker.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/attendance/datepicker.css'/>">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style type="text/css">
-.tool_tip {
-    display: none;
-    position: absolute;
-    top: 1px;
-    left: 26px;
-    font-size: 12px;
-    cursor: text;
-    background: #444;
-    color: #ddd;
-    border-radius: 3px;
-    padding: 5px 8px 5px 5px;
-    font-weight: normal;
-    text-indent: 0;
-    z-index: 50;
-    text-align: left;
-    line-height: 1.5;
-    white-space: nowrap;
-}
+
 </style>
 
 <script type="text/javascript">
@@ -162,30 +143,56 @@ function loadDayDetail(year, month, date){
 		,success:function(dayDetail){}
 	});
 }
-/* function loadWeekDetail(year, month, date){
+function loadWeekDetail(year, month, date){
 	$.ajax({
 		url:'<c:url value="/attendance/week_detail"/>'
 		,type:"get"
 		,data:"year="+year+"&month="+month+"&date="+date
 		,dataType:"json"
 		,success:function(detailList){
-			if(detailList!=null){
-				for(var i=0; i < detailList.length; i++){
-					var detail = detailList[i];
-					switch(detail.attendanceStatus){
-					case '출근':
-						document.getElementByClass('attend').children('span').html(detail.attendanceRecordedTime);
-						break;
-					case '퇴근':
-						document.getElementByClass('leave').children('span').html(detail.attendanceRecordedTime);
+			str = "<div class='tb_attend_detail2'>";
+			
+			str +=	"<div id='time_zone' class='tb_div tb_head'>";
+			for(var i=0;i<24;i++){
+				str += "<div class='tb_cell'>";
+				str +=		"<span class='time'>" + ('0' + i).slice(-2) + "</span>";
+				str += "</div>";
+			}
+			str += 	"</div>";
+
+			str += 	"<div class='wrap_timeline tb_body'>";
+			str += 		"<div id='data_zone' class='tb_div time_data'>";
+			str += 			"<div id='clockinout_progress' class='tb_row total_time'>";
+			
+			//만약 detailList에 출근 혹은 퇴근이 있다면
+			if(detailList!=null ){
+				for(var dl=0; dl<detailList.length; dl++){
+					if(detailList[dl].attendanceStatus=='출근'){
+						str += "<div class='progress  start close part_default style='left: 54.1632%; width: 6.31269%;'>";
+						str += 	"<span id='clockIn' class='txt label_l' style='cursor: pointer;'>출근</span>";
+						for(var dl2=0;detailList.lenght;dl2++){
+							str += "<span id='clockOut' class='txt label_r' style='cursor: pointer;'>외근</span>"
+						}
+						str += "</div>";
 					}
-						
 				}
+				str += "</div>";
 				
 			}
+			
+			
+			
 		}
 	});
-} */
+}
+function getPercentage(e){
+	var date = moment(e);
+	var hour = date.hours();
+	var minute = date.minutes();
+	var seconds = date.seconds();
+	
+	
+}
 function showMenu(){
 	var dayArea = $(this).closest('div').children('#day_area');
 	var icon = $(this).children('i');
@@ -208,6 +215,7 @@ function loadNewMonth(year, month){
 		,success:function(daysListWithDetail){ 
 			$('#daysListCarrier').html("");
 			var str = "";
+			let weekTotalWorkHour = null;
 			for(var i=0;i<daysListWithDetail.length;i++){
 				str += "<div>";
 				str += "<div class='wrap_tb_box' id='week'>";
@@ -243,48 +251,9 @@ function loadNewMonth(year, month){
 				var days = daysListWithDetail[i];
 				for(var j=0; j<days.length;j++){
 					var attendanceDetailByDay = days[j].attendanceVosInADay;
-					console.info(days[j]);
 					var week = new Date(days[j].forCalendar);
 					var date = week.getDate();
 					var day = week.getDay();
-					console.info(week);
-					console.info(week.getDate());
-					/* <div class="tb_attend_list <c:if test="${day.day==6 }">day_sat</c:if><c:if test="${day.day==0 }">day_sun</c:if>">    
-					        		<div class="tb_content date_l">
-					        			<span class="txt">${day.date }</span>
-					    			</div>
-								    <div class="tb_content date_r">
-								        <span class="txt">
-											<c:choose>
-												<c:when test="${day.day==0 }">일</c:when>
-												<c:when test="${day.day==1 }">월</c:when>
-												<c:when test="${day.day==2 }">화</c:when>
-												<c:when test="${day.day==3 }">수</c:when>
-												<c:when test="${day.day==4 }">목</c:when>
-												<c:when test="${day.day==5 }">금</c:when>
-												<c:when test="${day.day==6 }">토</c:when>
-											</c:choose>
-										</span>
-								    </div>
-								    <div class="tb_content attend">
-								        <span class="txt">
-								        </span>
-								    </div>
-								    <div class="tb_content leave">
-								        <span class="txt ">
-								        </span>
-								    </div>
-								    <div class="tb_content total_time">
-								        <span class="txt"></span>
-								    </div>
-								    <div class="tb_content status">
-								        
-								    </div>
-								    <div class="tb_content approval_list">
-								    </div>
-							    </div> */
-					
-					
 					str += "<div class='tb_attend_list ";
 					if(day==6){
 						str+="day_sat";
@@ -372,7 +341,6 @@ function workIn(){
 	const button = document.getElementById('workIn');
 	const attendanceStatus = '출근';
 	const attendanceRecordedTime = workIn_moment.format('YYYY-MM-DD HH:mm:ss');
-	alert('여기까지 됨');
 	console.info(workIn_moment);
 	if(button.classList.contains('off')){
 		return false;
@@ -408,7 +376,6 @@ function workOut(){
 	if(button.classList.contains('off')){
 		return false;
 	}else{
-		alert('여기로 넘어옴');
 		$('#workOutTime').html(workOutHour);
 		document.getElementById('workOut').classList.add("off");
 		/* ajax 추가 */
@@ -421,11 +388,8 @@ function workOut(){
 			}
 			,dataType:"json"
 			,success:function(attendanceVo){ 
-				alert('됨');
-				console.info(attendanceVo);
 			},
 			error:function(xhr, status, error){
-				alert("error 발생! " + error);
 			}	
 		});
 	}
@@ -468,8 +432,31 @@ function realdayWorkTime(start, end){
 		return '';
 	}
 }
+function realdayWorkTimePart(start, end){
+	var moment_start = moment.duration(start);
+	var moment_end = moment.duration(end);
+	if(!isEmpty(start)&&!isEmpty(end)){
+		var moment_workTime = moment.duration(moment(end,'YYYY/MM/DD HH:mm:ss').diff(start, 'YYYY/MM/DD HH:mm:ss'));
+		return moment_workTime;
+	}else{
+		return '';
+	}
+}
+function printWorkTime(e){
+	if(!isEmpty(e)){
+		var hours = parseInt(e.asHours());
+		var minutes = parseInt(e.asMinutes())%60;
+		var seconds = parseInt(e.asSeconds())%60;
+		return ('0'+hours).slice(-2)+':'+('0'+minutes).slice(-2)+':'+('0'+seconds).slice(-2);
+	}else{
+		return '';
+	}
+}
 function isEmpty(value){
     return (typeof value === "undefined" || value === null);
+}
+function getWeekTotalWorkHour(){
+	
 }
 </script>
 	<section style="padding:0px">
@@ -487,7 +474,7 @@ function isEmpty(value){
             <span class="btn_ic_prev2 btn_border" title="이전" id="prevMonth"><span class="fa-fw select-all fas"></span></span>
             <span class="date" id="baseDate" onclick="showDatepicker()"></span>
             <span class="btn_ic_next2 btn_border" title="이후" id="nextMonth"><span class="fa-fw select-all fas"></span></span>
-            <input id="calendarDatepicker" type="text" style="border:0px;" autocomplete="off">
+            <input id="calendarDatepicker" type="text" style="border:0px;width:0px" autocomplete="off">
             <span class="btn_tool"><span class="txt" id="currentMonth">오늘</span></span>
             
         </div>
@@ -597,7 +584,7 @@ function isEmpty(value){
 					        <div class="tb_attend_body" id="day_list">
 					        	
 					        	<c:forEach var="day" items="${week }">
-					        	<div class="tb_attend_list <c:if test="${day.forCalendar.day==6 }">day_sat</c:if><c:if test="${day.forCalendar.day==0 }">day_sun</c:if>">    
+					        	<div class="tb_attend_list tb_attend_select <c:if test="${day.forCalendar.day==6 }">day_sat</c:if><c:if test="${day.forCalendar.day==0 }">day_sun</c:if> ">    
 					        		<div class="tb_content date_l">
 					        			<span class="txt">${day.forCalendar.date }</span>
 					    			</div>
@@ -666,385 +653,960 @@ function isEmpty(value){
 				</div>
 			</c:forEach>
 
-			<!-- <div class="tb_attend_detail2">
-		    	<div id="time_zone" class="tb_div tb_head">
-		
-					<div class="tb_cell"> <span class="time">00</span> </div>
-					<div class="tb_cell"> <span class="time">01</span> </div>
-					<div class="tb_cell"> <span class="time">02</span> </div>
-					<div class="tb_cell"> <span class="time">03</span> </div>
-					<div class="tb_cell"> <span class="time">04</span> </div>
-					<div class="tb_cell"> <span class="time">05</span> </div>
-					<div class="tb_cell"> <span class="time">06</span> </div>
-					<div class="tb_cell"> <span class="time">07</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">08</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">09</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">10</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">11</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">12</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">13</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">14</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">15</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">16</span> </div>
-					<div class="tb_cell workinghours"> <span class="time">17</span> </div>
-					<div class="tb_cell"> <span class="time">18</span> </div>
-					<div class="tb_cell"> <span class="time">19</span> </div>
-					<div class="tb_cell"> <span class="time">20</span> </div>
-					<div class="tb_cell"> <span class="time">21</span> </div>
-					<div class="tb_cell"> <span class="time">22</span> </div>
-					<div class="tb_cell"> <span class="time">23</span> </div>
+			<div class="tb_attend_detail2">
+				<div id="time_zone" class="tb_div tb_head">
+
+					<div class="tb_cell">
+						<span class="time">00</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">01</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">02</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">03</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">04</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">05</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">06</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">07</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">08</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">09</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">10</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">11</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">12</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">13</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">14</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">15</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">16</span>
+					</div>
+					<div class="tb_cell workinghours">
+						<span class="time">17</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">18</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">19</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">20</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">21</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">22</span>
+					</div>
+					<div class="tb_cell">
+						<span class="time">23</span>
+					</div>
 				</div>
-		
+
 				<div class="wrap_timeline tb_body">
-				    
-				        클래스명 설명
-				        .part_default : 일반 근무 시간
-				        .part_approval : 승인 근무 시간
-				        .part_overtime : 초과 근무 시간
-				        .part_approval.wait : 연장근무 승인대기
-				        .part_overtime.wait : 초과근무 승인대기
-				        .start : 시작
-				        .close : 종료
-				        .initial : 최초 출근 시(출근 30분 후 클래스 제거), 출/퇴근이 60분 이내에 이루어졌을 경우 적용
-				   
-				    <div id="data_zone" class="tb_div time_data">
-				        <div id="clockinout_progress" class="tb_row total_time"></div>
-				        <div id="approval_progress" class="tb_row total_time"></div>
-				    </div>
-				
-				
-				        상태 추가 시 row가 한줄씩 추가됨 (상태가 여러개일 경우 레이블이 서로 겹치는 현상을 방지하기 위함)
-				    <div id="time_wrapper" class="tb_div tb_bg" style="height:72px"> <div class="tb_cell">
-						<div class="tb_div">
-						
-							<div class="min">
+					<!--
+        클래스명 설명
+        .part_default : 일반 근무 시간
+        .part_approval : 승인 근무 시간
+        .part_overtime : 초과 근무 시간
+        .part_approval.wait : 연장근무 승인대기
+        .part_overtime.wait : 초과근무 승인대기
+        .start : 시작
+        .close : 종료
+        .initial : 최초 출근 시(출근 30분 후 클래스 제거), 출/퇴근이 60분 이내에 이루어졌을 경우 적용
+    -->
+					<div id="data_zone" class="tb_div time_data">
+						<div id="clockinout_progress" class="tb_row total_time">
+							<div class="progress  start close part_default" style="left: 54.1632%; width: 6.31269%;">
+								<span id="clockIn" class="txt label_l" style="cursor: pointer;">출근</span> 
+								<span id="clockOut" class="txt label_r" style="cursor: pointer;">외근 </span>
 							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
+							<div class="progress  start initial part_default"
+								style="left: 64.2797%; width: 2.77778%;">
+								<span id="clockIn" class="txt label_l" style="cursor: pointer;">업무</span>
 							</div>
 						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-						
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
+						<div id="approval_progress" class="tb_row total_time">
+							<div id="95" class="progress part_approval start close"
+								style="left: 75%; width: 8.33333%;">
+								<span class="txt">연장 <span> (완료)</span>
+								</span>
 							</div>
 						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-						
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-										
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-										
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-										
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-										
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-											
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-										
-							<div class="min coretime_s" title="의무 근로 시작 시간">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-							<div class="min">
-							</div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-										
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-										
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-						</div>
-					</div>
-					<div class="tb_cell workinghours">
-						<div class="tb_div">
-							
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-							<div class="min break"></div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min coretime_s" title="의무 근로 종료 시간"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-						</div>
-					</div>
-							
+						<div id="working_state_666" class="tb_row workingstate">
 							<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min coretime_s" title="의무 근로 시작 시간"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min">
+										<div class="time_schedule">
+											<span class="txt">퇴근</span>
+											<div class="tool_tip">
+												<p class="time">
+													<span class="ic_ehr ic_watch"></span>15:15
+												</p>
+												<p class="tit">퇴근</p>
+											</div>
+										</div>
+									</div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min coretime_s" title="의무 근로 종료 시간"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div id="working_state_667" class="tb_row workingstate">
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min coretime_s" title="의무 근로 시작 시간"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+									<div class="min break"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min">
+										<div class="time_schedule">
+											<span class="txt">반차</span>
+											<div class="tool_tip">
+												<p class="time">
+													<span class="ic_ehr ic_watch"></span>15:16
+												</p>
+												<p class="tit">반차</p>
+											</div>
+										</div>
+									</div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell workinghours">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min coretime_s" title="의무 근로 종료 시간"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
+							<div class="tb_cell">
+								<div class="tb_div">
+
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+									<div class="min"></div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
+
+
+					<!-- 상태 추가 시 row가 한줄씩 추가됨 (상태가 여러개일 경우 레이블이 서로 겹치는 현상을 방지하기 위함)-->
+					<div id="time_wrapper" class="tb_div tb_bg" style="height: 136px;">
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
 						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
 						</div>
-					</div>
-					<div class="tb_cell">
-						<div class="tb_div">
-							
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
-							<div class="min"></div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min coretime_s" title="의무 근로 시작 시간"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min break"></div>
+								<div class="min break"></div>
+								<div class="min break"></div>
+								<div class="min break"></div>
+								<div class="min break"></div>
+								<div class="min break"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell workinghours">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min coretime_s" title="의무 근로 종료 시간"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
+						</div>
+						<div class="tb_cell">
+							<div class="tb_div">
+
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+								<div class="min"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-				
+
+				<!--
+<div class="time_tb" id="timeline_list">
+</div>
+-->
 			</div>
-				
-				
-			<div class="time_tb" id="timeline_list">
-			</div>
-				
-		</div> -->
 
 
 		</div>
 		</div>
+	</section>
+	<section>
+	<div class="tool_bar tool_absolute wrap_tb_box">
+        <div class="critical">
+            <section class="marker2">
+                <ul>
+                    <li class="normal"><span></span>정상</li>
+                    <li class="late"><span></span>지각</li>
+                    <li class="modify"><span></span>수정</li>
+                </ul>
+            </section>
+        </div>
+    </div>
 	</section>
 	
