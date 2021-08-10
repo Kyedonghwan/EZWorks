@@ -102,7 +102,6 @@ public class ArchiveController {
 	public ModelAndView download(@ModelAttribute ArchiveVO vo,HttpServletRequest request) {
 		
 		int cnt = archiveService.updateDownCount(vo.getNo());
-		
 		Map<String,Object> map =new HashMap<>();
 		
 		String uploadPath  =  request.getSession().getServletContext().getRealPath(ConstUtil.FILE_UPLOAD_PATH);

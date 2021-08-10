@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.community.model.CommunityDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
+		</if>
+	</sql>
+	
+	<insert id="insertCommunity" parameterType="CommunityVO">
+		<selectKey keyProperty="communityNo" resultType="int" order="BEFORE">
+			select community_seq.nextval from dual
+		</selectKey>
+		insert into community(community_No, community_Name, intro, publicSet)
+		values(#{communityNo}, #{communityName}, #{intro}, #{publicSet})
+	</insert>
+	
+	<select id="selectTotalRecord" parameterType="CommunitySearchVo" resultType="int">
+		select count(*) from community  
+        <include refid="searchWhere"></include>
+	</select>
+	
+	<select id="selectCommunity" resultType="CommunityMemberVO">
+		select * from community
+		order by community_No
+	</select>
+	
+	<select id="selectAllCommunity" parameterType="CommunitySearchVO" resultType="CommunityMemberVO">
+		select * from
+		(
+			select rownum as RNUM, A.* from
+			(
+				select rownum as currentStats, c.* from community c
+				order by community_No
+		   	)A
+		)	
+		<![CDATA[
+		where RNUM > #{firstRecordIndex} 
+		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
+		]]>
+	</select>
+	
+	<select id="selectCommunityMaster" parameterType="int" resultType="String">
+		select member_Name from communityMemberView
+		where Community_Level=3 and community_No=#{communityNo}
+	</select>
+	
+	<select id="selectCommunityByNo" parameterType="int" resultType="CommunityVO">
+		select * from community
+		where community_No=#{communityNo}
+	</select>
+		
+	<select id="selectCommunityByMember" parameterType="int" resultType="CommunityMemberVO">
+		select * from communityMemberView
+		where member_No=#{memberNo}
+	</select>
+
+	<select id="selectMember" parameterType="int" resultType="CommunityMemberVO">
+		select * from communityMemberView
+		where community_No=#{communityNo}
+	</select>
+	
+	<insert id="insertCommunityMember" parameterType="CommunityMemberVO">
+		insert into COMMUNITY_MEMBER(COMMUNITY_NO,MEMBER_NO,COMMUNITY_LEVEL)
+		values(#{communityNo},#{MemberNo},#{communityLevel})
+	</insert>
+	
+	<update id="updateCommunityCount" parameterType="communityVO">
+		update community
+		set MEMBER_COUNT=#{memberCount}
+		where community_No=#{communityNo}		
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+

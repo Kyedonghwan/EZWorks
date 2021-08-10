@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.board.model.BoardDAO">
+	<select id="selectAllBoard" resultType="BoardVO">
+		select * from board order by board_no
+	</select>
+	<select id="selectBoardByDeptNo" resultType="BoardVO">
+		select * from board where dept_no=#{deptNo}
+	</select>
+	<select id="selectByBoardNo" resultType="BoardVO">
+		select * from board where board_no = #{boardNo}
+	</select>
+	<select id="selectByBoardType" resultType="BoardVO">
+		select * from board where board_type = #{boardType} and board_isfolder=0 and board_isline=0
+	</select>
+	<select id="selectBoardAdmin" resultType="int">
+		select emp_no from board_admin_list where board_no=#{boardNo}
+	</select>
+	<insert id="insertFavBoards">
+		insert into user_sel_board(board_no, emp_no)
+		values(#{boardNo}, #{empNo})
+	</insert>
+	<select id="selectFavBoards" resultType="BoardVO">
+		select * from board where board_no in (select board_no from user_sel_board where emp_no = #{empNo})
+	</select>
+	<delete id="deleteFavBoards">
+		delete from user_sel_board where emp_no=#{empNo} and board_no=#{boardNo}
+	</delete>
+	<select id="hasFavoredBoard">
+		select count(*) from user_sel_board where emp_no=#{empNo} and board_no=#{boardNo}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

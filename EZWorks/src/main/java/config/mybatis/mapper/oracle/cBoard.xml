@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.communityBoard.model.C_boardDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+			where ${searchCondition}  like '%' || #{searchKeyword} || '%'
+		</if>
+	</sql>
+		
+	<insert id="insertC_board" parameterType="C_boardVO">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			select c_board_seq.nextval from dual
+		</selectKey>
+		insert into c_board(community_No, board_No, board_Name, board_Master, board_type, intro, publicSet)
+		values(#{communityNo}, #{boardNo}, #{boardName}, #{boardMaster}, #{boardType}, #{intro}, #{publicSet})
+	</insert>
+	
+	<!-- 커뮤니티별 게시판 목록 보기용 -->
+	<select id="selectC_boardList" parameterType="int" resultType="C_boardVO">
+		select A.* from 
+			(
+				select c.*, e.emp_Name as MasterName
+				from c_board c left join emp e 
+				on c.BOARD_MASTER=e.EMP_NO
+			)A
+		where community_No=#{communityNo}
+		order by a.board_No
+	</select>
+	
+	<select id="selectC_boardByNo" parameterType="int" resultType="C_boardVO">
+		select * from c_boardView
+		where board_No=#{boardNo}
+	</select>
+	
+	<update id="updateC_board" parameterType="C_boardVO">
+		update c_board
+		set board_Name=#{boardName},board_master=#{boardMaster},
+		intro=#{intro}, publicSet=#{publicSet}
+		where board_No=#{boardNo}
+	</update>
+	
+	<delete id="deleteC_board" parameterType="int">
+		delete from C_board where board_No=#{boardNo}
+	</delete>
+
+	<insert id="insertBoardClassic" parameterType="C_boardClassicVO">
+		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
+			select c_boardContent_seq.nextval from dual
+		</selectKey>
+		insert into c_boardClassic(community_No, content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+							Pos_No, Pos_Name, title, text,
+							group_No, images, fileName, fileSize, originalFileName)
+		values(#{communityNo}, #{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+			  	#{posNo}, #{posName}, #{title}, #{text}, #{contentNo}, 
+				#{images, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, 
+				#{fileSize}, #{originalFileName})
+	</insert>
+	
+	<insert id="insertBoardFeed" parameterType="C_boardFeedVO">
+		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
+			select c_boardContent_seq.nextval from dual
+		</selectKey>
+		insert into c_boardClassic(community_No, content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+							Pos_No, Pos_Name,text)
+		values(#{communityNo}, #{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+			  	#{posNo}, #{posName}, #{text})
+	</insert>
+	
+	<!-- 커뮤니티 메인 화면 글 전체 보기용 -->
+	<select id="selectC_boardClassicAll" resultType="C_boardClassicVO">
+		select * from c_boardClassicView
+		order by content_No desc
+	</select>
+	
+	<select id="selectC_boardClassicCount" parameterType="int" resultType="int">
+		select count(*) from c_boardClassic
+		where community_No=${communityNo}
+		order by regdate desc
+	</select>
+	
+	<select id="selectC_boardFeedAll" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		order by content_No desc
+	</select>
+	
+	<select id="selectC_boardFeedCount" parameterType="int" resultType="int">
+		select count(*) from c_boardFeed
+		where community_No=${communityNo}
+		order by regdate desc
+	</select>
+
+	<!-- 개별 커뮤니티 클래식 글 전체 보기용 -->
+	<select id="selectC_boardClassicMain" parameterType="int" resultType="C_boardClassicVO">
+		select * from c_boardClassicView
+		where community_No=#{communityNo}
+		order by content_No desc
+	</select>
+
+	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
+	<select id="selectC_boardFeedMain" parameterType="int" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		where community_No=#{communityNo}
+		order by content_No desc
+	</select>
+	
+	<!-- 개별 커뮤니티 피드 글 전체 보기용 -->
+	<select id="selectFeed" parameterType="C_boardFeedVO" resultType="C_boardFeedVO">
+		select * from c_boardFeedView
+		where community_No=#{communityNo} and board_No=#{boardNo}
+		order by content_No desc
+	</select>
+	
+	<!-- 커뮤니티 클래식 게시판 페이징 처리용 -->
+	<select id="searchC_boardClassic" parameterType="CommunitySearchVO" resultType="C_boardClassicVO">
+		select * from
+		(
+			select rownum as RNUM, A.* from
+			(
+				select rownum as currentStats, b.* from 
+				(
+                     select c.*, b.BOARD_NAME, b.BOARD_MASTER 
+                     from c_BoardClassic c left join c_Board b 
+                     on c.BOARD_NO = b.BOARD_NO
+                     where C.BOARD_NO=#{boardNo} order by content_No
+                 )B
+                <include refid="searchWhere"></include>
+				order by group_No, sortno
+			)A
+		)	
+		<![CDATA[
+		where RNUM > #{firstRecordIndex} 
+		and RNUM <= #{firstRecordIndex} + #{recordCountPerPage}
+		]]>
+	</select>
+	
+	<select id="selectTotalRecord" parameterType="CommunitySearchVo" resultType="int">
+		select count(*) from (select * from c_boardClassic where board_No=#{boardNo})  
+        <include refid="searchWhere"></include>
+	</select>
+	
+	<update id="updateClassicReadCount" parameterType="int">
+	 	update c_boardClassic
+		set readcounts=readcounts+1
+		where content_No=#{contentNo}
+	 </update>
+
+	<delete id="deleteC_boardClassic" parameterType="int">
+		delete from C_boardClassic where content_No=#{contentNo}
+	</delete>
+
+	<delete id="deleteC_boardFeed" parameterType="int">
+		delete from C_boardFeed where content_No=#{contentNo}
+	</delete>
+	
+	<insert id="insertReply" parameterType="C_boardReplyVO">
+		<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
+			select REPLY_SEQ.NEXTVAL from dual
+		</selectKey>
+		INSERT INTO C_BOARDREPLY(COMMUNITY_NO, BOARD_NO, REPLY_NO, EMP_NO, GROUP_NO, TEXT)
+		VALUES(#{communityNo}, #{boardNo}, #{replyNo}, #{empNo}, #{groupNo}, #{text});
+	</insert>
+	
+	<select id="selectC_boardReply" parameterType="C_boardReplyVO" resultType="C_boardReplyVO">
+		select * from c_boardReplyView
+		where group_No=#{groupNo} and reply_no=#{replyNo};
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.reservation.model.ReservDAO">
+	<select id="selectResrvById" parameterType="int" resultType="reservVo">
+		select * from reserv where rv_no=#{rvNo}
+	</select>
+	
+	<select id="selectReservationById" resultType="reservationVo">
+		select * from reservation where no=#{no}
+	</select>
+	
+	<select id="showReservCate" resultType="reservDtVO">
+		select * from reservDt where rvd_cate=#{rvdCate}
+	</select>
+	
+	<insert id="insertReserv" parameterType="reservationVo">
+		<selectKey resultType="int" keyProperty="no" order="BEFORE">
+			select RESERV_SEQ.nextval from dual
+		</selectKey>
+		insert into reservation(NO, START_DATE, END_DATE, START_TIME, END_TIME, SUBSCRIBER, PURPOSE, CATE_NO)
+		values(#{no},#{startDate},#{endDate},#{startTime},#{endTime},#{subscriber, jdbcType=VARCHAR},#{purpose, jdbcType=VARCHAR},#{cateNo, jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="showReservList" resultType="reservationVo">
+		select * from reservation where cate_no=#{cateNo}
+	</select>
+	
+	<select id="selectResrvAll" resultType="reservViewVO">
+		select * from reservView
+	</select>
+	
+	<select id="selectResrvViewById" resultType="reservViewVo">
+		select * from reservView where no=#{no}
+	</select>
+	
+	<delete id="deleteResev">
+		delete from reservation where no=#{no}
+	</delete>
+
+	<update id="updateReservation" parameterType="reservationVO">
+		update reservation
+		set start_date=#{startDate}, start_time=#{startTime}, end_date=#{endDate}, end_time=#{endTime},
+			subscriber=#{subscriber},purpose=#{purpose}
+		where no=#{no}
+	</update>
+</mapper>

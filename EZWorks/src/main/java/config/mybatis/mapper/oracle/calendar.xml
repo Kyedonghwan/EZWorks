@@ -6,4 +6,49 @@
 	<select id="selectAll" resultType="calendarVo">
 		select * from schedule
 	</select>
+	
+	<select id="selectBySchNo" parameterType="int" resultType="calendarVo">
+		select * from schedule where sch_no=#{schNo}
+	</select>
+	
+	<insert id="insertSch" parameterType="calendarVo">
+		<selectKey resultType="int" keyProperty="schNo" order="BEFORE">
+			select schedule_seq.nextval from dual
+		</selectKey>
+		insert into schedule(SCH_NO, SCH_TITLE, SCH_START,SCH_START_TIME, SCH_END, SCH_END_TIME, SCH_ALL,
+			 SCH_ATTEND, SCH_EXTATTEND, SCH_PLACE,  SCH_CONTENT,SCH_COLOR ,SCH_CATE)
+		values(#{schNo},#{schTitle}, #{schStart}, #{schStartTime}, #{schEnd},#{schEndTime}, #{schAll , jdbcType=VARCHAR},
+			 #{schAttend , jdbcType=VARCHAR}, #{schExtAttend}, #{schPlace},  #{schContent},
+			 #{schColor , jdbcType=VARCHAR}, #{schCate , jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertModal" parameterType="calendarVo">
+	<selectKey resultType="int" keyProperty="schNo" order="BEFORE">
+			select schedule_seq.nextval from dual
+		</selectKey>
+		insert into schedule(SCH_NO, SCH_TITLE, SCH_START,SCH_START_TIME, SCH_END, SCH_END_TIME, SCH_ALL,
+			 SCH_PLACE, SCH_COLOR ,SCH_CATE)
+		values(#{schNo}, #{schTitle}, #{schStart}, #{schStartTime}, #{schEnd},#{schEndTime}, #{schAll , jdbcType=VARCHAR},
+			  #{schPlace, jdbcType=VARCHAR},#{schColor , jdbcType=VARCHAR}, #{schCate , jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateCal" parameterType="calendarVO">
+		update schedule
+		set SCH_TITLE=#{schTitle}, SCH_START=#{schStart}, SCH_START_TIME=#{schStartTime}, SCH_END=#{schEnd}
+			, SCH_END_TIME=#{schEndTime}, SCH_ATTEND=#{schAttend , jdbcType=VARCHAR}
+			, SCH_EXTATTEND=#{schExtAttend, jdbcType=VARCHAR} , SCH_PLACE=#{schPlace},  SCH_CONTENT=#{schContent},SCH_COLOR=#{schColor , jdbcType=VARCHAR} ,SCH_CATE=#{schCate, jdbcType=VARCHAR}
+		where SCH_NO=#{schNo}
+	</update>
+	
+	<delete id="delCal" parameterType="int">
+		delete from schedule
+		where SCH_NO=#{schNo}
+	</delete>
+
+	<update id="insertColor" parameterType="int">
+		update schedule
+		set SCH_COLOR=(select SCH_COLOR from colorView where SCH_NO=#{schNo})
+		where SCH_NO=#{schNo}
+	</update>
+
 </mapper>

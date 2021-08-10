@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.it.ez.reservDt.model.ReservDtDAO">
+	<select id="selectReservDtById" parameterType="int" resultType="reservDtVo">
+		select * from reservDt where rvd_cate=#{rvdCate}
+	</select>
+	<select id="selectReservDtAll" parameterType="int" resultType="reservDtVo">
+		select * from reservDt
+	</select>
+	
+	<select id="showReservDt" parameterType="int" resultType="reservDtVo">
+		select * from reservDt where rvd_no=#{rvdNo}
+	</select>
+	
+	<update id="updateReservDt" parameterType="reservDtVo">
+		update reservDt
+		set rvd_code=#{rvdCode}, rvd_name=#{rvdName}
+		where rvd_no=#{rvdNo}
+	</update>
+</mapper>

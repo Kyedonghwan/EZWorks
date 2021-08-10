@@ -1,32 +1,46 @@
-CREATE TABLE MESSAGE (
-	RECEIVER_EMPLOYEE_NO NVARCHAR2(10), 
-	SENDER_EMPLOYEE_NO NVARCHAR2(10), 
-	MESSAGE_CONTENT NVARCHAR2(200), 
-	WRITE_DATE DATE 
+--drop table message;
+--drop SEQUENCE message_seq;
+
+CREATE TABLE message ( 
+no		    number		primary key,   
+name		varchar2(20)    not null, 
+pwd			varchar2(20)    not null, 
+content		varchar2(4000)	null, 		
+regdate		date		default  sysdate 
 );
 
-CREATE TABLE EMPLOYEE (
-	EMPLOYEE_NO NVARCHAR2(10) NOT NULL, 
-	TEAM_ID NVARCHAR2(10), 
-	EMAIL NVARCHAR2(50), 
-	EMPLOYEE_NAME NVARCHAR2(50), 
-	JOIN_DATE DATE, 
-	PASSWORD NVARCHAR2(50),
-	IS_AUTHORITY NVARCHAR2(5), 
-	LAST_LOGIN DATE, 
-	POSITION_ID NVARCHAR2(10), 
-	ROLE NVARCHAR2(10), 
-	IMAGE_URL NVARCHAR2(50) 
+create sequence message_seq
+increment by 1
+start with 1
+nocache;
+
+select * from message;
+
+CREATE TABLE send ( 
+no		    number		primary key,   
+name		varchar2(20)    not null, 
+content		varchar2(4000)	null, 		
+regdate		date		default  sysdate 
 );
 
-CREATE UNIQUE INDEX PK_EMPLOYEE
-	ON EMPLOYEE (
-		EMPLOYEE_NO ASC
-	);
+drop table send;
+drop sequence send_seq;
 
-ALTER TABLE EMPLOYEE
-	ADD
-		CONSTRAINT PK_EMPLOYEE
-		PRIMARY KEY (
-			EMPLOYEE_NO
-		);
+
+create sequence send_seq
+increment by 1
+start with 1
+nocache;
+
+create sequence schedule_seq
+increment by 1
+start with 1
+nocache;
+
+insert into send(no, name, content, regdate)
+values(send_seq.nextval, '김길수' , '테스트용 답변입니다','2021-07-26');
+
+select * from send;
+
+commit;
+

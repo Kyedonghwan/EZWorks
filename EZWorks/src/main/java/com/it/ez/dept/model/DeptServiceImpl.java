@@ -15,5 +15,10 @@ public class DeptServiceImpl implements DeptService{
 	public List<DeptVO> selectDept() {
 		return deptDao.selectDept();
 	}
+
+	@Override
+	public DeptVO selectDeptByDeptNo(int deptNo) {
+		return deptDao.selectDeptByDeptNo(deptNo);
+	}
 	
 }

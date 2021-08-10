@@ -4112,16 +4112,16 @@ var FullCalendar = (function (exports) {
             prevYear: 'prev year',
             nextYear: 'next year',
             year: 'year',
-            today: 'today',
-            month: 'month',
-            week: 'week',
-            day: 'day',
-            list: 'list',
+            today: '오늘',
+            month: '월간',
+            week: '주간',
+            day: '일간',
+            list: '목록',
         },
         weekText: 'W',
-        allDayText: 'all-day',
+        allDayText: '종일',
         moreLinkText: 'more',
-        noEventsText: 'No events to display',
+        noEventsText: '일정이 없습니다',
     };
     function organizeRawLocales(explicitRawLocales) {
         var defaultCode = explicitRawLocales.length > 0 ? explicitRawLocales[0].code : 'en';
