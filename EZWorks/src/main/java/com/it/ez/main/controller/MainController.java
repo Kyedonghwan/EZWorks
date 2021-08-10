@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ez.attendance.model.AttendanceService;
 import com.it.ez.attendance.model.AttendanceVO;
+import com.it.ez.emp.model.EmpService;
 import com.it.ez.emp.model.EmpVO;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 	private final AttendanceService attendanceService;
+	private final EmpService empService;
+	
 	@RequestMapping("/")
 	public String main(HttpSession session, Model model, @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month, @RequestParam(required = false) Integer date) {
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo"); 
@@ -56,6 +59,9 @@ public class MainController {
 		logger.info("attendanceVo = {}", attendedTime);
 		model.addAttribute("attendedTime", attendedTime);
 		model.addAttribute("endedTime", endedTime);
+		int posNo = empVo.getPosNo();
+		String posName = empService.selectPosName(posNo);
+		model.addAttribute("posName", posName);
 		
 		return "index";
 	}

@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 
 
 @Controller
-
 @RequiredArgsConstructor
 public class LoginController {
 	private static final Logger logger
@@ -49,7 +48,8 @@ public class LoginController {
 		if(result==EmpService.LOGIN_OK) {
 			EmpVO vo=empService.selectEmpByEmpNo(empNo);
 			logger.info("로그인 처리, 사원조회 결과 vo={}", vo);
-			
+			String posName = empService.selectPosName(empNo);
+			vo.setPosName(posName);
 			
 			//session 
 			HttpSession session=request.getSession();
@@ -80,5 +80,12 @@ public class LoginController {
 		model.addAttribute("url", url);
 		
 		return "common/message";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("empVo");
+		
+		return "redirect:/";
 	}
 }

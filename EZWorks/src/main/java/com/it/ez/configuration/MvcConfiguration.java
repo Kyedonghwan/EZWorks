@@ -14,9 +14,7 @@ public class MvcConfiguration implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		
-		 registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/ez/board/*", "/ez/attendance/*","/member/memberEdit","/member/memberOut");
-		
+		 registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/board/*", "/attendance/*");
 	}
 
 	@Bean

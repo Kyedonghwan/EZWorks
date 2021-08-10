@@ -15,4 +15,5 @@ public interface EmpDAO {
 	String selectPwd(int empNo);
 	EmpVO selectEmpInfo(int empNo);
 	String selectName(int empNo);
+	String selectPosName(int posNo);
 }

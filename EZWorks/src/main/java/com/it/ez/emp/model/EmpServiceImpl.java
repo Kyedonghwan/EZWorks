@@ -19,7 +19,10 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public EmpVO selectEmpByEmpNo(int empNo) {
-		return empDao.selectEmpByEmpNo(empNo);
+		String posName = empDao.selectPosName(empNo);
+		EmpVO vo = empDao.selectEmpByEmpNo(empNo);
+		vo.setPosName(posName);
+		return vo;
 	}
 	
 	@Override
@@ -48,5 +51,10 @@ public class EmpServiceImpl implements EmpService{
 	}
 	public String selectName(int empNo) {
 		return empDao.selectName(empNo);
+	}
+
+	@Override
+	public String selectPosName(int posNo) {
+		return empDao.selectPosName(posNo);
 	}
 }
