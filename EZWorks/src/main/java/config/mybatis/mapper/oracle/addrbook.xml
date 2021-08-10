@@ -10,6 +10,7 @@
 	</sql>
 	
 	<sql id="chosungWhere">
+		
 		<if test="chosung!=null and chosung!=''">
 			<if test="chosung==0">
 				where name between NCHR(45207) and NCHR(55203)
@@ -92,14 +93,19 @@
 	
 	<select id ="selectTotalRecord" parameterType="addrBookVo"
 		resultType="int">
-		select count(*) from addrbook
+		select count(*) from addrbook 	 
+					 <include refid="chosungWhere"></include>
 	</select>
 	
 	<update id="updateBook" parameterType="addrBookVo">
 		update addrbook
-		set name=#{name}, companyName=#{companyName, jdbcType=VARCHAR}, deptName=#{deptName, jdbcType=VARCHAR}, posName=#{posName, jdbcType=VARCHAR},
+		set name=#{name},companyName=#{companyName, jdbcType=VARCHAR}, deptName=#{deptName, jdbcType=VARCHAR}, posName=#{posName, jdbcType=VARCHAR},
 			email=#{email},	hp=#{hp}, corpPhone=#{corpPhone, jdbcType=VARCHAR}, zipcode=#{zipcode, jdbcType=VARCHAR}, memo=#{memo, jdbcType=VARCHAR},
 			address=#{address, jdbcType=VARCHAR},addressDetail=#{addressDetail, jdbcType=VARCHAR}
+			<if test="photoName!=null and photoName!=''">
+	 		, photoName=#{photoName},fileSize=#{fileSize},
+	 			orPhotoName=#{orPhotoName}   
+	 		</if>
 		where bookNo=#{bookNo}
 	</update>
 	

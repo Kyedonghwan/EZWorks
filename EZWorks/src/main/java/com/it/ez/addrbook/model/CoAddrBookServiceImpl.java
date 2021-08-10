@@ -21,5 +21,10 @@ public class CoAddrBookServiceImpl implements CoAddrBookService {
 	public int selectTotalRecord(CoEmpVO searchVo) {
 		return dao.selectTotalRecord(searchVo);
 	}
+
+	@Override
+	public CoEmpVO selectByEmpNo(int empNo) {
+		return dao.selectByEmpNo(empNo);
+	}
 	
 }

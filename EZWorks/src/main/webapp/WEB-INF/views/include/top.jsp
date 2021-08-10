@@ -118,7 +118,7 @@
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>자원예약</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
+						<li class="sidebar-item  "><a href="<c:url value='/addrbook/coAddrbook'/>"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>주소록</span>
 						</a></li>
 

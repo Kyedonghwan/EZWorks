@@ -1,34 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ include file="../include/top.jsp"%>
+	<%@ include file="addrmenu/addrMenu.jsp"%>
+	<%@ include file="../include/middle.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<% String ctxPath = request.getContextPath(); %>
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/addressapi.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('input[name=saveDone]').submit(function(){
-		alert('df');
-		if($('input[name=name]').val().length<1){
-			Toastify({
-	               text:"이름을 입력하세요.",
-	               duration: 2000,
-	               close:false,
-	               gravity:"top",
-	               position:"center",
-	               backgroundColor:"black",
-	            }).showToast();
-			return false;
-		}
-		
-	})
-});
-
-
 	function execPostCode() {
 		new daum.Postcode({
 			oncomplete : function(data) {
@@ -71,25 +59,68 @@ $(function(){
 			}
 		}).open();
 	}
-	function readURL(input) {
-		 if (input.files && input.files[0]) {
-		  var reader = new FileReader();
-		  
-		  reader.onload = function (e) {
-		   $('#image_section').attr('src', e.target.result);  
-		  }
-		  
-		  reader.readAsDataURL(input.files[0]);
-		  }
-		}
-		 
-		// 이벤트를 바인딩해서 input에 파일이 올라올때 위의 함수를 this context로 실행합니다.
-		$("#photoName").change(function(){
-		   readURL(this);
-		});
+	
+	$(function(){
+		$('#saveDone').click(function(){
+			if($('#name').val().length<1){
+				Toastify({
+		               text:"이름을 입력하세요.",
+		               duration: 2000,
+		               close:false,
+		               gravity:"top",
+		               position:"center",
+		               backgroundColor:"black",
+		            }).showToast();
+				
+				return false;
+			}else if($('#email').val().length<1) {
+				Toastify({
+		               text:"이메일을 입력하세요.",
+		               duration: 2000,
+		               close:false,
+		               gravity:"top",
+		               position:"center",
+		               backgroundColor:"black",
+		            }).showToast();
+				
+				return false;
+			}else if($('#hp').val().length<1){
+				Toastify({
+		               text:"휴대폰 번호를 입력하세요.",
+		               duration: 2000,
+		               close:false,
+		               gravity:"top",
+		               position:"center",
+		               backgroundColor:"black",
+		            }).showToast();
+				
+				return false;
+			}
+			
+		})
+	});
+	
+	  $(function() {
+          $("#photoName").on('change', function(){
+              readURL(this);
+          });
+      });
+
+      function readURL(input) {
+          if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+                  $('#image_section').attr('src', e.target.result);
+              }
+
+            reader.readAsDataURL(input.files[0]);
+          }
+      }
 
 
 </script>
+
 <style type="text/css">
 body {
 	font-size: 14px;
@@ -136,18 +167,17 @@ td {
 }
 
 .imgst {
-	width: 100px;
-	height: 100px;
+	width: 150px;
+	height: 150px;
 }
 
 span.requirement {
 	color: red;
 }
+
 </style>
 <body>
-	<%@ include file="../include/top.jsp"%>
-	<%@ include file="addrmenu/addrMenu.jsp"%>
-	<%@ include file="../include/middle.jsp"%>
+
 	<h3>연락처 추가</h3>
 	<br>
 	<br>
@@ -185,7 +215,7 @@ span.requirement {
 						<tr>
 							<th><span class="title">이름</span> <span class="requirement">*</span>
 							</th>
-							<td><span class="txt_edit"> <input name="name"
+							<td><span class="txt_edit"> <input name="name" id="name"
 									style="width: 60%; display: inline;" value=""
 									class="form-control" type="text">
 							</span></td>
@@ -221,13 +251,13 @@ span.requirement {
 						<tr>
 							<th><span class="title">이메일</span> <span class="requirement">*</span>
 							</th>
-							<td><span class="txt_edit"><input name="email"
+							<td><span class="txt_edit"><input name="email" id="email"
 									class="form-control" style="width: 60%; display: inline;"
 									type="text"></span></td>
 						</tr>
 						<tr>
 							<th><span class="title">휴대폰</span> <span class="requirement">*</span></th>
-							<td><span class="txt_edit"><input name="hp"
+							<td><span class="txt_edit"><input name="hp" id="hp"
 									class="form-control" style="width: 60%; display: inline;"
 									type="text"></span></td>
 						</tr>
@@ -353,7 +383,7 @@ span.requirement {
 				</table>
 			</fieldset>
 			<div class="page_action_wrap">
-				<input type="submit" id="saveDone" name="saveDone"data-bypass=""
+				<input type="submit" id="saveDone" name="saveDone" data-bypass=""
 					class="btn btn-outline-secondary" data-role="button" value="저장" />
 				<a id="saveContinueDone" data-bypass=""
 					class="btn btn-outline-secondary" data-role="button"><span
