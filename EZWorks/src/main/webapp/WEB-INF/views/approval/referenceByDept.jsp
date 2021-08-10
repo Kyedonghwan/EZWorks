@@ -74,16 +74,35 @@
 		
 		                    <div class="pt-3">
 		                        <ul class="pagination justify-content-end mb-0">
-		                            <li class="page-item disabled">
-		                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-		                            </li>
-		                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-		                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-		                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-		                            <li class="page-item">
-		                                <a class="page-link" href="#">Next</a>
-		                            </li>
-		                        </ul>
+                        	<c:if test="${pi.firstPage>1}">
+                        		 <li class="page-item">
+	                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
+	                            </li>
+                        	</c:if>
+                        	<c:if test="${pi.firstPage==1}">
+                        		<li class="page-item disabled">
+	                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
+	                            </li>
+                        	</c:if>
+                            <c:forEach var="idx" begin="${pi.firstPage}" end="${pi.lastPage}">
+	                            <c:if test="${idx==pi.currentPage}">
+	                            	<li class="page-item active"><a class="page-link" href="#">${idx}</a></li>
+	                            </c:if>
+	                            <c:if test="${idx!=pi.currentPage}">
+	                            	 <li class="page-item"><a class="page-link" href="#">${idx}</a></li>
+	                            </c:if>
+                            </c:forEach>
+                            <c:if test="${pi.lastPage<pi.totalPage}">
+                        		 <li class="page-item">
+	                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">다음</a>
+	                            </li>
+                        	</c:if>
+                        	<c:if test="${pi.lastPage==pi.totalPage}">
+                        		<li class="page-item disabled">
+	                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">다음</a>
+	                            </li>
+                        	</c:if>
+                        </ul>
 		                    </div>
 		                </div>
 		            </div>

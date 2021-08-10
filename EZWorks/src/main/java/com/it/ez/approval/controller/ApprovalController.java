@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.it.ez.approval.common.PaginationInfo;
+import com.it.ez.approval.common.SearchVO;
 import com.it.ez.approval.model.ApprovalFileVO;
 import com.it.ez.approval.model.ApprovalLineVO;
 import com.it.ez.approval.model.ApprovalService;
@@ -68,11 +70,25 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/wait")
-	public void waitApproval(Model model,HttpSession session) {
+	public void waitApproval(Model model,HttpSession session,SearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		List<Map<String,Object>> list = approvalService.selectWaitApproval(empNo);
 		
-		model.addAttribute("list",list);
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		model.addAttribute("list",list2);
+		model.addAttribute("pi",pi);
 	}
 	
 	@GetMapping("/detail")
@@ -245,12 +261,25 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/complete")
-	public void complete(Model model,HttpSession session) {
+	public void complete(Model model,HttpSession session,SearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		List<Map<String,Object>> list = null;
 		list = approvalService.selectCompleteApproval(empNo);
-		model.addAttribute("list",list);
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
 		
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		model.addAttribute("list",list2);
+		model.addAttribute("pi",pi);
 	}
 	
 	@PostMapping("/insert")
@@ -408,28 +437,83 @@ public class ApprovalController {
 	
 	@GetMapping("/reference")	
 	@Transactional
-	public String reference(Model model,HttpSession session) {
+	public String reference(Model model,HttpSession session,SearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
-		model.addAttribute("reference",approvalService.selectReferenceByEmpNo(empNo));
+		
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		List<Map<String,Object>> list =  approvalService.selectReferenceByEmpNo(empNo);
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		
+		
+		model.addAttribute("reference",list2);
 		model.addAttribute("browse",approvalService.selectBrowseByEmpNo(empNo));
 		model.addAttribute("union",approvalService.selectUnionRef(empNo));
+		model.addAttribute("pi",pi);
 		return "approval/reference";
 	}
 	
 	@GetMapping("/draft")
-	public String draft(Model model,HttpSession session) {
+	public String draft(Model model,HttpSession session,SearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
-		model.addAttribute("all",approvalService.selectDraftAll(empNo));
+		
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		List<Map<String,Object>> list =  approvalService.selectDraftAll(empNo);
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		model.addAttribute("all",list2);
 		model.addAttribute("continues",approvalService.selectDraftContinue(empNo));
 		model.addAttribute("agree",approvalService.selectDraftAgree(empNo));
 		model.addAttribute("disagree",approvalService.selectDraftDisagree(empNo));
+		model.addAttribute("pi",pi);
+		System.out.println(searchVo+"@@");
+		System.out.println(pi);
 		return "approval/draft";
 	}
 	
 	@GetMapping("/temp")
-	public String temp(Model model,HttpSession session) {
+	public String temp(Model model,HttpSession session,SearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
-		model.addAttribute("tempList",approvalService.selectTempList(empNo));
+		
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		List<Map<String,Object>> list =  approvalService.selectTempList(empNo);
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		
+		
+		model.addAttribute("tempList",list2);
+		model.addAttribute("pi",pi);
 		return "approval/temp";
 	}
 	
@@ -455,18 +539,54 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/draftByDept")
-	public String draftAgreeByDept(HttpSession session,Model model) {
+	public String draftAgreeByDept(HttpSession session,Model model,SearchVO searchVo) {
+		System.out.println(searchVo);
 		int deptNo=(int)session.getAttribute("deptNo");
-		model.addAttribute("list",approvalService.selectDraftAgreeByDept(deptNo));
+		
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		List<Map<String,Object>> list =  approvalService.selectDraftAgreeByDept(deptNo);
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		
+		model.addAttribute("list",list2);
 		model.addAttribute((String)session.getAttribute("deptName"));
+		model.addAttribute("pi",pi);
+		
 		return "approval/draftByDept";
 	}
 
 	@GetMapping("/referenceByDept")
-	public String referenceByDept(HttpSession session,Model model) {
+	public String referenceByDept(HttpSession session,Model model,SearchVO searchVo) {
 		int deptNo=(int)session.getAttribute("deptNo");
-		model.addAttribute("list",approvalService.selectReferenceByDeptNo(deptNo));
+		
+		PaginationInfo pi = new PaginationInfo();
+		pi.setCurrentPage(searchVo.getCurrentPage());
+		pi.setBlockSize(10);
+		pi.setRecordCountPerPage(10);
+		searchVo.setFirstRecordIndex(pi.getFirstRecordIndex());
+		searchVo.setRecordCountPerPage(10);
+		
+		List<Map<String,Object>> list =  approvalService.selectReferenceByDeptNo(deptNo);
+		pi.setTotalRecord(list.size());
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		for(int i=pi.getFirstRecordIndex();i<pi.getLastRecordIndex();i++) {
+			list2.add(list.get(i));
+		}
+		
+		model.addAttribute("list",list2);
 		model.addAttribute((String)session.getAttribute("deptName"));
+		model.addAttribute("pi",pi);
+		
 		return "approval/referenceByDept";
 	}
 	
