@@ -18,6 +18,7 @@ import com.it.ez.reservDt.model.ReservDtVO;
 import com.it.ez.reservation.model.ReservService;
 import com.it.ez.reservation.model.ReservVO;
 import com.it.ez.reservation.model.ReservationVO;
+import com.it.ez.reservation.model.reservViewVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +34,34 @@ public class ReservController {
 	@RequestMapping("/reservMain")
 	public void showMain() {
 		logger.info("예약메인 보여주기");
+	}
+	
+	@GetMapping("/reservSetting")
+	public void reservSet() {
+		logger.info("예약 설정 보여주기");
+	}
+	
+	@GetMapping("/reservEdit")
+	public String reservEdit(@RequestParam int no,Model model) {
+		logger.info("예약 수정 보여주기, 파라미터 no={}",no);
+		reservViewVO vo2 = reservService.selectResrvViewById(no);
+		
+		ReservationVO vo = reservService.selectReservationById(no);
+		logger.info("예약 수정 보여주기 결과, vo={}",vo);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("vo2", vo2);
+		
+		return "reservation/reservEdit";
+	}
+	
+	@PostMapping("/reservEdit")
+	public String reservEditP(@ModelAttribute ReservationVO vo) {
+		int cnt = reservService.updateReservation(vo);
+		logger.info("예약 수정 결과, cnt={}",cnt);
+		int rvdNo=Integer.parseInt(vo.getCateNo());
+		
+		return "redirect:/reservation/reservDtCategory?rvdNo="+rvdNo;
 	}
 	
 	@GetMapping("/reservCategory")
@@ -76,5 +105,35 @@ public class ReservController {
 		
 		return list;
 	}
-
+	
+	@GetMapping("/reservMain")
+	public String listReservAll(Model model){
+		logger.info("내 예약/대여상황 보여주기");
+		
+		List<reservViewVO> aList = reservService.selectResrvAll();
+		logger.info("내 예약/대여상황 보여주기 결과, aList={}",aList.size());
+		
+		model.addAttribute("aList", aList);
+		
+		return "reservation/reservMain";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteReserv")
+	public void delCal(@RequestParam(defaultValue = "0")int no) {
+		logger.info("삭제처리 no={}",no);
+		
+		int result=reservService.deleteResev(no);
+		logger.info("삭제처리 결과, result={}",result);
+	}
+	
+	@ResponseBody
+	@GetMapping("/resourcesList")
+	public List<ReservDtVO> resourcesList(@RequestParam int rvdCate) {
+		logger.info("리소스에 넣을거");
+		
+		List<ReservDtVO> list = reservService.showReservCate(rvdCate);
+		
+		return list;
+	}
 }

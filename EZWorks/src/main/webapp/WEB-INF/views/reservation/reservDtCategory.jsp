@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
  
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>"> 
+ 
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/fullcalendar-5.8.0/lib/main.css'/>" />
 <script type="text/javascript"
@@ -18,14 +20,37 @@
 		    locale : "ko",
 		    initialView: 'timeGridWeek',
 		    nowIndicator : true,
+		    selectOverlap:false,
+		    allDaySlot:false,
 		    weekends:false,
 		    headerToolbar: {
 		      left: 'prev,next',
 		      center: 'title',
 		      right: 'today'
-		    },dateClick: function() {
-		        $('#reservModal').modal('show');
-		    }, events: function(info, successCallback, failureCallback){
+		    },dateClick: function(info) {
+				var d= new Date();
+		        var today = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().substring(0,19);
+				today= new Date(today);
+				var startDate=info.dateStr;
+				startDate= new Date(startDate);
+				
+				if(startDate.getTime()-today.getTime()<0){
+					Toastify({
+		                 text: "지난 시간은 예약할 수 없습니다",
+		                 duration: 2000,
+		                 close:false,
+		                 gravity:"top",
+		                 position: "center",
+		                 backgroundColor: "black",
+		             }).showToast();
+				}else{
+		    		$('#reservModal').modal('show');
+				}
+		    }
+		    ,eventClick:function(info){
+				location.href="${pageContext.request.contextPath}/reservation/reservEdit?no="+info.event.id;
+			} 
+		    ,events: function(info, successCallback, failureCallback){
 				$.ajax({
 					type:"get",
 					url:"<c:url value='/reservation/listReservation'/>",
@@ -80,3 +105,5 @@
 			<div id='calendar'></div>
 		</div>
 </div>
+<%@ include file="../include/bottom.jsp"%>
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>

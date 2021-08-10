@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../include/top.jsp"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+
+<!--sweetalert2-->
+<link rel="stylesheet" href="sweetalert2.min.css">
 
 <link href="<c:url value='/resources/fullcalendar-scheduler-5.9.0/lib/main.css'/>" rel='stylesheet' />
 <script src="<c:url value='/resources/fullcalendar-scheduler-5.9.0/lib/main.js'/>"></script>
@@ -8,7 +12,7 @@
 	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() {
-		  var calendarEl = document.getElementById('calendar');
+		var calendarEl = document.getElementById('calendar');
 
 		  var calendar = new FullCalendar.Calendar(calendarEl, {
 		    headerToolbar: {
@@ -20,26 +24,53 @@
 		    ,locale : "ko"
 		    ,initialView: 'resourceTimelineDay'
 		    ,resourcesInitiallyExpanded:false
-		    , resourceGroupField: 'rvdName'
-		    , resources: [
-		        { id: '1', rvdName: '본사 1층 회의실', title: '도 회의실(20명)' },
-		        { id: '2', rvdName: '본사 1층 회의실', title: '레 회의실(8명)' },
-		        { id: '3', rvdName: '본사 1층 회의실', title: '미 회의실(12명)' },
-		        { id: '4', rvdName: '본사 1층 회의실', title: '데모1' },
-		        { id: '5', rvdName: '본사 1층 회의실', title: '데모2' },
-		        { id: '6', rvdName: '본사 6층 회의실', title: '01. LA Dodgers' },
-		        { id: '7', rvdName: '본사 6층 회의실', title: '02. Cincinnati Reds' },
-		        { id: '8', rvdName: '본사 6층 회의실', title: '03. NY Yankees' },
-		        { id: '9', rvdName: '본사 6층 회의실', title: '04. Boston RedSox' },
-		        { id: '10', rvdName: '본사 6층 회의실', title: '05. SF Giants' },
-		        { id: '11', rvdName: '본사 6층 회의실', title: '06. Chicago Cubs' },
-		        { id: '12', rvdName: '본사 6층 회의실', title: '07. Texas Rangers' },
-		        { id: '13', rvdName: '본사 6층 회의실', title: '08. San Diego Padres' },
-		        { id: '138', rvdName: '빔프로젝터', title: '1번 프로젝터' },
-		        { id: '139', rvdName: '빔프로젝터', title: '2번 프로젝터' },
-		        { id: '140', rvdName: '재화스퀘어 3층 회의실', title: '02. MINT' },
-		        { id: '141', rvdName: '재화스퀘어 3층 회의실', title: '03. BLUE' },
-		      ]
+		    ,resources:function(info, successCallback, failureCallback){
+		    	$('#assets').on('change',function(){
+		    		$.ajax({
+			    		type:"get",
+			    		url:"<c:url value='/reservation//resourcesList'/>",
+			    		dataType:"json",
+			    		data:"rvdCate="+$(this).val(),
+			    		success:function(res){
+			    			var resources=[];
+			    			
+			    			$.each(res, function(idx,item){
+			    				resources.push({
+			    					id:item.rvdNo,
+			    					title:item.rvdName
+			    				});
+			    			});
+			    			successCallback(resources);
+			    		},error:function(){
+			    			alert("error");
+			    		}
+		    		});
+		  	  });
+		    }
+		   , events: function(info, successCallback, failureCallback){
+				$.ajax({
+					type:"get",
+					url:"<c:url value='/reservation/listReservation'/>",
+					dataType:"json",
+					data:"cateNo="+$('#assets').val(),
+					success:function(res){
+						var events=[];
+						
+						$.each(res, function(idx,item){
+								events.push({
+									id:item.no,
+									resourceId:item.cateNo,
+									title:item.subscriber,
+									start:item.startDate+"T"+item.startTime,
+									end:item.endDate+"T"+item.endTime
+								});
+						});
+						successCallback(events);
+					},error:function(){
+						alert("error");
+					}
+				});
+				}
 		   ,dateClick: function(info) {
 		    	  $('#reservModal').modal('show');
 		    }
@@ -47,7 +78,6 @@
 
 		  calendar.render();
 		});
-
 
 </script>
 <style type="text/css">
@@ -112,10 +142,13 @@ thead {
     ext-align: left;
 }
 .type_normal td {
-    padding: 8px 16px;
+    padding: 10px 16px;
     line-height: 1.6;
     border-bottom: 1px solid #eee;
-    vertical-align: top;
+    vertical-align: middle;
+}
+.last:hover{
+	background-color: #EAEAEA;
 }
 p.data_null {
     text-align: center;
@@ -126,9 +159,23 @@ p.data_null {
 #calendar{
 	height: 250px;
 }
+.btn_fn7 {
+    display: inline-block;
+    height: 25px;
+    line-height: 18px;
+    padding: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 14px;
+}
+.optional{
+	float:right;
+}
 </style>
-	<%@ include file="../include/top.jsp"%>
-	<%@ include file="reservModal.jsp" %>
 	<%@include file="sidebarReserv.jsp"%>
 	<%@ include file="../include/middle.jsp"%>
 	<div class="card-header">
@@ -136,6 +183,14 @@ p.data_null {
 			<h1>
 				<span class="txt">자산 예약 현황</span>
 			</h1>
+			<!-- <div class="optional">
+      			<select id="assets">
+       				<option value="1">본사 1층 회의실</option>
+					<option value="2">본사 6층 회의실</option>
+					<option value="3">빔프로젝터</option>
+					<option value="5">재화스퀘어 3층 회의실</option>
+				</select>
+    		</div> -->
 		</header>
 	</div>
 	<div class="card-body" style="height: 100%;">
@@ -143,7 +198,7 @@ p.data_null {
 		<div class="content_page go_renew">
 
 			<!-- 예약대시보드 -->
-			<div id='calendar'></div>
+			<!-- <div id='calendar'></div> -->
 			
 			
 			<div class="dashboard_asset">
@@ -162,13 +217,35 @@ p.data_null {
 							</tr>
 						</thead>
 						<tbody id="myCondition">
-							<tr class="last">
-								<td colspan="5" class="last">
-									<p class="data_null">
-										<span>예약/대여 중인 항목이 없습니다.</span>
-									</p>
-								</td>
-							</tr>
+							<c:if test="${empty aList }">
+								<tr class="last">
+									<td colspan="5" class="last">
+										<p class="data_null">
+											<span>예약/대여 중인 항목이 없습니다.</span>
+										</p>
+									</td>
+								</tr>
+							</c:if>
+							<c:if test="${!empty aList }">
+								<c:forEach var="vo" items="${aList }">
+									<tr class="last">
+										<td class="equip">
+											<span class="tdSpan">${vo.rvName }</span>
+										</td>
+										<td class="name">
+											<span class="tdSpan">${vo.rvdName }</span>
+										</td>
+										<td class="date">
+											<span class="tdSpan">
+											${vo.startDate } ${vo.startTime } ~ ${vo.endDate } ${vo.endTime }
+											</span>
+										</td>
+										<td class="action">
+											<button class="btn_fn7 delBtn" value="${vo.no }">취소</button>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:if>
 						</tbody>
 					</table>
 					<!-- //테이블 -->
@@ -177,4 +254,34 @@ p.data_null {
 			<!-- //예약대시보드 -->
 		</div>
 	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<script>
+	$(document).ready(function(){
+		 $('.delBtn').click(function(){
+		    	Swal.fire({
+		    		  title: '일정을 삭제하시겠습니까?',
+		    		  icon: 'error',
+		    		  showCancelButton: true,
+		    		  confirmButtonColor: '#4374D9',
+		    		  cancelButtonColor: '#BDBDBD',
+		    		  confirmButtonText: '삭제'
+		    		}).then((result) => {
+		    		  if (result.isConfirmed) {
+			    		      $.ajax({
+			    				type:"get",
+			    				url:"<c:url value='/reservation/deleteReserv'/>",
+			    				data: "no="+$('.delBtn').val(),
+			    				success:function(){
+			    					location.href="<c:url value='/reservation/reservMain'/>";
+			    				}
+			    			});
+		    		  }
+		    		});
+		    });
+	});
+	</script>
+<%@ include file="reservModal.jsp" %>
+	
+
 <%@ include file="../include/bottom.jsp"%>

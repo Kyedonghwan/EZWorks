@@ -100,6 +100,10 @@ public class CalController {
 		
 		int cnt=calendarService.insertModal(vo);
 		logger.info("modal에서 일정등록 결과, cnt={}",cnt);
+		if(cnt>0) {
+			int color=calendarService.insertColor(vo.getSchNo());
+			logger.info("색넣기,color={}",color);
+		}
 		
 		return "redirect:/calendar/calendarMain";
 	}
