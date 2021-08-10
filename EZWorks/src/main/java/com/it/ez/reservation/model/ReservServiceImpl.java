@@ -33,4 +33,29 @@ public class ReservServiceImpl implements ReservService {
 		return reservDao.showReservList(cateNo);
 	}
 
+	@Override
+	public List<reservViewVO> selectResrvAll() {
+		return reservDao.selectResrvAll();
+	}
+
+	@Override
+	public int deleteResev(int no) {
+		return reservDao.deleteResev(no);
+	}
+
+	@Override
+	public ReservationVO selectReservationById(int no) {
+		return reservDao.selectReservationById(no);
+	}
+
+	@Override
+	public reservViewVO selectResrvViewById(int no) {
+		return reservDao.selectResrvViewById(no);
+	}
+
+	@Override
+	public int updateReservation(ReservationVO vo) {
+		return reservDao.updateReservation(vo);
+	}
+
 }

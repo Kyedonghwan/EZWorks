@@ -1,14 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<link href="<c:url value='/resources/fullcalendar-scheduler-5.9.0/lib/main.css'/>" rel='stylesheet' />
+<script src="<c:url value='/resources/fullcalendar-scheduler-5.9.0/lib/main.js'/>"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script>
-	$(function(){
+	/* $(function(){
 		$('.txt_b').click(function(){
 			location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$(this).children('input').val();
 		});
-	});
+		
+		$('.txt_c').click(function(){
+			location.href="${pageContext.request.contextPath}/reservation/reservModify?rvdNo="+$(this).children('input').val();
+		}); */
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+
+			  var calendar = new FullCalendar.Calendar(calendarEl, {
+			    headerToolbar: {
+			      left: 'prev,next',
+			      center: 'title',
+			      right: 'today'
+			    },
+			    nowIndicator: true
+			    ,locale : "ko"
+			    ,initialView: 'resourceTimelineDay'
+			    ,resourcesInitiallyExpanded:false
+			    ,resources:function(info, successCallback, failureCallback){
+			    		$.ajax({
+				    		type:"get",
+				    		url:"<c:url value='/reservation//resourcesList'/>",
+				    		dataType:"json",
+				    		data:"rvdCate="+$('#rvNo').val(),
+				    		success:function(res){
+				    			var resources=[];
+				    			
+				    			$.each(res, function(idx,item){
+				    				resources.push({
+				    					id:item.rvdNo,
+				    					title:item.rvdName
+				    				});
+				    			});
+				    			successCallback(resources);
+				    		},error:function(){
+				    			alert("error");
+				    		}
+			    		});
+			    }
+			   , events: function(info, successCallback, failureCallback){
+					$.ajax({
+						type:"get",
+						url:"<c:url value='/reservation/listReservation'/>",
+						dataType:"json",
+						data:"cateNo="+$('#rvNo').val(),
+						success:function(res){
+							var events=[];
+							
+							$.each(res, function(idx,item){
+									events.push({
+										id:item.no,
+										resourceId:item.cateNo,
+										title:item.subscriber,
+										start:item.startDate+"T"+item.startTime,
+										end:item.endDate+"T"+item.endTime
+									});
+							});
+							successCallback(events);
+						},error:function(){
+							alert("error");
+						}
+					});
+					}
+			   ,dateClick: function(info) {
+			    	  $('#reservModal').modal('show');
+			    }
+			  });
+
+			  calendar.render();
+			});
+	/* }); */
 </script>
 <style>
 .go_skin_advanced .content_top {
@@ -86,7 +159,7 @@ tr {
 }
 </style>
 <%@ include file="../include/top.jsp"%>
-
+<%@ include file="reservModal.jsp" %>
 <%@include file="sidebarReserv.jsp"%>
 <%@ include file="../include/middle.jsp"%>
 <input type="hidden" value="${param.rvNo}" name="rvNo" id="rvNo">
@@ -124,7 +197,7 @@ tr {
 		</ul>	
 	</div>
 
-    
+    <!-- <div id='calendar'></div> -->
 
 	<div class="dataTables_wrapper">
 		<!-- 테이블 -->		
@@ -164,7 +237,10 @@ tr {
 								<input type="hidden" class="inputReserv" value="${dtVo.rvdNo }" style="width: 0px; height: 0px;">
 								예약</span></a></td>
 							<td class="action2"><a class="btn_fn7" data-bypass=""
-								data-btntype="settingItem" data-id="12">설정</a></td>
+								data-btntype="settingItem" data-id="12">
+								<span class="txt_c">
+								<input type="hidden" class="inputReserv" value="${dtVo.rvdNo }" style="width: 0px; height: 0px;">
+								설정</span></a></td>
 						</tr>
 					</c:forEach>
 			</tbody>

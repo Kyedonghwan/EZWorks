@@ -23,12 +23,51 @@
 			location.href="${pageContext.request.contextPath}/reservation/reservCategory?rvNo="+$(this).children('input').val();
 		});
 		
-		$('.spanReservDt').click(function(){
-			location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$(this).children('input').val();
+		$('.setting').click(function(){
+			location.href="${pageContext.request.contextPath}/reservation/reservSetting?rvdNo="+$(this).siblings().children('input').val();
 		});
+		
+		var param=$('.span1')
+		
+		$.ajax({
+			url:"<c:url value='/sidebarList'/>",
+			type:"get",
+			dataType:"json",
+			success:function(res){
+				var list="";
+				$.each(res, function(idx,item){
+					list= "<li class='classic'>"+"<p class='title'>"+"<a class='go_boards'>"
+						+"<span class='spanReservDt'>"
+						+"<input type='hidden' class='inputReserv' value='"+item.rvdNo+"' style='width: 0px; height: 0px;'>"
+						+item.rvdName+"</span></a></p></li>";
+				
+				if(item.rvdCate==1){
+					$('.span1').append(list);
+				}else if(item.rvdCate==2){
+					$('.span2').append(list);
+				}else if(item.rvdCate==3){
+					$('.span3').append(list);
+				}else if(item.rvdCate==5){
+					$('.span5').append(list);
+				}
+				});
+				$('.spanReservDt').click(function(){
+					location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$(this).children('input').val();
+				});
+			},error:function(){
+				alert("error");
+			}
+		});
+		
 	});
 </script>
 <style>
+ul.side_depth li p.on > a > span.txt, ul.side_depth li p.on > a > span.contactTag, section.lnb ul.side_depth li p.on:hover > a > span.txt {
+    display: inline-block;
+    color: #00a1b9;
+    font-weight: bold;
+    font-weight: 500;
+}
 body, input, textarea, select {
     font-size: 14px;
     font-family: 'Noto Sans KR',맑은 고딕,돋움, malgun gothic, dotum,AppleGothic,Helvetica,sans-serif;
@@ -61,14 +100,27 @@ ul li{
 	padding: 0
 }
 .side_depth{
-	padding-left:10px;
+	padding-left:1px;
 }
 .title1{
 	font-weight: bold;
 }
+.txt {
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: -1px;
+}
 </style>
-<div class="card-body" style="height: 600px;">
 	<div id="area">
+	
+	<div class="card-header">
+		<header class="content_top">
+		<h1>
+			<span class="txt"><a href="<c:url value='/reservation/reservMain'/>">예약</a></span>
+		</h1>
+		</header>
+	</div>
+	<div class="card-body" style="height: 600px;width: 104%">
 		<section id="assetSide" class="lnb">
 			<h1 class="company " data-id="10">
 				<span class="fa-fw select-all fas"></span> <a
@@ -83,55 +135,12 @@ ul li{
 							<span class="spanReserv">
 								<input type="hidden" class="inputReserv" value="1" style="width: 0px; height: 0px;">
 										본사 1층 회의실
-							</span></a>
+							</span>
+							<img src="<c:url value='/resources/vendors/bootstrap-icons/gear.svg'/>" style="float:right;margin-top: 3px" class="setting">
+							</a>
 						</p>
 						<ul class="board-tree-nodes">
-							<li class="classic" data-id="1" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="1" title="도 회의실(20명)"
-										data-parent="2" data-bypass=""><ins class="ic"></ins>
-										<span class="spanReservDt">
-										<input type="hidden" class="inputReserv" value="1" style="width: 0px; height: 0px;">
-										도 회의실(20명)
-										</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="2" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="2" title="레 회의실(8명)"
-										data-parent="11" data-bypass=""><ins class="ic"></ins>
-										<span class="spanReservDt">
-										<input type="hidden" class="inputReserv" value="2" style="width: 0px; height: 0px;">
-										레 회의실(8명)</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="1" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="3" title="미 회의실(12명)"
-										data-parent="11" data-bypass=""><ins class="ic"></ins>
-										<span class="spanReservDt">
-										<input type="hidden" class="inputReserv" value="3" style="width: 0px; height: 0px;">
-										미 회의실(12명)</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="1" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="4" title="데모1" data-parent="11"
-										data-bypass=""><ins class="ic"></ins>
-										<span class="spanReservDt">
-										<input type="hidden" class="inputReserv" value="4" style="width: 0px; height: 0px;">
-										데모1</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="1" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="5" title="데모2" data-parent="11"
-										data-bypass=""><ins class="ic"></ins>
-										<span class="spanReservDt">
-										<input type="hidden" class="inputReserv" value="5" style="width: 0px; height: 0px;">
-										데모2</span></a>
-								</p>
-							</li>
+							<span class="span1"></span>
 						</ul>
 					</li>
 					<li class="classic" data-id="12" data-type="false">
@@ -141,66 +150,13 @@ ul li{
 								data-bypass=""><ins class="ic"></ins>
 								<span class="spanReserv">
 								<input type="hidden" class="inputReserv" value="2" style="width: 0px; height: 0px;">
-								본사 6층 회의실</span></a>
+								본사 6층 회의실</span>
+								<img src="<c:url value='/resources/vendors/bootstrap-icons/gear.svg'/>"style="float:right;margin-top: 3px" class="setting">
+								</a>
 						</p>
 						<ul class="board-tree-nodes">
-							<li class="classic" data-id="17" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="17" title="01. LA Dodgers"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">01. LA Dodgers</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="18" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="18" title="02. Cincinnati Reds"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">02. Cincinnati Reds</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="19" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="19" title="03. NY Yankees"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">03. NY Yankees</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="20" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="20" title="04. Boston RedSox"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">04. Boston RedSox</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="21" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="21" title="05. SF Giants"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">05. SF Giants</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="22" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="22" title="06. Chicago Cubs"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">06. Chicago Cubs</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="23" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="23" title="07. Texas Rangers"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">07. Texas Rangers</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="24" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="24" title="08. San Diego Padres"
-										data-parent="12" data-bypass=""><ins class="ic"></ins><span
-										class=" ">08. San Diego Padres</span></a>
-								</p>
-							</li>
-							</ul>
+							<span class="span2"></span>
+						</ul>
 					</li>
 					<li class="classic" data-type="false">
 						<p class="title1">
@@ -209,23 +165,12 @@ ul li{
 								data-bypass=""><ins class="ic"></ins>
 								<span class="spanReserv">
 								<input type="hidden" class="inputReserv" value="3" style="width: 0px; height: 0px;">
-								빔프로젝터</span></a>
+								빔프로젝터</span>
+								<img src="<c:url value='/resources/vendors/bootstrap-icons/gear.svg'/>"style="float:right;margin-top: 3px" class="setting">
+								</a>
 						</p>
 						<ul class="board-tree-nodes">
-							<li class="classic" data-id="130" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="130" title="1번 프로젝터"
-										data-parent="50" data-bypass=""><ins class="ic"></ins><span
-										class=" ">1번 프로젝터</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="131" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="131" title="2번 프로젝터"
-										data-parent="50" data-bypass=""><ins class="ic"></ins><span
-										class=" ">2번 프로젝터</span></a>
-								</p>
-							</li>
+							<span class="span3"></span>
 						</ul>
 					</li>
 					<li class="classic" data-id="51" data-type="false">
@@ -235,7 +180,9 @@ ul li{
 								data-bypass=""><ins class="ic"></ins>
 								<span class="spanReserv">
 								<input type="hidden" class="inputReserv" value="4" style="width: 0px; height: 0px;">
-								차량예약</span></a>
+								차량예약</span>
+								<img src="<c:url value='/resources/vendors/bootstrap-icons/gear.svg'/>"style="float:right;margin-top: 3px" class="setting">
+								</a>
 						</p>
 					</li>
 					<li class="classic" data-id="52" data-type="false">
@@ -245,23 +192,12 @@ ul li{
 								data-parent="" data-bypass=""><ins class="ic"></ins>
 								<span class="spanReserv">
 								<input type="hidden" class="inputReserv" value="5" style="width: 0px; height: 0px;">
-								재화스퀘어 3층 회의실</span></a>
+								재화스퀘어 3층 회의실</span>
+								<img src="<c:url value='/resources/vendors/bootstrap-icons/gear.svg'/>"style="float:right;margin-top: 3px" class="setting">
+								</a>
 						</p>
 						<ul class="board-tree-nodes">
-							<li class="classic" data-id="137" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="137" title="02. MINT"
-										data-parent="52" data-bypass=""><ins class="ic"></ins><span
-										class=" ">02. MINT</span></a>
-								</p>
-							</li>
-							<li class="classic" data-id="138" data-type="false">
-								<p class="title">
-									<a class="go_boards" data-id="138" title="03. BLUE"
-										data-parent="52" data-bypass=""><ins class="ic"></ins><span
-										class=" ">03. BLUE</span></a>
-								</p>
-							</li>
+							<span class="span5"></span>
 						</ul>
 					</li>
 				</ul>

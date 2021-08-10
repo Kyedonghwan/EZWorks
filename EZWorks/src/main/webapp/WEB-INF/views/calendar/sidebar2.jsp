@@ -30,23 +30,14 @@
 			success:function(res){
 				var list="";
 					$.each(res, function(idx,item){
-						list += "<li>"+"<input type='checkbox' class='form-check-input cateChk' value='"+item.schCateNo+"'>"+"<label id='cateName'>"+
+						list += "<li>"+"<label id='cateName'>"+
 						item.schCateName+"</label>"
 						+ "<input type='color' class='color' value='"+item.schColor+"'>"+"</li>";
 					});
 				console.log(list);
 				$('.panel').append(list);
-				$('.cateChk').change(function(){
-					if($('.cateChk').is(':checked')){
-						alert("ttt");
-						console.log($(this).val());
-					}
-				});
-				/* var c = document.getElementById("color2"),
-				res = document.getElementById("colorResult");
-				c.addEventListener("input", function(){
-					res.innerHTML = c.value;
-				},true); */
+				
+				
 			},error:function(xhr, status, error){
 				alert("에러");	
 			}
@@ -58,7 +49,7 @@
 		});
 		
 		$('#addMyCal').click(function(){
-			$('#insertMyCal').modal('show');
+			$('#addMyCal').append($('#insertMyCal').modal('show'));
 		});
 		
 		
@@ -81,10 +72,12 @@ ul, li {
 }
 
 .color {
-	width: 15%;
-	height: 20px;
-	border: 0px;
-	border-radius: 10px;
+	width: 3rem;
+    height: 3rem;
+    padding: .5rem;
+    background-color: transparent;
+    border: 0;
+    border-radius: 100%;
 }
 
 

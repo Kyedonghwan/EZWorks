@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ include file="../include/top.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
@@ -7,13 +8,16 @@
 
 <!-- timepicker -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-
+<!--sweetalert2-->
+<link rel="stylesheet" href="sweetalert2.min.css">
 
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
- <script type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script type="text/javascript">
     $(document).ready(function () {
+    	
     	$.datepicker.setDefaults($.datepicker.regional['ko']); 
     	$( "#startDate" ).datepicker({
                  changeMonth: true, 
@@ -49,59 +53,36 @@
                      // 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
                      $("#startDate").datepicker( "option", "maxDate", selectedDate );
                  }    
- 
             });
             
-            $('#modal_ok').click(function(){
-           	 $('form[name=writeReserv]').submit();
-           });
+            $('#delBtn').click(function(){
+		    	Swal.fire({
+		    		  title: '일정을 삭제하시겠습니까?',
+		    		  icon: 'error',
+		    		  showCancelButton: true,
+		    		  confirmButtonColor: '#4374D9',
+		    		  cancelButtonColor: '#BDBDBD',
+		    		  confirmButtonText: '삭제'
+		    		}).then((result) => {
+		    		  if (result.isConfirmed) {
+			    		      $.ajax({
+			    				type:"get",
+			    				url:"<c:url value='/reservation/deleteReserv'/>",
+			    				data: "no="+$('#paramNo').val(),
+			    				success:function(){
+			    					location.href="<c:url value='/reservation/reservMain'/>";
+			    				}
+			    			});
+		    		  }
+		    		});
+		    });
+            
+            $('#re').click(function(){
+            	location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$('#cateNo').val();
+            });
     });
 </script>
 <style>
-.writeLabel{
-	width: 15%;
-	float: left;
-	text-align: left;
-	padding: 5px 10px 20px 10px;
-	clear: left;		
-}
-.writeLabel1{
-	width: 10%;
-	float: left;
-	text-align: left;
-	padding: 5px 0 20px 10px;
-	clear: left;
-}
-@media screen { 
-        .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 25%;
-        }
-}
-.modal-body{
-	margin-top: 7px;
-}
-
-.modal-dialog {
-        display: inline-block;
-        text-align: left;
-        vertical-align: middle;
-}
-.modal {
-        text-align: center;
-}
-.input{
-	 	width: 55%;
-		height: 1.5em;
-		font-size: 0.9em;
-		margin : 5px 0 20px 0;
-}
-.chkbox{
-	margin : 10px 0 25px 0;
-}
-
 #startDate, #endDate, #startTime, #endTime {
 	width: 18%;
 	height: 30px;
@@ -117,25 +98,6 @@
 	display: inline-block;
 	border: 1px solid #CFCFCF;
 }
-#title {
-	width: 70%;
-	display: inline-block;
-	margin-right: 10px;
-	border: 1px solid #CFCFCF;
-	padding: .2rem .75rem;
-}
-.registerDiv {
-	margin: 10px 0 15px 0;
-	height: 28%;
-}
-#place {
-	width: 70%;
-	height: 30px;
-	display: inline-block;
-	margin-right: 10px;
-	border: 1px solid #CFCFCF;
-	padding: .2rem .75rem;
-}
 #basicSelect {
 	width: 13%;
 	height: 34px;
@@ -150,26 +112,89 @@
 	width: 14%;
 	padding: 3px 3px 3px 3px;
 }
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+.go_skin_advanced .content_top {
+    padding: 25px 24px;
+}
+.go_renew table.form_type>tbody td {
+    padding: 4px 24px 4px 0;
+}
+.txt {
+    display: inline;
+    min-height: 13px;
+    margin: 0 8px 0 0;
+}
+.form_type {
+    margin: 8px 0;
+    width: 100%;
+}
+.page_action_wrap {
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+table.form_type>tbody>tr>th {
+    padding-left: 24px;
+    height: 65px;
+    width: 140px;
+}
+
+table.form_type tbody th {
+    text-align: left;
+    vertical-align: middle;
+    font-weight: normal;
+}
+table.form_type>tbody th, table.form_type>tbody td {
+    padding: 8px;
+}
+.go_renew input.txt {
+    min-width: 40px;
+}
+.go_renew input.txt {
+    padding: 0 8px;
+    height: 26px;
+}
+.go_renew input.txt, .go_renew textarea {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.w_max {
+    width: 100%;
+    height: 10%;
+}
 </style>
-<div class="modal" id="reservModal">
-	<form name="writeReserv" action="<c:url value='/reservation/reservModal'/>" method="post">
-		<div class="modal-dialog">
-				<input type="hidden" name="cateNo" value="${param.rvdNo }">
-					<div class="modal-content" style="width:750px;height: 360px">
-						<div class="modal-header">
-							<h5 class="modal-title">예약</h5>
-							<button type="button" class="btn-close approvalInfoModalClose" data-bs-dismiss="modal" aria-label="Close" ></button>
-							<button type="button" class="close rounded-pill"
-								data-bs-dismiss="modal" aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="registerDiv">
-								<label class="writeLabel">예약일</label>
+
+
+<%@include file="sidebarReserv.jsp"%>
+<%@ include file="../include/middle.jsp"%>
+<div class="go_content" id="content">
+	<div class="card-header">
+	<header class="content_top">
+		<h1>
+			<span class="txt" id="assetName">${vo2.rvdName}</span>
+		</h1>
+	</header>
+	</div>
+		<!--목록:-->
+		<div class="card-body" style="height: 100%;">
+		<form name="editReservFrm" action="<c:url value='/reservation/reservEdit'/>" method="post">
+		<div class="content_page" >
+			<input type="hidden" name="no" id="paramNo" value="${param.no }">
+			<input type="hidden" name="cateNo" id="cateNo" value="${vo.cateNo }">
+			<table class="form_type form_add02">
+				<tbody>
+					<tr>
+						<th class="col1"><span class="title">예약일</span></th>
+						<td>
 								<input type="text" id="startDate" name="startDate"
-									class="form-control round" value=""> 
-								<select class="form-select" id="basicSelect" id="startTime" name="startTime">
+									class="form-control round" value="${vo.startDate }"> 
+								<select class="form-select" id="basicSelect" id="startTime" name="startTime" value="${vo.startTime }">
                                 	<option value="00:00">00:00</option>
 									<option value="00:30">00:30</option>
 									<option value="01:00">01:00</option>
@@ -221,8 +246,8 @@
                         	</select>
 								<label for="to">~</label> 
 								<input type="text" id="endDate" name="endDate" 
-									class="form-control round">
-								<select class="form-select" id="basicSelect" id="endTime" name="endTime" >
+									class="form-control round" value="${vo.endDate }">
+								<select class="form-select" id="basicSelect" id="endTime" name="endTime" value="${endTime }">
                                 	<option value="00:00">00:00</option>
 									<option value="00:30">00:30</option>
 									<option value="01:00">01:00</option>
@@ -272,33 +297,45 @@
 									<option value="23:00">23:00</option>
 									<option value="23:30">23:30</option>
                         	</select>
-								&nbsp;
+							</td>
+					</tr>
+
+					<tr>
+						<th><span class="title">예약자</span></th>
+						<td>
+							<div class="wrap_name_tag">
+									<span id="addAttend">
+									<input type='text' class='tree' name='subscriber' value="${vo.subscriber }">
+									</span>
+									&nbsp;
+									<span class="fa-fw select-all fas"></span>
+									<span id="selectAttend">변경</span>
 							</div>
-							<div class="registerDiv">
-								<label class="writeLabel">예약자</label> 
-								<span id="addAttend"></span>
-								<img src="<c:url value='/resources/images/accordion/plus.svg'/>"> 
-								<span id="selectAttend">예약자선택</span>
-								</div>
-							<div>
-								<label class="writeLabel">목적</label>
-								<input type="text" id="place" name="purpose" class="form-control round">
+						</td>
+					</tr>
+
+					<tr data-type="attribute" data-id="20">
+						<th><span class="title">목적</span></th>
+						<td>
+							<div class="wrap_txt">
+								<input class="txt1 w_max form-control round" type="text" name="purpose" value="${vo.purpose }">
 							</div>
-						</div>
-						<div class="modal-footer">
-							<input type="submit" id="modal_ok" class="btn btn-primary ml-1"
-								data-bs-dismiss="modal" value="확인">
-								<i class="bx bx-check d-block d-sm-none"></i> 
-							<button type="button" class="btn btn-light-primary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">닫기</span>
-							</button>
-						</div>
-					</div>
-				</div>
-	</form>
-</div>
+						</td>
+					</tr>
+					<tr class="line">
+						<td colspan="2"><hr></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="page_action_wrap">
+				<input type="button" class="btn btn-primary ml-1" id="re" value="목록으로 돌아가기">
+			<input type="submit" class="btn btn-light-primary" id="editBtn" value="예약 수정하기">
+			<input type="button" class="btn btn-light-primary" id="delBtn" value="예약 삭제하기">
+			</div>
+		</div>
+		</form>
+		</div>
+	</div>
 <%@include file="testModal.jsp" %>
 <script>
 	$(document).ready(function(){
@@ -307,7 +344,7 @@
 			
 			$('#tree2 a').click(function(){
 				console.log($('#tree2 a').text());
-				$('#addAttend').html("<input type='text' class='tree' name='subscriber' value='"+$(this).text()+"'>&nbsp;&nbsp; ");
+				$('#addAttend').html("<input type='text' class='tree' name='subscriber' value='"+$(this).text()+"'>");
 				$('.tree').click(function(){
 					$(this).remove();
 				});
@@ -317,5 +354,4 @@
 	});
 
 </script>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>

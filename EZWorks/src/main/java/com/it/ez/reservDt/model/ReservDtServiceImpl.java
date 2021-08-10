@@ -20,4 +20,14 @@ public class ReservDtServiceImpl implements ReservDtService{
 	public ReservDtVO showReservDt(int rvdNo) {
 		return reservDtDao.showReservDt(rvdNo);
 	}
+
+	@Override
+	public int updateReservDt(ReservDtVO vo) {
+		return reservDtDao.updateReservDt(vo);
+	}
+
+	@Override
+	public List<ReservDtVO> selectReservDtAll() {
+		return reservDtDao.selectReservDtAll();
+	}
 }
