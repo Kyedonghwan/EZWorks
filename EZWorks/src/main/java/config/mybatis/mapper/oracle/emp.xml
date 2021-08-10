@@ -26,10 +26,10 @@
 		select emp_name from emp where emp_no=#{empNo}
 	</select>
 	<select id="selectPosName" parameterType="int" resultType="String">
-		select pos_name from position where pos_no = #{posNo}
+		select pos_name from position p left join emp e on p.pos_no = e.pos_no where e.emp_no=#{empNo}
 	</select>
 	<select id="selectDeptName" parameterType="int" resultType="String">
-		select dept_name from dept where dept_no = #{deptNo}
+		select dept_name from dept d left join emp e on d.dept_no = e.dept_no where e.emp_no = #{empNo}
 	</select>
 </mapper>
 

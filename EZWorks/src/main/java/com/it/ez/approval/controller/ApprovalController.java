@@ -282,7 +282,6 @@ public class ApprovalController {
 			@RequestParam String alDeptNo,@RequestParam String alOrderNo,@RequestParam String referenceEmpNo,HttpSession session,
 			@RequestParam String referenceDeptNo,@RequestParam String browseEmpNo,@RequestParam String receptionEmpNo,@RequestParam(defaultValue="0") int tempApprovalNo,HttpServletRequest request,@RequestParam String raapprovalNo,@RequestParam String raapprovalName) {
 		
-		System.out.println(approvalVo);
 		int empNo=(int)session.getAttribute("empNo");
 		int deptNo=(int)session.getAttribute("deptNo");
 		if(tempApprovalNo!=0) {
@@ -295,6 +294,7 @@ public class ApprovalController {
 		approvalVo.setEmpNo(empNo);
 		approvalVo.setDeptNo(deptNo);
 		
+		System.out.println(approvalVo);
 		approvalService.insertApproval(approvalVo);
 		
 		int approvalNo=approvalVo.getApprovalNo();

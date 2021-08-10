@@ -7,7 +7,8 @@
 		<selectKey resultType="int" keyProperty="approvalNo" order="BEFORE">
 			select approval_seq.nextval from dual
 		</selectKey>
-		insert into approval values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo},sysdate,#{deptNo},#{form3Title,jdbcType=VARCHAR},#{form3Content,jdbcType=VARCHAR},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder},#{form20Div,jdbcType=VARCHAR},#{form20Startdate,jdbcType=VARCHAR},#{form20A,jdbcType=VARCHAR},#{form20B,jdbcType=VARCHAR},#{form20C,jdbcType=VARCHAR},#{form20D,jdbcType=VARCHAR},#{form20E,jdbcType=VARCHAR},#{form20Description,jdbcType=VARCHAR},null)
+		insert into approval(APPROVAL_NO, APPROVAL_STRINGNO, FORM_NO, EMP_NO, DEPT_NO, FORM3_TITLE, FORM3_CONTENT, CURRENT_STATE, EMERGENCY, APPROVAL_DRAFTINGOPINION, CURRENTORDER, FORM20_DIV, FORM20_STARTDATE, FORM20_A, FORM20_B, FORM20_C, FORM20_D, FORM20_E, FORM20_DESCRIPTION, COMPLETE_CONTENT)
+		values(#{approvalNo},#{approvalStringNo},#{formNo},#{empNo}, #{deptNo},#{form3Title,jdbcType=VARCHAR},#{form3Content,jdbcType=VARCHAR},#{currentState},#{emergency},#{approvalDraftingOpinion},#{currentOrder},#{form20Div,jdbcType=VARCHAR},#{form20Startdate,jdbcType=VARCHAR},#{form20A,jdbcType=VARCHAR},#{form20B,jdbcType=VARCHAR},#{form20C,jdbcType=VARCHAR},#{form20D,jdbcType=VARCHAR},#{form20E,jdbcType=VARCHAR},#{form20Description,jdbcType=VARCHAR},null)
 	</insert>
 	
 	<insert id="insertApprovalLine" parameterType="ApprovalLineVO">
