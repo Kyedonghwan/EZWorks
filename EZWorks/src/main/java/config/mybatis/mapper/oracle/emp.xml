@@ -28,6 +28,9 @@
 	<select id="selectPosName" parameterType="int" resultType="String">
 		select pos_name from position where pos_no = #{posNo}
 	</select>
+	<select id="selectDeptName" parameterType="int" resultType="String">
+		select dept_name from dept where dept_no = #{deptNo}
+	</select>
 </mapper>
 
 

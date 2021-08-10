@@ -1,6 +1,5 @@
 package com.it.ez.login.controller;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,12 +49,18 @@ public class LoginController {
 			logger.info("로그인 처리, 사원조회 결과 vo={}", vo);
 			String posName = empService.selectPosName(empNo);
 			vo.setPosName(posName);
+			int deptNo = vo.getDeptNo();
+			String deptName = empService.selectDeptName(deptNo);
+			
 			
 			//session 
 			HttpSession session=request.getSession();
 			session.setAttribute("empNo", empNo); //사원번호(아이디)
 			session.setAttribute("empName", vo.getEmpName()); //사원 이름
 			session.setAttribute("empVo", vo);
+			session.setAttribute("deptNo", deptNo);
+			session.setAttribute("deptName", deptName);
+			session.setAttribute("posName", posName);
 
 //			//쿠키
 //			Cookie ck = new Cookie("ck_empno", empNo);
