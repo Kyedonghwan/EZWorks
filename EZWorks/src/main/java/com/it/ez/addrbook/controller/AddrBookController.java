@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import com.it.ez.addrbook.model.AddrBookService;
 import com.it.ez.addrbook.model.AddrBookVO;
 import com.it.ez.addrbook.model.CoAddrBookService;
 import com.it.ez.addrbook.model.CoEmpVO;
+import com.it.ez.emp.model.EmpVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -469,8 +471,12 @@ public String testHome(@ModelAttribute AddrBookVO searchVo, Model model) {
 	
 }
 
+
+
 @RequestMapping("/addrbook/addrbook")
-public String addrList(@ModelAttribute AddrBookVO searchVo, Model model) {
+public String addrList(@ModelAttribute AddrBookVO searchVo, Model model,HttpSession session) {
+	
+	EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 	logger.info("list, 파라미터 searchVo.getChosung()={}", searchVo.getChosung());
 	
 	// 페이징 처리 관련

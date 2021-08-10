@@ -13,6 +13,33 @@
 	height:300px;
 	
 }
+
+
+thead {
+	height: 32px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+	padding: 8 16px;
+	white-space: nowrap;
+	font-weight: normal;
+	font-size: 13px;
+	ext-align: left;
+}
+
+td {
+	padding: 8px 1px;
+	line-height: 1.6;
+	border-bottom: 1px solid #eee;
+	vertical-align: top;
+}
+
+.photo.small img {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 32px;
+}
 </style>
 <body>
 <div class="home">
@@ -64,6 +91,6 @@
 									</c:if>
 								</tbody>
 							</table>
-a</div>
+</div>
 </body>
 </html>

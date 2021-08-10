@@ -23,15 +23,8 @@
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 <script type="text/javascript">
-Toastify({
-    text:"<%=msg%>",
-    duration: 2000,
-    close:false,
-    gravity:"top",
-    position:"center",
-    backgroundColor:"black",
- }).showToast();
 
+alert("<%=msg%>");
 
 	location.href="<%=url%>";
 </script>
