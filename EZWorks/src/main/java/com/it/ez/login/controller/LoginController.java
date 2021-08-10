@@ -51,9 +51,9 @@ public class LoginController {
 			logger.info("로그인 처리, 사원조회 결과 vo={}", vo);
 			
 			//session 
-			HttpSession session=request.getSession();
-			session.setAttribute("empNo", empNo); //사원번호(아이디)
-			session.setAttribute("empName", vo.getEmpName()); //사원 이름
+			HttpSession session=request.getSession();			
+			session.setAttribute("empVO", vo); //사원
+			session.setAttribute("empName", vo.getEmpName()); //사원
 			
 //			//쿠키
 //			Cookie ck = new Cookie("ck_empno", empNo);
@@ -78,5 +78,15 @@ public class LoginController {
 		model.addAttribute("url", url);
 		
 		return "common/message";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		logger.info("로그아웃");
+		
+		//session.invalidate();
+		session.removeAttribute("empVO");
+
+		return "redirect:/";
 	}
 }
