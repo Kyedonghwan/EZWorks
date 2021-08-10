@@ -5,7 +5,7 @@ package com.it.ez.approval.common;
  * 검색 정보를 담고있는 Bean
  * 페이징 처리 관련 변수 포함
 */
-public class SearchVO {
+public class ApprovalSearchVO {
 	/** 검색조건 */
 	private String searchCondition = "";
 	
@@ -44,7 +44,7 @@ public class SearchVO {
      * 검색 조건을  설정한다.
      * @param bean 검색조건
      */
-    public void setSearchVO(SearchVO bean){
+    public void setSearchVO(ApprovalSearchVO bean){
     	this.currentPage = bean.currentPage;
     	this.searchCondition = bean.getSearchCondition();
     	this.searchKeyword = bean.getSearchKeyword();

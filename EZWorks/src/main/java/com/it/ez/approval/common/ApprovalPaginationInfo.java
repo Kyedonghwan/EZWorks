@@ -1,6 +1,6 @@
 package com.it.ez.approval.common;
 
-public class PaginationInfo {
+public class ApprovalPaginationInfo {
 	/**
 	 * Required Fields
 	  	currentPage : 현재 페이지

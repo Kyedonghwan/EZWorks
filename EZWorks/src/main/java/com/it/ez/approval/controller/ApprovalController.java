@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.it.ez.approval.common.PaginationInfo;
-import com.it.ez.approval.common.SearchVO;
+import com.it.ez.approval.common.ApprovalPaginationInfo;
+import com.it.ez.approval.common.ApprovalSearchVO;
 import com.it.ez.approval.model.ApprovalFileVO;
 import com.it.ez.approval.model.ApprovalLineVO;
 import com.it.ez.approval.model.ApprovalService;
@@ -52,12 +52,6 @@ public class ApprovalController {
 	@GetMapping("/main")
 	public void main(Model model,HttpServletRequest request,HttpSession session){
 		
-		HttpSession session2 =  request.getSession();
-		session2.setAttribute("empNo", 1);
-		session2.setAttribute("deptNo", 101);
-		session2.setAttribute("deptName", "EZ그룹");
-		session2.setAttribute("empName", "김상후");
-		session2.setAttribute("posName", "대표이사");
 		
 		int empNo=(int)session.getAttribute("empNo");
 		List<Map<String,Object>> list1 = approvalService.selectWaitApproval(empNo);
@@ -70,11 +64,11 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/wait")
-	public void waitApproval(Model model,HttpSession session,SearchVO searchVo) {
+	public void waitApproval(Model model,HttpSession session,ApprovalSearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		List<Map<String,Object>> list = approvalService.selectWaitApproval(empNo);
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -261,11 +255,11 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/complete")
-	public void complete(Model model,HttpSession session,SearchVO searchVo) {
+	public void complete(Model model,HttpSession session,ApprovalSearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		List<Map<String,Object>> list = null;
 		list = approvalService.selectCompleteApproval(empNo);
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -437,10 +431,10 @@ public class ApprovalController {
 	
 	@GetMapping("/reference")	
 	@Transactional
-	public String reference(Model model,HttpSession session,SearchVO searchVo) {
+	public String reference(Model model,HttpSession session,ApprovalSearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -465,10 +459,10 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/draft")
-	public String draft(Model model,HttpSession session,SearchVO searchVo) {
+	public String draft(Model model,HttpSession session,ApprovalSearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -493,10 +487,10 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/temp")
-	public String temp(Model model,HttpSession session,SearchVO searchVo) {
+	public String temp(Model model,HttpSession session,ApprovalSearchVO searchVo) {
 		int empNo=(int)session.getAttribute("empNo");
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -539,11 +533,11 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/draftByDept")
-	public String draftAgreeByDept(HttpSession session,Model model,SearchVO searchVo) {
+	public String draftAgreeByDept(HttpSession session,Model model,ApprovalSearchVO searchVo) {
 		System.out.println(searchVo);
 		int deptNo=(int)session.getAttribute("deptNo");
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
@@ -566,10 +560,10 @@ public class ApprovalController {
 	}
 
 	@GetMapping("/referenceByDept")
-	public String referenceByDept(HttpSession session,Model model,SearchVO searchVo) {
+	public String referenceByDept(HttpSession session,Model model,ApprovalSearchVO searchVo) {
 		int deptNo=(int)session.getAttribute("deptNo");
 		
-		PaginationInfo pi = new PaginationInfo();
+		ApprovalPaginationInfo pi = new ApprovalPaginationInfo();
 		pi.setCurrentPage(searchVo.getCurrentPage());
 		pi.setBlockSize(10);
 		pi.setRecordCountPerPage(10);
