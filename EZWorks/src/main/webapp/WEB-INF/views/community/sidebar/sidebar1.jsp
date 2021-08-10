@@ -54,8 +54,8 @@
             <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
                 data-parent="#cardAccordion">
 	        <div class="listContent">
-		        <c:if test="${!empty list}">
-			        <c:forEach var="vo" items="${list}">
+		        <c:if test="${!empty communityList}">
+			        <c:forEach var="vo" items="${communityList}">
 			             <span>
 			             	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
 			             	<a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">

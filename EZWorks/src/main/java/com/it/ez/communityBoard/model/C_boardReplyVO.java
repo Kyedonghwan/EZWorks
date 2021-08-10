@@ -9,18 +9,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class C_boardFeedVO {
+public class C_boardReplyVO {
 	private int communityNo;
-	private String communityName;
-	private int contentNo;
 	private int boardNo;
-	private String boardName;
+	private int replyNo;
 	private int empNo;
 	private String empName;
 	private String empImg;
 	private int posNo;
 	private String posName;
-    private String text;
-    private Timestamp regdate;
-    private int replyCounts;
+	private int groupNo;
+	private String text;
+	private Timestamp regdate;
+	
 }

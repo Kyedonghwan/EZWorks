@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.it.ez.community.common.CommunitySearchVO;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,8 +19,8 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public List<CommunityMemberVO> selectCommunity() {
-		return communityDao.selectCommunity();
+	public List<CommunityMemberVO> selectAllCommunity(CommunitySearchVO searchVo) {
+		return communityDao.selectAllCommunity(searchVo);
 	}
 
 	@Override
@@ -49,6 +51,16 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public String selectCommunityMaster(int communityNo) {
 		return communityDao.selectCommunityMaster(communityNo);
+	}
+
+	@Override
+	public int selectTotalRecord(CommunitySearchVO searchVo) {
+		return communityDao.selectTotalRecord(searchVo);
+	}
+
+	@Override
+	public List<CommunityMemberVO> selectCommunity() {
+		return communityDao.selectCommunity();
 	}
 
 
