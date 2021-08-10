@@ -16,4 +16,5 @@ public interface EmpService {
 	EmpVO selectEmpInfo(int empNo);
 	String selectName(int empNo);
 	String selectPosName(int posNo);
+	String selectDeptName(int deptNo);
 }

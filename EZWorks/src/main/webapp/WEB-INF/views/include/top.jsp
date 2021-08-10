@@ -59,7 +59,7 @@
 							class='sidebar-link'> <i class="bi bi-house"></i> <span>홈</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
+						<li class="sidebar-item  "><a href="<c:url value='/approval/main'/>"
 							class='sidebar-link'> <i class="bi bi-clipboard-check"></i> <span>전자결재</span>
 						</a></li>
 
@@ -90,7 +90,7 @@
 						</a></li>
 
 						
-						<li class="sidebar-item  "><a href="table.html"
+						<li class="sidebar-item  "><a href="<c:url value='/archive/list'/>"
 							class='sidebar-link'> <i class="bi bi-folder2-open"></i> <span>자료실</span>
 						</a></li>
 						
