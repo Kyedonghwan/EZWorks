@@ -56,7 +56,7 @@ public class LoginController {
 			session.setAttribute("empNo", empNo); //사원번호(아이디)
 			session.setAttribute("empName", vo.getEmpName()); //사원 이름
 			session.setAttribute("empVo", vo);
-			
+
 //			//쿠키
 //			Cookie ck = new Cookie("ck_empno", empNo);
 //			ck.setPath("/");			
@@ -87,7 +87,6 @@ public class LoginController {
 		session.invalidate();
 		
 		return "redirect:/mainLogin";
-	}
 }
 
 
