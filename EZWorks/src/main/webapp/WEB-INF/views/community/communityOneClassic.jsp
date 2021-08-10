@@ -70,9 +70,6 @@
                 			<strong>게시판 주소 : </strong>
                 			<span><a href="<c:url value='/community/communityOneClassic?boardNo=${cboardVo.boardNo}&communityNo=${cboardVo.communityNo}'/>">
                 				community/communityOneClassic/${cboardVo.boardName}</a></span>&nbsp
-                			<span class="buttons">
-                				<a href="#" class="btn btn-sm btn-outline-secondary" style="margin-top:10px">공개 현황</a>
-                			</span>
                 		</li>                	
                 	</ul>
                 	<ul class="detail_info">

@@ -45,9 +45,12 @@ a#returnList {
 	margin: 0 150px;
 }
 
-input {
-	height: 30px;
+
+.imgst {
+	width: 150px;
+	height: 150px;
 }
+
 
 </style>
 <script type="text/javascript" 
@@ -97,6 +100,67 @@ function execPostCode() {
        }
     }).open();
 }
+
+
+$(function(){
+	$('#saveDone').click(function(){
+		if($('#name').val().length<1){
+			Toastify({
+	               text:"이름을 입력하세요.",
+	               duration: 2000,
+	               close:false,
+	               gravity:"top",
+	               position:"center",
+	               backgroundColor:"black",
+	            }).showToast();
+			
+			return false;
+		}else if($('#email').val().length<1) {
+			Toastify({
+	               text:"이메일을 입력하세요.",
+	               duration: 2000,
+	               close:false,
+	               gravity:"top",
+	               position:"center",
+	               backgroundColor:"black",
+	            }).showToast();
+			
+			return false;
+		}else if($('#hp').val().length<1){
+			Toastify({
+	               text:"휴대폰 번호를 입력하세요.",
+	               duration: 2000,
+	               close:false,
+	               gravity:"top",
+	               position:"center",
+	               backgroundColor:"black",
+	            }).showToast();
+			
+			return false;
+		}
+		
+	})
+});
+
+  $(function() {
+      $("#photoName").on('change', function(){
+          readURL(this);
+      });
+  });
+
+  function readURL(input) {
+      if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+              $('#image_section').attr('src', e.target.result);
+          }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+
 </script>
 
 <div id="content">
@@ -107,10 +171,11 @@ function execPostCode() {
 	</header>
 
 	<div class="content_page">
-		<form id="contactCreateId" name="formContactCreate" method="post"
+		<form id="contactCreateId" name="formContactCreate" method="post" enctype="multipart/form-data"
 			action="<c:url value='/addrbook/addrEdit'/>">
+				<input type="hidden" name="oldFileName" value="${vo.photoName }">
 			<fieldset>
-				<table class="form_type">
+				<table class="form_type" >
 					<colgroup>
 						<col width="130px">
 						<col width="*">
@@ -119,7 +184,19 @@ function execPostCode() {
 						<tr>
 							<th><span class="title">사진</span></th>
 							<td><span class="img_profile" style="overflow: hidden">
-							</span></td>
+									<img class="imgst"
+									src="<c:url value='/addr_upload/${vo.photoName}'/>"
+									alt="your image" id="image_section" data-filename="" data-filepath="">
+									<br> <span class="wrap_btn wrap_file_upload"> <span
+										class="btn_file_form fileinput-button"
+										style="text-align: center;">  <input type="file" id="photoName" name="file" title="파일 첨부" ></span>
+										<div class="progress" style="display: none; margin-top: 5px"></div></span>
+
+							</span> 
+							<!--  <span class="btn_fn7" id="del_photo" data-role="button">삭제</span>-->
+								<div class="wrap_desc">
+									<span class="desc">※ 사진은 자동으로 150x150 사이즈로 적용 됩니다.</span>
+								</div></td>
 						</tr>
 						<tr>
 							<input type="hidden" id="bookNo" name="bookNo" value="${vo.bookNo}"/>

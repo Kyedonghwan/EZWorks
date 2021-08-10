@@ -49,7 +49,7 @@
                 <span style="font-weight:bold">${vo.communityName}</span>
             </button>
             <div class="dropdown-menu" id="menu">
-				<c:forEach var="vo" items="${list}">
+				<c:forEach var="vo" items="${communityList}">
                   <span class="sp2">
 	                   <a class="dropdown-item" href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a>
 		               <a href="<c:url value='/community/communityDetail?communityNo=${vo.communityNo}'/>">

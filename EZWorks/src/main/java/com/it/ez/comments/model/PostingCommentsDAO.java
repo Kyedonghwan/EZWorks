@@ -11,4 +11,5 @@ public interface PostingCommentsDAO {
 	public int addComments(PostingReplyVO vo);
 	public PostingReplyViewVO selectReplyByNo(int replyNo);
 	public int selectReplyCountByPostingNo(int postingNo);
+	public int deleteReplies(int postingNo);
 }

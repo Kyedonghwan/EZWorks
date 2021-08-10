@@ -62,10 +62,10 @@
 		<selectKey keyProperty="contentNo" resultType="int" order="BEFORE">
 			select c_boardContent_seq.nextval from dual
 		</selectKey>
-		insert into c_boardClassic(content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
-							Pos_No, Pos_Name, title, text)
-		values(#{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
-			  	#{posNo}, #{posName}, #{title}, #{text})
+		insert into c_boardClassic(community_No, content_No, board_No, Emp_No, Emp_Name, Emp_Img, 
+							Pos_No, Pos_Name,text)
+		values(#{communityNo}, #{contentNo}, #{boardNo}, #{empNo}, #{empName}, #{empImg},
+			  	#{posNo}, #{posName}, #{text})
 	</insert>
 	
 	<!-- 커뮤니티 메인 화면 글 전체 보기용 -->
@@ -153,6 +153,19 @@
 	<delete id="deleteC_boardFeed" parameterType="int">
 		delete from C_boardFeed where content_No=#{contentNo}
 	</delete>
+	
+	<insert id="insertReply" parameterType="C_boardReplyVO">
+		<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
+			select REPLY_SEQ.NEXTVAL from dual
+		</selectKey>
+		INSERT INTO C_BOARDREPLY(COMMUNITY_NO, BOARD_NO, REPLY_NO, EMP_NO, GROUP_NO, TEXT)
+		VALUES(#{communityNo}, #{boardNo}, #{replyNo}, #{empNo}, #{groupNo}, #{text});
+	</insert>
+	
+	<select id="selectC_boardReply" parameterType="C_boardReplyVO" resultType="C_boardReplyVO">
+		select * from c_boardReplyView
+		where group_No=#{groupNo} and reply_no=#{replyNo};
+	</select>
 </mapper>
 
 

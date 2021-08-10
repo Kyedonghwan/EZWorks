@@ -30,4 +30,5 @@ public interface PostingDAO {
 	public int deleteFileList(int postingNo);
 	public int deletePosting(int postingNo);
 	public int updateViewCount(int postingNo);
+	public int deletePostingLikes(int postingNo);
 }

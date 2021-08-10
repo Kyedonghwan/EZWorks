@@ -7,8 +7,12 @@
 		select * from reserv where rv_no=#{rvNo}
 	</select>
 	
+	<select id="selectReservationById" resultType="reservationVo">
+		select * from reservation where no=#{no}
+	</select>
+	
 	<select id="showReservCate" resultType="reservDtVO">
-		select rvd_name from reservDt where rvd_cate=#{rvdCate}
+		select * from reservDt where rvd_cate=#{rvdCate}
 	</select>
 	
 	<insert id="insertReserv" parameterType="reservationVo">
@@ -22,4 +26,23 @@
 	<select id="showReservList" resultType="reservationVo">
 		select * from reservation where cate_no=#{cateNo}
 	</select>
+	
+	<select id="selectResrvAll" resultType="reservViewVO">
+		select * from reservView
+	</select>
+	
+	<select id="selectResrvViewById" resultType="reservViewVo">
+		select * from reservView where no=#{no}
+	</select>
+	
+	<delete id="deleteResev">
+		delete from reservation where no=#{no}
+	</delete>
+
+	<update id="updateReservation" parameterType="reservationVO">
+		update reservation
+		set start_date=#{startDate}, start_time=#{startTime}, end_date=#{endDate}, end_time=#{endTime},
+			subscriber=#{subscriber},purpose=#{purpose}
+		where no=#{no}
+	</update>
 </mapper>

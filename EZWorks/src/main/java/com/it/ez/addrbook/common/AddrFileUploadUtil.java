@@ -23,7 +23,7 @@ public class AddrFileUploadUtil {
 	private static final Logger logger
 	=LoggerFactory.getLogger(AddrFileUploadUtil.class);
 
-public List<Map<String, Object>> fileUpload(HttpServletRequest request,
+public static List<Map<String, Object>> fileUpload(HttpServletRequest request,
 		int pathFlag) 
 		throws IllegalStateException, IOException {
 	MultipartHttpServletRequest multiRequest 
@@ -66,7 +66,7 @@ public List<Map<String, Object>> fileUpload(HttpServletRequest request,
 	return list;
 }
 	
-public String getUploadPath(HttpServletRequest request, int pathFlag) {
+public static String getUploadPath(HttpServletRequest request, int pathFlag) {
 	//업로드 경로 구하기
 	String path="";
 	
@@ -92,7 +92,7 @@ public String getUploadPath(HttpServletRequest request, int pathFlag) {
 	return path;
 }
 
-public String getUniqueFileName(String fileName) {
+public static String getUniqueFileName(String fileName) {
 	//업로드한 파일명이 중복될 경우 파일 이름 변경하기 - 현재시간(밀리초까지)추가
 	//ab.txt => ab_20210630155820123.txt  
 	
@@ -109,7 +109,7 @@ public String getUniqueFileName(String fileName) {
 	return result;
 }
 
-public String getTimeStamp() {
+public static String getTimeStamp() {
 	Date d = new Date();
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");

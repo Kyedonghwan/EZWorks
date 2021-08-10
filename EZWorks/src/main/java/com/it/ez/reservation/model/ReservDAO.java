@@ -12,4 +12,9 @@ public interface ReservDAO {
 	int insertReserv(ReservationVO vo);
 	List<ReservDtVO> showReservCate(int rvdCate);
 	List<ReservationVO> showReservList(String cateNo);
+	List<reservViewVO> selectResrvAll();
+	int deleteResev(int no);
+	ReservationVO selectReservationById(int no);
+	reservViewVO selectResrvViewById(int no);
+	int updateReservation(ReservationVO vo);
 }

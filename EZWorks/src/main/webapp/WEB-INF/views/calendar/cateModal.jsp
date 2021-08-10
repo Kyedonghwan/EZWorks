@@ -21,8 +21,7 @@ $(document).ready(function () {
 		<div
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
 			role="document">
-			<div class="modal-content"
-				style="width: 400px; height: 250px; box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);">
+			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="myModalLabel4">내 캘린더 추가</h4>
 					<button type="button" class="close" data-bs-dismiss="modal"
@@ -31,19 +30,18 @@ $(document).ready(function () {
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="text" name="empNo" id="showEmpNo" value="1"> 
+					<input type="hidden" name="empNo" id="showEmpNo" value="1"> 
 					<input
 						type="text" id="insertCateName" class="form-control round"
 						name="schCateName">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-light-secondary"
-						data-bs-dismiss="modal">
-						<i class="bx bx-x d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">취소</span>
-					</button>
 					<input type="submit" class="btn btn-primary ml-1"
 						data-bs-dismiss="modal" id="cateInsertOk" value="확인">
+					<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+						<i class="bx bx-x d-block d-sm-none"></i> 
+						<span class="d-none d-sm-block">취소</span>
+					</button>
 				</div>
 			</div>
 		</div>

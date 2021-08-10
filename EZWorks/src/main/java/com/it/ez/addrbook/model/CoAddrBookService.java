@@ -6,5 +6,5 @@ import java.util.Map;
 public interface CoAddrBookService {
 	List<CoEmpVO> selectAll(Map<String, String> paraMap);
 	int selectTotalRecord(CoEmpVO searchVo);
-
+	CoEmpVO selectByEmpNo(int empNo);
 }

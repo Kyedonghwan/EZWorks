@@ -25,6 +25,9 @@
 	<select id="selectName" resultType="String" parameterType="int">
 		select emp_name from emp where emp_no=#{empNo}
 	</select>
+	<select id="selectPosName" parameterType="int" resultType="String">
+		select pos_name from position where pos_no = #{posNo}
+	</select>
 </mapper>
 
 

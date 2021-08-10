@@ -47,26 +47,42 @@ public class AttendanceController {
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo"); 
 		int empNo = empVo.getEmpNo();
 
-		
 		//주 반복을 위한
 		if(year==null) {
 			LocalDate now = LocalDate.now();
 			year = now.getYear();
 			month = now.getMonthValue();
 			date = now.getDayOfMonth();
+			
 		}
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("date", date);
 		logger.info("nowYear={} nowMonth={} nowdayofMonth={}", year, month, date);
 
+		String startingDate = year+"-"+month+"-"+date;
+		String endingDate = year+"-"+month+"-"+(date+1);
+		logger.info("startingDate = {}, endingDate={}", startingDate, endingDate);
+		int isAttended = attendanceService.isAttended(startingDate, endingDate, empNo);
+		logger.info("여기 들어와야함");
+		logger.info("isAttended={}", isAttended);
+		model.addAttribute("isAttended", isAttended);
+		int isEnded = attendanceService.isEnded(startingDate, endingDate, empNo);
+		AttendanceVO attendedTime = attendanceService.todayAttendTime(startingDate, endingDate, empNo);
+		AttendanceVO endedTime = attendanceService.todayEndTime(startingDate, endingDate, empNo);
+		model.addAttribute("attendedTime", attendedTime);
+		model.addAttribute("endedTime", endedTime);
+		model.addAttribute("isEnded", isEnded);
+
 		List<List<Date>> daysList = attendanceMonthCalculator.getDaysList(year, month);
 		List<List<AttendanceMainViewVO>> daysListWithDetail = attendanceService.getDaysListFullDetail(year, month, empNo);
 		model.addAttribute("daysList", daysList);
 		model.addAttribute("daysListWithDetail", daysListWithDetail);
-		
+
 		logger.info("daysList.size={}", daysList.size());
 		logger.info("daysList={}", daysList);
+		
+		
 		
 		return "attendance/attendanceMain";
 	}
@@ -77,7 +93,6 @@ public class AttendanceController {
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
 		logger.info("year={}, month={}, date={}", year, month, date);
-		List<List<Date>> daysList = attendanceMonthCalculator.getDaysList(year, month);
 		List<List<AttendanceMainViewVO>> daysListWithDetail = attendanceService.getDaysListFullDetail(year, month, empNo);
 		return daysListWithDetail;
 	}
@@ -107,6 +122,27 @@ public class AttendanceController {
 	@PostMapping("/insert_workIn")
 	public AttendanceVO insertWorkIn(HttpSession session, HttpServletRequest request, @RequestParam String record, @RequestParam String attendanceStatus) throws ParseException {
 		logger.info("출근 ajax");
+		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
+		int empNo = empVo.getEmpNo();
+		logger.info("파라미터, record={}, attendanceStatus={}", record, attendanceStatus);
+		Date attendanceRecordedTime = sdf.parse(record);
+		
+		AttendanceVO vo = new AttendanceVO();
+		vo.setEmpNo(empNo);
+		String ipAddress = AttendanceUtil.getClientIp(request);
+		vo.setIpAddress(ipAddress);
+		vo.setAttendanceRecordedTime(attendanceRecordedTime);
+		vo.setAttendanceStatus(attendanceStatus);
+		logger.info("attendanceVo = {}", vo);
+		int cnt = attendanceService.insertAttendance(vo);
+		
+		return vo;
+	}
+	
+	@ResponseBody
+	@PostMapping("/insert_workOut")
+	public AttendanceVO insertWorkOut(HttpSession session, HttpServletRequest request, @RequestParam String record, @RequestParam String attendanceStatus) throws ParseException {
+		logger.info("퇴근 ajax");
 		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 		int empNo = empVo.getEmpNo();
 		logger.info("파라미터, record={}, attendanceStatus={}", record, attendanceStatus);

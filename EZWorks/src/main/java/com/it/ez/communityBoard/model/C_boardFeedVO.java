@@ -18,10 +18,9 @@ public class C_boardFeedVO {
 	private int empNo;
 	private String empName;
 	private String empImg;
-	private int posNO;
+	private int posNo;
 	private String posName;
-    private String title;
     private String text;
     private Timestamp regdate;
-    private int readCounts;
+    private int replyCounts;
 }

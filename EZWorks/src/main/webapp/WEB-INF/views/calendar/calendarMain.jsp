@@ -1,12 +1,8 @@
-<%@page import="com.it.ez.calendar.model.CalendarVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../include/top.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html>
-<html lang='ko'>
-<head>
-<meta charset="UTF-8">
 <link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
 
 <!-- full calendar -->
@@ -18,7 +14,6 @@
 	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type='text/javascript'>
 	var calendar = null;
-	
 	
 	$(function(){
 		var calendarEl = document.getElementById('calendar');
@@ -79,9 +74,7 @@
 				}
 		});
 		calendar.render();
-		
 	});
-	
 </script>
 <style>
 body {
@@ -97,15 +90,13 @@ body {
 }
 
 </style>
-</head>
-<body>
-	<%@ include file="../include/top.jsp"%>
+
 	<div class="card-header">
 		<h4>캘린더</h4>
 	</div>
 
-	<jsp:include page="sidebar2.jsp" />
-	
+	<%@include file="sidebar2.jsp"%>
+		
 	<%@ include file="../include/middle.jsp"%>
 	<div class="card-header">
 		<h4>일정목록</h4>
@@ -116,8 +107,8 @@ body {
 		</div>
 	</div>
 	
-	<jsp:include page="writeModal.jsp"/>
-	<%@ include file="../include/bottom.jsp"%>
+
+	
 	<script type="text/javascript">
 		$(function(){
 			var bool=true;
@@ -133,11 +124,10 @@ body {
 			});
 		});
 	</script>
-</body>
-</html>
-
-
-
 <script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 <script src="<c:url value='/resources/js/extensions/toastify.js'/>"></script>
+
+
+<%@ include file="../include/bottom.jsp"%>
+	<%@include file="writeModal.jsp"%>
 

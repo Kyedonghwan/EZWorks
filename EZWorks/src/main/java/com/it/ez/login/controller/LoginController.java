@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 
 
 @Controller
-
 @RequiredArgsConstructor
 public class LoginController {
 	private static final Logger logger
@@ -49,12 +48,15 @@ public class LoginController {
 		if(result==EmpService.LOGIN_OK) {
 			EmpVO vo=empService.selectEmpByEmpNo(empNo);
 			logger.info("로그인 처리, 사원조회 결과 vo={}", vo);
+			String posName = empService.selectPosName(empNo);
+			vo.setPosName(posName);
 			
 			//session 
 			HttpSession session=request.getSession();
 			session.setAttribute("empNo", empNo); //사원번호(아이디)
 			session.setAttribute("empName", vo.getEmpName()); //사원 이름
-			
+			session.setAttribute("empVo", vo);
+
 //			//쿠키
 //			Cookie ck = new Cookie("ck_empno", empNo);
 //			ck.setPath("/");			
@@ -79,4 +81,13 @@ public class LoginController {
 		
 		return "common/message";
 	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/mainLogin";
+	}
 }
+
+

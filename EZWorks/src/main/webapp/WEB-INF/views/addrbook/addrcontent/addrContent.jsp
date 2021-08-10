@@ -295,7 +295,7 @@ td {
 										</tr>
 									</c:if>
 									<c:if test="${!empty list }">
-										<!--게시판 내용 반복문 시작  -->
+										<!--d 내용 반복문 시작  -->
 										<c:forEach var="vo" items="${list}">
 
 											<tr class="odd">
@@ -310,11 +310,11 @@ td {
 												<td class="align_l hp"><span class="hp">${vo.hp}</span></td>
 												<td class="align_l department">${vo.deptName}</td>
 												<td class="align_l company"><span class="company">${vo.companyName}</span></td>
-												<td class="align_l tel"></td>
+												<td class="align_l tel">${vo.corpPhone}</td>
 												<td class="align_l companyAddress">${vo.address}</td>
-												<td class="align_l memo">${vo.memo}</td>
+												<td class="align_l memo"></td>
 												<td class="align_l group"><span class="group"
-													title="전사주소록2">전사주소록</span></td>
+													title="개인주소록">개인 주소록</span></td>
 											</tr>
 
 										</c:forEach>
@@ -342,9 +342,9 @@ td {
 </form>
 
 <div class="divSearch">
-<c:if test="${!empty param.searchKeyword }">
+<!--<c:if test="${!empty param.searchKeyword }">
 	<p>검색어 : ${param.searchKeyword}, ${pagingInfo.totalRecord} 건 검색되었습니다.</p>
-</c:if>
+</c:if> -->
 
    	<form name="frmSearch" method="post" 
    		action='<c:url value="/addrbook/addrbook"/>'>

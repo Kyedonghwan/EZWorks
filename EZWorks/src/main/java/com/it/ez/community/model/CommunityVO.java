@@ -18,4 +18,5 @@ public class CommunityVO{
     private String intro;
     private String publicSet;
     private Timestamp regdate;
+    private int currentStats;
 }

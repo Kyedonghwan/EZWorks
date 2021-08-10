@@ -6,7 +6,17 @@
 	<select id="selectReservDtById" parameterType="int" resultType="reservDtVo">
 		select * from reservDt where rvd_cate=#{rvdCate}
 	</select>
+	<select id="selectReservDtAll" parameterType="int" resultType="reservDtVo">
+		select * from reservDt
+	</select>
+	
 	<select id="showReservDt" parameterType="int" resultType="reservDtVo">
 		select * from reservDt where rvd_no=#{rvdNo}
 	</select>
+	
+	<update id="updateReservDt" parameterType="reservDtVo">
+		update reservDt
+		set rvd_code=#{rvdCode}, rvd_name=#{rvdName}
+		where rvd_no=#{rvdNo}
+	</update>
 </mapper>

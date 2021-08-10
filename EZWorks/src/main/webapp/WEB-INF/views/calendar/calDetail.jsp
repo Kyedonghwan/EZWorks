@@ -21,7 +21,7 @@ $(document).ready(function () {
     $('#delBtn').click(function(){
     	Swal.fire({
     		  title: '일정을 삭제하시겠습니까?',
-    		  icon: 'warning',
+    		  icon: 'error',
     		  showCancelButton: true,
     		  confirmButtonColor: '#4374D9',
     		  cancelButtonColor: '#BDBDBD',

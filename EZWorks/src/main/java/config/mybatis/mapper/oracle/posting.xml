@@ -111,6 +111,9 @@
 		set posting_viewcount = posting_viewcount + 1
 		where posting_no=#{postingNo}
 	</update>
+	<delete id="deletePostingLikes">
+		delete from emp_likes_posting where posting_no = #{postingNo}
+	</delete>
 </mapper>
 
 
