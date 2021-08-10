@@ -242,17 +242,45 @@ td{
 							
 							<!-- 테이블 시작 -->
 							<table id="contacts" class="type_normal tb_addr_list dataTable" style="width: 100%; margin-bottom: 0px;">
-			<thead>
-			<tr role="row"><th class="sorting_disabled checkbox" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 20px;"><input type="checkbox" id="checkedAll"></th><th class="name align_l sorting_asc" style="min-width: 100px; width: 101px;" role="columnheader" tabindex="0" aria-controls="contacts" rowspan="1" colspan="1" aria-label="이름(표시명): activate to sort column ascending"><span class="title_sort">이름(표시명)<ins class="ic"></ins><span class="selected"></span></span></th><th class="hp sorting_disabled align_l" style="min-width: 80px; width: 80px;" role="columnheader" rowspan="1" colspan="1" aria-label="휴대폰"><span class="title_sort">휴대폰<ins class="ic"></ins></span></th><th class="department sorting_disabled align_l" style="min-width: 50px; width: 51px;" role="columnheader" rowspan="1" colspan="1" aria-label="부서"><span class="title_sort">부서<ins class="ic"></ins></span></th><th class="company align_l sorting" style="min-width: 55px; width: 55px;" role="columnheader" tabindex="0" aria-controls="contacts" rowspan="1" colspan="1" aria-label="회사: activate to sort column ascending"><span class="title_sort">회사<ins class="ic"></ins><span class="selected"></span></span></th><th class="tel sorting_disabled align_l" style="min-width: 80px; width: 80px;" role="columnheader" rowspan="1" colspan="1" aria-label="회사전화"><span class="title_sort">회사전화<ins class="ic"></ins></span></th><th class="company_address sorting_disabled align_l" style="min-width: 100px; width: 101px;" role="columnheader" rowspan="1" colspan="1" aria-label="회사주소"><span class="title_sort">회사주소<ins class="ic"></ins></span></th><th class="memo sorting_disabled align_l" style="min-width: 100px; width: 101px;" role="columnheader" rowspan="1" colspan="1" aria-label="메모"><span class="title_sort">메모<ins class="ic"></ins></span></th><th class="group sorting_disabled align_l" style="min-width: 110px; width: 111px;" role="columnheader" rowspan="1" colspan="1" aria-label="
-				    
-				        그룹
-				    
-				">
-				    <span class="title_sort">
-				        그룹<ins class="ic"></ins>
-				    </span>
-				</th></tr>
-			</thead>
+				<thead>
+									<tr role="row">
+										<th class="sorting_disabled checkbox" role="columnheader"
+											rowspan="1" colspan="1" aria-label="" style="width: 20px;"><input
+											type="checkbox" id="checkedAll"></th>
+										<th class="name align_l sorting_asc"
+											style="min-width: 100px; width: 101px;" role="columnheader"
+											tabindex="0" aria-controls="contacts" rowspan="1" colspan="1"
+											aria-label="이름(표시명): activate to sort column ascending"><span
+											class="title_sort">이름(표시명)<ins class="ic"></ins><span
+												class="selected"></span></span></th>
+										<th class="hp sorting_disabled align_l"
+											style="min-width: 80px; width: 80px;" role="columnheader"
+											rowspan="1" colspan="1" aria-label="휴대폰"><span
+											class="title_sort">휴대폰<ins class="ic"></ins></span></th>
+										<th class="department sorting_disabled align_l"
+											style="min-width: 70px; width: 71px;" role="columnheader"
+											rowspan="1" colspan="1" aria-label="부서"><span
+											class="title_sort">부서<ins class="ic"></ins></span></th>
+										<th class="company align_l sorting"
+											style="min-width: 55px; width: 55px;" role="columnheader"
+											tabindex="0" aria-controls="contacts" rowspan="1" colspan="1"
+											aria-label="회사: activate to sort column ascending"><span
+											class="title_sort">회사<ins class="ic"></ins><span
+												class="selected"></span></span></th>
+										<th class="tel sorting_disabled align_l"
+											style="min-width: 60px; width: 60px;" role="columnheader"
+											rowspan="1" colspan="1" aria-label="직위"><span
+											class="title_sort">직위<ins class="ic"></ins></span></th>
+										<th class="company_address sorting_disabled align_l"
+											style="min-width: 100px; width: 101px;" role="columnheader"
+											rowspan="1" colspan="1" aria-label="주소"><span
+											class="title_sort">주소<ins class="ic"></ins></span></th>
+										<th class="memo sorting_disabled align_l"
+											style="min-width: 100px; width: 101px;" role="columnheader"
+											rowspan="1" colspan="1" aria-label="메모"><span
+											class="title_sort">메모<ins class="ic"></ins></span></th>
+									</tr>
+								</thead>
 		<tbody role="alert" aria-live="polite" aria-relevant="all">
 	<c:if test="${empty list }">
 			<tr>
@@ -269,11 +297,14 @@ td{
 		</td>
 		<td class="align_l name sorting_1">
 		<span class="photo small"><img src="<%=request.getContextPath()%>/resources/images/faces/1.jpg" title="test" alt="test"></span>
-		<a><span class="name contact_detail" data-id="1061">${vo.empName}</span></a></td>
+		<a href="<c:url value='/addrbook/coDetail?empNo=${vo.empNo}'/>"><span
+														class="name contact_detail" data-id="1061">${vo.empName}</span></a></td></td>
 		<td class="align_l hp"><span class="hp">${vo.empTel}</span></td>
 		<td class="align_l department">${vo.deptName}</td>
-		<td class="align_l company"><span class="company">(주)ez그룹</span></td><td class="align_l tel"></td><td class="align_l company_address"></td>
-		<td class="align_l memo"></td><td class="align_l group"><span class="group" title="전사주소록2">전사주소록</span></td>
+		<td class="align_l company"><span class="company">(주)ez그룹</span></td>
+		<td class="align_l tel">${vo.posName}</td>
+		<td class="align_l companyAddress"><span class="memo">${vo.empAddr}</span></td>
+		<td class="align_l memo"></td>
 		</tr>
 		
 		</c:forEach>
@@ -290,7 +321,7 @@ td{
 											</div>
 										</div>
 						
-<div style="margin-top:40px">
+<%-- <div style="margin-top:40px">
 		<nav aria-label="Page navigation example">
 			<ul class="pagination pagination-primary pagination-sm justify-content-center">
 				<li class="page-item <c:if test='${pagingInfo.currentPage==pagingInfo.firstPage }'>disabled</c:if>">
@@ -312,7 +343,7 @@ td{
 			</ul>
 		</nav>
 	</div>
-	
+	 --%>
 		
 </body>
 </html>

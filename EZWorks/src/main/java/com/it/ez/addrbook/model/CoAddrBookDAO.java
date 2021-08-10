@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CoAddrBookDAO {
 	List<CoEmpVO> selectAll(Map<String, String> paraMap);
 	int selectTotalRecord(CoEmpVO searchVo);
-
+	CoEmpVO selectByEmpNo(int empNo);
 }

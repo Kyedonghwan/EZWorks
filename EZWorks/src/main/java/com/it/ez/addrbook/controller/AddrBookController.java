@@ -1,5 +1,6 @@
 package com.it.ez.addrbook.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +28,12 @@ import com.google.gson.Gson;
 import com.it.ez.addrbook.common.AddrConstUtil;
 import com.it.ez.addrbook.common.AddrFileUploadUtil;
 import com.it.ez.addrbook.common.AddrPaginationInfo;
+import com.it.ez.addrbook.common.AddrUtility;
 import com.it.ez.addrbook.model.AddrBookService;
 import com.it.ez.addrbook.model.AddrBookVO;
 import com.it.ez.addrbook.model.CoAddrBookService;
 import com.it.ez.addrbook.model.CoEmpVO;
+import com.it.ez.emp.model.EmpVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -310,19 +314,45 @@ public String detail(@RequestParam(defaultValue = "0") int bookNo, HttpServletRe
 	AddrBookVO vo = addrService.selectByNo(bookNo);
 	logger.info("상세보기 결과, vo={}", vo);
 
+	 String fileInfo
+	 =AddrUtility.getFileInfo(vo.getOrPhotoName(), vo.getFileSize(),
+	 request);
+
+	// 3
+	model.addAttribute("vo", vo);
+	model.addAttribute("fileInfo", fileInfo);
+
+	return "addrbook/addrDetail";
+}
+
+@RequestMapping("/addrbook/coDetail")
+public String coDetail(@RequestParam(defaultValue = "0") int empNo, HttpServletRequest request, Model model) {
+	// 1
+	logger.info("주소록 상세보기, 파라미터 no={}", empNo);
+	if (empNo == 0) {
+		model.addAttribute("msg", "잘못된 url!");
+		model.addAttribute("url", "/addrbook/coAddrbook");
+
+		return "common/message";
+	}
+
+	// 2
+	CoEmpVO vo = coAddrService.selectByEmpNo(empNo);
+	logger.info("상세보기 결과, vo={}", vo);
+
 	// String fileInfo
-	// =Utility.getFileInfo(vo.getOriginalFileName(), vo.getFileSize(),
+	// =AddrUtility.getFileInfo(vo.getOriginalFileName(), vo.getFileSize(),
 	// request);
 
 	// 3
 	model.addAttribute("vo", vo);
 	// model.addAttribute("fileInfo", fileInfo);
 
-	return "addrbook/addrDetail";
+	return "addrbook/coDetail";
 }
 
 @GetMapping("/addrbook/addrEdit")
-public String edit(@RequestParam int bookNo, Model model) { // userid 가져오려면 session
+public String edit(@RequestParam (defaultValue = "0")int bookNo, HttpServletRequest request, Model model) { // userid 가져오려면 session
 
 	// String userid=(String) session.getAttribute("userid");
 	logger.info("회원 수정 화면"); // 파라미터 userid={},userid
@@ -335,41 +365,68 @@ public String edit(@RequestParam int bookNo, Model model) { // userid 가져오�
 
 	AddrBookVO vo = addrService.selectByNo(bookNo);
 	logger.info("주소록 수정 화면, 조회 결과 vo={}", vo);
+	String fileInfo
+	=AddrUtility.getFileInfo(vo.getOrPhotoName(), bookNo, request);
 
 	model.addAttribute("vo", vo);
-
+	model.addAttribute("fileInfo", fileInfo);
+	
 	return "addrbook/addrEdit";
 
 }
 
 @PostMapping("/addrbook/addrEdit")
-public String edit_post(@ModelAttribute AddrBookVO vo, Model model) {
+public String edit_post(@ModelAttribute AddrBookVO vo,@RequestParam String oldFileName,
+		MultipartHttpServletRequest request, Model model) {
 	// String userid=(String) session.getAttribute("userid");
 	// vo.setUserid(userid);
-	logger.info("회원수정 처리, 파라미터 vo={}", vo);
+	logger.info("주소록 수정 처리, 파라미터 vo={}", vo);
 
 	String msg = "비밀번호 체크 실패", url = "/addrBook/addrEdit";
 	// int result=memberService.loginProc(userid, vo.getPwd());
 	// logger.info("회원수정 처리, 비밀번호 체크 결과, result={}", result);
 	// if(result==MemberService.LOGIN_OK) {
-	// hp
-	/*
-	 * String hp2=vo.getHp2(); String hp3=vo.getHp3(); if(hp2==null || hp2.isEmpty()
-	 * || hp3==null || hp3.isEmpty()) { vo.setHp1(""); vo.setHp2(""); vo.setHp3("");
-	 * }
-	 * 
-	 * //email String email1=vo.getEmail1(); String email2=vo.getEmail2();
-	 * if(email1==null || email1.isEmpty()) { email1=""; email2=""; }else {
-	 * if(email2.equals("etc")) { if(email3!=null && !email3.isEmpty()) {
-	 * email2=email3; }else { email1=""; email2=""; } } } vo.setEmail1(email1);
-	 * vo.setEmail2(email2);
-	 */
+	
+	//파일 업로드 처리
+	String photoName="", orPhotoName="";
+	long fileSize=0;
+	List<Map<String, Object>> list = null;
+	try {
+		list = AddrFileUploadUtil.fileUpload(request,AddrConstUtil.UPLOAD_IMAGE_FLAG);
+		for(Map<String, Object> map : list) {
+			photoName=(String) map.get("photoName");
+			orPhotoName=(String) map.get("orPhotoName");
+			fileSize=(long) map.get("fileSize");
+		}
+	} catch (IllegalStateException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	
+	vo.setPhotoName(photoName);
+	vo.setOrPhotoName(orPhotoName);
+	vo.setFileSize(fileSize);
+
 	int cnt = addrService.updateBook(vo);
 	logger.info("회원수정 결과, cnt={}", cnt);
 
 	if (cnt > 0) {
 		msg = "주소록 정보 수정되었습니다.";
 		url="/addrbook/addrbook";
+		
+		//새로 파일 첨부한 경우, 기존 파일이 존재하면 기존 파일 삭제하기
+		if(!list.isEmpty()) {
+			if(oldFileName!=null && !oldFileName.isEmpty()) {
+				File oldFile;
+					oldFile = new File(AddrFileUploadUtil.getUploadPath(request, AddrConstUtil.UPLOAD_IMAGE_FLAG), oldFileName);
+				if(oldFile.exists()) {
+					boolean bool=oldFile.delete();
+					logger.info("기존파일 삭제 여부:{}", bool);
+				}
+			}
+		}
+	
 	} else {
 		msg = "주소록 정보 수정 실패!";
 		url="/addrbook/addrbook";
@@ -384,13 +441,42 @@ public String edit_post(@ModelAttribute AddrBookVO vo, Model model) {
 	return "common/message";
 }
 
-@RequestMapping("/addrbook/testEdit")
-public void testedit() {
+@RequestMapping("/addrbook/testHome")
+public String testHome(@ModelAttribute AddrBookVO searchVo, Model model) {
+	// 페이징 처리 관련
+	// [1] PaginationInfo
+	AddrPaginationInfo pagingInfo = new AddrPaginationInfo();
+	pagingInfo.setBlockSize(AddrConstUtil.BLOCK_SIZE);
+	pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+	pagingInfo.setRecordCountPerPage(AddrConstUtil.HOME_COUNT);
 
+	// [2] searchVo
+	searchVo.setRecordCountPerPage(AddrConstUtil.HOME_COUNT);
+	searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+	logger.info("셋팅 후 searchVo={}", searchVo);
+
+	
+	List<AddrBookVO> list = addrService.selectAll(searchVo);
+	logger.info("list 조회 결과, list.size={}", list.size());
+	
+	int totalRecord = addrService.selectTotalRecord(searchVo);
+	logger.info("list, totalRecord={}", totalRecord);
+
+	pagingInfo.setTotalRecord(totalRecord);
+	
+	model.addAttribute("list", list);
+	model.addAttribute("pagingInfo", pagingInfo);
+	
+	return "addrbook/testHome";
+	
 }
 
+
+
 @RequestMapping("/addrbook/addrbook")
-public String addrList(@ModelAttribute AddrBookVO searchVo, Model model) {
+public String addrList(@ModelAttribute AddrBookVO searchVo, Model model,HttpSession session) {
+	
+	EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 	logger.info("list, 파라미터 searchVo.getChosung()={}", searchVo.getChosung());
 	
 	// 페이징 처리 관련

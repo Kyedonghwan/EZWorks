@@ -29,10 +29,12 @@
 	
 	<select id ="selectTotalRecord" parameterType="coEmpVo"
 		resultType="int">
-		select count(*) from coaddr_view
+		select count(*) from ZCOADDR_VIEW
 	</select>
 	
-
+	<select id="selectByEmpNo" parameterType="int" resultType="coEmpVo">
+	 	select * from ZCOADDR_VIEW where emp_no= ${empNo}
+	 </select>
 
 
 

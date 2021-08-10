@@ -2,8 +2,8 @@ package com.it.ez.addrbook.common;
 
 public interface AddrConstUtil {
 	int BLOCK_SIZE=10;  //블럭 크기
-	int RECORD_COUNT=5; //한 페이지에 보여줄 레코드 개수
-	
+	int RECORD_COUNT=7; //한 페이지에 보여줄 레코드 개수
+	int HOME_COUNT=5;
 
 	//파일 업로드 처리 관련 상수
 	String FILE_UPLOAD_TYPE="test";
