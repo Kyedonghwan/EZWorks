@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.it.ez.board.common.BoardSearchVO;
+import com.it.ez.comments.model.PostingCommentsDAO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostingServiceImpl implements PostingService{
 	private final PostingDAO postingDao;
+	private final PostingCommentsDAO postingCommentsDao;
 
 	@Override
 	public List<EmpPostingViewVO> selectByBoard(int boardNo) {
@@ -115,6 +117,8 @@ public class PostingServiceImpl implements PostingService{
 
 	@Override
 	public int deletePosting(int postingNo) {
+		int cnt2 = postingDao.deletePostingLikes(postingNo);
+		int cnt = postingCommentsDao.deleteReplies(postingNo);
 		return postingDao.deletePosting(postingNo);
 	}
 

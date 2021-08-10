@@ -13,4 +13,8 @@ public interface AttendanceService {
 	public List<AttendanceVO> selectByDate(Map<String, Object> map);
 	public int insertAttendance(AttendanceVO vo);
 	public List<List<AttendanceMainViewVO>> getDaysListFullDetail(int year, int month, int empNo);
+	public int isAttended(String startingDate, String endingDate, int empNo);
+	public int isEnded(String startingDate, String endingDate, int empNo);
+	public AttendanceVO todayAttendTime(String startingDate, String endingDate, int empNo);
+	public AttendanceVO todayEndTime(String startingDate, String endingDate, int empNo);
 }

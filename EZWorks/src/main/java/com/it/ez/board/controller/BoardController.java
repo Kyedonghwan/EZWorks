@@ -67,10 +67,8 @@ public class BoardController {
 		logger.info("게시판 메인 화면");
 		
 ///////////////////////temporary///////////////////////
-		EmpVO empVo=empService.selectEmpByEname("KIMDEMO");
-		session.setAttribute("empVo", empVo);
 		
-		/* EmpVO empVo = (EmpVO) session.getAttribute("empVo"); */
+		EmpVO empVo = (EmpVO) session.getAttribute("empVo");
 ///////////////////////temporary///////////////////////	
 		int empNo = empVo.getEmpNo();
 		int deptNo = empVo.getDeptNo();

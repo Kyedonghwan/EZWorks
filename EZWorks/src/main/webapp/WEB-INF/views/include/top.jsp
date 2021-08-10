@@ -19,7 +19,6 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/tree.css'/>">
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
-
 <!-- <script>
         $(document).ready(function(){
             var target = $("#sidebar");
@@ -44,7 +43,7 @@
 					<div class="d-flex justify-content-between">
 						<div class="logo">
 							<a href="<c:url value='/'/>"><img
-								src="<c:url value='/resources/images/logo/logo.png'/>"
+								src="<c:url value='/resources/images/logo/MainLogo.png'/>"
 								alt="Logo" srcset=""></a>
 						</div>
 						<div class="toggler">
@@ -53,100 +52,57 @@
 						</div>
 					</div>
 				</div>
-				<div class="card" style="background-color:#dce7f1">
-					<div class="card-body py-4 px-5">
-						<div class="d-flex align-items-center">
-							<div class="avatar avatar-xl">
-								<img src="<c:url value='/resources/images/faces/1.jpg'/>"
-									alt="Face 1">
-							</div>
-							<div class="ms-3 name">
-								<h5 class="font-bold">John Duck</h5>
-								<h6 class="text-muted mb-0">@johnducky</h6>
-							</div>
-						</div>
-						<hr>
-						<div class="d-flex align-items-center">
-							<div class="ms-2 name">
-								<ul>
-									<li><label>오늘 온 메일</label><span
-										style="display: inline-block; float: right">1</span></li>
-									<li><label>오늘의 일정</label><span style="align: right">1</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class="sidebar-menu">
 					<ul class="menu">
 
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>홈</span>
+						<li class="sidebar-item  "><a href="<c:url value='/'/>"
+							class='sidebar-link'> <i class="bi bi-house"></i> <span>홈</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>전자결재</span>
+							class='sidebar-link'> <i class="bi bi-clipboard-check"></i> <span>전자결재</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="<c:url value='/attendance/attendanceMain'/>"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>근태관리</span>
+							class='sidebar-link'> <i class="bi bi-stopwatch"></i> <span>근태관리</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="<c:url value='/calendar/calendarMain'/>"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>캘린더</span>
-						</a></li>
-
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>메일</span>
+							class='sidebar-link'> <i class="bi bi-calendar-event"></i> <span>캘린더</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="<c:url value='/board/boardMain'/>"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>게시판</span>
+							class='sidebar-link'> <i class="bi bi-pencil-square"></i> <span>게시판</span>
 						</a></li>
 
 						<li class="sidebar-item  ">
 							<a href="<c:url value='/community/communityMain'/>" class='sidebar-link'> 
-							<i class="bi bi-grid-1x2-fill"></i> <span>커뮤니티</span>
-						</a></li>
-
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>문서관리</span>
+							<i class="bi bi-people-fill"></i> <span>커뮤니티</span>
 						</a></li>
 
 						<li class="sidebar-item  "><a href="<c:url value='/reservation/reservMain'/>"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>자원예약</span>
+							class='sidebar-link'> <i class="bi bi-journal-bookmark-fill"></i> <span>자원예약</span>
 						</a></li>
+
 
 						<li class="sidebar-item  "><a href="<c:url value='/addrbook/coAddrbook'/>"
 							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>주소록</span>
 						</a></li>
 
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>보고</span>
-						</a></li>
-
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>설문</span>
-						</a></li>
 						
 						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>ToDO+</span>
-						</a></li>
-						
-						<li class="sidebar-item  "><a href="table.html"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>자료실</span>
+							class='sidebar-link'> <i class="bi bi-folder2-open"></i> <span>자료실</span>
 						</a></li>
 						
 						<li class="sidebar-item  "><a href="<c:url value='/message/messageList'/>"
-							class='sidebar-link'> <i class="bi bi-grid-1x2-fill"></i> <span>쪽지/채팅</span>
+							class='sidebar-link'> <i class="bi bi-chat-dots"></i> <span>쪽지/채팅</span>
 						</a></li>
 						
 						<li class="sidebar-item">
 							<div class="btn-group dropup mb-1" aria-orirentation="vertical">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 									data-bs-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">조직도</button>
+									aria-expanded="false"><i class="bi bi-diagram-3"></i> 조직도</button>
 								<div class="dropdown-menu" id="organizationDropdown" style="margin: 0px; border-radius:10px">
 									<input type="email" class="form-control" style="width: 95%;margin-left: 5px;"
 												id="searchOrgan" placeholder="이름/아이디/부서/전화번호">
@@ -194,19 +150,7 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 						</div>
-						<div>
-							<section>
-								<div class="input-group input-group-sm mb-1"
-									style="padding-right: 30px">
-									<select class="form-select input-group-text"
-										style="width: 100px; display: inline-block;">
-										<option>통합검색</option>
-										<option>option2<!-- parameter required --></option>
-									</select><input type="text" class="form-control" placeholder="검색하기"
-										style="width: 200px">
-								</div>
-							</section>
-						</div>
+						
 						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 							<li class="nav-item dropdown me-1"><a
 								class="nav-link active dropdown-toggle" href="#"
@@ -237,31 +181,19 @@
 							<a href="#" data-bs-toggle="dropdown" aria-expanded="false">
 								<div class="user-menu d-flex">
 									<div class="user-name text-end me-3">
-										<h6 class="mb-0 text-gray-600">John Ducky</h6>
-										<p class="mb-0 text-sm text-gray-600">Administrator</p>
+										<h6 class="mb-0 text-gray-600">${empVo.empName }</h6>
+										<p class="mb-0 text-sm text-gray-600">${empVo.posName }</p>
 									</div>
 									<div class="user-img d-flex align-items-center">
 										<div class="avatar avatar-md">
-											<img src="<c:url value='/resources/images/faces/1.jpg'/>">
+											<img src="<c:url value='/resources/images/faces/${empVo.empImg }'/>">
 										</div>
 									</div>
 								</div>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end"
 								aria-labelledby="dropdownMenuButton">
-								<li>
-									<h6 class="dropdown-header">Hello, John!</h6>
-								</li>
-								<li><a class="dropdown-item" href="#"><i
-										class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
-								<li><a class="dropdown-item" href="#"><i
-										class="icon-mid bi bi-gear me-2"></i> Settings</a></li>
-								<li><a class="dropdown-item" href="#"><i
-										class="icon-mid bi bi-wallet me-2"></i> Wallet</a></li>
-								<li>
-									<hr class="dropdown-divider">
-								</li>
-								<li><a class="dropdown-item" href="#"><i
+								<li><a class="dropdown-item" href="<c:url value='/logout'/>"><i
 										class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
 							</ul>
 						</div>
