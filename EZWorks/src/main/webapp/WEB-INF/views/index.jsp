@@ -453,17 +453,17 @@ li.postvos:hover {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-md-6 col-sm-12" style="min-width:525px">
                             <div class="card">
-                                <div class="card-content">
+                                <div class="card-content" style="min-width:500px">
                                 
-									<div style="padding: 0px; margin: 0px;border-bottom:1px solid #dfe3e7;">
+									<div style="padding: 0px; margin: 0px;border-bottom:1px solid #dfe3e7;min-width:500px">
 										<ul class="nav nav-tabs" role="tablist">
 											<li class="nav-item" role="presentation"
 												style="background-color: white"><a class="nav-link active"
 												id="seminar-tab" data-bs-toggle="tab" href="#seminar"
 												role="tab" aria-controls="seminar" aria-selected="false"
-												style="background-color: white; border-bottom:1px solid #dfe3e7;border-radius:10px">
+												style="background-color: white; border-bottom:1px solid #dfe3e7;">
 													EZWORKS 세미나&회의 </a>
 											</li>
 											<li class="nav-item" role="presentation"><a
@@ -488,7 +488,7 @@ li.postvos:hover {
 										</ul>
 									</div>
 								</div>
-                                <div class="tab-content" id="myTabContent" style="padding:20px;">
+                                <div class="tab-content" id="myTabContent" style="padding:20px;min-width:525px">
 									<div class="tab-pane fade show active" id="seminar" role="tabpanel" aria-labelledby="seminar-tab">
 									<span>seminar</span>
 									<ul style="list-style:none;padding:0px">
