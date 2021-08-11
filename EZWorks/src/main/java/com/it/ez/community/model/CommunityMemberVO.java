@@ -18,4 +18,5 @@ public class CommunityMemberVO extends CommunityVO{
 	//db에서 가져오는 가입 멤버용
 	private String empImg;
 	private String memberName;
+	private int currentStats;
 }

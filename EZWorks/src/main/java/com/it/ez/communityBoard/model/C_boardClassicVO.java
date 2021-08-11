@@ -29,8 +29,6 @@ public class C_boardClassicVO {
     
     // 파일 업로드 추가
     private int groupNo;
-    private int steps;
-    private int sortNo;
     private String images;
     private String fileName;
     private long fileSize;

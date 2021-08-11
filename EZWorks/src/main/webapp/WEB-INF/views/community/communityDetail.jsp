@@ -40,7 +40,65 @@
 
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
+$(function(){	
+	$('#btnSubmit').click(function(){
+		var boardName = $('input[name=boardName]').val();
+		var masterVal = $('#selectMaster option:selected').val();
+		var typeVal = $('.radioWrapper1 input[name=Type]:checked').val();		
+		var publicVal = $('.radioWrapper2 input[name=publicSet]:checked').val();
 
+		$('input[name=c_boardType]').val(typeVal);
+		$('input[name=boardMaster]').val(masterVal);
+		
+		if(boardName==null || boardName.isEmpty()){
+			Toastify({
+                text: "게시판 이름을 기입하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('.radioWrapper1 input[name=Type]').focus();
+		}else if(masterVal==null || masterVal.isEmpty()){
+			Toastify({
+                text: "운영자를 선택하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('#selectMaster').focus();
+		}else if(typeVal==null || typeVal.isEmpty()){
+			Toastify({
+                text: "게시판 유형을 선택하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('.radioWrapper1 input[name=Type]').focus();
+		}else if(publicVal==null || publicVal.isEmpty()){
+			Toastify({
+                text: "공개여부를 체크하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			return false;
+			$('.radioWrapper2 input[name=publicSet]').focus();
+		}else{
+			$('.frmWrite').submit();			
+		}	
+	});
+});
 </script>
 
 <%@ include file="../community/sidebar/sidebar2.jsp" %>	
