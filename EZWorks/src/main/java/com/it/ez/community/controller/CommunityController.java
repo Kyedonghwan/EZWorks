@@ -1,6 +1,8 @@
 package com.it.ez.community.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ez.community.common.CommunityConstUtil;
 import com.it.ez.community.common.CommunityFileUploadUtil;
 import com.it.ez.community.common.CommunitySearchVO;
+import com.it.ez.community.common.CommunityUtilty;
 import com.it.ez.community.common.CommunutyPaginationInfo;
 import com.it.ez.community.model.CommunityMemberVO;
 import com.it.ez.community.model.CommunityService;
@@ -29,7 +33,6 @@ import com.it.ez.communityBoard.model.C_boardFeedVO;
 import com.it.ez.communityBoard.model.C_boardReplyVO;
 import com.it.ez.communityBoard.model.C_boardService;
 import com.it.ez.communityBoard.model.C_boardVO;
-import com.it.ez.emp.model.EmpService;
 import com.it.ez.emp.model.EmpVO;
 
 import lombok.RequiredArgsConstructor;
@@ -89,6 +92,7 @@ public class CommunityController {
 		}
 		
 		List<CommunityMemberVO> memNo=communityService.findMemberNo(empNo);
+		logger.info("memNo={}", memNo);
 		model.addAttribute("memNo", memNo);
 		
 		for(int i=0; i<list.size(); i++) {
@@ -213,6 +217,12 @@ public class CommunityController {
 		
 		String msg="커뮤니티 개설 실패!", url="/community/communityNew";
 		if(cnt>0) {
+			CommunityMemberVO memVo = new CommunityMemberVO();
+			memVo.setCommunityLevel(3);
+			memVo.setMemberNo(empNo);
+			memVo.setCommunityNo(vo.getCommunityNo());
+			
+			communityService.insertCommunityMember(memVo);
 			msg="커뮤니티가 개설되었습니다.";
 			url="/community/communityMain";
 		}
@@ -399,7 +409,8 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/c_boardClassicDetail")
-	public String classicDetailCommunity(HttpSession session, 
+	public String classicDetailCommunity(HttpSession session,
+			HttpServletRequest request,
 			@ModelAttribute C_boardClassicVO classicVo,
 			@ModelAttribute CommunitySearchVO searchVo, Model model) {
 		logger.info("클래식 글 디테일, 파라미터 classicVo={},", classicVo);
@@ -449,6 +460,9 @@ public class CommunityController {
 
 		//글 디테일 보기
 		classicVo = c_boardService.selectClassicDetail(classicVo.getContentNo());
+		String fileInfo 
+		= CommunityUtilty.getFileInfo(classicVo.getOriginalFileName(), classicVo.getFileSize(), request);
+		model.addAttribute("fileInfo",fileInfo);
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("cboardVo", cboardVo);
@@ -461,7 +475,30 @@ public class CommunityController {
 		return "community/board/c_boardClassicDetail";
 		
 	}
+	
+	@RequestMapping("/download")
+	public ModelAndView download(@ModelAttribute C_boardClassicVO classicVo, 
+			HttpServletRequest request) {
+		//1
+		logger.info("다운로드 처리, 파라미터 classicVo={}", classicVo);
 		
+		//2
+		int cnt = c_boardService.updateDownCount(classicVo.getContentNo());
+		logger.info("다운로드 수 증가, 결과 cnt={}", cnt);
+
+		//3
+		Map<String, Object> map = new HashMap<>();
+		
+		String uploadPath = fileUploadUtil.getUploadPath(request, CommunityConstUtil.UPLOAD_FILE_FLAG);
+		File file = new File(uploadPath, classicVo.getFileName());
+		map.put("file", file);
+		map.put("originalFileName", classicVo.getOriginalFileName());
+		
+		//ModelAndView(String viewName, Map<String, ?> model)
+		ModelAndView mav=new ModelAndView("downloadView", map);
+		return mav;
+	}
+	
 	@RequestMapping("/communityOneFeed")
 	public String feedCommunity(HttpSession session,
 			@ModelAttribute C_boardFeedVO feedVo, Model model) {
@@ -486,8 +523,8 @@ public class CommunityController {
 		int writingCount=c_boardService.selectC_boardFeedCount(feedVo.getCommunityNo());
 		cboardVo.setWritingCount(writingCount);
 		
-		List<C_boardReplyVO> replyList=c_boardService.selectC_boardReply(feedVo.getContentNo());
 		List<C_boardFeedVO> feedList=c_boardService.selectFeed(feedVo);
+		List<C_boardReplyVO> replyList=c_boardService.selectC_boardReply(feedVo.getContentNo());
 		logger.info("글 전체 조회 결과, feedList.size={}, replyList.size={}, cboardVo={}", feedList.size(), replyList.size(), cboardVo);
 		
 		model.addAttribute("vo", vo);
@@ -556,7 +593,7 @@ public class CommunityController {
 		
 		return "common/message";
 	}
-	
+
 	@PostMapping("/communityOneReply")
 	public String replyCommunity(HttpSession session,
 			@ModelAttribute C_boardReplyVO replyVo, Model model) {

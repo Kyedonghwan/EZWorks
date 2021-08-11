@@ -113,6 +113,12 @@
 		where content_No=#{contentNo}
 	</select>
 	
+	<update id="updateDownCount" parameterType="int">
+		update c_boardClassic
+	 	set downCounts=downCounts+1
+	 	where content_No=#{contentNo}
+	</update>
+	
 	<select id="selectC_boardFeedAll" resultType="C_boardFeedVO">
 		select * from c_boardFeedView
 		order by content_No desc

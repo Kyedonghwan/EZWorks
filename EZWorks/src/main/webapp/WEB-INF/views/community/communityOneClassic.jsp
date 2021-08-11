@@ -48,15 +48,15 @@
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
-	$(function(){
-		$('#chkAll').change(function() {
-			if (this.checked) {
-				$('#ck2').prop('checked', true);
-			} else {
-				$('input[type=checkbox]').prop('checked', false);
-			}
-		});
+$(function(){	
+	$('#checkAll').change(function(){
+		if($('#checkAll').prop('checked')){
+			$('input[name="ck2"]').prop('checked',true); 
+		} else { 
+			$('input[name="ck2"]').prop('checked',false); } 
 	});
+});
+
 </script>
 
 <%@ include file="../community/sidebar/sidebar2.jsp" %>		
@@ -126,9 +126,9 @@
                                 </c:if>
                                 <c:if test="${!empty classicList}">
                                 	<c:forEach var="vo" items="${classicList}">
-		                                <tr>
+		                                <tr class="tr1">
 		                                	<td>
-												<input type="checkbox" id="ck2" class="form-check-input" >
+												<input type="checkbox" name="ck2" class="form-check-input" >
 								            </td>
 		                                    <td style="text-align:center">${vo.currentStats}</td>
 		                                    <td class="text-bold-500">
