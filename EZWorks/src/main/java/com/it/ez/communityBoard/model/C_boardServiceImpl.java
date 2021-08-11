@@ -142,6 +142,11 @@ public class C_boardServiceImpl implements C_boardService{
 	public int deleteReply(int replyNo) {
 		return c_boardDao.deleteReply(replyNo);
 	}
+
+	@Override
+	public int updateDownCount(int contentNo) {
+		return c_boardDao.updateDownCount(contentNo);
+	}
 	
 	
 }

@@ -25,6 +25,7 @@ public interface C_boardService {
 	int updateClassicReadCount(int contentNo);
 	int deleteC_boardClassic(int contentNo);
 	C_boardClassicVO selectClassicDetail(int contentNo);
+	int updateDownCount(int contentNo);
 	
 	//c_boardFeed
 	int insertBoardFeed(C_boardFeedVO feedVo);

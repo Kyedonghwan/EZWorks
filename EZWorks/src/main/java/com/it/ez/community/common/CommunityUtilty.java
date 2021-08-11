@@ -10,8 +10,7 @@ public class CommunityUtilty {
 			double dFileSize = fileSize/1000.0;
 			dFileSize = Math.round(dFileSize*10)/10.0;
 			
-			result="<img src='"+ request.getContextPath()
-					+"/resources/images/file.gif'> ";
+			result="<span class=\"fa-fw select-all fas\"></span> ";
 			result += fileName + " ("+dFileSize+"KB)";
 		}
 		return result;

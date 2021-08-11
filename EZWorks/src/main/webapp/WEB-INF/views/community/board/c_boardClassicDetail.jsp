@@ -3,8 +3,11 @@
 <%@ include file="../../include/top.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style type="text/css">
+	p{
+		margin-bottom:0;
+	}
 	.col-12 col-lg-12{
 		padding:0;
 	}
@@ -65,15 +68,7 @@
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
-	$(function(){
-		$('#chkAll').change(function() {
-			if(this.checked) {
-				$('input[type=checkbox]').prop('checked', true);
-			} else {
-				$('input[type=checkbox]').prop('checked', false);
-			}
-		});
-	});
+	
 </script>
 
 <%@ include file="../../community/sidebar/sidebar2.jsp" %>		
@@ -114,7 +109,7 @@
                     <div class="tab-content" id="myTabContent">  
                     <section class="classic_detail">
                     	<header class="article_header">
-                    		<h3>${classicVo.title}</h3>
+                    		<h4>${classicVo.title}</h4>
                     		<div class="writer_info">
                     			<span class="avatar bg-warning me-3">
            							<img src="<c:url value='/resources/images/faces/${classicVo.empImg}'/>">
@@ -126,9 +121,17 @@
                     				</span>
                     			</div>
                     		</div>
+                    		<div class="fileInfo" style="margin-left:43px">
+                    			<c:if test="${!empty classicVo.fileName}">
+									<a href="<c:url value='/community/download?contentNo=${classicVo.contentNo}&fileName=${classicVo.fileName}&originalFileName=${classicVo.originalFileName}'/>">
+										<span>${fileInfo}</span>
+									</a>
+									<span class="sp1">다운 : ${classicVo.downCounts}회</span>
+								</c:if>
+                    		</div>
                     	</header>
                     	<article class="article_view">
-                    		<div class="content">${classicVo.text}</div>
+                    		<div class="content">${fn:replace(classicVo.text, newLine, "<br>")}</div>
                     	</article>
                     </section>
                     <div class="contentList"><hr style="margin-bottom:0">

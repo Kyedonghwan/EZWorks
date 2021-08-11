@@ -168,11 +168,15 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#replyDelete").click(function(){
-			location.href="<c:url value='/community/replyDelete?replyNo="++"&communityNo=${feedVo.communityNo}&boardNo=${feedVo.boardNo}'/>";
+		var groupNo=$("input[name=groupNo]").val();
+		var replyNo=$("input[name=replyNo]").val();
+
+	$("#reply").each(function(idx, item){
+		$(item).find("#replyDelete").click(function(){
+			location.href="<c:url value='/community/replyDelete?replyNo="+replyNo+"'/>";
 		});
 		
-		$("#replySubmit").click(function(){
+		$(item).find("#replySubmit").click(function(){
 			if($("#replyText").val()==""){
 				Toastify({
 	                text: "댓글 내용을 입력하세요",
@@ -189,6 +193,27 @@
 			}
 		});
 		
+		$("#feedDelete").click(function(){
+			Swal.fire({
+				  title: '삭제 하시겠습니까?',
+				  html: "한번 삭제 처리되면 <br>내용을 복구할 수 없습니다.",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#435ebe',
+				  cancelButtonColor: '#6c757d',
+				  confirmButtonText: '삭제',
+				  cancelButtonText: '취소'
+				}).then((result) => {
+				  if (result.value) {
+					  location.href="<c:url value='/community/feedDelete?contentNo="+groupNo+"&communityNo=${cboardVo.communityNo}&boardNo=${cboardVo.boardNo}'/>";
+		              //"확인" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+				  }else{
+					  return false;
+				  }
+			})
+		});
+	});	
+
 		$("#btnSubmit").click(function(){
 			if($('#feedText').val()==""){
 				Toastify({
@@ -205,27 +230,7 @@
 				$('.feedForm').submit();
 			}
 		});
-	});
-	
-	function delete(){
-		Swal.fire({
-			  title: '삭제 하시겠습니까?',
-			  html: "한번 삭제 처리되면 <br>내용을 복구할 수 없습니다.",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#435ebe',
-			  cancelButtonColor: '#6c757d',
-			  confirmButtonText: '삭제',
-			  cancelButtonText: '취소'
-			}).then((result) => {
-			  if (result.value) {
-				  location.href="<c:url value='/community/feedDelete?contentNo="+groupNo+"&community_No=${cboardVo.communityNo}&boardNo=${cboardVo.boardNo}'/>";
-	              //"확인" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
-			  }else{
-				  return false;
-			  }
-		})
-	}
+	});	
 </script>
 
 
@@ -270,7 +275,7 @@
 		                               <label for="intro">새로운 정보, 기분 좋은 소식을 부서원들과 공유하세요.</label>
 		                           </div>
 		                           <div class="btnsubmit">
-		                           		<button type="submit" id="btnSubmit" class="btn btn-sm btn-outline-primary">이야기 하기</button>
+		                           		<button type="button" id="btnSubmit" class="btn btn-sm btn-outline-primary">이야기 하기</button>
 		                           </div>
 		                      </div>
 	                    </form>
@@ -282,12 +287,11 @@
 	                    		</li>
  	              			</c:if>
                   			<c:if test="${!empty feedList}">
-                  				<c:forEach var="vo" items="${feedList}">
-                  				<c:set var="contentNo" value="${vo.contentNo}"/>
+                  			<c:forEach var="vo" items="${feedList}">
                   				<li class="data_contents">
                   					<div class="feed_Data_Wrapper">
 	                  					<div class="btn-group mb-1 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
-		                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delete()">삭제</button>
+		                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="feedDelete">삭제</button>
 			                            </div>
 	                  					<span class="avatar avatar-lg me-3">
                   							<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
@@ -303,7 +307,7 @@
 			                    	<span class="fa-fw select-all fas"></span> 댓글 
 			                    	<span class=num_comment>${vo.replyCounts}</span>개
 			                    </div>
-			                  <div class="replyWrapper">
+			                   <div class="replyWrapper">
 			                    	<div class="replyCommon" id="replyArea">
 			                    		<ul class="reply">
 				                    		<c:if test="${empty replyList}">
@@ -330,10 +334,10 @@
 				                    		</c:if>
 			                    		</ul>
 			                    		<div class="reply_create" id="reply">
-			                    			<form action="/community/communityOneReply" method="post" class="replyform">
-				                    			<input type="text" name="boardNo" value="${cboardVo.boardNo}">
-				                    			<input type="text" name="groupNo">
-				                    			<input type="text" name="communityNo" value="${cboardVo.communityNo}">
+			                    			<form action="<c:url value='/community/communityOneReply'/>" method="post" class="replyform">
+				                    			<input type="hidden" name="boardNo" value="${cboardVo.boardNo}">
+				                    			<input type="hidden" name="groupNo" value="${vo.contentNo}">
+				                    			<input type="hidden" name="communityNo" value="${cboardVo.communityNo}">
 			                    				<div class="btn-group mb-1 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
 				                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="replyDelete">삭제</button>
 					                            </div>
@@ -343,10 +347,10 @@
 						                                <span class="avatar-status bg-success"></span>
 				                            		</div>
 				               						<span class="form-group mb-3">
-				                                        <textarea class="form-control" id="replyText" rows="3"></textarea>
+				                                        <textarea class="form-control" id="replyText" name="text" rows="3"></textarea>
 				                                    </span>
 				               						<span class="replysubmit">
-						                           		<button type="submit" id="replySubmit" class="btn btn-sm btn-outline-primary">댓글 작성</button>
+						                           		<button type="button" id="replySubmit" class="btn btn-sm btn-outline-primary">댓글 작성</button>
 						                           </span>
 				               					</div>
 			                    			</form>

@@ -32,14 +32,11 @@
 	    font-size: 0.9em;
 	    padding: 0;
 	}
+	p{
+		margin-bottom:0;
+	}
 </style>
 <script type="text/javascript">	
-$(function(){
-	$('#btnEnroll').click(function(){
-		location.href="<c:url value='/community/communityEroll?communityNo=${vo.communityNo}'/>";
-	});
-});
-
 function pageProc(curPage){
 	$('input[name=currentPage]').val(curPage);
 	$('form[name=frmPage]').submit();	
@@ -157,7 +154,7 @@ function pageProc(curPage){
 	                               </div>
 	                            </div><br> 
 		                     <div class="tab-pane fade" id="contact" role="tabpanel"
-	                            aria-labelledby="contact-tab"><br>
+	                            aria-labelledby="contact-tab">
 	                           <!-- Hoverable rows start -->
 		                     <div class="row" id="table-hover-row">
 	                            <!-- table hover -->
@@ -180,35 +177,46 @@ function pageProc(curPage){
 	                                         </c:if>
 	                                         <c:if test="${!empty list}">
 		                                       <c:forEach var="vo" items="${list}">
-			                                       <c:set var="empNo" value="${empVo.empNo}"/>
-				                                       <c:forEach var="memVo" items="${memNo}">
-															<c:set var="memberNo" value="${memVo.memberNo}"/>
-															<c:set var="communityNo" value="${memVo.communityNo}"/>
-													   </c:forEach>
-			                                       	 <tr class="tr1">
-		                                              <td class="td1">${vo.currentStats}</td>
-		                                              <td style="text-align:left; padding-left:30px">
-		                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">
-		                                              		${vo.communityName}</a></td>
-		                                              <td>${vo.memberCount}</td>
-		                                              <td>${vo.communityMaster}</td>
-		                                              <c:if test="${memberNo==empNo && communityNo==vo.communityNo}">
-				                                       	  <td>
-							                               	<!-- button trigger for  Vertically Centered modal -->
-					                                        <button type="button" class="btn btn-outline-primary block"
-					                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnEnroll">가입</button>
-					                                        <%@ include file="enrollModal.jsp" %>    
-		                                	   		     </td>
-		                                              </c:if>
-	                                	   		     <c:if test="${memberNo!=empNo}">
-				                                       	  <td>
-							                               	<!-- button trigger for  Vertically Centered modal -->
-					                                        <button type="button" class="btn btn-outline-primary block"
-					                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnOut">탈퇴</button>
-					                                        <%@ include file="outModal.jsp" %>   
-			                                	   		  </td>
-	                                	   		    </c:if> 
-		                                          </tr>
+		                                       	 <tr class="tr1">
+	                                              <td class="td1">${vo.currentStats}</td>
+	                                              <td style="text-align:left; padding-left:30px">
+	                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">
+	                                              		${vo.communityName}</a></td>
+	                                              <td>${vo.memberCount}</td>
+	                                              <td>${vo.communityMaster}</td>
+	                                            <c:forEach var="No" items="${memNo}">
+	                                      			<c:if test="${No.memberNo==empVo.empNo}">
+	                                            		<%-- <c:set var="memNumber" value="${No.memberNo}" /> --%>
+	                                            		<c:set var="comNo" value="${No.communityNo}" />
+	                                            	</c:if>
+	                                            </c:forEach>
+	                                            <c:forEach var="memNoVo" items="${memNo}">
+                                                   <c:if test="${memNoVo.communityNo==vo.communityNo}">
+                                                   <span>나옴ㅎ</span>
+	                                                   <c:choose>
+	                                                       <c:when test="${memNoVo.memberNo==empVo.empNo}">
+	                                                       <span>${memNoVo.memberNo}</span>
+	                                                           <td>
+	                                                           <!-- button trigger for  Vertically Centered modal -->
+	                                                           <button type="button" class="btn btn-outline-primary block"
+	                                                               data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnOut">탈퇴</button>
+	                                                           <%@ include file="outModal.jsp" %>   
+	                                                           </td>
+	                                                       </c:when>
+	                                                       <c:when test="${memNoVo.memberNo!=empVo.empNo}">
+	                                                       <span>${memNoVo.memberNo}</span>
+	                                                       	   <td>
+	                                                           <!-- button trigger for  Vertically Centered modal -->
+	                                                           <button type="button" class="btn btn-outline-primary block"
+	                                                               data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnEnroll" 
+	                                                               onclick="location.href='<c:url value='/community/communityEroll?communityNo=${vo.communityNo}'/>">가입</button>
+	                                                           <%@ include file="enrollModal.jsp" %>    
+	                                                           </td>
+	                                                   	   </c:when>
+	                                                   </c:choose>
+                                                   </c:if>
+                                               </c:forEach> 
+	                                          </tr>
 										   </c:forEach>
 										</c:if>  
 									 </tbody>
@@ -269,7 +277,7 @@ function pageProc(curPage){
 			                               <tr>
 			                                   <td class="col-3">
 			                                       <div class="d-flex align-items-center" style="text-align:left">
-			                                           <p class="font-bold ms-3 mb-0" id="cName">${vo.communityNo}.&nbsp <a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a></p>
+			                                           <p class="font-bold ms-3 mb-0" id="cName"><a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">${vo.communityName}</a></p>
 			                                       </div>
 			                                   </td>
 			                                   <td class="col-auto" style="text-align:left">
