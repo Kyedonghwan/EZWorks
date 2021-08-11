@@ -23,8 +23,16 @@
 <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.svg'/>" type="image/x-icon">
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/moment.min.js'/>"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/resources/fullcalendar-5.8.0/lib/main.css'/>" />
+<script type="text/javascript"
+	src="<c:url value='/resources/fullcalendar-5.8.0/lib/main.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script>
+var calendar = null;
 $(function(){
 	const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 	function changeDate() {
@@ -38,6 +46,91 @@ $(function(){
 		setInterval(changeDate, 1000); //1초 지난후 time()실행
 	}
 		time();
+	$('.delRBtn').click(function(){
+	    	Swal.fire({
+	    		  title: '일정을 삭제하시겠습니까?',
+	    		  icon: 'error',
+	    		  showCancelButton: true,
+	    		  confirmButtonColor: '#4374D9',
+	    		  cancelButtonColor: '#BDBDBD',
+	    		  confirmButtonText: '삭제'
+	    		}).then((result) => {
+	    		  if (result.isConfirmed) {
+		    		      $.ajax({
+		    				type:"get",
+		    				url:"<c:url value='/reservation/deleteReserv'/>",
+		    				data: "no="+$(this).val(),
+		    				success:function(){
+		    					location.href="<c:url value='/'/>";
+		    				}
+		    			});
+	    		  }
+	    		});
+	   });	
+	
+	//fullcalendar
+	var calendarEl = document.getElementById('calendar');
+		
+		calendar = new FullCalendar.Calendar(calendarEl,{
+			headerToolbar :{
+				left:'',
+				right : 'prev,next',
+				center : 'title'
+			}
+			,locale : "ko"
+			,navLinks : true	//날짜 클릭시 해당일 상세일정으로 view변경
+			,nowIndicator : true
+			,googleCalendarApiKey:'AIzaSyCJOdE9hNn95xSZLLXBPKWibvn7vF-drNc'
+			,editable : true	//일정 수정 여부
+			,selectable : true	//날짜셀 클릭여부
+			,dayMaxEvents : true // 일정이 많을 경우 'more'표시
+			,select : function() { // 날짜셀 클릭시(아래는 일정 추가) 
+				$('#writeModal').modal('show');
+			}
+			,eventSources:[{googleCalendarId:'ko.south_korea#holiday@group.v.calendar.google.com',
+							color:"#F15F5F"}]
+			
+			,eventClick:function(info){
+				location.href="${pageContext.request.contextPath}/calendar/calDetail?schNo="+info.event.id;
+			}
+			, events: function(info, successCallback, failureCallback){
+				$.ajax({
+					type:"get",
+					url:"<c:url value='/calendar/showCal'/>",
+					dataType:"json",
+					
+					success:function(res){
+						var events=[];
+						
+						$.each(res, function(idx,item){
+							if(item.schAll == "Y"){
+								events.push({
+									id:item.schNo,
+									title:item.schTitle,
+									start:item.schStart,
+									end:item.schEnd,
+									color:item.schColor,
+								});
+							}else if(item.schAll=="N" || item.schAll==null){
+								events.push({
+									id:item.schNo,
+									title:item.schTitle,
+									start:item.schStart+"T"+item.schStartTime,
+									end:item.schEnd+"T"+item.schEndTime,
+									color:item.schColor,
+								});
+							}
+							
+						});
+						
+						successCallback(events);
+					},error:function(){
+						alert("error");
+					}
+				});
+				}
+		});
+		calendar.render();
 	
 });
 function workIn(){
@@ -115,6 +208,78 @@ li.postvos{
 
 li.postvos:hover {
 	background-color:#f9f9f9;
+}
+#calendar{
+	height: auto 100%;
+}
+.fc-toolbar-chunk{
+	font-size:0.7em;
+}
+
+.type_normal {
+   width: 100%;
+}
+table {
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    width: 20%;
+}
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+.type_normal thead th {
+    height: 32px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: 13px;
+    text-align:left;
+    }
+.type_normal td {
+    padding: 10px 16px;
+    line-height: 1.6;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+.last:hover{
+	background-color: #EAEAEA;
+}
+p.data_null {
+    text-align: center;
+    color: #999;
+    padding: 32px;
+    font-size: 15px;
+}
+
+.btn_fn7 {
+    display: inline-block;
+    height: 25px;
+    line-height: 18px;
+    padding: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 14px;
+}
+.optional{
+	float:right;
 }
 </style>
 </head>
@@ -288,9 +453,9 @@ li.postvos:hover {
 			<!-- 헤더 끝 -->
 			<div class="page-content" style="bottom:0;align-content:stretch;min-height:auto;background:white;border-top:1px solid #dfe3e7;border-collapse: collapse;">
 				<section style="bottom:0;padding:0px;margin:0px;min-height:auto;">
-					<div style="bottom:0;width: 100%; min-height: auto;background-color:#eef1f6;min-height:calc(100vh - 90px);padding:0px 30px 0px 30px">
+					<div style="bottom:0;width: 100%; min-height: auto;background-color:#eef1f6;min-height:calc(100vh - 90px);padding:30px 30px 0px 30px">
 						
-						<span>내용물 넣어보셈</span>
+						<span>  </span>
 						<div class="row">
                         <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="card">
@@ -377,78 +542,9 @@ li.postvos:hover {
                                 </div>
                             </div>
                             <div class="card collapse-icon accordion-icon-rotate">
-                                <div class="card-header">
-                                    <h1 class="card-title pl-1">Accordion</h1>
-                                </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <div class="accordion" id="cardAccordion">
-                                            <div class="card">
-                                                <div class="card-header" id="headingOne" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="false"
-                                                    aria-controls="collapseOne" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 1</span>
-                                                </div>
-                                                <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
-                                                    data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Cheesecake muffin cupcake dragée lemon drops tiramisu cake
-                                                        gummies chocolate
-                                                        cake. Marshmallow tart
-                                                        croissant. Tart dessert tiramisu marzipan lollipop lemon drops.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card collapse-header">
-                                                <div class="card-header" id="headingTwo" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 2</span>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo"
-                                                    data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Pastry pudding cookie toffee bonbon jujubes jujubes powder
-                                                        topping. Jelly
-                                                        beans
-                                                        gummi bears sweet
-                                                        roll bonbon muffin liquorice. Wafer lollipop sesame snaps.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card open">
-                                                <div class="card-header" id="headingThree" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="true"
-                                                    aria-controls="collapseThree" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 3</span>
-                                                </div>
-                                                <div id="collapseThree" class="collapse show pt-1"
-                                                    aria-labelledby="headingThree" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet
-                                                        roll topping
-                                                        fruitcake. Caramels
-                                                        liquorice biscuit ice cream fruitcake cotton candy tart.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-header" id="headingFour" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseFour" aria-expanded="false"
-                                                    aria-controls="collapseFour" role="button">
-                                                    <span class="collapsed  collapse-title">Accordion Item 4</span>
-                                                </div>
-                                                <div id="collapseFour" class="collapse pt-1"
-                                                    aria-labelledby="headingFour" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet
-                                                        roll topping
-                                                        fruitcake. Caramels
-                                                        liquorice biscuit ice cream fruitcake cotton candy tart.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div id="calendar"></div>
                                     </div>
                                 </div>
                             </div>
@@ -531,11 +627,111 @@ li.postvos:hover {
 										</c:forEach>
 									</ul>
 									</div>
+									
+									<!-- 임시 예약 -->
+									
 								</div>
                             </div>
-                            
-                    </div>
-						
+								<div class="col-xl-12 col-md-3">
+									<div class="card">
+										<div class="card-content">
+											<div class="card-body">
+												<h4 class="card-title">자원예약</h4>
+											</div>
+											<div class="card-body">
+												<table class="type_normal list_reser004 tb_myReserv">
+													<thead>
+														<tr>
+															<th class="sorting_disable name"><span
+																class="title_sort">이름</span></th>
+
+															<th class="sorting_disable action"><span
+																class="title_sort">취소/반납</span></th>
+														</tr>
+													</thead>
+													<tbody id="myCondition">
+														<c:if test="${empty aList }">
+															<tr class="last">
+																<td colspan="5" class="last">
+																	<p class="data_null">
+																		<span>예약/대여 중인 항목이 없습니다.</span>
+																	</p>
+																</td>
+															</tr>
+														</c:if>
+														<c:if test="${!empty aList }">
+															<c:forEach var="vo" items="${aList }">
+																<tr class="last">
+																	<td class="name"><span class="tdSpan">${vo.rvdName }</span>
+																	</td>
+																	<td class="action">
+																		<button class="btn_fn7 delRBtn" value="${vo.no }">취소</button>
+																	</td>
+																</tr>
+															</c:forEach>
+														</c:if>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<div class="col-xl-3 col-md-3 col-sm-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Carousel</h4>
+                                        <h6 class="card-subtitle">Support card subtitle</h6>
+                                    </div>
+                                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="assets/images/samples/architecture1.jpg" class="d-block w-100"
+                                                    alt="Image Architecture">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="assets/images/samples/bg-mountain.jpg" class="d-block w-100"
+                                                    alt="Image Mountain">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="assets/images/samples/jump.jpg" class="d-block w-100"
+                                                    alt="Image Jump">
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                            data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                            data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda
+                                            mollitia
+                                            officia dolorum eius quasi.Chocolate sesame snaps apple pie danish cupcake
+                                            sweet roll
+                                            jujubes tiramisu.
+                                        </p>
+                                        <p class="card-text">
+                                            Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet
+                                            roll. Toffee
+                                            sugar
+                                            plum sugar
+                                            plum jelly-o jujubes bonbon dessert carrot cake.
+                                            Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping
+                                            fruitcake.
+                                            Caramels liquorice
+                                            biscuit ice cream fruitcake cotton candy tart.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 					</div>
 				</section>
 			</div>

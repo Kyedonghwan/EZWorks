@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.attendance.model.AttendanceService;
 import com.it.ez.attendance.model.AttendanceVO;
@@ -18,6 +19,8 @@ import com.it.ez.emp.model.EmpService;
 import com.it.ez.emp.model.EmpVO;
 import com.it.ez.posting.model.BoardClassicPostingVO;
 import com.it.ez.posting.model.PostingService;
+import com.it.ez.reservation.model.ReservService;
+import com.it.ez.reservation.model.reservViewVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +33,7 @@ public class MainController {
 	private final AttendanceService attendanceService;
 	private final EmpService empService;
 	private final PostingService postingService;
+	private final ReservService reservService;
 	
 	@RequestMapping("/")
 	public String main(HttpSession session, Model model, @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month, @RequestParam(required = false) Integer date) {
@@ -71,15 +75,25 @@ public class MainController {
 		List<BoardClassicPostingVO> dfacList = postingService.selectForMain(2);
 		List<BoardClassicPostingVO> eznewsList = postingService.selectForMain(5);
 		List<BoardClassicPostingVO> itnewsList = postingService.selectForMain(4);
+		List<reservViewVO> aList = reservService.selectResrvAll();
 		
 		model.addAttribute("seminarList", seminarList);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("dfacList", dfacList);
 		model.addAttribute("eznewsList", eznewsList);
 		model.addAttribute("itnewsList", itnewsList);
-		
+		model.addAttribute("aList", aList);
 		
 		
 		return "index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteReserv")
+	public void delCal(@RequestParam(defaultValue = "0")int no) {
+		logger.info("삭제처리 no={}",no);
+		
+		int result=reservService.deleteResev(no);
+		logger.info("삭제처리 결과, result={}",result);
 	}
 }
