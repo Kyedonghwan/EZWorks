@@ -437,7 +437,6 @@ function workIn(){
 	if(button.classList.contains('off')){
 		return false;
 	}else{
-		alert('여기로 넘어옴');
 		$('#workInTime').html(workInHour);
 		document.getElementById('workIn').classList.add("off");
 		/* ajax 추가 */
@@ -450,7 +449,6 @@ function workIn(){
 			}
 			,dataType:"json"
 			,success:function(attendanceVo){ 
-				alert('됨');
 				console.info(attendanceVo);
 			},
 			error:function(xhr, status, error){
