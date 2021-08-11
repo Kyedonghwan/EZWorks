@@ -114,6 +114,9 @@
 	<delete id="deletePostingLikes">
 		delete from emp_likes_posting where posting_no = #{postingNo}
 	</delete>
+	<select id="selectForMain" resultType="BoardClassicPostingVO" parameterType="int">
+		select * from posting_view_classic where board_no = #{boardNo} and rownum between 1 and 5 order by posting_regdate desc
+	</select>
 </mapper>
 
 

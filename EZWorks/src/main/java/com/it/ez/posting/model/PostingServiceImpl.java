@@ -126,4 +126,9 @@ public class PostingServiceImpl implements PostingService{
 	public int updateViewCount(int postingNo) {
 		return postingDao.updateViewCount(postingNo);
 	}
+
+	@Override
+	public List<BoardClassicPostingVO> selectForMain(int boardNo) {
+		return postingDao.selectForMain(boardNo);
+	}
 }

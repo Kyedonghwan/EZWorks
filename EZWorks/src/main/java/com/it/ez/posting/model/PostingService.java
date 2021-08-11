@@ -36,4 +36,5 @@ public interface PostingService {
 	public int deleteFileList(int postingNo);
 	public int deletePosting(int postingNo);
 	public int updateViewCount(int postingNo);
+	public List<BoardClassicPostingVO> selectForMain(int boardNo);
 }

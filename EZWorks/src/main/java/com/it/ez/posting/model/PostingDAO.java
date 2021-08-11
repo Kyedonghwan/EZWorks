@@ -31,4 +31,5 @@ public interface PostingDAO {
 	public int deletePosting(int postingNo);
 	public int updateViewCount(int postingNo);
 	public int deletePostingLikes(int postingNo);
+	public List<BoardClassicPostingVO> selectForMain(int boardNo);
 }

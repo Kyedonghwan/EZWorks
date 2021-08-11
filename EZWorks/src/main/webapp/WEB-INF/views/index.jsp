@@ -100,6 +100,23 @@ function workOut(){
 	}
 }
 </script>
+<style type="text/css">
+.tab-pane li p{
+	padding:0px;
+	margin:0px;
+}
+.tab-pane li span{
+	font-size:0.8em;
+}
+li.postvos{
+	padding:16px 24px;
+	margin:0px 0px;
+}
+
+li.postvos:hover {
+	background-color:#f9f9f9;
+}
+</style>
 </head>
 
 <body style="min-width:1260px;background-color:white">
@@ -359,277 +376,89 @@ function workOut(){
 										
                                 </div>
                             </div>
-                            <div class="card collapse-icon accordion-icon-rotate">
-                                <div class="card-header">
-                                    <h1 class="card-title pl-1">Accordion</h1>
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <div class="accordion" id="cardAccordion">
-                                            <div class="card">
-                                                <div class="card-header" id="headingOne" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="false"
-                                                    aria-controls="collapseOne" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 1</span>
-                                                </div>
-                                                <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
-                                                    data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Cheesecake muffin cupcake dragée lemon drops tiramisu cake
-                                                        gummies chocolate
-                                                        cake. Marshmallow tart
-                                                        croissant. Tart dessert tiramisu marzipan lollipop lemon drops.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card collapse-header">
-                                                <div class="card-header" id="headingTwo" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 2</span>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo"
-                                                    data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Pastry pudding cookie toffee bonbon jujubes jujubes powder
-                                                        topping. Jelly
-                                                        beans
-                                                        gummi bears sweet
-                                                        roll bonbon muffin liquorice. Wafer lollipop sesame snaps.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card open">
-                                                <div class="card-header" id="headingThree" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="true"
-                                                    aria-controls="collapseThree" role="button">
-                                                    <span class="collapsed collapse-title">Accordion Item 3</span>
-                                                </div>
-                                                <div id="collapseThree" class="collapse show pt-1"
-                                                    aria-labelledby="headingThree" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet
-                                                        roll topping
-                                                        fruitcake. Caramels
-                                                        liquorice biscuit ice cream fruitcake cotton candy tart.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-header" id="headingFour" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseFour" aria-expanded="false"
-                                                    aria-controls="collapseFour" role="button">
-                                                    <span class="collapsed  collapse-title">Accordion Item 4</span>
-                                                </div>
-                                                <div id="collapseFour" class="collapse pt-1"
-                                                    aria-labelledby="headingFour" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet
-                                                        roll topping
-                                                        fruitcake. Caramels
-                                                        liquorice biscuit ice cream fruitcake cotton candy tart.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="card-content">
-                                    <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                        alt="singleminded">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Be Single Minded</h5>
-                                        <p class="card-text">
-                                            Chocolate sesame snaps apple pie danish cupcake sweet roll jujubes
-                                            tiramisu.Gummies
-                                            bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet roll.
-                                        </p>
-                                    </div>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                </ul>
+                                
+									<div style="padding: 0px; margin: 0px;border-bottom:1px solid #dfe3e7;">
+										<ul class="nav nav-tabs" role="tablist">
+											<li class="nav-item" role="presentation"
+												style="background-color: white"><a class="nav-link active"
+												id="seminar-tab" data-bs-toggle="tab" href="#seminar"
+												role="tab" aria-controls="seminar" aria-selected="false"
+												style="background-color: white; border-bottom:1px solid #dfe3e7;border-radius:10px">
+													EZWORKS 세미나&회의 </a>
+											</li>
+											<li class="nav-item" role="presentation"><a
+												class="nav-link" id="notice-tab" data-bs-toggle="tab"
+												href="#notice" role="tab" aria-controls="notice"
+												aria-selected="true"
+												style="background-color: white; border-bottom: 1px solid #dfe3e7;">
+													전사 공지 </a></li>
+											<li class="nav-item" role="presentation"
+												style="background-color: white"><a class="nav-link"
+												id="dfac-tab" data-bs-toggle="tab" href="#dfac"
+												role="tab" aria-controls="dfac" aria-selected="false"
+												style="background-color: white; border-bottom:1px solid #dfe3e7;">
+													주간식단표 </a>
+											</li><li class="nav-item" role="presentation"
+												style="background-color: white"><a class="nav-link"
+												id="eznews-tab" data-bs-toggle="tab" href="#eznews"
+												role="tab" aria-controls="eznews" aria-selected="false"
+												style="background-color: white; border-bottom:1px solid #dfe3e7;">
+													EZWORKS 소식 </a>
+											</li>
+										</ul>
+									</div>
+								</div>
+                                <div class="tab-content" id="myTabContent" style="padding:20px;">
+									<div class="tab-pane fade show active" id="seminar" role="tabpanel" aria-labelledby="seminar-tab">
+									<span>seminar</span>
+									<ul style="list-style:none;padding:0px">
+										<c:forEach var="seminarVo" items="${seminarList }" >
+										<li class="postVos">
+											<p>${seminarVo.postingTitle }</p>
+											<span> <fmt:formatDate value="${seminarVo.postingRegdate }" pattern="yyyy-MM-dd HH:mm"/> </span><span>${seminarVo.empName } ${seminarVo.posName }</span>									
+										</li>
+										</c:forEach>
+									</ul>
+									</div>
+									<div class="tab-pane fade" id="notice" role="tabpanel" aria-labelledby="notice-tab">
+									<ul style="list-style:none;padding:0px">
+										<c:forEach var="noticeVo" items="${noticeList }" >
+										<li class="postVos">
+											<p>${noticeVo.postingTitle }</p>
+											<span> <fmt:formatDate value="${noticeVo.postingRegdate }" pattern="yyyy-MM-dd HH:mm"/> </span><span>${noticeVo.empName } ${noticeVo.posName }</span>									
+										</li>
+										</c:forEach>
+									</ul>
+									</div>
+
+									<div class="tab-pane fade" id="dfac" role="tabpanel" aria-labelledby="dfac-tab">
+									<ul style="list-style:none;padding:0px">
+										<c:forEach var="dfacVo" items="${dfacList }" >
+										<li class="postVos">
+											<p>${dfacVo.postingTitle }</p>
+											<span> <fmt:formatDate value="${dfacVo.postingRegdate }" pattern="yyyy-MM-dd HH:mm"/> </span><span>${dfacVo.empName } ${dfacVo.posName }</span>									
+										</li>
+										</c:forEach>
+									</ul>
+									</div>
+									<div class="tab-pane fade" id="eznews" role="tabpanel" aria-labelledby="eznews-tab">
+									<ul style="list-style:none;padding:0px">
+										<c:forEach var="eznewsVo" items="${eznewsList }" >
+										<li class="postVos">
+											<p>${eznewsVo.postingTitle }</p>
+											<span> <fmt:formatDate value="${eznewsVo.postingRegdate }" pattern="yyyy-MM-dd HH:mm"/> </span><span>${eznewsVo.empName } ${eznewsVo.posName }</span>									
+										</li>
+										</c:forEach>
+									</ul>
+									</div>
+								</div>
                             </div>
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-0">Video Card</h4>
-                                    </div>
-                                    <div class="embed-responsive embed-responsive-item embed-responsive-16by9 w-100">
-                                        <iframe src="https://www.youtube.com/embed/Pw9QB7Zp3iU" style="width:100%"
-                                            height="300" allowfullscreen></iframe>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text">
-                                            Candy cupcake sugar plum oat cake wafer marzipan jujubes.
-                                            Jelly-o sesame snaps cheesecake topping. Cupcake fruitcake macaroon donut
-                                            pastry gummies
-                                            tiramisu
-                                            chocolate bar muffin.
-                                        </p>
-                                        <a href="#" class="card-link">Card link</a>
-                                        <a href="#" class="card-link">Another link</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-md-6 col-sm-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Carousel</h4>
-                                        <h6 class="card-subtitle">Support card subtitle</h6>
-                                    </div>
-                                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <img src="assets/images/samples/architecture1.jpg" class="d-block w-100"
-                                                    alt="Image Architecture">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img src="assets/images/samples/bg-mountain.jpg" class="d-block w-100"
-                                                    alt="Image Mountain">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img src="assets/images/samples/jump.jpg" class="d-block w-100"
-                                                    alt="Image Jump">
-                                            </div>
-                                        </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                                            data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                                            data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt assumenda
-                                            mollitia
-                                            officia dolorum eius quasi.Chocolate sesame snaps apple pie danish cupcake
-                                            sweet roll
-                                            jujubes tiramisu.
-                                        </p>
-                                        <p class="card-text">
-                                            Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet
-                                            roll. Toffee
-                                            sugar
-                                            plum sugar
-                                            plum jelly-o jujubes bonbon dessert carrot cake.
-                                            Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping
-                                            fruitcake.
-                                            Caramels liquorice
-                                            biscuit ice cream fruitcake cotton candy tart.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Feedback Form</h4>
-                                        <p class="card-text">
-                                            Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet
-                                            roll. Toffee
-                                            sugar
-                                            plum sugar
-                                            plum jelly-o jujubes bonbon dessert carrot cake.
-                                        </p>
-                                        <form class="form" method="post">
-                                            <div class="form-body">
-                                                <div class="form-group">
-                                                    <label for="feedback1" class="sr-only">Name</label>
-                                                    <input type="text" id="feedback1" class="form-control"
-                                                        placeholder="Name" name="name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="feedback4" class="sr-only">Last Game</label>
-                                                    <input type="text" id="feedback4" class="form-control"
-                                                        placeholder="Last Name" name="LastName">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="feedback2" class="sr-only">Email</label>
-                                                    <input type="email" id="feedback2" class="form-control"
-                                                        placeholder="Email" name="email">
-                                                </div>
-                                                <div class="form-group">
-                                                    <select name="reason" class="form-control">
-                                                        <option value="Inquiry">Inquiry</option>
-                                                        <option value="Complain">complaints</option>
-                                                        <option value="Quotation">Quotation</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group form-label-group">
-                                                    <textarea class="form-control" id="label-textarea" rows="3"
-                                                        placeholder="Suggestion"></textarea>
-                                                    <label for="label-textarea"></label>
-                                                </div>
-                                            </div>
-                                            <div class="form-actions d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                                <button type="reset" class="btn btn-light-primary">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <img class="card-img-top img-fluid" src="assets/images/samples/origami.jpg"
-                                        alt="Card image cap" style="height: 20rem" />
-                                    <div class="card-body">
-                                        <h4 class="card-title">Top Image Cap</h4>
-                                        <p class="card-text">
-                                            Jelly-o sesame snaps cheesecake topping. Cupcake fruitcake macaroon donut
-                                            pastry gummies tiramisu chocolate bar muffin. Dessert bonbon caramels
-                                            brownie chocolate
-                                            bar
-                                            chocolate tart dragée.
-                                        </p>
-                                        <p class="card-text">
-                                            Cupcake fruitcake macaroon donut pastry gummies tiramisu chocolate bar
-                                            muffin.
-                                        </p>
-                                        <button class="btn btn-primary block">Update now</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Bottom Image Cap</h4>
-                                        <p class="card-text">
-                                            Jelly-o sesame snaps cheesecake topping. Cupcake fruitcake macaroon donut
-                                            pastry gummies tiramisu chocolate bar muffin. Dessert bonbon caramels
-                                            brownie chocolate
-                                            bar
-                                            chocolate tart dragée.
-                                        </p>
-                                        <p class="card-text">
-                                            Cupcake fruitcake macaroon donut pastry gummies tiramisu chocolate bar
-                                            muffin.
-                                        </p>
-                                        <small class="text-muted">Last updated 3 mins ago</small>
-                                    </div>
-                                    <img class="card-img-bottom img-fluid" src="assets/images/samples/water.jpg"
-                                        alt="Card image cap" style="height: 20rem; object-fit: cover;">
-                                </div>
-                            </div>
-                        </div>
+                            
                     </div>
 						
 					</div>

@@ -1,6 +1,7 @@
 package com.it.ez.main.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,12 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ez.attendance.model.AttendanceService;
 import com.it.ez.attendance.model.AttendanceVO;
 import com.it.ez.emp.model.EmpService;
 import com.it.ez.emp.model.EmpVO;
+import com.it.ez.posting.model.BoardClassicPostingVO;
+import com.it.ez.posting.model.PostingService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class MainController {
 	
 	private final AttendanceService attendanceService;
 	private final EmpService empService;
+	private final PostingService postingService;
 	
 	@RequestMapping("/")
 	public String main(HttpSession session, Model model, @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month, @RequestParam(required = false) Integer date) {
@@ -62,6 +65,20 @@ public class MainController {
 		int posNo = empVo.getPosNo();
 		String posName = empService.selectPosName(posNo);
 		model.addAttribute("posName", posName);
+		
+		List<BoardClassicPostingVO> seminarList = postingService.selectForMain(9);
+		List<BoardClassicPostingVO> noticeList = postingService.selectForMain(1);
+		List<BoardClassicPostingVO> dfacList = postingService.selectForMain(2);
+		List<BoardClassicPostingVO> eznewsList = postingService.selectForMain(5);
+		List<BoardClassicPostingVO> itnewsList = postingService.selectForMain(4);
+		
+		model.addAttribute("seminarList", seminarList);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("dfacList", dfacList);
+		model.addAttribute("eznewsList", eznewsList);
+		model.addAttribute("itnewsList", itnewsList);
+		
+		
 		
 		return "index";
 	}
