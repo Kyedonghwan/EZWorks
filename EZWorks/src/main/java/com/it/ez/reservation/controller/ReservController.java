@@ -1,6 +1,10 @@
 package com.it.ez.reservation.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.reservDt.model.ReservDtService;
 import com.it.ez.reservDt.model.ReservDtVO;
+import com.it.ez.reservation.common.ReservConstUtil;
+import com.it.ez.reservation.common.ReservFileUploadUtil;
 import com.it.ez.reservation.model.ReservService;
 import com.it.ez.reservation.model.ReservVO;
 import com.it.ez.reservation.model.ReservationVO;
@@ -30,6 +36,7 @@ public class ReservController {
 	
 	private final ReservService reservService;
 	private final ReservDtService reservDtService;
+	private final ReservFileUploadUtil reservFileUploadUtil;
 	
 	@RequestMapping("/reservMain")
 	public void showMain() {
@@ -37,8 +44,49 @@ public class ReservController {
 	}
 	
 	@GetMapping("/reservSetting")
-	public void reservSet() {
+	public void reservSet(@RequestParam int rvNo, Model model) {
 		logger.info("예약 설정 보여주기");
+		
+		ReservVO vo = reservService.selectResrvById(rvNo);
+		logger.info("예약 설정 결과, vo={}",vo);
+		List<ReservDtVO> list = reservDtService.selectReservDtById(rvNo);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
+	}
+	
+	@PostMapping("/reservSetting")
+	public String reservSetPost(@ModelAttribute ReservVO vo,HttpServletRequest request) {
+		logger.info("예약 설정 설명 수정, vo={}",vo);
+		
+		
+		String fileName="", originalFileName="";
+		long fileSize=0;
+		try {
+			List<Map<String, Object>> list 
+				= reservFileUploadUtil.fileUpload(request, ReservConstUtil.UPLOAD_FILE_FLAG);
+			for(int i=0;i<list.size();i++) {
+				Map<String, Object> map =list.get(i);
+				fileName=(String) map.get("fileName");
+				originalFileName=(String) map.get("originalFileName");
+				fileSize= (Long) map.get("fileSize");				
+			}
+			
+			logger.info("파일 업로드 성공, fileName={}, fileSize={}", 
+					fileName, fileSize);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		vo.setFileName(fileName);
+		vo.setFileSize(fileSize);
+		vo.setOriginalFileName(originalFileName);
+		
+		int res = reservService.updateReserv(vo);
+		logger.info("예약 설정 설명 수정 결과, res={}",res);
+		return "redirect:/reservation/reservCategory?rvNo="+vo.getRvNo();
 	}
 	
 	@GetMapping("/reservEdit")
@@ -98,9 +146,9 @@ public class ReservController {
 	
 	@ResponseBody
 	@GetMapping("/listReservation")
-	public List<ReservationVO> listReservation(@RequestParam String cateNo) {
-		logger.info("예약 리스트 보여주기, 파라미터, cateNo={}",cateNo);
-		List<ReservationVO> list = reservService.showReservList(cateNo);
+	public List<ReservationVO> listReservation() {
+		logger.info("예약 리스트 보여주기");
+		List<ReservationVO> list = reservService.showReservList();
 		logger.info("예약 리스트 보여주기, list.size()={}",list.size());
 		
 		return list;

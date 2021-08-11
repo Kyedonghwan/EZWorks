@@ -143,13 +143,15 @@
 .joinVal{
 	background-color: #D9E5FF;
 	border-radius: 10px;
-	width: 5%;
+	border: 1px solid #D9E5FF;
+	width: 14%;
 	padding: 3px 3px 3px 3px;
 }
 .tree{
 	background-color: #D9E5FF;
 	border-radius: 10px;
-	width: 5%;
+	border: 1px solid #D9E5FF;
+	width: 14%;
 	padding: 3px 3px 3px 3px;
 }
 p{
@@ -289,12 +291,6 @@ p{
 			<textarea class="form-control" id="exampleFormControlTextarea1"
 				rows="10" name="schContent">
 			</textarea>
-		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">예약하기</label>
-			<div>
-				<span>본사 1층 회의실</span>
-			</div>
 		</div>
 		<div style="text-align: center" class="registerDiv">
 			<input type="submit" class="btn btn-primary ml-1" id="reg_ok" value="확인">

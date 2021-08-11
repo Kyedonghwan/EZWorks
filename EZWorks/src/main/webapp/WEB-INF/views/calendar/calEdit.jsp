@@ -101,7 +101,7 @@ $(document).ready(function () {
     $('#addExtAttend').click(function(){
     	$('.addExtAttend').show();
     	var joinVal = $('#join').val();
-    	$('#add').append("<input type='text' class='joinVal' name='schExtAttend' value='"+joinVal+"'><span class='fa-fw select-all fas'></span>&nbsp;&nbsp;");
+    	$('#add').append("<input type='text' class='joinVal' name='schExtAttend' value='"+joinVal+"'>&nbsp;&nbsp;");
     	$('.joinVal').click(function(){
 			$(this).remove();
 		});
@@ -119,13 +119,15 @@ $(document).ready(function () {
 .joinVal{
 	background-color: #D9E5FF;
 	border-radius: 10px;
-	width: 5%;
+	border: 1px solid #D9E5FF;
+	width: 14%;
 	padding: 3px 3px 3px 3px;
 }
 .tree{
 	background-color: #D9E5FF;
 	border-radius: 10px;
-	width: 5%;
+	border: 1px solid #D9E5FF;
+	width: 14%;
 	padding: 3px 3px 3px 3px;
 }
 p{
@@ -206,7 +208,7 @@ p{
 </div>
 <div class="card-body" style="height: 100%;border-left: 1px solid #BDBDBD">
 	<form name="regFrm" action="<c:url value='/calendar/calEdit'/>" method="post">
-		<input type="text" value="${param.schNo}" name="schNo">
+		<input type="hidden" value="${param.schNo}" name="schNo">
 		<div class="registerDiv">
 			<input type="text" id="title" class="form-control round" 
 				name="schTitle" value="${vo.schTitle }"><span id="append" style="color: red;display:inline-block;font-size: 1.6em;">*</span>
@@ -226,8 +228,6 @@ p{
                         <input type="checkbox" class="form-check-input form-check-primary form-check-glow" 
                         	name="customCheck" style="margin-right: 0px" id="customColorCheck6" id="schAll">
                         <label style="font-size: 1em">종일</label>
-                        <input type="text" name="schAll" id="cfSchAll" value="${vo.schAll }">
-                        <input type=text" name="schAll" id="inschAll">
                     </div>
 		</div>
 		<div class="registerDiv" id="myCalSelect">
@@ -270,12 +270,6 @@ p{
 			<label class="writeLabel">내용</label>
 			<textarea class="form-control" id="exampleFormControlTextarea1"
 				rows="10" name="schContent">${vo.schContent }</textarea>
-		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">예약하기</label>
-			<div>
-				<span>본사 1층 회의실</span>
-			</div>
 		</div>
 		<div style="text-align: center" class="registerDiv">
 			<input type="submit" class="btn btn-primary ml-1" id="reg_ok" value="수정">

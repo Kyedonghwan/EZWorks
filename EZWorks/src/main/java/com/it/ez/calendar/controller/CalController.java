@@ -2,6 +2,8 @@ package com.it.ez.calendar.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.calendar.model.CalendarService;
 import com.it.ez.calendar.model.CalendarVO;
+import com.it.ez.emp.model.EmpVO;
 import com.it.ez.schcate.model.SchCateService;
 import com.it.ez.schcate.model.SchCateVO;
 
@@ -30,10 +33,11 @@ public class CalController {
 	private final SchCateService schCateService;
 	
 	@RequestMapping("/calendarMain")
-	public void Calendar(Model model) {
+	public void Calendar(Model model, HttpSession session) {
 		logger.info("일정보여주기");
+		EmpVO empVo = (EmpVO)session.getAttribute("empVo");
 		
-		List<SchCateVO> list = schCateService.showAllCate(1);
+		List<SchCateVO> list = schCateService.showAllCate(empVo.getEmpNo());
 		model.addAttribute("list", list);
 		logger.info("카테고리 list={}",list.size());
 		
@@ -68,11 +72,11 @@ public class CalController {
 	
 	
 	@GetMapping("/calEdit")
-	public void editView(@RequestParam(defaultValue = "0")int schNo, Model model) {
+	public void editView(@RequestParam(defaultValue = "0")int schNo, Model model, HttpSession session) {
 		logger.info("일정 수정 처리, schNo={}",schNo);
+		EmpVO empVo = (EmpVO)session.getAttribute("empVo");
 		
-		
-		List<SchCateVO> list = schCateService.showAllCate(1);
+		List<SchCateVO> list = schCateService.showAllCate(empVo.getEmpNo());
 		model.addAttribute("list", list);
 		
 		CalendarVO vo=calendarService.selectBySchNo(schNo);
@@ -127,4 +131,16 @@ public class CalController {
 		int result=calendarService.delCal(schNo);
 		logger.info("삭제처리 결과, result={}",result);
 	}
+	
+	@GetMapping("/calSetting")
+	public void showSet(Model model, HttpSession session) {
+		logger.info("캘린더 환결설정");
+		EmpVO empVo = (EmpVO)session.getAttribute("empVo");
+		
+		
+		List<SchCateVO> list = schCateService.showAllCate(empVo.getEmpNo());
+		model.addAttribute("list", list);
+		model.addAttribute("empVo", empVo);
+	}
+	
 }

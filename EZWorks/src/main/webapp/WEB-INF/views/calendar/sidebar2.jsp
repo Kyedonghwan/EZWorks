@@ -32,7 +32,7 @@
 					$.each(res, function(idx,item){
 						list += "<li>"+"<label id='cateName'>"+
 						item.schCateName+"</label>"
-						+ "<input type='color' class='color' value='"+item.schColor+"'>"+"</li>";
+						+ "<input disabled type='color' class='color' value='"+item.schColor+"'>"+"</li>";
 					});
 				console.log(list);
 				$('.panel').append(list);
@@ -49,10 +49,12 @@
 		});
 		
 		$('#addMyCal').click(function(){
-			$('#addMyCal').append($('#insertMyCal').modal('show'));
+			$('#insertMyCal').modal('show');
 		});
 		
-		
+		$('#calSet').click(function(){
+			location.href="${pageContext.request.contextPath}/calendar/calSetting"
+		});
 	});
 </script>
 <style>
@@ -73,15 +75,12 @@ ul, li {
 
 .color {
 	width: 3rem;
-    height: 3rem;
+    height: 2rem;
     padding: .5rem;
     background-color: transparent;
     border: 0;
     border-radius: 100%;
 }
-
-
-
 
 </style>
 <div class="card-body" style="height: 600px;">
@@ -102,7 +101,7 @@ ul, li {
 			<li>
 		</ul>
 		<hr>
-		<span class="fa-fw select-all fas"></span> <span>캘린더 환경설정</span>
+		<span class="fa-fw select-all fas"></span> <span id="calSet">캘린더 환경설정</span>
 	</div>
 </div>
 <script

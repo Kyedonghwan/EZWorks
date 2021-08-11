@@ -19,15 +19,20 @@
 	href="<c:url value='/resources/images/favicon.svg" type="image/x-icon'/>">
 <script>
 	$(function(){
+		var bool=true;
+		
+		$('.classic').click(function(){
+			$(this).children('ul').slideToggle('fast');
+		});
+		
 		$('.spanReserv').click(function(){
 			location.href="${pageContext.request.contextPath}/reservation/reservCategory?rvNo="+$(this).children('input').val();
 		});
 		
 		$('.setting').click(function(){
-			location.href="${pageContext.request.contextPath}/reservation/reservSetting?rvdNo="+$(this).siblings().children('input').val();
+			location.href="${pageContext.request.contextPath}/reservation/reservSetting?rvNo="+$(this).siblings().children('input').val();
 		});
 		
-		var param=$('.span1')
 		
 		$.ajax({
 			url:"<c:url value='/sidebarList'/>",
@@ -122,7 +127,7 @@ ul li{
 	</div>
 	<div class="card-body" style="height: 600px;width: 104%">
 		<section id="assetSide" class="lnb">
-			<h1 class="company " data-id="10">
+			<h1 class="company" data-id="10">
 				<span class="fa-fw select-all fas"></span> <a
 					data-role="button" data-bypass="">전사자산</a>
 			</h1>

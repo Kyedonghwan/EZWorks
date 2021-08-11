@@ -8,7 +8,8 @@
 <!-- timepicker -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
-
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -53,7 +54,31 @@
             });
             
             $('#modal_ok').click(function(){
-           	 $('form[name=writeReserv]').submit();
+            	if($('#startDate').val().length<1){
+            		 Toastify({
+			               text:"시작일을 입력하세요.",
+			               duration: 2000,
+			               close:false,
+			               gravity:"top",
+			               position:"center",
+			               backgroundColor:"black",
+			            }).showToast();
+					
+					return false;
+            	}else if($('#endDate').val().length<1){
+            		Toastify({
+			               text:"종료일을 입력하세요.",
+			               duration: 2000,
+			               close:false,
+			               gravity:"top",
+			               position:"center",
+			               backgroundColor:"black",
+			            }).showToast();
+					
+					return false;
+            	}else{
+            		$('form[name=writeReserv]').submit();
+            	}
            });
     });
 </script>

@@ -30,5 +30,20 @@ public class SchCateServiceImpl implements SchCateService{
 	public int updateColor(int schCateNo) {
 		return schCateDao.updateColor(schCateNo);
 	}
+
+	@Override
+	public int delCate(int schCateNo) {
+		return schCateDao.delCate(schCateNo);
+	}
+
+	@Override
+	public SchCateVO showCateByNo(int schCatNo) {
+		return schCateDao.showCateByNo(schCatNo);
+	}
+
+	@Override
+	public int updateCate(SchCateVO vo) {
+		return schCateDao.updateCate(vo);
+	}
 	
 }

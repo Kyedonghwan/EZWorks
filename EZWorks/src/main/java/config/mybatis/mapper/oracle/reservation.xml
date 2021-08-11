@@ -24,7 +24,7 @@
 	</insert>
 	
 	<select id="showReservList" resultType="reservationVo">
-		select * from reservation where cate_no=#{cateNo}
+		select * from reservation
 	</select>
 	
 	<select id="selectResrvAll" resultType="reservViewVO">
@@ -44,5 +44,11 @@
 		set start_date=#{startDate}, start_time=#{startTime}, end_date=#{endDate}, end_time=#{endTime},
 			subscriber=#{subscriber},purpose=#{purpose}
 		where no=#{no}
+	</update>
+	
+	<update id="updateReserv" parameterType="reservVo">
+		update reserv
+		set rv_desc=#{rvDesc}, FILE_NAME=#{fileName, jdbcType=VARCHAR},FILE_SIZE=#{fileSize, jdbcType=VARCHAR},ORIGINAL_FILE_NAME=#{originalFileName, jdbcType=VARCHAR}
+		where rv_no=#{rvNo}
 	</update>
 </mapper>

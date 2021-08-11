@@ -11,4 +11,9 @@ public class ReservVO {
 	private int rvNo;
 	private String rvName;
 	private String rvDesc;
+	
+	private String fileName;
+    private long fileSize; 
+    private int downCount;
+    private String originalFileName;
 }

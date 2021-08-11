@@ -7,15 +7,6 @@
 <script type="text/javascript"
 	src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script>
-	/* $(function(){
-		$('.txt_b').click(function(){
-			location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$(this).children('input').val();
-		});
-		
-		$('.txt_c').click(function(){
-			location.href="${pageContext.request.contextPath}/reservation/reservModify?rvdNo="+$(this).children('input').val();
-		}); */
-		
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 
@@ -28,6 +19,7 @@
 			    nowIndicator: true
 			    ,locale : "ko"
 			    ,initialView: 'resourceTimelineDay'
+			    ,schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
 			    ,resourcesInitiallyExpanded:false
 			    ,resources:function(info, successCallback, failureCallback){
 			    		$.ajax({
@@ -44,6 +36,7 @@
 				    					title:item.rvdName
 				    				});
 				    			});
+				    			console.log(resources);
 				    			successCallback(resources);
 				    		},error:function(){
 				    			alert("error");
@@ -55,7 +48,6 @@
 						type:"get",
 						url:"<c:url value='/reservation/listReservation'/>",
 						dataType:"json",
-						data:"cateNo="+$('#rvNo').val(),
 						success:function(res){
 							var events=[];
 							
@@ -68,6 +60,7 @@
 										end:item.endDate+"T"+item.endTime
 									});
 							});
+							console.log(events);
 							successCallback(events);
 						},error:function(){
 							alert("error");
@@ -75,13 +68,14 @@
 					});
 					}
 			   ,dateClick: function(info) {
-			    	  $('#reservModal').modal('show');
+				   var p=info.resource.id;
+				   $('#includeParam').val(p);
+			    	$('#reservModal').modal('show');
 			    }
-			  });
+			 });
 
 			  calendar.render();
 			});
-	/* }); */
 </script>
 <style>
 .go_skin_advanced .content_top {
@@ -102,7 +96,6 @@ div.content_info_wrap {
     padding: 10px 10px 14px;
     background-color: #f9f9f9;
     border: 1px solid #dcdcdc;
-    /* border-top: 1px solid #9b9b9b; */
     border-radius: 4px;
     font-size: 13px;
 }
@@ -157,12 +150,21 @@ tr {
     white-space: nowrap;
     margin-left: 14px;
 }
+#calendar{
+	height: 250px;
+	width: 95%;
+	margin: 0 auto;
+}
 </style>
 <%@ include file="../include/top.jsp"%>
-<%@ include file="reservModal.jsp" %>
+
 <%@include file="sidebarReserv.jsp"%>
 <%@ include file="../include/middle.jsp"%>
 <input type="hidden" value="${param.rvNo}" name="rvNo" id="rvNo">
+<input type="text" value="" name="cateNo" id="includeParam">
+<jsp:include page="reservModal.jsp" flush="true">
+	<jsp:param name="cateNo" value=""/>
+</jsp:include>
 <div class="card-header">
 	<header class="content_top">
 		<h1>
@@ -184,7 +186,6 @@ tr {
 				</div>
 			</li>				
 		</ul>
-		<!-- ul class="detail_info"--> <!-- 자세히보기를 닫을 경우 이 ul을 display:none 처리  -->
 		<ul class="detail_info">
 			<!-- li class="conference"-->	
 			<li class="conference">
@@ -196,9 +197,9 @@ tr {
 			</li>
 		</ul>	
 	</div>
-
-    <!-- <div id='calendar'></div> -->
-
+	<br>
+    <div id='calendar'></div>
+	<br>
 	<div class="dataTables_wrapper">
 		<!-- 테이블 -->		
 		<div id="assetItemDataTable_wrapper" class="dataTables_wrapper"
@@ -251,4 +252,15 @@ tr {
 	</div>		
 	
 </div>
+<script>
+$(function(){
+	$('.txt_b').click(function(){
+		location.href="${pageContext.request.contextPath}/reservation/reservDtCategory?rvdNo="+$(this).children('input').val();
+	});
+	
+	$('.txt_c').click(function(){
+		location.href="${pageContext.request.contextPath}/reservation/reservModify?rvdNo="+$(this).children('input').val();
+	});
+});
+</script>
 <%@ include file="../include/bottom.jsp"%>

@@ -10,6 +10,8 @@
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
 
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -87,7 +89,20 @@
 				});
 
 				$('#modal_ok').click(function() {
-					$('form[name=writeSch]').submit();
+					if($('#title').val().length<1){
+						 Toastify({
+				               text:"이름을 입력하세요.",
+				               duration: 2000,
+				               close:false,
+				               gravity:"top",
+				               position:"center",
+				               backgroundColor:"black",
+				            }).showToast();
+						
+						return false;
+					}else{
+						$('form[name=writeSch]').submit();
+					}
 				});
 			});
 </script>

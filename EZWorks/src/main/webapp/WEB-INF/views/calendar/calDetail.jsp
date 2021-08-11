@@ -172,12 +172,6 @@ p{
 				rows="10" name="schContent" style="background-color: white" >${vo.schContent }
 			</textarea>
 		</div>
-		<div class="registerDiv">
-			<label class="writeLabel">예약하기</label>
-			<div>
-				<span>본사 1층 회의실</span>
-			</div>
-		</div>
 		<div style="text-align: center" class="registerDiv">
 			<input type="button" class="btn btn-primary ml-1" id="reg_ok" value="캘린더로 돌아가기">
 			<input type="button" class="btn btn-light-primary" id="editBtn" value="일정수정하기">

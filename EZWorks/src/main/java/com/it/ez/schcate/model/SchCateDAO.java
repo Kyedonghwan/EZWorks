@@ -10,4 +10,7 @@ public interface SchCateDAO {
 	int insertCate(SchCateVO vo);
 	SchCateVO showCateName(String schCateNo);
 	int updateColor(int schCateNo);
+	int delCate(int schCateNo);
+	SchCateVO showCateByNo(int schCatNo);
+	int updateCate(SchCateVO vo);
 }
