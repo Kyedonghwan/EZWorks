@@ -27,12 +27,16 @@
 			,locale : "ko"
 			,navLinks : true	//날짜 클릭시 해당일 상세일정으로 view변경
 			,nowIndicator : true
+			,googleCalendarApiKey:'AIzaSyCJOdE9hNn95xSZLLXBPKWibvn7vF-drNc'
 			,editable : true	//일정 수정 여부
 			,selectable : true	//날짜셀 클릭여부
 			,dayMaxEvents : true // 일정이 많을 경우 'more'표시
 			,select : function() { // 날짜셀 클릭시(아래는 일정 추가) 
 				$('#writeModal').modal('show');
 			}
+			,eventSources:[{googleCalendarId:'ko.south_korea#holiday@group.v.calendar.google.com',
+							color:"#F15F5F"}]
+			
 			,eventClick:function(info){
 				location.href="${pageContext.request.contextPath}/calendar/calDetail?schNo="+info.event.id;
 			}
@@ -129,5 +133,5 @@ body {
 
 
 <%@ include file="../include/bottom.jsp"%>
-	<%@include file="writeModal.jsp"%>
+<%@include file="writeModal.jsp"%>
 

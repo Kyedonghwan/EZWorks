@@ -29,8 +29,8 @@ public class ReservServiceImpl implements ReservService {
 	}
 
 	@Override
-	public List<ReservationVO> showReservList(String cateNo) {
-		return reservDao.showReservList(cateNo);
+	public List<ReservationVO> showReservList() {
+		return reservDao.showReservList();
 	}
 
 	@Override
@@ -56,6 +56,11 @@ public class ReservServiceImpl implements ReservService {
 	@Override
 	public int updateReservation(ReservationVO vo) {
 		return reservDao.updateReservation(vo);
+	}
+
+	@Override
+	public int updateReserv(ReservVO vo) {
+		return reservDao.updateReserv(vo);
 	}
 
 }

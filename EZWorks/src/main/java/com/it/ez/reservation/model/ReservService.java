@@ -8,10 +8,11 @@ public interface ReservService {
 	ReservVO selectResrvById(int rvNo);
 	int insertReserv(ReservationVO vo);
 	List<ReservDtVO> showReservCate(int rvdCate);
-	List<ReservationVO> showReservList(String cateNo);
+	List<ReservationVO> showReservList();
 	List<reservViewVO> selectResrvAll();
 	int deleteResev(int no);
 	ReservationVO selectReservationById(int no);
 	reservViewVO selectResrvViewById(int no);
 	int updateReservation(ReservationVO vo);
+	int updateReserv(ReservVO vo);
 }

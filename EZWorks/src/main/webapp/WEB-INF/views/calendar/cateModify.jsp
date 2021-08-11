@@ -1,20 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/top.jsp"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
-<script type="text/javascript">
-	$(function(){
-		$('#close').click(function(){
-			location.href="${pageContext.request.contextPath}/reservation/reservCategory?rvNo="+$('#rvdCate').val();
-		});
+<script>
+$(function(){
+	$('#close').click(function(){
+		location.href="${pageContext.request.contextPath}/calendar/calSetting";
 	});
+});
 </script>
 <style>
-#content {
-    word-break: break-all;
-}
 #content {
     word-break: break-all;
 }
@@ -104,42 +101,42 @@ table.form_type>tbody th, table.form_type>tbody td {
     min-height: 13px;
     margin: 0 8px 0 0;
 }
+.txt2{
+	width:10%;
+}
 </style>
-
-
-<%@include file="sidebarReserv.jsp"%>
+<%@include file="sidebar2.jsp"%>
 <%@ include file="../include/middle.jsp"%>
-<div class="go_content" id="content"><!-- 자산추가 -->	
+<div class="go_content" id="content">	
 <header class="content_top">
-	<h1><span class="txt">자산수정</span></h1>
+	<h1><span class="txt">내 캘린더 수정</span></h1>
 </header>	
 
 <!--목록:-->		
 
-<form name="updateFrm" method="post" action="<c:url value='/reservation/reservModify'/>">
+<form name="modifyCate" method="post" action="<c:url value='/calendar/cateModify'/>">
 <div class="content_page go_renew">			
 	<table class="form_type form_add01">
 		<tbody id="createPart">
 			<tr>
-				<th class="col1"><span class="title">코드</span></th>
+				<th class="col1"><span class="title">이름</span></th>
 				<td class="col2">					
 					<div class="wrap_txt">
-					<input class="txt1 w_max" type="text" value="${vo.rvdCode }" name="rvdCode" id="code">
+					<input class="txt1 w_max" type="text" value="${vo.schCateName }" name="schCateName" id="name">
 					</div>					
 				</td>
 			</tr>
 			<tr>
-				<th><span class="title">이름</span></th>
+				<th><span class="title">색상</span></th>
 				<td>
-					<div class="wrap_txt"><input class="txt1 w_max" type="text" value="${vo.rvdName }" name="rvdName" id="name"></div>
+					<div class="wrap_txt"><input class="txt2 w_max" type="color" value="${vo.schColor }" name="schColor" id="color"></div>
 				</td>
 			</tr>
 			<tr class="line"><td colspan="2"><hr></td></tr>
 		
 		</tbody>
 	</table>
-	<input type="hidden" value="${vo.rvdNo }" name="rvdNo" id="rvdNo">
-	<input type="hidden" value="${vo.rvdCate }" name="rvdCate" id="rvdCate">
+	<input type="hidden" value="${vo.schCateNo }" name="schCateNo" id="CateNo">
 	<div class="page_action_wrap">
 		<input type="submit" class="btn btn-primary ml-1" id="reg_ok" value="수정">
 		<input type="button" class="btn btn-light-primary" id="close" value="닫기">
@@ -147,5 +144,6 @@ table.form_type>tbody th, table.form_type>tbody td {
 
 </div>
 </form>
-<!-- //자산추가 --></div>
+</div>
+
 <%@ include file="../include/bottom.jsp"%>

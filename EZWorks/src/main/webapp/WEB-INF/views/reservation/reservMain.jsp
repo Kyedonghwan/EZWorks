@@ -72,7 +72,7 @@
 				});
 				}
 		   ,dateClick: function(info) {
-		    	  $('#reservModal').modal('show');
+		    	$('#reservModal').modal('show');
 		    }
 		  });
 
@@ -183,14 +183,6 @@ p.data_null {
 			<h1>
 				<span class="txt">자산 예약 현황</span>
 			</h1>
-			<!-- <div class="optional">
-      			<select id="assets">
-       				<option value="1">본사 1층 회의실</option>
-					<option value="2">본사 6층 회의실</option>
-					<option value="3">빔프로젝터</option>
-					<option value="5">재화스퀘어 3층 회의실</option>
-				</select>
-    		</div> -->
 		</header>
 	</div>
 	<div class="card-body" style="height: 100%;">
@@ -241,7 +233,7 @@ p.data_null {
 											</span>
 										</td>
 										<td class="action">
-											<button class="btn_fn7 delBtn" value="${vo.no }">취소</button>
+											<button class="btn_fn7 delRBtn" value="${vo.no }">취소</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -258,7 +250,7 @@ p.data_null {
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script>
 	$(document).ready(function(){
-		 $('.delBtn').click(function(){
+		 $('.delRBtn').click(function(){
 		    	Swal.fire({
 		    		  title: '일정을 삭제하시겠습니까?',
 		    		  icon: 'error',
@@ -271,7 +263,7 @@ p.data_null {
 			    		      $.ajax({
 			    				type:"get",
 			    				url:"<c:url value='/reservation/deleteReserv'/>",
-			    				data: "no="+$('.delBtn').val(),
+			    				data: "no="+$(this).val(),
 			    				success:function(){
 			    					location.href="<c:url value='/reservation/reservMain'/>";
 			    				}

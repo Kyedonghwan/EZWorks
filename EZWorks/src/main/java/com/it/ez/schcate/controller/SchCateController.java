@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.it.ez.schcate.model.SchCateService;
@@ -59,5 +60,43 @@ public class SchCateController {
 		int result=schCateService.updateColor(36);
 		logger.debug("색 변경 결과, result={}",result);
 	}
+	
+	@ResponseBody
+	@GetMapping("/delCate")
+	public void delCate(@RequestParam int schCateNo) {
+		logger.info("일정 카테고리 삭제, 파라미터 schCateNo={}",schCateNo);
+		
+		int result=schCateService.delCate(schCateNo);
+		logger.info("일정 카테고리 삭제 결과, result={}",result);
+	}
 
+	@GetMapping("/calendar/cateModify")
+	public String modifyCate(@RequestParam int schCateNo, Model model) {
+		logger.info("일정 카테고리 수정");
+		
+		SchCateVO vo = schCateService.showCateByNo(schCateNo);
+		model.addAttribute("vo", vo);
+		
+		return "calendar/cateModify";
+	}
+	
+	@PostMapping("/calendar/cateModify")
+	public String updateCate(@ModelAttribute SchCateVO vo) {
+		logger.info("일정 카테고리 수정 post, 파라미터 vo={}",vo);
+		
+		int cnt = schCateService.updateCate(vo);
+		logger.info("일정 카테고리 수정 결과, cnt={}",cnt);
+		
+		return "redirect:/calendar/calSetting";
+	}
+	
+	@PostMapping("/calendar/calSetting")
+	public String insertCateInSet(@ModelAttribute SchCateVO vo) {
+		logger.info("캘린더 환경설정에서 카테고리 추가, vo={}",vo);
+		
+		int res=schCateService.insertCate(vo);
+		logger.info("캘린더 환경설정에서 카테고리 추가 결과, res={}",res);
+		
+		return "redirect:/calendar/calSetting";
+	}
 }

@@ -7,12 +7,16 @@
 		select * from SCHCATEGORY where EMP_NO=#{empNO}
 	</select>
 	
+	<select id="showCateByNo" resultType="schCateVo">
+		select * from schcategory where sch_cateno=#{schCateNo}
+	</select>
+	
 	<insert id="insertCate" parameterType="schCateVO">
 		<selectKey keyProperty="schCateNo" resultType="int" order="BEFORE">
 			select schcate_seq.nextval from dual
 		</selectKey>
-			insert into SCHCATEGORY(SCH_CATENO, SCH_CATENAME, EMP_NO)
-			values(#{schCateNo},#{schCateName},#{empNo})
+			insert into SCHCATEGORY(SCH_CATENO, SCH_CATENAME, sch_color, EMP_NO)
+			values(#{schCateNo},#{schCateName},#{schColor, jdbcType=VARCHAR},#{empNo})
 	</insert>
 	
 	<select id="showCateName" parameterType="String" resultType="schCateVo">
@@ -22,6 +26,16 @@
 	<update id="updateColor" parameterType="int">
 		update schcategory
 		set sch_color=#{schColor}
+		where sch_cateno=#{schCateNo}
+	</update>
+	
+	<delete id="delCate">
+		delete schcategory where sch_cateno=#{schCateNo}
+	</delete>
+	
+	<update id="updateCate" parameterType="schCateVo">
+		update schcategory
+		set sch_catename=#{schCateName}, sch_color=#{schColor}
 		where sch_cateno=#{schCateNo}
 	</update>
 </mapper>
