@@ -49,7 +49,13 @@
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
 	$(function(){
-		
+		$('#chkAll').change(function() {
+			if (this.checked) {
+				$('#ck2').prop('checked', true);
+			} else {
+				$('input[type=checkbox]').prop('checked', false);
+			}
+		});
 	});
 </script>
 
@@ -103,7 +109,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                   		<input type="checkbox" id="ck1" class="form-check-input" >
+                                   		<input type="checkbox" id="chkAll" class="form-check-input" >
                                     </th>
                                     <th style="text-align: center">번호</th>
                                     <th>제목</th>
@@ -125,7 +131,8 @@
 												<input type="checkbox" id="ck2" class="form-check-input" >
 								            </td>
 		                                    <td style="text-align:center">${vo.currentStats}</td>
-		                                    <td class="text-bold-500"><a href="<c:url value='/community/board/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></td>
+		                                    <td class="text-bold-500">
+		                                    <a href="<c:url value='/community/countUpdate?boardNo=${vo.boardNo}&communityNo=${vo.communityNo}&contentNo=${vo.contentNo}'/>">${vo.title}</a></td>
 		                                    <td class="text-bold-500" style="text-align: center">${vo.empName}</td>
 		                                    <td style="text-align: center"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></td>
 		                                    <td style="text-align: center">${vo.readCounts}</td>

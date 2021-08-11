@@ -120,12 +120,27 @@ public class C_boardServiceImpl implements C_boardService{
 
 	@Override
 	public int insertReply(C_boardReplyVO replyVo) {
-		return c_boardDao.insertReply(replyVo);
+		int cnt =c_boardDao.insertReply(replyVo);
+		if(cnt>0) {
+			c_boardDao.updateReplyCounts(replyVo.getGroupNo());			
+		}
+		
+		return cnt;
 	}
 
 	@Override
-	public List<C_boardReplyVO> selectC_boardReply(C_boardReplyVO replyVo) {
-		return c_boardDao.selectC_boardReply(replyVo);
+	public List<C_boardReplyVO> selectC_boardReply(int groupNo) {
+		return c_boardDao.selectC_boardReply(groupNo);
+	}
+
+	@Override
+	public C_boardClassicVO selectClassicDetail(int contentNo) {
+		return c_boardDao.selectClassicDetail(contentNo);
+	}
+
+	@Override
+	public int deleteReply(int replyNo) {
+		return c_boardDao.deleteReply(replyNo);
 	}
 	
 	

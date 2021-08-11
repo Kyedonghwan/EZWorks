@@ -47,7 +47,7 @@
 		                                   <td class="col-auto">
 		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
 		                                       <p class=" mb-0" id="mainTitle">
-		                                       <a href="<c:url value='/community/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+		                                       <a href="<c:url value='/community/countUpdate?boardNo=${vo.boardNo}&communityNo=${vo.communityNo}&contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
 		                                       <p class=" mb-0">${vo.text}</p>
 		                                       <div class="avatar avatar-md">
 													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
@@ -62,8 +62,7 @@
 		                                   <td class="col-auto">
 		                                       <p class=" mb-0">${vo.communityName} > ${vo.boardName}</p>
 		                                       <p class=" mb-0" id="mainTitle">
-		                                       <a href="<c:url value='/community/c_boardFeedDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
-		                                       <p class=" mb-0">${vo.text}</p>
+		                                       <a href="<c:url value='/community/communityOneFeed?boardNo=${vo.boardNo}&communityNo=${vo.communityNo}'/>">${vo.text}</a></p>	                                      
 		                                       <div class="avatar avatar-md">
 													<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">&nbsp
 													<span class="mb-0" id="sp2">${vo.empName}  
@@ -75,15 +74,6 @@
 		                        </tbody>
 		                       </table>
 		                   </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel"
-                            aria-labelledby="profile-tab">
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel"
-                            aria-labelledby="contact-tab">
-                            <p class="mt-2">
-                            
-                            </p>
                         </div>
                     </div>
                 </div>

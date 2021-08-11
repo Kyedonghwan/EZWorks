@@ -139,7 +139,7 @@
 	    margin-left:10px;
 	}
 	
-	#exampleFormControlTextarea1 {
+	#replyText {
 	    overflow-y: auto;
 	    height: 28px;
 	    min-height: 28px;
@@ -150,7 +150,7 @@
 	    margin-right: 15px;
 		position: relative;
 		margin-top: 15px;
-		width:600px;
+		width:500px;
 	}
 	span.replysubmit {
 		 padding-top:10px; 
@@ -162,27 +162,72 @@
 	}
 }
 </style>
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
+<!-- toastify-->
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
+
 <script type="text/javascript">
 	$(function(){
-		$("#btnSubmit").click(function(){
-			if($('textarea[name=text]').val()==""){
+		$("#replyDelete").click(function(){
+			location.href="<c:url value='/community/replyDelete?replyNo="++"&communityNo=${feedVo.communityNo}&boardNo=${feedVo.boardNo}'/>";
+		});
+		
+		$("#replySubmit").click(function(){
+			if($("#replyText").val()==""){
 				Toastify({
-	                text: "내용을 입력하세요",
+	                text: "댓글 내용을 입력하세요",
 	                duration: 5000,
 	                close:false,
 	                gravity:"top",
 	                position: "center",
 	                backgroundColor: "#b6baea",
 	            }).showToast();
-				event.preventDefault();
-				$('textarea[name=text]').focus();
+				return false;
+				$('#replyText').focus();
+			}else{
+				$('.replyform').submit();				
+			}
+		});
+		
+		$("#btnSubmit").click(function(){
+			if($('#feedText').val()==""){
+				Toastify({
+	                text: "Feed 내용을 입력하세요",
+	                duration: 5000,
+	                close:false,
+	                gravity:"top",
+	                position: "center",
+	                backgroundColor: "#b6baea",
+	            }).showToast();
+				return false;
+				$('#feedText').focus();
 			}else{
 				$('.feedForm').submit();
 			}
 		});
 	});
+	
+	function delete(){
+		Swal.fire({
+			  title: '삭제 하시겠습니까?',
+			  html: "한번 삭제 처리되면 <br>내용을 복구할 수 없습니다.",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#435ebe',
+			  cancelButtonColor: '#6c757d',
+			  confirmButtonText: '삭제',
+			  cancelButtonText: '취소'
+			}).then((result) => {
+			  if (result.value) {
+				  location.href="<c:url value='/community/feedDelete?contentNo="+groupNo+"&community_No=${cboardVo.communityNo}&boardNo=${cboardVo.boardNo}'/>";
+	              //"확인" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+			  }else{
+				  return false;
+			  }
+		})
+	}
 </script>
+
 
 <%@ include file="../community/sidebar/sidebar2.jsp" %>		
 <%@ include file="../include/middle.jsp" %>
@@ -238,11 +283,11 @@
  	              			</c:if>
                   			<c:if test="${!empty feedList}">
                   				<c:forEach var="vo" items="${feedList}">
+                  				<c:set var="contentNo" value="${vo.contentNo}"/>
                   				<li class="data_contents">
                   					<div class="feed_Data_Wrapper">
-	                  					<div class="btn-group mb-2 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
-		                                    <button type="button" class="btn btn-sm btn-outline-secondary">수정</button>
-		                                    <button type="button" class="btn btn-sm btn-outline-secondary">삭제</button>
+	                  					<div class="btn-group mb-1 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
+		                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delete()">삭제</button>
 			                            </div>
 	                  					<span class="avatar avatar-lg me-3">
                   							<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
@@ -278,16 +323,19 @@
 					                  							<span><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd (E) HH:mm"/></span>
 					                  						</div>
 					                  						<p class="text"><span>${vo.text}</span></p>
+					                  						<input type="hidden" name="replyNo" value="${vo.replyNo}">
 					                    				</div>
 					                    			</li>
 				                    			</c:forEach>
 				                    		</c:if>
 			                    		</ul>
 			                    		<div class="reply_create" id="reply">
-			                    			<form action="/community/communityOneReply" method="post" name="replyform">
-			                    				<div class="btn-group mb-2 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
-				                                    <button type="button" class="btn btn-sm btn-outline-secondary">수정</button>
-				                                    <button type="button" class="btn btn-sm btn-outline-secondary">삭제</button>
+			                    			<form action="/community/communityOneReply" method="post" class="replyform">
+				                    			<input type="text" name="boardNo" value="${cboardVo.boardNo}">
+				                    			<input type="text" name="groupNo">
+				                    			<input type="text" name="communityNo" value="${cboardVo.communityNo}">
+			                    				<div class="btn-group mb-1 btn-group-sm" role="group" aria-label="toolbar" id="toolbar">
+				                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="replyDelete">삭제</button>
 					                            </div>
 					               				<div class="reply_write">
 					                    			<div class="avatar bg-warning me-3">
@@ -295,7 +343,7 @@
 						                                <span class="avatar-status bg-success"></span>
 				                            		</div>
 				               						<span class="form-group mb-3">
-				                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				                                        <textarea class="form-control" id="replyText" rows="3"></textarea>
 				                                    </span>
 				               						<span class="replysubmit">
 						                           		<button type="submit" id="replySubmit" class="btn btn-sm btn-outline-primary">댓글 작성</button>
@@ -314,5 +362,7 @@
 	   </div>
 	</div> 
 </section>				
+<!-- sweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 			
 <%@ include file="../include/bottom.jsp" %> 

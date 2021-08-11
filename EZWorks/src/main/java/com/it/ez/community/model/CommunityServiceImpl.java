@@ -43,7 +43,7 @@ public class CommunityServiceImpl implements CommunityService{
 		int cnt=communityDao.insertCommunityMember(memVo);
 		if(cnt>0) {
 			CommunityVO vo=new CommunityVO();
-			int result=communityDao.updateCommunityCount(vo);
+			communityDao.updateCommunityCount(vo);
 		}
 		return cnt;
 	}
@@ -61,6 +61,11 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public List<CommunityMemberVO> selectCommunity() {
 		return communityDao.selectCommunity();
+	}
+
+	@Override
+	public List<CommunityMemberVO> findMemberNo(int memberNo) {
+		return communityDao.findMemberNo(memberNo);
 	}
 
 

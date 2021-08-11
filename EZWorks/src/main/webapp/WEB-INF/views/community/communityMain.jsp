@@ -25,19 +25,18 @@
 		text-align: center;
 	}
 	#btnEnroll{
-		/* width: 40px;
-	    height: 20px; */
 	    font-size: 0.9em;
 	    padding: 0;
 	}
-	
+	#btnOut{
+	    font-size: 0.9em;
+	    padding: 0;
+	}
 </style>
 <script type="text/javascript">	
 $(function(){
-	//alert($('#td1').html());
-	
-	$('#btnEnroll2').click(function(){
-		
+	$('#btnEnroll').click(function(){
+		location.href="<c:url value='/community/communityEroll?communityNo=${vo.communityNo}'/>";
 	});
 });
 
@@ -45,21 +44,8 @@ function pageProc(curPage){
 	$('input[name=currentPage]').val(curPage);
 	$('form[name=frmPage]').submit();	
 }
-
 </script>
-<!-- <script type="text/javascript">	
-$(function(){
-	alert("안녕");
-	
-	$('#btnEnroll2').click(function(){
-		var communityNo=$('#td1').html();
-		location.href='<c:url value="/community/communityEnroll?communityNo='+${communityNo}+'"/>';
-		$('#enrollTitle').text().attr("가입", "가입대기");
-	});
 
-});
-</script>
- -->
 <%@ include file="../community/sidebar/sidebar1.jsp" %>
 <%@ include file="../include/middle.jsp" %>
 									
@@ -68,7 +54,8 @@ $(function(){
 <form action="<c:url value='/community/communityMain'/>" 
 	name="frmPage" method="post">
 	<input type="hidden" name="currentPage"><br>	
-</form>								
+</form>
+								
 	<section class="row">
       <div class="col-12 col-lg-8">
             <div class="card">
@@ -101,7 +88,7 @@ $(function(){
 	                                   <td class="col-auto">
 	                                       <p class=" mb-0">${vo.communityName } > ${vo.boardName}</p>
 	                                       <p class=" mb-0" id="mainTitle">
-	                                       	<a href="<c:url value='/community/c_boardClassicDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
+	                                       	<a href="<c:url value='/community/countUpdate?boardNo=${vo.boardNo}&communityNo=${vo.communityNo}&contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
 	                                       <p class=" mb-0">${vo.text }</p>
 	                                       <div class="avatar avatar-md">
 												<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
@@ -116,8 +103,7 @@ $(function(){
 	                                   <td class="col-auto">
 	                                       <p class=" mb-0">${vo.communityName } > ${vo.boardName}</p>
 	                                       <p class=" mb-0" id="mainTitle">
-	                                       <a href="<c:url value='/community/c_boardFeedDetail?contentNo=${vo.contentNo}'/>">${vo.title}</a></p>	                                      
-	                                       <p class=" mb-0">${vo.text }</p>
+	                                       <a href="<c:url value='/community/communityOneFeed?boardNo=${vo.boardNo}&communityNo=${vo.communityNo}'/>"></a>${vo.text}</p>	                                      
 	                                       <div class="avatar avatar-md">
 												<img src="<c:url value='/resources/images/faces/${vo.empImg}'/>">
 												<span class="mb-0" id="sp2">&nbsp&nbsp${vo.empName} ${vo.posName}  
@@ -155,7 +141,7 @@ $(function(){
 	                                         <c:if test="${!empty communityList}">
 		                                          <c:forEach var="vo2" items="${communityList}">
 		                                              <tr class="tr1">
-			                                              <td>${vo2.communityNo}</td>
+			                                              <td>${vo2.currentStats}</td>
 			                                              <td style="text-align:left; padding-left:30px">
 			                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo2.communityNo}'/>">
 			                                              		${vo2.communityName}</a></td>
@@ -194,52 +180,41 @@ $(function(){
 	                                         </c:if>
 	                                         <c:if test="${!empty list}">
 		                                       <c:forEach var="vo" items="${list}">
-		                                       	 <tr class="tr1">
-	                                              <td class="td1">${vo.currentStats}</td>
-	                                              <td style="text-align:left; padding-left:30px">
-	                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">
-	                                              		${vo.communityName}</a></td>
-	                                              <td>${vo.memberCount}</td>
-	                                              <td>${vo.communityMaster}</td>
-		                                       	  <td>
-					                               	<!-- button trigger for  Vertically Centered modal -->
-			                                        <button type="button" class="btn btn-outline-primary block"
-			                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnEnroll">가입</button>
-			                                        <!-- Vertically Centered modal Modal -->
-			                                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-			                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			                                            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-			                                                role="document">
-			                                                <div class="modal-content">
-			                                                    <div class="modal-header">
-			                                                        <h5 class="modal-title" id="enrollTitle">가입</h5>
-			                                                        <button type="button" class="close" data-bs-dismiss="modal"
-			                                                            aria-label="Close"></button>
-			                                                    </div>
-			                                                    <div class="modal-body">
-			                                                        <p style="padding-top:15px">커뮤니티에 가입 하시겠습니까?</p>
-			                                                    </div>
-			                                                    <div class="modal-footer">
-			                                                        <button type="button" class="btn btn-primary ml-1"
-			                                                            data-bs-dismiss="modal" id="btnEnroll2">
-			                                                            <span class="d-none d-sm-block">가입</span>
-			                                                        </button>
-			                                                        <button type="button" class="btn btn-light-secondary"
-			                                                            data-bs-dismiss="modal">
-			                                                            <span class="d-none d-sm-block">취소</span>
-			                                                        </button>
-			                                                     </div>
-			                                                 </div>
-			                                             </div>
-			                                          </div>
-	                                	   		     </td> 
+			                                       <c:set var="empNo" value="${empVo.empNo}"/>
+				                                       <c:forEach var="memVo" items="${memNo}">
+															<c:set var="memberNo" value="${memVo.memberNo}"/>
+															<c:set var="communityNo" value="${memVo.communityNo}"/>
+													   </c:forEach>
+			                                       	 <tr class="tr1">
+		                                              <td class="td1">${vo.currentStats}</td>
+		                                              <td style="text-align:left; padding-left:30px">
+		                                              	<a href="<c:url value='/community/communityOneMain?communityNo=${vo.communityNo}'/>">
+		                                              		${vo.communityName}</a></td>
+		                                              <td>${vo.memberCount}</td>
+		                                              <td>${vo.communityMaster}</td>
+		                                              <c:if test="${memberNo==empNo && communityNo==vo.communityNo}">
+				                                       	  <td>
+							                               	<!-- button trigger for  Vertically Centered modal -->
+					                                        <button type="button" class="btn btn-outline-primary block"
+					                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnEnroll">가입</button>
+					                                        <%@ include file="enrollModal.jsp" %>    
+		                                	   		     </td>
+		                                              </c:if>
+	                                	   		     <c:if test="${memberNo!=empNo}">
+				                                       	  <td>
+							                               	<!-- button trigger for  Vertically Centered modal -->
+					                                        <button type="button" class="btn btn-outline-primary block"
+					                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="btnOut">탈퇴</button>
+					                                        <%@ include file="outModal.jsp" %>   
+			                                	   		  </td>
+	                                	   		    </c:if> 
 		                                          </tr>
-											   </c:forEach>
-											</c:if>  
-										 </tbody>
-	                                   </table>
-	                                </div>
-	                            </div><br>
+										   </c:forEach>
+										</c:if>  
+									 </tbody>
+                                   </table>
+                                </div>
+                            </div><br>
 	                            <div class="paging">
 									<nav aria-label="Page navigation example">
 										<ul class="pagination pagination-primary pagination-sm justify-content-center">

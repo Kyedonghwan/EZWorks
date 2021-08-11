@@ -53,13 +53,21 @@
 	</select>
 		
 	<select id="selectCommunityByMember" parameterType="int" resultType="CommunityMemberVO">
-		select * from communityMemberView
-		where member_No=#{memberNo}
+		select rownum as currentStats, A.* from
+		(
+		    select * from communityMemberView
+		    where member_No=#{memberNo}
+		)A
 	</select>
-
+	
 	<select id="selectMember" parameterType="int" resultType="CommunityMemberVO">
 		select * from communityMemberView
 		where community_No=#{communityNo}
+	</select>
+	
+	<select id="findMemberNo" parameterType="int" resultType="CommunityMemberVO">
+		select community_no, member_No from community_member
+		where member_no=#{memberNo}
 	</select>
 	
 	<insert id="insertCommunityMember" parameterType="CommunityMemberVO">
@@ -72,13 +80,9 @@
 		set MEMBER_COUNT=#{memberCount}
 		where community_No=#{communityNo}		
 	</update>
+	
+	<update id="updateLevel" parameterType="int">
+		update community_member
+		set community_level=3, community_No=#{community_No}
+	</update>
 </mapper>
-
-
-
-
-
-
-
-
-
