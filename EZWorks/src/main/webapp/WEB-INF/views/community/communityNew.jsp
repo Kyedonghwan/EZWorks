@@ -19,11 +19,44 @@
 	}
 	
 </style>
+<!-- toastify-->
+<link rel="stylesheet" href="<c:url value='/resources/vendors/toastify/toastify.css'/>">
+<script src="<c:url value='/resources/vendors/toastify/toastify.js'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/resources/js/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
-	$(function(){
-		
+$(function(){	
+	$('#btnSubmit').click(function(){
+		var communityName = $('input[name=communityName]').val();	
+		var publicVal = $('.radioWrapper input[name=publicSet]:checked').val();
+
+		if(communityName==null || communityName.isEmpty()){
+			Toastify({
+                text: "커뮤니티 이름을 기입하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			event.preventDefault();
+			$('#communityName').focus();
+		}else if(publicVal==null || publicVal.isEmpty()){
+			Toastify({
+                text: "공개여부를 체크하세요",
+                duration: 5000,
+                close:false,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#b6baea",
+            }).showToast();
+			return false;
+			$('.radioWrapper input[name=publicSet]').focus();
+		}else{
+			$('.form form-horizontal').submit();			
+		}	
 	});
+});
 </script>
 
 <%@ include file="../community/sidebar/sidebar1.jsp" %>	
@@ -37,8 +70,7 @@
                     <h5 class="card-title">커뮤니티 개설</h5>
                 </div>
                 <div class="card-body">
-                     <form class="form form-horizontal" method="post" 
-                     		action="<c:url value='/community/communityNew'/>">
+                     <form class="form form-horizontal" method="post" action="<c:url value='/community/communityNew'/>">
                        <div class="form-body">
                            <div class="row">
                                <div class="col-md-2" id="label">

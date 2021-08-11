@@ -24,6 +24,7 @@ public interface C_boardDAO {
 	int selectTotalRecord(CommunitySearchVO searchVo);
 	int updateClassicReadCount(int contentNo);
 	int deleteC_boardClassic(int contentNo);
+	C_boardClassicVO selectClassicDetail(int contentNo);
 	
 	//c_boardFeed
 	int insertBoardFeed(C_boardFeedVO feedVo);
@@ -35,6 +36,8 @@ public interface C_boardDAO {
 	
 	//reply
 	int insertReply(C_boardReplyVO replyVo);
-	List<C_boardReplyVO> selectC_boardReply(C_boardReplyVO replyVo);
+	int updateReplyCounts(int contentNo);
+	List<C_boardReplyVO> selectC_boardReply(int groupNo);
+	int deleteReply(int replyNo);
 	
 }

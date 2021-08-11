@@ -16,6 +16,7 @@ public interface CommunityDAO {
 	CommunityVO selectCommunityByNo(int communityNo);
 	List<CommunityMemberVO>selectCommunityByMember(int memberNo);
 	List<CommunityMemberVO>selectMember(int commnityNo);
+	List<CommunityMemberVO> findMemberNo(int memberNo);
 	int insertCommunityMember(CommunityMemberVO memVo);
 	String selectCommunityMaster(int communityNo);
 	int updateCommunityCount(CommunityVO vo);

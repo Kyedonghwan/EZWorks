@@ -79,7 +79,7 @@ $(function(){
 				  cancelButtonText: '취소'
 				}).then((result) => {
 				  if (result.value) {
-					  location.href="<c:url value='/commmunity/communityOneFeed?boardNo="+selectVal+"&communityNo=${param.communityNo}'/>";
+					  location.href="<c:url value='/community/communityOneFeed?boardNo="+selectVal+"&communityNo=${param.communityNo}'/>";
 		              //"확인" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
 				  }else{
 					  return false;
@@ -89,7 +89,7 @@ $(function(){
 			
 			/* var movePage = confirm('게시판 타입이 변경되면, 기존에 입력했던 내용은 모두 삭제됩니다.\r\n초기화 하시겠습니까?');
 			if(movePage==true){
-				location.href="<c:url value='/commmunity/communityOneFeed'/>";
+				location.href="<c:url value='/community/communityOneFeed'/>";
 			}else{
 				return false;
 			} */
