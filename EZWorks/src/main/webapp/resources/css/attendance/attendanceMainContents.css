@@ -492,3 +492,7 @@
 	    line-height: 1.5;
 	    white-space: nowrap;
 	}
+	.tb_attend_detail2 .label_r {
+	    float: right;
+	    text-align: right;
+	}

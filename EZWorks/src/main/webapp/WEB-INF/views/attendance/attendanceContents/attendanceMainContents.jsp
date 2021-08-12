@@ -104,6 +104,9 @@ $(function(){
     		$(this).next().hide();
     	}else{
     		$(this).siblings('.tb_attend_detail2').hide();
+    		$(this).parents().each(function(idx, item){
+    			$(item).find('.tb_attend_detail2').hide();
+    		});
     		$(this).next().show();
     	}
     	
@@ -218,8 +221,31 @@ function getPercentage(e){
 	var hour = date.hours();
 	var minute = date.minutes();
 	var seconds = date.seconds();
+	var dataTotalSeconds = (hour * 60 * 60) + (minute * 60) + seconds;
+	const totalSeconds = 60*60*24;
+	var percentage = (dataTotalSeconds / totalSeconds) * 100;
+	console.info(percentage);
+	return percentage;
+}
+function getPercentageLength(attendingTime, endingTime){
+	var a_date = moment(attendingTime);
+	var a_hour = a_date.hours();
+	var a_minute = a_date.minutes();
+	var a_second = a_date.seconds();
 	
+	var b_date = moment(endingTime);
+	var b_hour = b_date.hours();
+	var b_minute = b_date.minutes();
+	var b_second = b_date.seconds();
 	
+	var a_dataTotalSeconds = (a_hour*60*60) + (a_minute*60) + a_second;
+	var b_dataTotalSeconds = (b_hour*60*60) + (b_minute*60) + b_second;
+	var totalofTotal = b_dataTotalSeconds - a_dataTotalSeconds;
+	
+	const totalSeconds = 60*60*24;
+	
+	var percentage = (totalofTotal/totalSeconds)*100;
+	return percentage;
 }
 function showMenu(){
 	var dayArea = $(this).closest('div').children('#day_area');
@@ -250,7 +276,9 @@ function loadNewMonth(year, month){
 				str += "<section class='wrap_tb_tit'>";
 				str += "<h2 class='table_tit'><span class='btn_wrap'><i class='fas fa-chevron-down' ></i></span>"+(i+1)+" 주차</h2>";
 				str += "<div class='tb_optional'>";
-				str += "<span class='txt'>누적 근무시간 <strong class=''>0h 0m 0s</strong></span>";
+				str += "<span class='txt'>누적 근무시간 <strong class=''>";
+				
+				str += "0h 0m 0s</strong></span>";
 				str += "<span class='desc'> (초과 근무시간 <strong>0h 0m 0s</strong>)</span>";
 				str += "</div>";
 				str += "</section>";
@@ -361,27 +389,57 @@ str += "					<span class='time'>"+ ('0'+m).slice(-2) +"</span>                  
 str += "				</div>                                                                              ";
 					}
 str += "		</div>                                                                                      ";
+					var attendingTime = null;
+					var endingTime = null;
+					var attendExist = 0;
+					var endingExist = 0;
+					for(var k = 0; k<attendanceDetailByDay.length; k++){
+						if(attendanceDetailByDay[k].attendanceStatus=='출근'){
+							attendingTime = attendanceDetailByDay[k].attendanceRecordedTime;
+							attendExist += 1;
+						}
+						if(attendanceDetailByDay[k].attendanceStatus=='퇴근'){
+							endingTime = attendanceDetailByDay[k].attendanceRecordedTime;
+							endingExist += 1;
+						}
+					}
 str += "		<div class='wrap_timeline tb_body'>                                                         ";
 str += "			<div id='data_zone' class='tb_div time_data'>                                           ";
 str += "				<div id='clockinout_progress' class='tb_row total_time'>                            ";
-str += "					<div class='progress  start close part_default'                                 ";
-str += "						style='left: 54.1632%; width: 6.31269%;''>                                   ";
+					if(attendExist>0){
+str += "					<div class='progress start";
+						if(endingExist>0){
+str += " close";
+						}
+str += " part_default'                                 ";
+str += "						style='left: ";
+str += 							getPercentage(attendingTime);
+str += "%; width: ";
+						if(endingExist>0){
+str +=    						getPercentageLength(attendingTime, endingTime);
+						}else {
+str +=							"2.77778";
+						}
+str += "%;'>                                   				";
 str += "						<span id='clockIn' class='txt label_l' style='cursor: pointer;'>출근</span> ";
-str += "						<span id='clockOut' class='txt label_r' style='cursor: pointer;'>외근       ";
+						if(endingExist>0){
+str += "						<span id='clockOut' class='txt label_r' style='cursor: pointer;'>퇴근       ";
 str += "						</span>                                                                     ";
+						}
 str += "					</div>                                                                          ";
-str += "					<div class='progress  start initial part_default'                               ";
+					}
+/* str += "					<div class='progress  start initial part_default'                               ";
 str += "						style='left: 64.2797%; width: 2.77778%;'>                                   ";
 str += "						<span id='clockIn' class='txt label_l' style='cursor: pointer;'>업무</span> ";
-str += "					</div>                                                                          ";
+str += "					</div>                                                                          "; */
 str += "				</div>                                                                              ";
-str += "				<div id='approval_progress' class='tb_row total_time'>                              ";
+/* str += "				<div id='approval_progress' class='tb_row total_time'>                              ";
 str += "					<div id='95' class='progress part_approval start close'                         ";
 str += "						style='left: 75%; width: 8.33333%;'>                                        ";
 str += "						<span class='txt'>연장 <span> (완료)</span>                                 ";
 str += "						</span>                                                                     ";
 str += "					</div>                                                                          ";
-str += "				</div>                                                                              ";
+str += "				</div>                                                                              "; */
 str += "				<div class='tb_row workingstate'>                                                   ";
 					for(var o=0; o<24; o++){
 str += "						<div class='tb_cell'>                                                       ";

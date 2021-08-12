@@ -101,7 +101,7 @@ div.dropdown-menu{
 			<li>
 				<dl>
 					<dt>주간 누적 근무시간</dt>
-					<dd id="weeklyTotalTime">27h 0m 0s</dd>
+					<dd id="weeklyTotalTime">0h 0m 0s</dd>
 				</dl>
 			</li>
 		</ul>
