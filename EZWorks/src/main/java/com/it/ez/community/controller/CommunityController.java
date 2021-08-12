@@ -597,7 +597,7 @@ public class CommunityController {
 	@PostMapping("/communityOneReply")
 	public String replyCommunity(HttpSession session,
 			@ModelAttribute C_boardReplyVO replyVo, Model model) {
-		logger.info("개별 커뮤니티 피드 작성, 파라미터 replyVo={}", replyVo);
+		logger.info("댓글 작성, 파라미터 replyVo={}", replyVo);
 		
 		EmpVO empVo=(EmpVO)session.getAttribute("empVo");
 		logger.info("empVo={}", empVo);
@@ -615,10 +615,10 @@ public class CommunityController {
 		logger.info("피드 처리결과 cnt={}", cnt);
 		
 		if(cnt>0) {
-			msg="커뮤니티 게시판 피드 글쓰기 성공";
+			msg="댓글 쓰기 성공";
 			url="/community/communityOneFeed?communityNo="+commmunityNo+"&boardNo="+boardNo;
 		}else {
-			msg="커뮤니티 게시판 피드 글쓰기 실패!";
+			msg="댓글 쓰기 실패!";
 			url="/community/communityOneFeed?communityNo="+commmunityNo+"&boardNo="+boardNo;
 		}
 		

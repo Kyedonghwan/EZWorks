@@ -192,10 +192,8 @@ function pageProc(curPage){
 	                                            </c:forEach>
 	                                            <c:forEach var="memNoVo" items="${memNo}">
                                                    <c:if test="${memNoVo.communityNo==vo.communityNo}">
-                                                   <span>나옴ㅎ</span>
 	                                                   <c:choose>
 	                                                       <c:when test="${memNoVo.memberNo==empVo.empNo}">
-	                                                       <span>${memNoVo.memberNo}</span>
 	                                                           <td>
 	                                                           <!-- button trigger for  Vertically Centered modal -->
 	                                                           <button type="button" class="btn btn-outline-primary block"

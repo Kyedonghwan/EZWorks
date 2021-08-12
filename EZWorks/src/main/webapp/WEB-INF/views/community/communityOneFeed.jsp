@@ -168,14 +168,14 @@
 
 <script type="text/javascript">
 	$(function(){
-		var groupNo=$("input[name=groupNo]").val();
-		var replyNo=$("input[name=replyNo]").val();
-
 	$("#reply").each(function(idx, item){
+		var replyNo=$(item).siblings(".reply").find("input[name=replyNo]").val();
 		$(item).find("#replyDelete").click(function(){
 			location.href="<c:url value='/community/replyDelete?replyNo="+replyNo+"'/>";
 		});
-		
+	});
+	
+	$("#reply").each(function(idx, item){	
 		$(item).find("#replySubmit").click(function(){
 			if($("#replyText").val()==""){
 				Toastify({
@@ -192,7 +192,10 @@
 				$('.replyform').submit();				
 			}
 		});
-		
+	});	
+	
+	$("#reply").each(function(idx, item){
+		var groupNo=$("input[name=groupNo]").val();
 		$("#feedDelete").click(function(){
 			Swal.fire({
 				  title: '삭제 하시겠습니까?',
